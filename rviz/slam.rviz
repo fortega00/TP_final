@@ -1,0 +1,51 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Fixed Frame: map
+    Background Color: 35; 38; 43
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 1
+    - Class: rviz_default_plugins/Map
+      Name: SLAM map
+      Enabled: true
+      Topic:
+        Value: /map
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+      Color Scheme: map
+    - Class: rviz_default_plugins/LaserScan
+      Name: LiDAR
+      Enabled: true
+      Topic:
+        Value: /scan
+        Reliability Policy: Best Effort
+      Size (Pixels): 2
+    - Class: rviz_default_plugins/PoseArray
+      Name: Particles
+      Enabled: true
+      Topic:
+        Value: /particles
+    - Class: rviz_default_plugins/Path
+      Name: Estimated path
+      Enabled: true
+      Topic:
+        Value: /path
+        Durability Policy: Transient Local
+      Color: 40; 200; 180
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: false
+  Views:
+    Current:
+      Class: rviz_default_plugins/TopDownOrtho
+      Scale: 65
+      Target Frame: map
+Window Geometry:
+  Width: 1100
+  Height: 800

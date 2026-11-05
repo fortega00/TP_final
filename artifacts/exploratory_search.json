@@ -1,0 +1,545 @@
+{
+  "scope": "Exploratory defaults search before final hit-band discretization fix. Results are historical; use artifacts/tuning for reproducible final comparisons.",
+  "results": [
+    {
+      "position_rmse_m": 0.02011936806207685,
+      "occupied_precision_1cell": 0.8103033220991815,
+      "occupied_recall_1cell": 1.0,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.05,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 0.25,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0,
+          "alpha2": 0.0,
+          "alpha3": 0.0,
+          "alpha4": 0.0
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "odom_only"
+    },
+    {
+      "position_rmse_m": 0.03463859841294907,
+      "occupied_precision_1cell": 0.7851746931067044,
+      "occupied_recall_1cell": 0.9973821989528796,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.05,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 0.25,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 48,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "particles48"
+    },
+    {
+      "position_rmse_m": 0.03248678268744058,
+      "occupied_precision_1cell": 0.8113026819923371,
+      "occupied_recall_1cell": 1.0,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.05,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 0.25,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "small_motion"
+    },
+    {
+      "position_rmse_m": 0.03195565197928309,
+      "occupied_precision_1cell": 0.764367816091954,
+      "occupied_recall_1cell": 1.0,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.05,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.08,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 0.25,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "small_motion_sigma"
+    },
+    {
+      "position_rmse_m": 0.03460341274033225,
+      "occupied_precision_1cell": 0.7598447032723239,
+      "occupied_recall_1cell": 1.0,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 0.25,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "thin3cm"
+    },
+    {
+      "position_rmse_m": 0.030741139373167015,
+      "occupied_precision_1cell": 0.924082140634723,
+      "occupied_recall_1cell": 0.9986910994764397,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.1,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "thin3cm_sigma10_temp1"
+    },
+    {
+      "position_rmse_m": 0.028240493436002746,
+      "occupied_precision_1cell": 0.8217270194986073,
+      "occupied_recall_1cell": 0.9947643979057592,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "thin3cm_temp1"
+    },
+    {
+      "position_rmse_m": 0.02987011300266469,
+      "occupied_precision_1cell": 0.8051257253384912,
+      "occupied_recall_1cell": 1.0,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.05,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "thin5cm_temp1"
+    },
+    {
+      "position_rmse_m": 0.05687934240756641,
+      "occupied_precision_1cell": 0.5885395941106247,
+      "occupied_recall_1cell": 0.9031413612565445,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.05,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 0.25,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 0.0025,
+          "alpha2": 0.0004,
+          "alpha3": 0.0025,
+          "alpha4": 0.0004
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "thinner"
+    },
+    {
+      "position_rmse_m": 0.022531964998398036,
+      "occupied_precision_1cell": 0.7892663712456918,
+      "occupied_recall_1cell": 1.0,
+      "slam_config": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 16.0,
+          "origin_x": -8.0,
+          "origin_y": -8.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.05,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.08,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 0.25,
+          "occupied_threshold": 0.65
+        },
+        "motion": {
+          "alpha1": 1e-05,
+          "alpha2": 1e-06,
+          "alpha3": 1e-05,
+          "alpha4": 1e-05
+        },
+        "filter": {
+          "particles": 24,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        }
+      },
+      "profile": "very_small_motion"
+    }
+  ]
+}

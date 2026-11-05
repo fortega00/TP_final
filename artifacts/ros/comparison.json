@@ -1,0 +1,20 @@
+{
+  "toy": {
+    "passed": true,
+    "processed_scans": 118,
+    "dropped_scans": 0,
+    "pgm_sha256": "df47e8c730852a3ebba6b5a3d0e4b1e8942e6186fb8291b852fa6807573680d0"
+  },
+  "bag": {
+    "passed": true,
+    "processed_scans": 118,
+    "dropped_scans": 0,
+    "pgm_sha256": "df47e8c730852a3ebba6b5a3d0e4b1e8942e6186fb8291b852fa6807573680d0"
+  },
+  "bag_tf": {
+    "passed": true,
+    "processed_scans": 118,
+    "dropped_scans": 0,
+    "pgm_sha256": "df47e8c730852a3ebba6b5a3d0e4b1e8942e6186fb8291b852fa6807573680d0"
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "mode": "bag",
+  "odom_source": "tf",
+  "passed": true,
+  "forced_cleanup": false,
+  "launch_command": [
+    "ros2",
+    "launch",
+    "tp_slam",
+    "slam.launch.py",
+    "mode:=bag",
+    "rviz:=false",
+    "toy_rate:=10",
+    "scan_queue_size:=100",
+    "odom_source:=tf",
+    "output_path:=/results/bag_tf/map",
+    "bag_path:=/tmp/slam-test-bag",
+    "bag_rate:=2"
+  ],
+  "launch_pid": 209,
+  "services": [
+    {
+      "service": "pause",
+      "success": true,
+      "message": "Mapping paused"
+    },
+    {
+      "service": "pause",
+      "success": false,
+      "message": "Cannot pause from PAUSED"
+    },
+    {
+      "service": "resume",
+      "success": true,
+      "message": "Mapping resumed"
+    },
+    {
+      "service": "resume",
+      "success": false,
+      "message": "Cannot resume from WAITING"
+    },
+    {
+      "service": "save_map",
+      "success": true,
+      "message": "/results/bag_tf/map.pgm, /results/bag_tf/map.yaml"
+    },
+    {
+      "service": "reset",
+      "success": true,
+      "message": "New mapping session; previous map discarded"
+    }
+  ],
+  "final_status": {
+    "state": "RUNNING",
+    "processed_scans": 118,
+    "skipped_motion": 1,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 18,
+    "ess": 10.39586654960674,
+    "update_seconds": 0.08212732799984224,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 0,
+    "queued_scans": 0
+  },
+  "final_pose": {
+    "x": -0.02097987678798779,
+    "y": 0.03781412785322857
+  },
+  "map_observed_cells": 26192,
+  "map_export": {
+    "width": 320,
+    "height": 320,
+    "resolution": 0.05,
+    "pixel_histogram": {
+      "0": 1468,
+      "128": 76261,
+      "254": 24671
+    }
+  },
+  "poses_received": 118,
+  "maps_received": 31,
+  "cmd_vel_received": 0,
+  "stale_map_tf_received": 0,
+  "reset_verified": true,
+  "reset_status": {
+    "state": "WAITING",
+    "processed_scans": 0,
+    "skipped_motion": 0,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 0,
+    "ess": 24.0,
+    "update_seconds": 0.0,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 0,
+    "queued_scans": 0
+  },
+  "launch_returncode": 0,
+  "wall_seconds": 18.817383687000074
+}

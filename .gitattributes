@@ -1,0 +1,4 @@
+* text=auto
+*.csv text eol=lf
+*.pgm binary
+*.pdf binary
