@@ -43,6 +43,65 @@ python3 -m tp_slam.cli toy --help
 
 ## 2. Instalar el paquete ROS
 
+### Usar el contenedor habitual del RosMaster
+
+El contenedor `yahboom_rosmaster` que se abre con `~/PRA_00/container.sh enter` usa el usuario `alumno` y el workspace `/home/alumno/rosmaster_ws`. Su montaje actual incluye los paquetes de `PRA_00`, pero no la carpeta `~/TP_final` del host. Para incorporar este paquete, ejecutar **en el host**:
+
+```bash
+cd ~/TP_final
+./scripts/sync_container.sh
+```
+
+El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/tp_slam` y construye únicamente `tp_slam` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/tp_slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
+
+Después entrar como siempre:
+
+```bash
+~/PRA_00/container.sh enter
+```
+
+Y ejecutar **dentro del contenedor**:
+
+```bash
+cd ~/rosmaster_ws
+source install/setup.bash
+ros2 launch tp_slam slam.launch.py mode:=toy rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_toy
+```
+
+El modo toy publica los sensores sintéticos y abre RViz. Al terminar el recorrido se puede guardar desde otra terminal del mismo contenedor, cargando el overlay:
+
+```bash
+source ~/rosmaster_ws/install/setup.bash
+ros2 service call /slam/save_map std_srvs/srv/Trigger '{}'
+```
+
+Los archivos `tp_slam_toy.pgm`, `.yaml` y `.json` quedan en `/home/alumno/rosmaster_ws/maps`, dentro del contenedor. Esa carpeta no está montada en `~/TP_final`: los resultados no se copian automáticamente al host y se perderían al eliminar el contenedor.
+
+Como alternativa, detener primero el launcher toy con **Ctrl+C** y ejecutar Gazebo desde ese mismo entorno:
+
+```bash
+ros2 launch tp_slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_simulation
+```
+
+No ejecutar ambos launchers simultáneamente: comparten tópicos, reloj y TF. En simulación se conduce el robot con el teleop del RosMaster para explorar el mundo, como se detalla en la sección 4.
+
+La copia del paquete no es un montaje de los fuentes. Tras editar código, YAML o launchfiles en `~/TP_final`, detener el launcher y volver a ejecutar `./scripts/sync_container.sh` en el host. Cargar otra vez `~/rosmaster_ws/install/setup.bash` antes de relanzar. Si sólo se quiere actualizar la copia sin construir todavía:
+
+```bash
+cd ~/TP_final
+./scripts/sync_container.sh --sync-only
+```
+
+En ese caso, antes de ejecutar ROS completar la construcción dentro del contenedor:
+
+```bash
+cd ~/rosmaster_ws
+colcon build --symlink-install --packages-select tp_slam
+source install/setup.bash
+```
+
+### Instalar en otro entorno con ROS 2 Humble
+
 En Ubuntu 22.04, con ROS 2 Humble instalado y su entorno cargado:
 
 ```bash

@@ -1,6 +1,6 @@
 # Contexto e instrucciones del TP Final
 
-Actualizado: 5 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
+Actualizado: 10 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 
 ## Organización y consignas
 
@@ -40,6 +40,7 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 | `launch/slam.launch.py` | Launcher único para toy/simulation/bag/real. |
 | `worlds/office.sdf`, `rviz/slam.rviz` | Oficina Gazebo y visualización. |
 | `tests/`, `scripts/validate_ros.sh` | Pruebas de núcleo e integración ROS aislada. |
+| `scripts/sync_container.sh` | Copia y construcción del paquete en el contenedor habitual del RosMaster. |
 | `scripts/tune_toy.py`, `artifacts/` | Ablaciones y evidencia. |
 | `A.md`, `docs/architecture.md`, `docs/entrega_a.md` | Ejecución, arquitectura e informe con diez respuestas. |
 
@@ -77,6 +78,28 @@ python3 scripts/tune_toy.py --output artifacts/tuning
 ```
 
 Instalar/enlazar esta carpeta como paquete dentro de `src/` de un workspace. Ejecutar `colcon build --symlink-install --packages-select tp_slam` y cargar ROS y overlay en cada terminal. Ver preparación completa en `A.md`.
+
+### Contenedor habitual del usuario
+
+El usuario trabaja entrando con `/home/fran/PRA_00/container.sh enter` al contenedor existente `yahboom_rosmaster`, como `alumno`, en `/home/alumno/rosmaster_ws`. El montaje actual sólo enlaza `/home/fran/PRA_00/pkg` con `src/pkg`; **`TP_final` no está montado**. Para incorporar cambios sin recrear el contenedor ni tocar los otros TPs:
+
+```bash
+# En el host
+cd ~/TP_final
+./scripts/sync_container.sh
+~/PRA_00/container.sh enter
+
+# Dentro del contenedor
+cd ~/rosmaster_ws
+source install/setup.bash
+ros2 launch tp_slam slam.launch.py mode:=toy rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_toy
+```
+
+El script copia sólo archivos del paquete a `~/rosmaster_ws/src/tp_slam` y construye únicamente ese paquete por defecto. `--sync-only` omite la construcción; luego ejecutar `colcon build --symlink-install --packages-select tp_slam` dentro del workspace. Tras editar los fuentes del host hay que resincronizar, construir y cargar de nuevo el overlay. El 10 de noviembre de 2026 se verificaron sincronización y build en el contenedor habitual: colcon aprobó, el prefijo instalado es `/home/alumno/rosmaster_ws/install/tp_slam` y ROS enumeró los cuatro ejecutables. No se lanzaron nodos, RViz ni Gazebo durante esa comprobación; la evidencia de ejecución anterior corresponde al contenedor aislado.
+
+Guardar con `/slam/save_map` genera PGM/YAML/JSON en `~/rosmaster_ws/maps` dentro del contenedor. Esa salida **no se persiste automáticamente en el host** y se pierde si se elimina el contenedor. Para probar Gazebo, detener el toy con Ctrl+C y ejecutar `ros2 launch tp_slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_simulation`. No ejecutar ambos modos a la vez porque comparten sensores, reloj y TF. La guía completa está en `A.md`.
+
+### Modos del launcher
 
 ```bash
 ros2 launch tp_slam slam.launch.py mode:=toy rviz:=false output_path:=/tmp/slam/toy
