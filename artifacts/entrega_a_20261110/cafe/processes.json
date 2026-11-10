@@ -1,0 +1,47 @@
+[
+  {
+    "name": "xvfb",
+    "pid": 4132,
+    "command": [
+      "Xvfb",
+      ":96",
+      "-screen",
+      "0",
+      "1440x1080x24",
+      "-ac",
+      "-nolisten",
+      "tcp"
+    ]
+  },
+  {
+    "name": "launch",
+    "pid": 4147,
+    "command": [
+      "ros2",
+      "launch",
+      "tp_slam",
+      "slam.launch.py",
+      "rviz:=false",
+      "mode:=simulation",
+      "config_file:=/home/alumno/rosmaster_ws/src/tp_slam/config/cafe.yaml",
+      "scan_queue_size:=200",
+      "tf_wait_timeout:=10",
+      "max_path_poses:=20000",
+      "output_path:=/tmp/tp_final_a_20261110/cafe_guided/map",
+      "headless:=true",
+      "world:=/home/alumno/rosmaster_ws/install/custom_map/share/custom_map/worlds/cafe.world"
+    ]
+  },
+  {
+    "name": "rviz",
+    "pid": 4148,
+    "command": [
+      "/opt/ros/humble/lib/rviz2/rviz2",
+      "-d",
+      "/tmp/tp_final_a_20261110/cafe_guided/view.rviz",
+      "--ros-args",
+      "-p",
+      "use_sim_time:=true"
+    ]
+  }
+]

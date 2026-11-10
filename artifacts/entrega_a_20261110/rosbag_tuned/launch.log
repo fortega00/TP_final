@@ -1,0 +1,23 @@
+[INFO] [launch]: All log files can be found below /home/alumno/.ros/log/2026-11-10-17-03-57-043391-fran-ThinkPad-E15-Gen-2-4465
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [slam_node-1]: process started with pid [4501]
+[INFO] [bag_tf_filter-2]: process started with pid [4503]
+[slam_node-1] [INFO] [1794330237.967194543] [slam]: FastSLAM 128 particles; topic odometry; scan=/scan
+[INFO] [ros2-3]: process started with pid [4527]
+[ros2-3] stdin is not a terminal device. Keyboard handling disabled.[INFO] [1794330240.548276517] [rosbag2_storage]: Opened database '/tmp/real_rosbag_input/rosbag2_2026_09_07-08_51_02_0.db3' for READ_ONLY.
+[ros2-3] [INFO] [1794330240.548333642] [rosbag2_player]: Set rate to 0.2
+[ros2-3] [INFO] [1794330240.548848333] [rosbag2_player]: Overriding QoS profile for topic /tf_static
+[ros2-3] [INFO] [1794330240.556495751] [rosbag2_player]: Adding keyboard callbacks.
+[ros2-3] [INFO] [1794330240.556547149] [rosbag2_player]: Press SPACE for Pause/Resume
+[ros2-3] [INFO] [1794330240.556555040] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[ros2-3] [INFO] [1794330240.556561756] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[ros2-3] [INFO] [1794330240.556566542] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[ros2-3] [INFO] [1794330240.557080215] [rosbag2_storage]: Opened database '/tmp/real_rosbag_input/rosbag2_2026_09_07-08_51_02_0.db3' for READ_ONLY.
+[slam_node-1] [WARN] [1794330254.563170856] [slam]: Discarding scan: "laser_link" passed to lookupTransform argument source_frame does not exist. 
+[ros2-3] [INFO] [1794330775.518650950] [rosbag2_player]: Set rate to 0.15
+[INFO] [ros2-3]: process has finished cleanly [pid 4527]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [bag_tf_filter-2]: sending signal 'SIGINT' to process[bag_tf_filter-2]
+[INFO] [slam_node-1]: sending signal 'SIGINT' to process[slam_node-1]
+[INFO] [bag_tf_filter-2]: process has finished cleanly [pid 4503]
+[INFO] [slam_node-1]: process has finished cleanly [pid 4501]

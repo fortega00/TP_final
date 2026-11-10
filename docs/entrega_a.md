@@ -35,6 +35,8 @@ La evaluación sintética usa ruido y referencia conocida. Las mediciones de cal
 
 ## Evaluación reproducible
 
+Actualización del 10/11/2026: se completaron sesiones independientes de Gazebo café y del bag físico del Parcial, con mapas, métricas y capturas reales de RViz. Café obtuvo RMSE de posición de 2,063 cm y cobertura observada aproximada de 99,863 %. El bag ajustado dejó separación inicio–fin de 0,842 m frente a 17,855 m de odometría, pero conserva discontinuidades que impiden certificarlo como mapa definitivo de navegación. El procedimiento, los parámetros y los límites están en [experimentos_a.md](experimentos_a.md). Los resultados sintéticos siguientes se conservan como evidencia de desarrollo.
+
 El mundo toy representa una oficina de 9 × 7 m, con pared divisoria y puerta de 2 m. La ruta es cerrada y recorre ambos lados de la partición, con poses inicial y final coincidentes. El generador aporta ground truth de geometría y pose; el filtro sólo recibe LIDAR y odometría perturbados. Los scans son instantáneos: el paso de 0,28 m y el período de 0,25 s son un muestreo del benchmark y no un ensayo físico de barrido a 1,12 m/s. Los datos, parámetros y métricas se guardan juntos para evitar comparar mapas sin saber qué cambió.
 
 ```bash

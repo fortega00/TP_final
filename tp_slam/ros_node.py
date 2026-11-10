@@ -27,6 +27,7 @@ from .config import SlamConfig
 from .filter import FastSLAM
 from .geometry import Pose2D
 from .odometry import OdometryBuffer
+from .reference_paths import ReferencePaths
 from .types import Scan
 
 
@@ -66,6 +67,7 @@ class SlamNode(Node):
             'publish_odom_tf': False, 'publish_period': 1.0,
             'tf_wait_timeout': 2.0, 'odom_history_seconds': 30.0,
             'scan_queue_size': 30, 'max_path_poses': 5000, 'mode': 'real',
+            'ground_truth_topic': '',
         }
         for name, default in defaults.items():
             self.declare_parameter(name, default)
@@ -98,6 +100,8 @@ class SlamNode(Node):
         self.status_pub = self.create_publisher(String, '/slam/status', persistent)
         self.path = PathMsg()
         self.path.header.frame_id = self.options['map_frame']
+        self.references = ReferencePaths(self, persistent, pose_message, seconds,
+                                         yaw_from_quaternion)
         self.pending = deque()
         self.last_scan_received = None
         self.last_integrated_message = None
@@ -218,6 +222,7 @@ class SlamNode(Node):
                 return
             self.last_integrated_message = message
             self.last_odom_at_scan = odom
+            self.references.observe(message.header.stamp, odom)
             self.publish_update(message)
         except ValueError as exc:
             self.dropped_scans += 1
@@ -359,6 +364,7 @@ class SlamNode(Node):
         self.path.poses.clear()
         self.path_pub.publish(self.path)
         self.last_scan_received = self.last_integrated_message = self.last_odom_at_scan = None
+        self.references.reset()
         self.map_to_odom = None
         self.last_correction_stamp = -math.inf
         self.last_map_publish = -math.inf

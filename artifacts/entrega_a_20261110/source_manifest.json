@@ -1,0 +1,32 @@
+{
+  "python_analysis": "3.10.12",
+  "sha256": {
+    "tp_slam/geometry.py": "f3b4af8a6e69438fcd0ec8dc12d4ee5ca0b58b62886798f8b2190e14a43f1a92",
+    "tp_slam/__init__.py": "d58a9506a76834f384270e311f31298590e3b241e781f5a925c04e0a4e4494b8",
+    "tp_slam/reference_paths.py": "f72bc3d1c10ed67d3bfc5838cd931f916d766f18dc27719564914c6d9c2b6132",
+    "tp_slam/ros_node.py": "901464482baee2c3305ec1db4ac48f3ab7d96bf340a19f77b72a7df1090b7e87",
+    "tp_slam/sensor.py": "c4c72e44c0bd01338d905861287c2d6b3883fe3f52f96e6255ae08113215e761",
+    "tp_slam/config.py": "93a35e526027a3dea9ffee4f7ed7fcc3c36185008fca5fb7860e37caed87e712",
+    "tp_slam/cli.py": "ab287131d7d484af950d1aa452a6897c8d9c40222606b4aad7fa76bb3df455d9",
+    "tp_slam/toy.py": "91d8db60cad9096332e465b639c677e6ac781c6f7029bf2cc001854adbc4f115",
+    "tp_slam/motion.py": "ffa359d5ba78267d27e23efe8e9f12d514464faad6a652a36d70a2dc280e73cd",
+    "tp_slam/tf_filter.py": "28c851180de59598495917b61ec2f492e3a6b6d03464e8a77199be4fea4c23d9",
+    "tp_slam/state_machine.py": "dcc9866ccee027754dae36f49f71d410cd63910ddb7694594262ccbf0b71f0b1",
+    "tp_slam/types.py": "aeb38169fa0fecbb801210b634114a2604005f75aaa8d462030a7e80e200bd26",
+    "tp_slam/toy_node.py": "aeafb4772c733cd375830636d42c5e11f190f449ae3194a17975e8b57e6c9b0c",
+    "tp_slam/io.py": "f1edf23710126eac46d6b863aec31d6f2a7abf5dc238ba5a4f711c25af058698",
+    "tp_slam/odometry.py": "5dcc32001ed462c5a4b954b00c6e9892e1b765ab195fd30fa17f28e192ff9621",
+    "tp_slam/grid.py": "f4221e3b88805b0905e763c2f9f63498445adc19d507c46a137a94ed9b0b904c",
+    "tp_slam/filter.py": "1f27bd6bff092f21a19b9beb74d0bf4c75829be78ab4fe19e922ba9f9a375313",
+    "launch/slam.launch.py": "bacb245cf62ea08beaea771b501c79037ee58764abee42cfbbeab1737386616b",
+    "config/cafe.yaml": "520c2a65a5ad026e406eda28a7401e01c5b9706e37e80e2974e018d217273e40",
+    "config/bag_qos.yaml": "b3ea64f46c22e9aa4448474240cf29af801c11660cee3b74acf1698a173895d8",
+    "config/default.yaml": "e16a44cebcc6d541e79f491ce62b058d560a4583d1cfc7e85d500916e04b8871",
+    "config/parcial_bag_tuned.yaml": "59c606209cdec4bc0240e2ad5a28c00ed04c349b743d4eaeac7bbcaeda484ee9",
+    "config/parcial_bag.yaml": "57df68a699889d48e58958c8a9f8bb6680940e67f725baf1ea615d7ef0903428",
+    "scripts/replay_bag_core.py": "e8fe017d3e182694c3eb9cf47631da05aa0f39e265b61e2e290b927ba8540174",
+    "scripts/analyze_a_experiment.py": "141ec486f9d0069e95a7f7f4a86ba25a7616ae3780c18c574fd797228cda9d01",
+    "scripts/tune_toy.py": "72245825f91775e0e5306a3c3d04cc01639a4766b3695cf8156387b160258277",
+    "scripts/run_a_experiment.py": "c87a70c1cb4a4cc3febd3c72c2e42a17ebe77788d316be4d633a006f91e1e327"
+  }
+}

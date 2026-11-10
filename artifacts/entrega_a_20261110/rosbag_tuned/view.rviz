@@ -1,0 +1,83 @@
+Panels:
+- Class: rviz_common/Displays
+  Name: Displays
+- Class: rviz_common/Views
+  Name: Views
+Visualization Manager:
+  Class: ''
+  Tools:
+  - Class: rviz_default_plugins/Interact
+  - Class: rviz_default_plugins/MoveCamera
+  - Class: rviz_default_plugins/Select
+  - Class: rviz_default_plugins/FocusCamera
+  - Class: rviz_default_plugins/Measure
+  Global Options:
+    Fixed Frame: map
+    Background Color: 35; 38; 43
+  Displays:
+  - Class: rviz_default_plugins/Grid
+    Name: Grid
+    Enabled: true
+    Cell Size: 1
+  - Class: rviz_default_plugins/Map
+    Name: SLAM map
+    Enabled: true
+    Topic:
+      Value: /map
+      Durability Policy: Transient Local
+      Reliability Policy: Reliable
+    Color Scheme: map
+  - Class: rviz_default_plugins/LaserScan
+    Name: LiDAR
+    Enabled: false
+    Topic:
+      Value: /scan
+      Reliability Policy: Best Effort
+    Size (Pixels): 2
+  - Class: rviz_default_plugins/PoseArray
+    Name: Particles
+    Enabled: true
+    Topic:
+      Value: /particles
+  - Class: rviz_default_plugins/Path
+    Name: SLAM path (cyan)
+    Enabled: true
+    Topic:
+      Value: /path
+      Durability Policy: Transient Local
+    Color: 40; 200; 180
+  - Class: rviz_default_plugins/Path
+    Name: Raw odometry (orange)
+    Enabled: true
+    Topic:
+      Value: /slam/odom_path
+      Durability Policy: Transient Local
+    Color: 255; 145; 30
+  - Class: rviz_default_plugins/Path
+    Name: Ground truth (green)
+    Enabled: true
+    Topic:
+      Value: /slam/ground_truth_path
+      Durability Policy: Transient Local
+    Color: 70; 235; 70
+  - Class: rviz_default_plugins/PoseWithCovariance
+    Name: SLAM pose
+    Enabled: false
+    Topic:
+      Value: /slam_pose
+    Color: 40; 200; 180
+  - Class: rviz_default_plugins/TF
+    Name: TF
+    Enabled: false
+  Views:
+    Current:
+      Class: rviz_default_plugins/TopDownOrtho
+      Scale: 18.0
+      Target Frame: map
+      X: 8.0
+      Y: 0.0
+Window Geometry:
+  Width: 1400
+  Height: 1000
+  X: 0
+  Y: 0

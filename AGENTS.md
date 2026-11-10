@@ -27,6 +27,7 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 | Ruta | Responsabilidad |
 | --- | --- |
 | `tp_slam/config.py`, `config/default.yaml` | Configuración validada; defaults idénticos. |
+| `config/cafe.yaml` | Perfil de grilla 16 × 32 m para el mundo café de `custom_map`. |
 | `tp_slam/geometry.py`, `types.py` | SE(2), `Pose2D`, `Scan` con timestamp y extrínseca. |
 | `tp_slam/motion.py` | Movimiento holonómico y protocolo de propuestas. |
 | `tp_slam/sensor.py` | Haces, likelihood de extremos y protocolo de medición. |
@@ -42,6 +43,9 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 | `tests/`, `scripts/validate_ros.sh` | Pruebas de núcleo e integración ROS aislada. |
 | `scripts/sync_container.sh` | Copia y construcción del paquete en el contenedor habitual del RosMaster. |
 | `scripts/tune_toy.py`, `artifacts/` | Ablaciones y evidencia. |
+| `scripts/run_a_experiment.py`, `scripts/cafe_route.yaml` | Ejecutor ROS aislado y recorrido guiado de evaluación, separado del SLAM. |
+| `scripts/analyze_a_experiment.py`, `scripts/replay_bag_core.py` | Métricas y screening del núcleo sobre entradas reales alineadas. |
+| `docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
 | `A.md`, `docs/architecture.md`, `docs/entrega_a.md` | Ejecución, arquitectura e informe con diez respuestas. |
 
 ### Invariantes
@@ -65,6 +69,8 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 - Movimiento: `alpha1=0.0001`, `alpha2=0.00001`, `alpha3=0.0001`, `alpha4=0.0001`.
 - Incorporación por movimiento/tiempo: 0,08 m, 0,06 rad o 1 s.
 - Valores calificados sólo para el toy; **no calibrados en robot real**. Todas las opciones y fórmulas están en `A.md`.
+- El usuario pidió conservar el perfil cinemático `ideal`. El 10/11 aprobó usar un recorrido guiado para cerrar la prueba de café, después de que el seguidor izquierdo necesitara recuperaciones. No agregar `stress` ni sesgos de movimiento a esa sesión.
+- El perfil café usa `sensor.min_range=0.25`: se observaron retornos del propio chasis a 0,14–0,20 m. Los defaults generales permanecen en 0,12 m.
 
 ## Ejecución
 
@@ -111,6 +117,8 @@ ros2 service call /slam/save_map std_srvs/srv/Trigger '{}'
 
 `simulation start_simulator:=false` se conecta a un simulador existente. Para iniciar Gazebo usa directamente `yahboom_rosmaster_gazebo/rosmaster_gazebo_fortress.launch.py`, Fortress, mundo configurable, perfil `ideal` y `motion_bias=false`. El backend/driver es externo. La exploración A se hace con teleop externo; este paquete no publica velocidades.
 
+Para el café de los TPs anteriores, ver la receta de `A.md` en «Probar el mundo café de custom_map». Resincronizar antes para instalar `config/cafe.yaml`. Dentro del contenedor, el share verificado de `custom_map` es `/home/alumno/rosmaster_ws/install/custom_map/share/custom_map`: existen `worlds/cafe.world` y `models`. Agregar `models` a `IGN_GAZEBO_RESOURCE_PATH` y `GZ_SIM_RESOURCE_PATH`, preservando los valores previos, y lanzar `tp_slam` con ese world y el YAML café instalado. La grilla tiene ancho 16 m, alto 32 m, origen `(-8,-16)` y celda 0,05 m; la grilla toy truncaría el café en Y. Se verificaron rutas y assets sin ejecutar el mundo. Detener toy/simulaciones anteriores y no usar `custom_map/cafe.launch.py`, que agrega map server y TF fijo incompatibles con SLAM.
+
 Transporte por defecto: `/scan`, `/odom`, `odom_source=topic`, frames `map`, `odom`, **`base_footprint`**. Para robot real seleccionar los frames efectivos. Otro `child_frame_id` requiere TF hacia la base; `/calc_odom` con child `calc_base` no es intercambiable sólo cambiando el tópico. Alternativa `odom_source:=tf`.
 
 `use_sim_time` automático (false en real, true en los demás). En bag se reproducen únicamente scan, odometría y TF, y el player publica reloj. Un relay elimina la localización grabada; **no se reproduce `/cmd_vel`**. No ejecutar otro map server ni autoridad `map → odom`. Extrínsecas auxiliares sólo con `publish_scan_tf:=true` y valores calibrados; `publish_odom_tf:=true` sólo si falta ese enlace.
@@ -129,7 +137,13 @@ Exportación `<output_path>.pgm`, `.yaml`, `.json`: libre p<0,25, ocupado según
 - Semillas 11 y 19 también aprobaron sin retuning (RMSE 2,88/2,37 cm). Ablaciones con más ruido deterioran paredes y fallan precisión; conservar esos fallos.
 - Scans toy instantáneos; paso 0,28 m/período 0,25 s es muestreo, no ensayo físico de velocidad/intrabarrido.
 - Integración ROS aprobada en tres modos: toy con odometría por tópico, bag sintético por tópico y bag sintético por TF. Cada uno integró 118 scans sin descartes y exportó PGM idéntico. Servicios, transiciones inválidas, reset, filtro de TF/cmd_vel y cierre limpio comprobados; evidencia en `artifacts/ros/`. Ejecutar `./scripts/validate_ros.sh` para reproducir.
-- **Pendientes:** recorrido completo en Gazebo, bag real, calibración y mapeo vivo del aula. No hay bag físico disponible aquí. No presentar bag sintético como evidencia real.
+- El 10/11 se encontró el **bag físico original** del Parcial en `/tmp/real_rosbag_input` dentro del contenedor habitual: 163,858 s, 1188 scans y 1633 odometrías. Su DB3 pesa 511.655.936 bytes; SHA256 `3cc3858ea91a8c866e7b60f7c2cd2d01b6356dae7a680ade7885335d6cd2cc86`. No tiene GT; el cierre no es error absoluto. No cargar el mapa conocido del Parcial en el filtro de SLAM.
+- Corrida ROS inicial del bag: 857 scans integrados, 331 omitidos por movimiento, cero descartes; separación inicio–fin SLAM 17,738 m y odometría 17,855 m. El mapa pierde paredes y **no aprueba A**. Evidencia en `artifacts/entrega_a_20261110/rosbag/`.
+- Screening real sin ROS, semilla 7: 64 partículas/alpha base 0,03/sigma 0,15 dejó separación 2,365 m y sólo 16,19 % de extremos a 10 cm; 128 partículas/alpha base 0,10/sigma 0,15 dejó 0,880 m y 54,94 %. Mayor persistencia inversa con 96 partículas dejó 1,282 m y 61,44 %, pero engrosó/deformó paredes. No elegir sólo por cierre ni presentar screening como validación ROS.
+- **Sesiones ROS completas:** evidencia persistida en el host, `artifacts/entrega_a_20261110/cafe/` y `rosbag_tuned/`; ambas tienen `rviz.png`, PGM/YAML, muestras y `metrics.json`. Café: dominio/display 96, recorrido guiado completo, RMSE 2,063 cm, error final 1,300 cm, cobertura SDF aproximada observada 99,863 %, libre 99,819 %, conectividad visitada 74/74, cero descartes tras reset. Odometría ideal RMSE 0,040 mm: no afirmar mejora de pose. El PGM al cerrar agregó un scan estacionario respecto del path capturado (1467/1466 integraciones, 1 s); el ejecutor actual pausa antes de exportar.
+- Bag ajustado: dominio/display 97, 128 partículas, alpha `(0,10;0,01;0,10;0,10)`, sigma 0,15, p_hit 0,75, p_free 0,40, espesor 0,08. Reproducción 0,2× reducida a 0,15×; 856 scans integrados, 325 omitidos, siete descartes iniciales por TF, cola final cero. Separación inicio–fin SLAM 0,842 m vs odometría 17,855 m. Ajuste interno: 82,03 % de extremos a 10 cm, mediana 2,66 cm, P95 55,48 cm. Conectividad visitada 42/43. Mejora clara, pero persisten discontinuidades/ruido: **no certificar mapa definitivo ni A completamente aprobada**. Comparación con mapa anterior sólo posterior, sin usarlo en SLAM y sin tratarlo como GT.
+- Ambas sesiones cerraron Xvfb, launcher y RViz con código cero. 31 unit tests aprobados. Scripts y reproducción en `A.md` sección 10; análisis y límites en `docs/experimentos_a.md`. Los fuentes del ejecutor usado están archivados en cada corrida; el ejecutor actual mejora espera inicial de TF, buffer del observador y congelación final.
+- **Pendientes:** resolver/calificar discontinuidades del mapa del bag, calibración física y mapeo vivo del aula. Los pasos de ejecución y medición de simulación/bag están documentados; no confundir completar corridas con cumplir toda la calidad geométrica de A.
 
 ## Límites y próximos pasos
 

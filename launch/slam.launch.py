@@ -38,6 +38,9 @@ def _setup(context):
         'odom_history_seconds': float(get('odom_history_seconds')),
         'scan_queue_size': int(get('scan_queue_size')),
         'max_path_poses': int(get('max_path_poses')),
+        'ground_truth_topic': (('/toy/ground_truth' if mode == 'toy' else
+                                '/ground_truth/odom' if mode == 'simulation' else '')
+                               if get('ground_truth_topic') == 'auto' else get('ground_truth_topic')),
     }
     actions = [Node(package='tp_slam', executable='slam_node', name='slam',
                     parameters=[parameters], output='screen')]
@@ -103,6 +106,7 @@ def generate_launch_description():
         'laser_z': '0.0', 'laser_yaw': '0.0',
         'publish_period': '1.0', 'tf_wait_timeout': '2.0',
         'odom_history_seconds': '30.0', 'scan_queue_size': '30', 'max_path_poses': '5000',
+        'ground_truth_topic': 'auto',
     }
     return LaunchDescription([DeclareLaunchArgument(key, default_value=value)
                               for key, value in defaults.items()] + [OpaqueFunction(function=_setup)])

@@ -1,0 +1,77 @@
+{
+  "mode": "bag",
+  "run_completed": true,
+  "has_ground_truth": false,
+  "poses": {
+    "odom": {
+      "samples": 857,
+      "duration_s": 162.9285490512848,
+      "length_m": 75.56980967091148,
+      "end_to_start_distance_m": 17.854928144335137,
+      "end_to_start_yaw_deg": -122.43461538463785,
+      "last_pose": [
+        17.615203268850934,
+        2.916002886904311,
+        -2.136887156874834
+      ]
+    },
+    "slam": {
+      "samples": 857,
+      "duration_s": 162.9285490512848,
+      "length_m": 75.45481587333985,
+      "end_to_start_distance_m": 17.738035558085294,
+      "end_to_start_yaw_deg": -118.73023138635237,
+      "last_pose": [
+        17.427299846513264,
+        3.3056202927161706,
+        -2.0722334593465606
+      ]
+    }
+  },
+  "status": {
+    "state": "RUNNING",
+    "processed_scans": 857,
+    "skipped_motion": 331,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 446,
+    "ess": 23.298461195000588,
+    "update_seconds": 0.17514221600049495,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 0,
+    "queued_scans": 0
+  },
+  "map": {
+    "resolution_m": 0.05,
+    "width": 960,
+    "height": 800,
+    "occupied_cells": 779,
+    "free_cells": 216743,
+    "unknown_cells": 550478,
+    "known_area_m2": 543.8050000000001
+  },
+  "wall_seconds": 341.5376078620002,
+  "in_sample_consistency": {
+    "label": "in_sample_endpoint_to_exported_obstacle_distance",
+    "samples": 25710,
+    "distance_cap_m": 0.6,
+    "distance_m": {
+      "mean": 0.5119149648254562,
+      "median": 0.6,
+      "p95": 0.6,
+      "max": 0.6
+    },
+    "fraction_within_10cm": 0.0661610268378063,
+    "warning": "Uses the same measurements that built the map; not independent accuracy."
+  },
+  "sampled_update_wall_seconds": {
+    "mean": 0.1559622566109833,
+    "median": 0.15014218399937818,
+    "p95": 0.2285011144002051,
+    "max": 0.38817866499994125
+  },
+  "timing_sampling": "Latest filter update sampled by 1 Hz wall-time status messages."
+}

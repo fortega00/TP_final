@@ -1,0 +1,107 @@
+{
+  "mode": "bag",
+  "run_completed": true,
+  "has_ground_truth": false,
+  "poses": {
+    "odom": {
+      "samples": 856,
+      "duration_s": 161.98558568954468,
+      "length_m": 75.56980967091148,
+      "end_to_start_distance_m": 17.854928144335137,
+      "end_to_start_yaw_deg": -122.43461538463785,
+      "last_pose": [
+        17.615203268850934,
+        2.916002886904311,
+        -2.136887156874834
+      ]
+    },
+    "slam": {
+      "samples": 856,
+      "duration_s": 161.98558568954468,
+      "length_m": 64.07830759998856,
+      "end_to_start_distance_m": 0.8417138204744472,
+      "end_to_start_yaw_deg": -18.44506230571035,
+      "last_pose": [
+        0.8019464993531177,
+        0.255663778727003,
+        -0.3219270679701425
+      ]
+    }
+  },
+  "status": {
+    "state": "RUNNING",
+    "processed_scans": 856,
+    "skipped_motion": 325,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 820,
+    "ess": 120.13610722502894,
+    "update_seconds": 0.3758109919999697,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 7,
+    "queued_scans": 0
+  },
+  "map": {
+    "resolution_m": 0.05,
+    "width": 960,
+    "height": 800,
+    "occupied_cells": 3842,
+    "free_cells": 130082,
+    "unknown_cells": 634076,
+    "known_area_m2": 334.81000000000006
+  },
+  "wall_seconds": 927.5469379470005,
+  "in_sample_consistency": {
+    "label": "in_sample_endpoint_to_exported_obstacle_distance",
+    "samples": 25680,
+    "distance_cap_m": 0.6,
+    "distance_m": {
+      "mean": 0.08381565114271687,
+      "median": 0.026583671239825607,
+      "p95": 0.5547784847498205,
+      "max": 0.6
+    },
+    "fraction_within_10cm": 0.8203271028037383,
+    "warning": "Uses the same measurements that built the map; not independent accuracy."
+  },
+  "export_snapshot": {
+    "scan_stamp": 1788792829.2259517,
+    "captured_path_stamp": 1788792829.2259517,
+    "gap_s": 0.0,
+    "diagnostics": {
+      "state": "RUNNING",
+      "processed_scans": 856,
+      "skipped_motion": 325,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 820,
+      "ess": 120.13610722502894,
+      "update_seconds": 0.3758109919999697,
+      "clipped_rays": 0,
+      "out_of_bounds_particles": 0
+    }
+  },
+  "navigation_check": {
+    "robot_radius_plus_margin_m": 0.27,
+    "sampled_visited_poses": 43,
+    "connected_visited_fraction": 0.9767441860465116,
+    "unknown_is_blocked": true,
+    "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+  },
+  "sampled_update_wall_seconds": {
+    "mean": 0.8059590454975379,
+    "median": 0.832890669000335,
+    "p95": 1.0058814751997487,
+    "max": 1.1550450790000468
+  },
+  "timing_sampling": "Latest filter update sampled by 1 Hz wall-time status messages.",
+  "prior_map_comparison": {
+    "source": "/home/fran/PRA_00/pkg/custom_map/maps/my_map3.yaml",
+    "image_sha256": "e8228e0301859b8d32080249237061ae58a0d9d56f1b074d0e96de2181bf7111",
+    "usage": "Qualitative comparison after SLAM; not used by the filter; not ground truth.",
+    "alignment": "Original map coordinates, without fitted rotation or translation."
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "mode": "simulation",
+  "run_completed": true,
+  "has_ground_truth": true,
+  "poses": {
+    "odom": {
+      "samples": 1466,
+      "duration_s": 612.4,
+      "length_m": 101.70984488506556,
+      "end_to_start_distance_m": 0.06678711270243369,
+      "end_to_start_yaw_deg": -177.42283060200836,
+      "last_pose": [
+        0.0667195619998395,
+        0.0030030767018430055,
+        -3.096612562213199
+      ],
+      "position_error_m": {
+        "mean": 2.00160920079687e-05,
+        "median": 9.027031426237724e-06,
+        "p95": 0.00011816012604526634,
+        "max": 0.00015294266912178916
+      },
+      "position_rmse_m": 4.00492543447233e-05,
+      "yaw_rmse_deg": 0.001761446158689624,
+      "final_position_error_m": 1.2454643789592758e-05
+    },
+    "truth": {
+      "samples": 1466,
+      "duration_s": 612.4,
+      "length_m": 101.70982861670319,
+      "end_to_start_distance_m": 0.06677483555031041,
+      "end_to_start_yaw_deg": -177.42280669660383,
+      "last_pose": [
+        0.06670720303246117,
+        0.0030046175059405184,
+        -3.0966121449851807
+      ]
+    },
+    "slam": {
+      "samples": 1466,
+      "duration_s": 612.4,
+      "length_m": 101.86589808256178,
+      "end_to_start_distance_m": 0.06234054038331964,
+      "end_to_start_yaw_deg": -177.49724396935227,
+      "last_pose": [
+        0.06168851665423951,
+        -0.008992768666207386,
+        -3.097911320480846
+      ],
+      "position_error_m": {
+        "mean": 0.01921613352814003,
+        "median": 0.018346135772151106,
+        "p95": 0.03175452167771796,
+        "max": 0.04229402023763651
+      },
+      "position_rmse_m": 0.020625299837615907,
+      "yaw_rmse_deg": 0.19443646827796085,
+      "final_position_error_m": 0.013004787115773688
+    }
+  },
+  "status": {
+    "state": "RUNNING",
+    "processed_scans": 1466,
+    "skipped_motion": 1598,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 109,
+    "ess": 22.53639916529282,
+    "update_seconds": 0.14313185900027747,
+    "clipped_rays": 21965,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 0,
+    "queued_scans": 0
+  },
+  "map": {
+    "resolution_m": 0.05,
+    "width": 320,
+    "height": 640,
+    "occupied_cells": 3157,
+    "free_cells": 110335,
+    "unknown_cells": 91308,
+    "known_area_m2": 283.7300000000001
+  },
+  "wall_seconds": 998.7310151130005,
+  "in_sample_consistency": {
+    "label": "in_sample_endpoint_to_exported_obstacle_distance",
+    "samples": 43980,
+    "distance_cap_m": 0.6,
+    "distance_m": {
+      "mean": 0.01724720298326322,
+      "median": 0.0167388625798269,
+      "p95": 0.03196986140240656,
+      "max": 0.10573696866846384
+    },
+    "fraction_within_10cm": 0.9999090495679854,
+    "warning": "Uses the same measurements that built the map; not independent accuracy."
+  },
+  "export_snapshot": {
+    "scan_stamp": 632.6,
+    "captured_path_stamp": 631.6,
+    "gap_s": 1.0,
+    "diagnostics": {
+      "state": "RUNNING",
+      "processed_scans": 1467,
+      "skipped_motion": 1603,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 109,
+      "ess": 21.966436606705024,
+      "update_seconds": 0.15454345000034664,
+      "clipped_rays": 21965,
+      "out_of_bounds_particles": 0
+    }
+  },
+  "navigation_check": {
+    "robot_radius_plus_margin_m": 0.27,
+    "sampled_visited_poses": 74,
+    "connected_visited_fraction": 1.0,
+    "unknown_is_blocked": true,
+    "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+  },
+  "sampled_update_wall_seconds": {
+    "mean": 0.12348000608409329,
+    "median": 0.12107884299985017,
+    "p95": 0.17609291809931163,
+    "max": 0.3198329509996256
+  },
+  "timing_sampling": "Latest filter update sampled by 1 Hz wall-time status messages.",
+  "approximate_sdf_reference": {
+    "method": "Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.",
+    "assumption": "Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.",
+    "tolerance_m": 0.15,
+    "robot_radius_plus_margin_m": 0.27,
+    "reachable_free_area_m2": 178.42250000000004,
+    "reachable_free_coverage": 0.9981924925387773,
+    "reachable_observed_coverage": 0.9986268547969006,
+    "occupied_precision": 0.9822616407982262,
+    "reachable_wall_surface_recall": 0.9653423499577346,
+    "free_on_reference_obstacle_cells": 1042
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "utc": "2026-11-10T17:12:55Z",
+  "initial_rate": 0.2,
+  "new_rate": 0.15,
+  "reason": "Allow scan queue to drain under the measured concurrent load",
+  "response": "rosbag2_interfaces.srv.SetRate_Response(success=True)"
+}

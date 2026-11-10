@@ -1,0 +1,10 @@
+{
+  "/tmp/real_rosbag_input/rosbag2_2026_09_07-08_51_02_0.db3": {
+    "sha256": "3cc3858ea91a8c866e7b60f7c2cd2d01b6356dae7a680ade7885335d6cd2cc86",
+    "bytes": 511655936
+  },
+  "/tmp/real_rosbag_input/metadata.yaml": {
+    "sha256": "71b1584142cedf97eeec5bb6aa427bbdb5eba204b7b03c23983c2700d3f2c767",
+    "bytes": 13061
+  }
+}

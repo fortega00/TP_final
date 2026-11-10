@@ -15,6 +15,7 @@ El ejemplo genera un mapa PGM/YAML, una figura SVG, la trayectoria y métricas r
 - [A.md](A.md): instalación, launcher para cada modo, parámetros y diagnóstico.
 - [Arquitectura](docs/architecture.md): módulos, máquina de estados y puntos de extensión.
 - [Informe de la entrega A](docs/entrega_a.md): decisiones, evaluación y respuestas a las diez preguntas de la consigna.
+- [Experimentos de café y rosbag real](docs/experimentos_a.md): mapas, métricas, capturas de RViz y límites de aceptación.
 - [AGENTS.md](AGENTS.md): contexto y convenciones para continuar las etapas A, B y C.
 
 Las consignas originales están en los tres PDF de la raíz. El alcance implementado es el mapeo de A; B y C utilizarán estos mapas para navegación y exploración.

@@ -174,6 +174,7 @@ ros2 launch tp_slam slam.launch.py --show-args
 | `base_frame` | `base_footprint` | Marco planar de la base. |
 | `output_path` | `./maps/slam` | Prefijo de archivos; conviene usar ruta absoluta. |
 | `rviz` | `true` | Abre la configuración RViz incluida. |
+| `ground_truth_topic` | `auto` | `/toy/ground_truth` (`PoseStamped`) en toy, `/ground_truth/odom` (`Odometry`) en simulation; deshabilitado en bag/real. Vacío deshabilita; otro tópico debe respetar el tipo del modo. |
 | `use_sim_time` | `auto` | `true` para toy/simulation/bag, `false` para real; puede fijarse explícitamente. |
 | `world` | `worlds/office.sdf` instalado | Mundo de Gazebo, usado si inicia el simulador. |
 | `start_simulator` | `true` | Sólo actúa en `simulation`; poner `false` para conectarse a uno existente. |
@@ -193,6 +194,26 @@ ros2 launch tp_slam slam.launch.py --show-args
 | `max_path_poses` | `5000` | Cantidad máxima de poses publicadas para visualizar trayectoria. |
 
 Los frames se escriben sin `/` inicial. Las extrínsecas auxiliares de este launcher suponen un sensor horizontal; un montaje con roll/pitch requiere describir correctamente TF y revisar la validez de la proyección planar.
+
+### Recorrer la vista y comparar trayectorias en RViz
+
+La configuración incluye las herramientas **Move Camera**, **Focus Camera**, **Select**, **Measure** y el panel **Views**, con vista `TopDownOrtho` y marco fijo `map`. Con Move Camera seleccionado: rueda para zoom, botón central o **Shift + arrastrar con el izquierdo** para desplazar la vista; arrastrar con el izquierdo rota el plano. En Views se pueden ajustar `Scale`, `X`, `Y` y `Angle`. En una sesión con la configuración anterior, el botón **+** de la barra superior permite agregar **Move Camera**; Views se agrega desde **Panels → Add New Panel**.
+
+| Color | Tópico | Contenido |
+| --- | --- | --- |
+| Cian | `/path`, `/slam_pose` | Trayectoria ancestral de la hipótesis elegida y su pose actual con covarianza. |
+| Naranja | `/slam/odom_path` | Odometría cruda de la base, evaluada en cada scan integrado. Funciona con fuente topic y TF. |
+| Verde | `/slam/ground_truth_path` | Referencia del toy o Gazebo interpolada al timestamp de esos mismos scans. |
+
+Las referencias se alinean **una sola vez**, en el primer scan integrado: `T_map_source = T_initial · inverse(T_source_base(t0))`. La alineación no usa las correcciones posteriores `map → odom`, por lo que conserva la deriva. Esta comparación mide error relativo desde el inicio, no error absoluto de la pose inicial. El ground truth sólo alimenta visualización; no entra en el filtro. Para Odometry se exige TF del child a la base si difieren; en Fortress el plugin instalado declara `world` y `base_footprint`.
+
+Iniciar la fuente de ground truth antes del mapeo y mantener el robot quieto al arrancar. Si faltan muestras que encierren `t0`, la línea verde queda vacía y se avisa; no se extrapola ni se inventa ground truth. En bag/real queda vacía por defecto. Las tres trayectorias se borran con `/slam/reset`; las referencias guardan como máximo `max_path_poses` (5000) y el buffer de ground truth usa `odom_history_seconds` (30 s). Pausar mapeo también pausa el muestreo de referencias.
+
+Para instalar cambios ejecutar `./scripts/sync_container.sh` en el host. Luego cargar `source ~/rosmaster_ws/install/setup.bash` dentro del contenedor y reiniciar el launcher con la misma receta (toy o café/simulation) que se estaba usando. Guardar antes con `/slam/save_map` si se desea conservar el mapa actual. Para abrir sólo la nueva configuración sin reiniciar el mapeador: **File → Open Config** y elegir `~/rosmaster_ws/install/tp_slam/share/tp_slam/rviz/slam.rviz`; las nuevas referencias requieren reiniciar también el nodo SLAM.
+
+Mover la cámara no conduce al robot. La conducción sigue siendo por teleop externo; seleccionar objetivos de navegación en RViz corresponde a la Parte B, todavía no implementada.
+
+Validación del 10/11/2026: 31 pruebas del núcleo aprobadas en host y Humble; el toy verificó las 118 poses de ambas referencias contra su fuente analítica y el borrado al resetear. RViz cargó los nuevos plugins en una pantalla Xvfb y dominio ROS separado, sin errores; no se reinició la sesión gráfica activa. Toy y bag sintético con odometría por tópico y por TF integraron 118 scans cada uno, borraron las referencias al resetear y exportaron PGM idénticos. Evidencia ROS de esta ampliación en `artifacts/ros_reference_paths/`. Una consulta de 8 s al `/ground_truth/odom` del contenedor habitual no recibió muestras en ese momento; la comparación completa sobre un recorrido de Gazebo sigue pendiente.
 
 ### Ejemplo sintético con ROS
 
@@ -225,6 +246,32 @@ El backend esperado es `yahboom_rosmaster_gazebo`, launchfile `rosmaster_gazebo_
 Usar el frame de base que realmente publica el RosMaster; algunos modelos incorporan `base_footprint`. Mantener una sola fuente de `/clock` y una sola autoridad de `map → odom`. Los launchers anteriores de otros TPs que arrancan un map server o una transformación fija `map → odom` deben adaptarse para ejecutar sólo el robot y el mundo.
 
 La exploración de A se realiza conduciendo el robot con el teleop del RosMaster y relevando todas las habitaciones y pasillos. Este paquete no implementa exploración autónoma ni envía velocidades. Recorrer a baja velocidad, mirar puertas desde ambos lados y cerrar un lazo ayuda a evaluar consistencia. La autonomía de exploración se incorpora en C.
+
+#### Probar el mundo café de `custom_map`
+
+Detener con Ctrl+C cualquier launcher toy o simulación anterior. Para disponer de la configuración del café, resincronizar el paquete **en el host** y entrar al contenedor habitual:
+
+```bash
+cd ~/TP_final
+./scripts/sync_container.sh
+~/PRA_00/container.sh enter
+```
+
+Luego ejecutar **dentro del contenedor**:
+
+```bash
+source ~/rosmaster_ws/install/setup.bash
+CAFE_SHARE="$(ros2 pkg prefix custom_map)/share/custom_map"
+export IGN_GAZEBO_RESOURCE_PATH="$CAFE_SHARE/models${IGN_GAZEBO_RESOURCE_PATH:+:$IGN_GAZEBO_RESOURCE_PATH}"
+export GZ_SIM_RESOURCE_PATH="$CAFE_SHARE/models${GZ_SIM_RESOURCE_PATH:+:$GZ_SIM_RESOURCE_PATH}"
+ros2 launch tp_slam slam.launch.py mode:=simulation world:="$CAFE_SHARE/worlds/cafe.world" config_file:="$(ros2 pkg prefix tp_slam)/share/tp_slam/config/cafe.yaml" rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/cafe
+```
+
+Los modelos locales `custom_cafe` y `custom_cafe_table` se referencian con `model://`; por eso se agregan sus rutas de recursos preservando los valores existentes. Se verificó que el mundo y sus modelos están instalados en el contenedor, sin ejecutar todavía este mundo.
+
+`config/cafe.yaml` conserva el modelo de movimiento y las 24 partículas, amplía la grilla a **16 × 32 m**, con origen `(-8,-16)` y resolución de 5 cm, y fija `sensor.min_range=0.25` para descartar retornos del propio chasis medidos a 0,14–0,20 m en Gazebo. El café se extiende aproximadamente de y=-13,6 a y=12,4 m considerando piso y paredes: la grilla toy de y=-8 a y=8 lo truncaría. El SLAM crea un mapa nuevo; no carga el mapa grabado de `custom_map`.
+
+No ejecutar a la vez `ros2 launch custom_map cafe.launch.py`: ese launcher inicia su propio map server y una transformación fija `map → odom`, que entrarían en conflicto con las salidas de SLAM. Una vez abierto Gazebo, explorar con el teleop del RosMaster y guardar con `/slam/save_map` como en la sección 5. La salida `cafe.pgm/.yaml/.json` queda dentro de `~/rosmaster_ws/maps` en el contenedor.
 
 ### Rosbag
 
@@ -412,7 +459,9 @@ Para B, comprobar caminos sobre celdas conocidas libres e inflar obstáculos por
 | Benchmark sin ROS | Semillas 7, 11 y 19 aprobadas con los defaults; variantes de ruido muestran fallos de calidad documentados. |
 | Build ROS 2 Humble | `colcon build` y carga de argumentos del launcher comprobados en la imagen Docker disponible del RosMaster. |
 | ROS con toy y bag sintético | Tres integraciones aprobadas: toy con odometría de tópico, rosbag2 sintético con tópico y con TF. Cada una integró 118 scans sin descartes, con PGM idéntico; servicios, reset y cierre limpio comprobados. [Evidencia](artifacts/ros/README.md). |
-| Gazebo / rosbag real / robot físico | Requieren validar el recorrido completo y la geometría de sus mapas; los resultados del toy no reemplazan estos ensayos. |
+| Gazebo café | Recorrido guiado completo, RMSE 2,063 cm, cobertura SDF aproximada observada 99,863 %, 74/74 poses muestreadas conectadas. Perfil ideal; no demuestra corrección de deriva severa. |
+| Rosbag real del Parcial | Corrida completa con perfil específico: separación inicio–fin 0,842 m vs 17,855 m de odometría. Persisten discontinuidades y ruido; no certificar mapa definitivo para navegación. |
+| Robot físico vivo | Pendiente de ejecución y verificación geométrica del aula. |
 
 La consigna pide un mapa real exportado y adecuado para navegación. El paquete prepara los modos de adquisición y los criterios de evaluación; el mapa del aula sólo puede acreditarse con una sesión física.
 
@@ -423,6 +472,56 @@ Con la imagen Docker existente de los TPs anteriores se puede repetir la validac
 ```
 
 El script construye el paquete dentro de un contenedor temporal, valida el SDF y ejecuta las pruebas de núcleo, toy ROS y rosbag2 sintético. Monta los fuentes en sólo lectura y escribe evidencia en `artifacts/ros`. No modifica la imagen. Se puede cambiar `TASK_IMAGE` o `TASK_RESULTS`; el script necesita Docker y una imagen con ROS 2 Humble, colcon y las dependencias declaradas. No requiere red durante la ejecución.
+
+## 10. Corridas integrales de café y del bag del Parcial
+
+El procedimiento, las limitaciones de cada métrica y los resultados están en [docs/experimentos_a.md](docs/experimentos_a.md). El recorrido guiado se aprobó para la evidencia de A; sus puntos sólo alimentan al controlador de prueba. El filtro sigue comenzando con mapa desconocido. `ideal` y `motion_bias=false` se mantienen en café.
+
+Para reproducir los experimentos en el contenedor habitual, primero sincronizar y copiar los auxiliares **desde el host**:
+
+```bash
+cd ~/TP_final
+./scripts/sync_container.sh
+docker cp scripts/run_a_experiment.py yahboom_rosmaster:/tmp/tp_final_run_a.py
+docker cp scripts/cafe_route.yaml yahboom_rosmaster:/tmp/tp_final_cafe_route.yaml
+~/PRA_00/container.sh enter
+```
+
+Dentro del contenedor, con directorios de salida nuevos y dominios/pantallas libres:
+
+```bash
+source ~/rosmaster_ws/install/setup.bash
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+python3 /tmp/tp_final_run_a.py --mode simulation \
+  --config "$(ros2 pkg prefix tp_slam)/share/tp_slam/config/cafe.yaml" \
+  --route /tmp/tp_final_cafe_route.yaml --max-sim-seconds 900 \
+  --output /tmp/entrega_a/cafe --domain 96 --display :96
+```
+
+El ejecutor inicia su pantalla Xvfb y RViz, conduce en la simulación, exporta el mapa y guarda una captura al terminar el recorrido. Sus estados y puntos se registran en las muestras. Si se omite `--route`, utiliza el seguidor izquierdo experimental, que no garantiza cobertura.
+
+En otra sesión independiente puede ejecutarse el bag real, cuya ruta debe existir **dentro** del contenedor:
+
+```bash
+python3 /tmp/tp_final_run_a.py --mode bag \
+  --config "$(ros2 pkg prefix tp_slam)/share/tp_slam/config/parcial_bag_tuned.yaml" \
+  --bag /tmp/real_rosbag_input --bag-rate 0.15 --timeout 2400 \
+  --output /tmp/entrega_a/rosbag --domain 97 --display :97
+```
+
+El perfil del bag es específico del experimento: 128 partículas, alpha `(0.10,0.01,0.10,0.10)`, sigma 0,15 m, `p_hit=0.75`, `p_free=0.40` y espesor 0,08 m. No cambia los defaults del toy o del robot real ni constituye calibración general. `parcial_bag.yaml` conserva los defaults con una grilla ampliada para reproducir la referencia que falla.
+
+Después de terminar, traer las salidas **al host** y analizarlas:
+
+```bash
+docker cp yahboom_rosmaster:/tmp/entrega_a ./artifacts/entrega_a_repeticion
+python3 -m pip install -r requirements-evaluation.txt
+python3 scripts/analyze_a_experiment.py artifacts/entrega_a_repeticion/cafe \
+  --cafe-package /home/fran/PRA_00/pkg/custom_map
+python3 scripts/analyze_a_experiment.py artifacts/entrega_a_repeticion/rosbag
+```
+
+El análisis requiere NumPy/PyYAML, Pillow para leer el PGM y Matplotlib para las figuras. No incorpora bibliotecas de SLAM. En café se calcula error respecto del GT y cobertura aproximada desde el SDF; en el bag no se informa RMSE absoluto porque no hay GT. Conectividad de poses visitadas e inspección de un mapa no certifican navegación entre cualquier par de puntos.
 
 ## Referencias
 

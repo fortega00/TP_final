@@ -26,7 +26,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy, qos_profile_sensor_data
 from geometry_msgs.msg import PoseWithCovarianceStamped, Twist
-from nav_msgs.msg import OccupancyGrid
+from nav_msgs.msg import OccupancyGrid, Path as PathMsg
 from std_msgs.msg import String
 from std_srvs.srv import Trigger
 from tf2_msgs.msg import TFMessage
@@ -45,6 +45,7 @@ class Observer(Node):
         self.cmd_vel_received = 0
         self.stale_map_tf_received = 0
         self.invalid_pose_received = 0
+        self.raw_path = self.truth_path = None
         persistent = QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE,
                                 durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.create_subscription(OccupancyGrid, "/map", self.on_map, persistent)
@@ -53,12 +54,20 @@ class Observer(Node):
         self.create_subscription(PoseWithCovarianceStamped, "/slam_pose", self.on_pose, 10)
         self.create_subscription(Twist, "/cmd_vel", self.on_cmd_vel, qos_profile_sensor_data)
         self.create_subscription(TFMessage, "/tf", self.on_tf, qos_profile_sensor_data)
+        self.create_subscription(PathMsg, '/slam/odom_path', self.on_raw_path, persistent)
+        self.create_subscription(PathMsg, '/slam/ground_truth_path', self.on_truth_path, persistent)
         self.service_clients = {name: self.create_client(Trigger, "/slam/" + name)
                         for name in ("pause", "resume", "save_map", "reset")}
 
     def on_map(self, message):
         self.map = message
         self.maps_received += 1
+
+    def on_raw_path(self, message):
+        self.raw_path = message
+
+    def on_truth_path(self, message):
+        self.truth_path = message
 
     def on_status(self, message):
         self.status = json.loads(message.data)
@@ -160,10 +169,8 @@ def run(args, summary):
         deadline = time.monotonic() + args.timeout
         wait_until(node, lambda: all(client.service_is_ready() for client in node.service_clients.values()),
                    deadline, "service discovery", process)
-        summary["services"] = [call(node, "pause", True, deadline, process),
-                               call(node, "pause", False, deadline, process),
-                               call(node, "resume", True, deadline, process),
-                               call(node, "resume", False, deadline, process)]
+        # Exercise pause after playback: service discovery under load can take
+        # past the toy startup delay and otherwise suppress a legitimate scan.
         if args.mode == "toy":
             wait_until(node, lambda: node.done, deadline, "toy completion", process)
             wait_until(node, lambda: node.status and node.status.get("processed_scans", 0) >= 118
@@ -187,7 +194,34 @@ def run(args, summary):
         if abs(pose.x) > 10 or abs(pose.y) > 10:
             raise AssertionError(f"Estimated final pose lies outside the toy world: {pose}")
         summary["final_pose"] = {"x": pose.x, "y": pose.y}
-        summary["services"].append(call(node, "save_map", True, deadline, process))
+        wait_until(node, lambda: node.raw_path is not None and len(node.raw_path.poses) == 118,
+                   deadline, 'raw odometry trajectory', process)
+        if args.mode == 'toy':
+            wait_until(node, lambda: node.truth_path is not None and len(node.truth_path.poses) == 118,
+                       deadline, 'timestamp-aligned ground truth trajectory', process)
+            from tp_slam.toy import ToyConfig, generate_samples
+            from tp_slam.geometry import Pose2D
+            samples = list(generate_samples(ToyConfig(), seed=7))
+            for path, field in ((node.raw_path, 'odometry'), (node.truth_path, 'truth')):
+                assert path.header.frame_id == 'map'
+                anchor = None
+                for point in path.poses:
+                    timestamp = point.header.stamp.sec + point.header.stamp.nanosec * 1e-9
+                    sample = min(samples, key=lambda s: abs(s.scan.stamp - timestamp))
+                    assert abs(sample.scan.stamp - timestamp) < 1e-7
+                    source = getattr(sample, field)
+                    if anchor is None:
+                        anchor = source.inverse()
+                    expected_pose = Pose2D().compose(anchor).compose(source)
+                    actual = point.pose.position
+                    assert math.hypot(actual.x - expected_pose.x, actual.y - expected_pose.y) < 1e-6, (
+                        field, timestamp, actual.x, actual.y, expected_pose)
+            summary['reference_paths_verified'] = True
+        summary["services"] = [call(node, "pause", True, deadline, process),
+                               call(node, "pause", False, deadline, process),
+                               call(node, "resume", True, deadline, process),
+                               call(node, "resume", False, deadline, process),
+                               call(node, "save_map", True, deadline, process)]
         wait_until(node, lambda: node.map is not None and sum(value >= 0 for value in node.map.data) >= 500,
                    deadline, "populated map", process)
         summary["map_observed_cells"] = sum(value >= 0 for value in node.map.data)
@@ -206,6 +240,9 @@ def run(args, summary):
                    and node.status.get("processed_scans") == 0 and node.maps_received > previous_maps
                    and node.map is not None and all(value == -1 for value in node.map.data),
                    deadline, "reset WAITING and empty map", process)
+        wait_until(node, lambda: node.raw_path is not None and not node.raw_path.poses
+                   and node.truth_path is not None and not node.truth_path.poses,
+                   deadline, 'reset reference trajectories', process)
         summary["reset_verified"] = True
         summary["reset_status"] = dict(node.status)
     finally:

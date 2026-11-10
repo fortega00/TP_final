@@ -1,0 +1,40 @@
+[INFO] [1794330236.953919920] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1794330236.954062265] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+[INFO] [1794330237.018242709] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1794330259.757345275] [rviz2]: Trying to create a map of size 960 x 800 using 1 swatches
+[ERROR] [1794330259.781421142] [rviz2]: Vertex Program:rviz/glsl120/indexed_8bit_image.vert Fragment Program:rviz/glsl120/indexed_8bit_image.frag GLSL link result : 
+active samplers with a different type refer to the same texture image unit
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792757.664405 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792757.799385 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792758.069737 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792758.217644 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792758.487784 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792758.622538 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792758.757017 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792758.904343 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792759.173993 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792759.456838 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+Warning: TF_OLD_DATA ignoring data from the past for frame odom at time 1788792762.611496 according to authority Authority undetectable
+Possible reasons are listed at http://wiki.ros.org/tf/Errors%20explained
+         at line 294 in ./src/buffer_core.cpp
+[INFO] [1794331163.747085892] [rclcpp]: signal_handler(SIGINT/SIGTERM)
