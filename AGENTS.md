@@ -64,7 +64,7 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 ### Defaults ajustados con el toy
 
 - Grilla 16 × 16 m, origen `(-8,-8)`, celda 0,05 m, prior 0,5.
-- 24 partículas, semilla 7, remuestreo con ESS < 0,5 N; pose inicial `(0,0,0)` sin dispersión.
+- 8 partículas con propuesta de scan matching (`docs/decisiones/002-propuesta-con-scan-matching.md`), semilla 7, remuestreo con ESS < 0,5 N; pose inicial `(0,0,0)` sin dispersión.
 - Sensor: `p_hit=0.70`, `p_free=0.35`, log-odds `[-4,4]`, espesor 0,03 m, rango 0,12–8 m, 180 haces de mapa/60 de likelihood, sigma 0,10 m, mezcla 0,95/0,05, distancia máxima 0,60 m, temperatura 1, ocupado 0,65.
 - Movimiento: `alpha1=0.0001`, `alpha2=0.00001`, `alpha3=0.0001`, `alpha4=0.0001`.
 - Incorporación por movimiento/tiempo: 0,08 m, 0,06 rad o 1 s.
