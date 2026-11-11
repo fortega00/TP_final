@@ -68,15 +68,34 @@ class UpdateConfig:
 
 
 @dataclass(frozen=True)
+class ScanMatchConfig:
+    """Scan-matching proposal (tp_slam/scan_match.py). Disabled: odometry proposal."""
+    enabled: bool = False
+    window_xy: float = 0.10       # search half-width around the odometry guess, m
+    step_xy: float = 0.025
+    window_yaw: float = 0.06      # rad
+    step_yaw: float = 0.01
+    sigma: float = 0.05           # endpoint-to-wall distance that counts as a fit, m (one cell)
+    prior_xy: float = 0.05        # std of the pull towards the odometry guess, m
+    prior_yaw: float = 0.03       # rad
+    sample_xy: float = 0.01       # std of the sample around the matched pose, m
+    sample_yaw: float = 0.005     # rad
+    beams: int = 180
+    effective_beams: float = 20.0
+    min_occupied_cells: int = 200
+
+
+@dataclass(frozen=True)
 class SlamConfig:
     map: MapConfig = field(default_factory=MapConfig)
     sensor: SensorConfig = field(default_factory=SensorConfig)
     motion: MotionConfig = field(default_factory=MotionConfig)
     filter: FilterConfig = field(default_factory=FilterConfig)
     update: UpdateConfig = field(default_factory=UpdateConfig)
+    scan_match: ScanMatchConfig = field(default_factory=ScanMatchConfig)
 
     def __post_init__(self):
-        for group in (self.map, self.sensor, self.motion, self.filter, self.update):
+        for group in (self.map, self.sensor, self.motion, self.filter, self.update, self.scan_match):
             for f in fields(group):
                 value = getattr(group, f.name)
                 if not isinstance(value, (float, int)) or not math.isfinite(value):
@@ -110,6 +129,16 @@ class SlamConfig:
             raise ValueError("Motion variance coefficients must be nonnegative")
         if min(u.min_translation, u.min_rotation) < 0 or u.max_interval <= 0:
             raise ValueError("Invalid update thresholds")
+        k = self.scan_match
+        if not isinstance(k.enabled, bool):
+            raise ValueError("scan_match.enabled must be true or false")
+        if min(k.window_xy, k.window_yaw, k.sample_xy, k.sample_yaw) < 0:
+            raise ValueError("Scan-match windows and sample deviations must be nonnegative")
+        if min(k.step_xy, k.step_yaw, k.sigma, k.prior_xy, k.prior_yaw, k.effective_beams) <= 0:
+            raise ValueError("Scan-match steps, sigma, priors and effective_beams must be positive")
+        for key, value in (("beams", k.beams), ("min_occupied_cells", k.min_occupied_cells)):
+            if not isinstance(value, int) or isinstance(value, bool) or value < 1:
+                raise ValueError(f"scan_match.{key} must be a positive integer")
 
     @classmethod
     def from_dict(cls, data: Mapping) -> "SlamConfig":
@@ -121,7 +150,8 @@ class SlamConfig:
         elif "ros__parameters" in data:
             data = data["ros__parameters"]
         groups = {"map": MapConfig, "sensor": SensorConfig, "motion": MotionConfig,
-                  "filter": FilterConfig, "update": UpdateConfig}
+                  "filter": FilterConfig, "update": UpdateConfig,
+                  "scan_match": ScanMatchConfig}
         unknown = set(data) - set(groups)
         if unknown:
             raise ValueError(f"Unknown core configuration groups: {sorted(unknown)}")

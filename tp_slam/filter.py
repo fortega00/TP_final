@@ -9,6 +9,7 @@ from .config import SlamConfig
 from .geometry import Pose2D, wrap_angle
 from .grid import OccupancyGrid
 from .motion import OdometryProposal, SE2OdometryModel
+from .scan_match import ScanMatchProposal
 from .sensor import LaserSensorModel, prepare_scan
 from .state_machine import SlamState, StateMachine
 from .types import Scan
@@ -57,7 +58,9 @@ class FastSLAM:
 
     def __init__(self, config=None, proposal=None, measurement_model=None):
         self.config = config or SlamConfig()
-        self.proposal = proposal or OdometryProposal(SE2OdometryModel(self.config.motion))
+        self.proposal = proposal or (
+            ScanMatchProposal(self.config) if self.config.scan_match.enabled
+            else OdometryProposal(SE2OdometryModel(self.config.motion)))
         self.measurement_model = measurement_model or LaserSensorModel(self.config.sensor)
         self.machine = StateMachine()
         self.reset()

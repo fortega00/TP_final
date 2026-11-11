@@ -11,7 +11,7 @@ setup(
         ('share/tp_slam/rviz', glob('rviz/*.rviz')),
         ('share/tp_slam/worlds', glob('worlds/*.sdf')),
     ],
-    install_requires=['setuptools', 'numpy', 'PyYAML'],
+    install_requires=['setuptools', 'numpy', 'scipy', 'PyYAML'],
     zip_safe=False,
     maintainer='Grupo TP Final PRA', maintainer_email='fortega@udesa.edu.ar',
     description='FastSLAM with independent log-odds occupancy grids',
