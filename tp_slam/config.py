@@ -34,6 +34,9 @@ class SensorConfig:
     likelihood_max_dist: float = 0.60
     likelihood_temperature: float = 1.0
     occupied_threshold: float = 0.65
+    # +inf means "no echo". On a real lidar that is no information (glass, dark or
+    # grazing surfaces); in Gazebo it means the beam is empty up to range_max.
+    no_return_is_free: bool = False
 
 
 @dataclass(frozen=True)
@@ -99,6 +102,8 @@ class SlamConfig:
             raise ValueError("Likelihood sigma, random weight, distance and temperature must be positive")
         if s.z_hit < 0 or not math.isclose(s.z_hit + s.z_rand, 1.0, abs_tol=1e-6):
             raise ValueError("Likelihood mixture weights must sum to 1")
+        if not isinstance(s.no_return_is_free, bool):
+            raise ValueError("sensor.no_return_is_free must be true or false")
         if not 0.5 < s.occupied_threshold < 1:
             raise ValueError("occupied_threshold must be in (0.5,1)")
         if min(self.motion.alpha1, self.motion.alpha2, self.motion.alpha3, self.motion.alpha4) < 0:

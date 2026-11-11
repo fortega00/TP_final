@@ -24,6 +24,8 @@ sensor:
   likelihood_max_dist: 0.60
   likelihood_temperature: 1.0
   occupied_threshold: 0.65
+  # Gazebo returns +inf only when the beam is empty up to range_max.
+  no_return_is_free: true
 motion:
   alpha1: 0.0001
   alpha2: 0.00001

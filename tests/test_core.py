@@ -70,15 +70,26 @@ class GridTests(unittest.TestCase):
         grid = OccupancyGrid(cfg.map)
         grid.integrate(Pose2D(), scan((float("nan"), float("-inf"), 0, -1, 0.05, 6.0)), cfg.sensor)
         self.assertFalse(grid.observed.any())
+        # A real lidar returns +inf when no echo comes back: no information by default.
         grid.integrate(Pose2D(), scan((float("inf"),)), cfg.sensor)
+        self.assertFalse(grid.observed.any())
+        # A simulated lidar returns +inf only when the beam is empty up to its range.
+        grid.integrate(Pose2D(), scan((float("inf"),)), replace(cfg.sensor, no_return_is_free=True))
         self.assertTrue(grid.observed.any())
         self.assertFalse((grid.log_odds > 0).any())
 
     def test_maximum_range_and_configured_truncation_are_not_hits(self):
         sensor = replace(SensorConfig(), max_range=2.0)
         ranges, _, hits = prepare_scan(scan((5, 3, 1, float("inf"))), sensor)
+        np.testing.assert_allclose(ranges, [2, 2, 1])
+        np.testing.assert_array_equal(hits, [False, False, True])
+        ranges, _, hits = prepare_scan(scan((5, 3, 1, float("inf"))), replace(sensor, no_return_is_free=True))
         np.testing.assert_allclose(ranges, [2, 2, 1, 2])
         np.testing.assert_array_equal(hits, [False, False, True, False])
+
+    def test_no_return_flag_must_be_boolean(self):
+        with self.assertRaises(ValueError):
+            SlamConfig(sensor=SensorConfig(no_return_is_free=1))
 
     def test_hits_at_clipped_endpoints_do_not_make_boundary_walls(self):
         grid = OccupancyGrid(MapConfig(resolution=0.1, width=2, height=2, origin_x=-1, origin_y=-1))

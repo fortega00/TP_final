@@ -17,18 +17,20 @@ if TYPE_CHECKING:
 
 
 def prepare_scan(scan: Scan, config: SensorConfig, max_beams=None):
-    """Return (ranges, angles, is_hit); +inf clears, invalid readings do nothing.
+    """Return (ranges, angles, is_hit); invalid readings do nothing.
 
     Physical out-of-range finite readings are discarded. A valid finite reading
-    beyond the configured usable limit clears only to that limit.
+    beyond the configured usable limit clears only to that limit. +inf (no echo)
+    is discarded unless config.no_return_is_free, in which case it clears to the limit.
     """
     limit = min(scan.range_max, config.max_range)
     minimum = max(scan.range_min, config.min_range)
     if minimum >= limit:
         return np.empty(0), np.empty(0), np.empty(0, dtype=bool)
     values = scan.ranges
-    valid = ((np.isfinite(values) & (values > minimum) & (values <= scan.range_max))
-             | np.isposinf(values))
+    valid = np.isfinite(values) & (values > minimum) & (values <= scan.range_max)
+    if config.no_return_is_free:
+        valid |= np.isposinf(values)
     indices = np.flatnonzero(valid)
     count = config.max_beams if max_beams is None else max_beams
     if len(indices) > count:

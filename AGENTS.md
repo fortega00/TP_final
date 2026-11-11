@@ -54,7 +54,7 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 - Evaluar `z[t]` sobre `m[t-1]` **antes** de escribirlo. Normalizar log-pesos de forma estable.
 - Conservar un snapshot elegido antes de remuestrear; mapa, pose y path deben corresponder a la misma hipótesis. No promediar grillas ni seleccionar arbitrariamente un descendiente con pesos reiniciados.
 - Actualizar `L += logit(p_inverso) - logit(prior)` y saturar. Unknown es una máscara separada del prior.
-- Contar una celda como máximo una vez por scan; impacto prevalece sobre libre. NaN, cero, negativos e inválidos no aportan evidencia. `+inf` y alcance máximo despejan sin inventar impacto.
+- Contar una celda como máximo una vez por scan; impacto prevalece sobre libre. NaN, cero, negativos e inválidos no aportan evidencia. El alcance máximo finito despeja sin inventar impacto. `+inf` no aporta evidencia salvo con `sensor.no_return_is_free: true` (simulación), donde despeja igual que el alcance máximo.
 - Un retorno exterior no crea paredes en el borde. Grilla finita; diagnosticar truncamiento y ampliar/resetear.
 - Conservar movimiento lateral y marcha atrás. `alpha` parametriza varianzas del incremento SE(2).
 - Interpolar odometría al timestamp del primer haz y usar extrínseca `base → laser`; no sustituir TF faltante por identidad ni usar TF reciente para ponderar una lectura pasada.

@@ -386,7 +386,7 @@ La extensión es fija. Antes de mapear un entorno mayor, ampliar dimensiones y e
 
 Se exige `0 < p_free < prior < p_hit < 1`. La actualización suma el logit de la probabilidad inversa **menos el logit del prior** y luego satura. Una observación de la misma celda no se acumula decenas de veces sólo porque varios haces del mismo scan la atraviesen; se deduplican las celdas por lectura y el impacto tiene precedencia sobre evidencia libre de esa lectura.
 
-Las lecturas `NaN`, `-inf`, no positivas, demasiado cercanas o finitas fuera del rango físico declarado se descartan. Un `+inf` o un valor igual al alcance útil representa ausencia de retorno: libera el tramo observable y no crea un obstáculo en el extremo. Si se limita el alcance configurado por debajo de un retorno válido, sólo se usa evidencia libre hasta ese límite.
+Las lecturas `NaN`, `-inf`, no positivas, demasiado cercanas o finitas fuera del rango físico declarado se descartan. Un `+inf` representa ausencia de retorno. Por defecto (`sensor.no_return_is_free: false`) no aporta evidencia, porque en el lidar real un `+inf` aparece con vidrio, superficies oscuras o rasantes y no garantiza espacio libre. Con `no_return_is_free: true` (perfil de Gazebo, `cafe.yaml`) libera el tramo observable sin crear un obstáculo en el extremo. Un valor finito igual al alcance útil libera el tramo y tampoco crea obstáculo. Si se limita el alcance configurado por debajo de un retorno válido, sólo se usa evidencia libre hasta ese límite.
 
 ### Modelo de likelihood
 
