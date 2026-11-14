@@ -129,66 +129,28 @@ class FastSLAM:
         self._estimate_cov = (residuals * weights[:, None]).T @ residuals
 
     def process(self, scan: Scan, odom_pose: Pose2D) -> bool:
-        if self.state in (SlamState.PAUSED, SlamState.STOPPED, SlamState.ERROR):
+        """Un paso completo de FastSLAM con un scan y la odometría de ese instante.
+
+        Devuelve True si el scan se integró. Los cinco pasos son los del
+        algoritmo: predecir, pesar, actualizar mapas, estimar y remuestrear.
+        """
+        delta = self._gate(scan, odom_pose)
+        if delta is None:
             return False
-        if self.last_received_stamp is not None and scan.stamp <= self.last_received_stamp:
-            self.diagnostics["rejected_stamp"] += 1
-            return False
-        self.last_received_stamp = scan.stamp
-        if not len(prepare_scan(scan, self.config.sensor)[0]):
-            self.diagnostics["invalid_scans"] += 1
-            return False
-        delta = Pose2D() if self._last_odom is None else self._last_odom.between(odom_pose)
-        if self._last_odom is not None:
-            u = self.config.update
-            if (math.hypot(delta.x, delta.y) < u.min_translation and
-                    abs(delta.yaw) < u.min_rotation and
-                    scan.stamp - self.last_stamp < u.max_interval):
-                self.diagnostics["skipped_motion"] += 1
-                return False
         started = perf_counter()
         try:
             if self.state == SlamState.WAITING:
                 self.machine.start()
-            weights = []
-            out_of_bounds = 0
-            for particle in self.particles:
-                pose, correction = self.proposal.propose(particle.pose, delta, scan,
-                                                           particle.grid, self.rng)
-                particle.pose = pose
-                sensor_pose = pose.compose(scan.sensor_pose)
-                inbounds = particle.grid.contains(sensor_pose.x, sensor_pose.y)
-                if not inbounds:
-                    out_of_bounds += 1
-                # Importance scoring MUST see m[t-1], never a map containing z[t].
-                score = (self.measurement_model.log_likelihood(particle.grid, pose, scan)
-                         if inbounds else -1e6)
-                weights.append(particle.log_weight + score + correction)
-            self.diagnostics["out_of_bounds_particles"] = out_of_bounds
-            if out_of_bounds == len(self.particles):
-                raise ValueError("All particles left the configured map; enlarge bounds and reset")
-            normalized = normalize_log_weights(weights)
-            probabilities = np.exp(normalized)
-            for particle, weight in zip(self.particles, normalized):
-                particle.log_weight = float(weight)
-                self.measurement_model.update(particle.grid, particle.pose, scan)
-                particle.trajectory.append((float(scan.stamp), particle.pose))
-            self._posterior_statistics(probabilities)
-            best = int(np.argmax(normalized))
-            self._best_particle = self.particles[best].clone()
-            ess = float(1.0 / np.sum(probabilities ** 2))
-            self.diagnostics["ess"] = ess
-            if ess < self.config.filter.resample_ess_ratio * len(self.particles):
-                indices = systematic_resample(probabilities, self.rng)
-                self.particles = [self.particles[int(index)].clone() for index in indices]
-                for particle in self.particles:
-                    particle.log_weight = -math.log(len(self.particles))
-                self.diagnostics["resamples"] += 1
+            corrections = self._predict(delta, scan)
+            log_weights = self._weigh(scan, corrections)
+            self._update_maps(scan, log_weights)
+            probabilities = np.exp(log_weights)
+            self._update_estimate(log_weights, probabilities)
+            self._resample_if_needed(probabilities)
             self._last_odom = odom_pose
             self.last_stamp = scan.stamp
             self.diagnostics["processed_scans"] += 1
             self.diagnostics["clipped_rays"] = self._best_particle.grid.clipped_rays
-            self.diagnostics["out_of_bounds_particles"] = out_of_bounds
             self.diagnostics["state"] = self.state.value
             self.diagnostics["update_seconds"] = float(perf_counter() - started)
             return True
@@ -196,6 +158,110 @@ class FastSLAM:
             self.machine.fail()
             self.diagnostics["state"] = self.state.value
             raise
+
+    def _gate(self, scan, odom_pose):
+        """Decide si este scan se procesa. Devuelve el incremento de odometría o None.
+
+        Se descarta si el filtro está pausado, si el scan llegó desordenado, si
+        no tiene lecturas válidas o si el robot casi no se movió. Integrar scans
+        con el robot quieto repite la misma evidencia y vuelve al filtro
+        demasiado seguro de sí mismo.
+        """
+        if self.state in (SlamState.PAUSED, SlamState.STOPPED, SlamState.ERROR):
+            return None
+        if self.last_received_stamp is not None and scan.stamp <= self.last_received_stamp:
+            self.diagnostics["rejected_stamp"] += 1
+            return None
+        self.last_received_stamp = scan.stamp
+        if not len(prepare_scan(scan, self.config.sensor)[0]):
+            self.diagnostics["invalid_scans"] += 1
+            return None
+        # El primer scan no tiene odometría anterior: el incremento es cero.
+        delta = Pose2D() if self._last_odom is None else self._last_odom.between(odom_pose)
+        if self._last_odom is not None:
+            u = self.config.update
+            if (math.hypot(delta.x, delta.y) < u.min_translation and
+                    abs(delta.yaw) < u.min_rotation and
+                    scan.stamp - self.last_stamp < u.max_interval):
+                self.diagnostics["skipped_motion"] += 1
+                return None
+        return delta
+
+    def _predict(self, delta, scan):
+        """Paso 1, predicción: cada partícula muestrea su nueva pose de la propuesta.
+
+        La propuesta es la odometría con ruido (FastSLAM 1.0) o scan matching
+        contra el mapa de la propia partícula. Devuelve la corrección de peso
+        que informa la propuesta para cada partícula.
+        """
+        corrections = []
+        for particle in self.particles:
+            particle.pose, correction = self.proposal.propose(
+                particle.pose, delta, scan, particle.grid, self.rng)
+            corrections.append(correction)
+        return corrections
+
+    def _weigh(self, scan, corrections):
+        """Paso 2, peso: qué tan bien explica el scan cada partícula con su mapa.
+
+        El scan se compara con el mapa anterior, m[t-1], que todavía no contiene
+        este scan. Si se comparara con un mapa que ya lo incluye, todas las
+        partículas coincidirían consigo mismas y el peso no diría nada.
+        Devuelve los log-pesos normalizados.
+        """
+        log_weights = []
+        out_of_bounds = 0
+        for particle, correction in zip(self.particles, corrections):
+            sensor_pose = particle.pose.compose(scan.sensor_pose)
+            inbounds = particle.grid.contains(sensor_pose.x, sensor_pose.y)
+            if not inbounds:
+                out_of_bounds += 1
+            # Una partícula fuera del mapa recibe un peso casi nulo y muere al remuestrear.
+            score = (self.measurement_model.log_likelihood(particle.grid, particle.pose, scan)
+                     if inbounds else -1e6)
+            log_weights.append(particle.log_weight + score + correction)
+        self.diagnostics["out_of_bounds_particles"] = out_of_bounds
+        if out_of_bounds == len(self.particles):
+            raise ValueError("All particles left the configured map; enlarge bounds and reset")
+        return normalize_log_weights(log_weights)
+
+    def _update_maps(self, scan, log_weights):
+        """Paso 3, mapeo: cada partícula dibuja el scan en su mapa desde su pose.
+
+        Es mapeo con pose conocida: dentro de una partícula la trayectoria se
+        toma como cierta. Esa es la idea de Rao-Blackwell en FastSLAM.
+        """
+        for particle, log_weight in zip(self.particles, log_weights):
+            particle.log_weight = float(log_weight)
+            self.measurement_model.update(particle.grid, particle.pose, scan)
+            particle.trajectory.append((float(scan.stamp), particle.pose))
+
+    def _update_estimate(self, log_weights, probabilities):
+        """Paso 4, estimación: pose media ponderada y copia de la mejor partícula.
+
+        La mejor partícula se copia antes de remuestrear, porque después todas
+        quedan con el mismo peso y ya no se puede elegir.
+        """
+        self._posterior_statistics(probabilities)
+        self._best_particle = self.particles[int(np.argmax(log_weights))].clone()
+
+    def _resample_if_needed(self, probabilities):
+        """Paso 5, remuestreo, solo si el tamaño efectivo de muestra (ESS) es bajo.
+
+        ESS = 1 / suma(w^2). Vale N con pesos iguales y 1 si una sola partícula
+        concentra todo el peso. Remuestrear siempre destruye hipótesis sin
+        necesidad, por eso se hace solo cuando ESS cae por debajo de una
+        fracción de N.
+        """
+        ess = float(1.0 / np.sum(probabilities ** 2))
+        self.diagnostics["ess"] = ess
+        if ess < self.config.filter.resample_ess_ratio * len(self.particles):
+            indices = systematic_resample(probabilities, self.rng)
+            # clone() copia el mapa: dos copias de la misma partícula no comparten grilla.
+            self.particles = [self.particles[int(index)].clone() for index in indices]
+            for particle in self.particles:
+                particle.log_weight = -math.log(len(self.particles))
+            self.diagnostics["resamples"] += 1
 
     def save_map(self, path):
         from .io import save_map
