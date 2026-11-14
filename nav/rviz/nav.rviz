@@ -1,0 +1,70 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+    - Class: rviz_default_plugins/Map
+      Name: Map
+      Enabled: true
+      Topic:
+        Value: /map
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+        Depth: 1
+    - Class: rviz_default_plugins/LaserScan
+      Name: Scan
+      Enabled: true
+      Size (m): 0.05
+      Color Transformer: FlatColor
+      Color: 255; 60; 60
+      Topic:
+        Value: /scan
+        Reliability Policy: Best Effort
+        Depth: 5
+    - Class: rviz_default_plugins/PoseArray
+      Name: Particles
+      Enabled: true
+      Arrow Length: 0.15
+      Color: 60; 120; 255
+      Topic:
+        Value: /nav/particles
+    - Class: rviz_default_plugins/PoseWithCovariance
+      Name: Pose
+      Enabled: true
+      Color: 0; 200; 0
+      Topic:
+        Value: /nav/pose
+    - Class: rviz_default_plugins/Path
+      Name: Plan
+      Enabled: true
+      Color: 255; 170; 0
+      Line Width: 0.05
+      Line Style: Billboards
+      Topic:
+        Value: /nav/plan
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+        Depth: 1
+  Global Options:
+    Fixed Frame: map
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/SetInitialPose
+      Topic:
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose
+  Views:
+    Current:
+      Class: rviz_default_plugins/TopDownOrtho
+      Scale: 40
+      X: 0
+      Y: 0
+Window Geometry:
+  Width: 1400
+  Height: 900

@@ -5,7 +5,7 @@ Trabajo final de Principios de la Robótica Autónoma (I-402), con un Yahboom Ro
 | Etapa | Qué pide | Carpeta | Estado |
 |---|---|---|---|
 | A | Construir el mapa y estimar la pose (SLAM) | `slam/` | Implementada, falta la sesión con el robot real |
-| B | Localizarse en el mapa, planificar y navegar | `nav/` | En curso: núcleo de localización, sin nodo ROS todavía |
+| B | Localizarse en el mapa, planificar y navegar | `nav/` | Localización y navegación a un objetivo probadas en el simulador. Falta la evasión de obstáculos y la sesión con el robot real |
 | C | Explorar y buscar conos rojos con la cámara | `mission/` | Sin empezar |
 
 ## Organización
@@ -55,7 +55,8 @@ ros2 launch slam slam.launch.py mode:=toy
 
 ## Documentación
 
-- [Guía de ejecución](docs/guia_ejecucion.md): instalación y launch para cada modo.
+- [Guía de ejecución](docs/guia_ejecucion.md): instalación y launch para cada modo de la etapa A.
+- [Guía de la etapa B](docs/guia_etapa_b.md): cómo correr la localización y la navegación, y cómo analizar un bag.
 - [Parámetros](docs/parametros.md): qué hace cada uno y cómo ajustarlos.
 - [Arquitectura](docs/architecture.md): módulos, máquina de estados y puntos de extensión.
 - [Decisiones](docs/decisiones/): alternativas y datos de cada decisión de diseño.

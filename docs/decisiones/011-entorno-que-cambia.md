@@ -41,7 +41,7 @@ Elegí A. La localización sigue usando el mapa fijo. Esto cambia la decisión [
 
 ## Datos de simulación
 
-Prueba sintética sobre la misma grabación y el mismo mapa de [004](004-localizacion-en-mapa-conocido.md). Las sillas son discos de 20 cm de radio en celdas libres, a más de 60 cm del recorrido. `tp4_final/review/chairs_sim.py` del repo personal las agrega a los scans (sillas en la sala que no están en el mapa), al mapa (sillas en el mapa que ya no están en la sala), o a los dos con posiciones distintas (sillas que se movieron). El click inicial tiene 30 cm y 9° de error. 1000 partículas, semillas 1 / 2 / 7.
+Prueba sintética sobre la misma grabación y el mismo mapa de [004](004-localizacion-en-mapa-conocido.md). Las sillas son discos de 20 cm de radio en celdas libres, a más de 60 cm del recorrido. `nav/scripts/chairs_sim.py` las agrega a los scans (sillas en la sala que no están en el mapa), al mapa (sillas en el mapa que ya no están en la sala), o a los dos con posiciones distintas (sillas que se movieron). El click inicial tiene 30 cm y 9° de error. 1000 partículas, semillas 1 / 2 / 7.
 
 RMSE de posición en cm:
 

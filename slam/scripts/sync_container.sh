@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copy just this ROS package into the running container used by PRA_00.
+# Copy the slam and nav ROS packages into the running container used by PRA_00.
 set -euo pipefail
 
 SLAM_SOURCE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -11,7 +11,7 @@ usage() {
   cat <<'EOF'
 Usage: ./scripts/sync_container.sh [--sync-only]
 
-Copy slam into the running PRA_00 container and build only that package.
+Copy slam and nav into the running PRA_00 container and build only those packages.
 --sync-only copies sources without building.
 Override SLAM_CONTAINER and SLAM_CONTAINER_WS if needed.
 Afterwards enter with ~/PRA_00/container.sh enter and source install/setup.bash.
@@ -45,14 +45,25 @@ tar --exclude='__pycache__' --exclude='*.pyc' --exclude='*.pyo' \
     'set -e; mkdir -p "$1/src/slam"; tar -xf - -C "$1/src/slam"' \
     _ "$SLAM_CONTAINER_WS"
 
+# Stage B package, next to slam/ in the repository. It imports slam.core.
+NAV_SOURCE="$SLAM_SOURCE/../nav"
+echo "Copying nav to ${SLAM_CONTAINER}:${SLAM_CONTAINER_WS}/src/nav"
+tar --exclude='__pycache__' --exclude='*.pyc' --exclude='*.pyo' \
+  -C "$NAV_SOURCE" -cf - \
+  package.xml setup.py setup.cfg requirements.txt nav launch config resource rviz scripts \
+  | docker exec -i "$SLAM_CONTAINER" bash -c \
+    'set -e; mkdir -p "$1/src/nav"; tar -xf - -C "$1/src/nav"' \
+    _ "$SLAM_CONTAINER_WS"
+
 if ((SLAM_BUILD)); then
   docker exec -w "$SLAM_CONTAINER_WS" "$SLAM_CONTAINER" bash -c '
     set -e
     source /opt/ros/humble/setup.bash
-    colcon build --symlink-install --packages-select slam
+    colcon build --symlink-install --packages-select slam nav
     source install/setup.bash
     ros2 pkg prefix slam
     ros2 pkg executables slam
+    ros2 pkg executables nav
   '
 fi
 

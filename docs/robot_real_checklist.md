@@ -19,6 +19,8 @@ Para qué: las sillas nunca quedan dos veces en el mismo lugar. Debajo de la mes
 
 Para qué: en el simulador los frames y el tópico de odometría son distintos a los del robot. Si un nombre está mal, el nodo descarta todos los scans y parece que no hace nada.
 
+Con los paquetes `slam` y `nav` ya compilados en el workspace del robot ([guía de la etapa B](guia_etapa_b.md)). En los comandos de abajo, cambiar `base_link` y `/odom` por lo anotado acá.
+
 ## 3. Medir el robot y una silla
 
 Con la cinta: altura del lidar sobre el piso, ancho del robot, ancho de la base con ruedas de una silla y altura de esa base.
@@ -95,30 +97,56 @@ Para qué: mide cuánto empeora la localización cuando la sala no coincide con 
 
 ## 9. Localización en vivo (etapa B)
 
-Con el mapa del paso 6, lanzar el nodo de localización, marcar la pose con 2D Pose Estimate en RViz y manejar con teleop mirando que la pose siga al robot. Repetir el click con errores a propósito: 30 cm, 1 m y 45°.
+Cerrar el SLAM del paso 6. Desde la carpeta `nav/`, con el mapa guardado:
 
-Anotar cuánto tarda en ubicarse después de cada click, el tiempo por actualización del filtro y si en algún caso queda ubicado en un lugar equivocado.
+```bash
+ros2 launch nav nav.launch.py map_file:=/tmp/slam/aula.yaml config_file:=$PWD/config/real.yaml \
+  base_frame:=base_link odom_topic:=/odom navigate:=false
+ros2 topic echo /nav/localization_status > /tmp/slam/loc_status.log     # en otra terminal
+```
 
-Para qué: es la primera vez que el filtro corre en la computadora del robot y con odometría real. En simulación quedó bien ubicado con clicks de hasta 1 m o 45° ([004](decisiones/004-localizacion-en-mapa-conocido.md)).
+`navigate:=false` lanza solo la localización, el robot se maneja con teleop.
 
-El nodo todavía no existe. El comando se agrega acá cuando esté probado en el simulador.
+1. En RViz, marcar la pose con **2D Pose Estimate**. La nube de flechas azules se tiene que cerrar sobre el robot y los puntos rojos del lidar tienen que caer sobre las paredes del mapa.
+2. Manejar con teleop y mirar que la pose siga al robot.
+3. Repetir el click con errores a propósito: 30 cm, 1 m y 45°.
+
+Anotar para cada click si quedó bien ubicado. El log del nodo dice cuántas iteraciones y milisegundos tardó, y `update_seconds` en el estado es el tiempo por actualización.
+
+Si la computadora no llega (`update_seconds` cerca de 0,1 s o más), bajar `localization.particles` de 1000 a 300 en `config/real.yaml`. En la Mac 1000 partículas tardan 5 ms y 300 tardan 1,5 ms.
+
+Para qué: es la primera vez que el filtro corre en la computadora del robot y con odometría real. En simulación quedó bien ubicado con clicks de hasta 1 m o 45°, y con 2 m falló la mitad de las veces sin avisar ([004](decisiones/004-localizacion-en-mapa-conocido.md)). Por eso hay que mirar los puntos rojos contra las paredes antes de confiar en la pose.
 
 ## 10. Ir a un objetivo (etapa B)
 
-Con el robot ubicado, marcar un objetivo con 2D Goal Pose sobre una de las cruces. Al llegar, medir con la cinta la distancia del robot a la cruz y el error de ángulo. Repetir con tres objetivos, y una vez cambiar el objetivo con el robot en marcha.
+Cerrar el launch del paso 9 y lanzarlo completo:
 
-Tener el teleop o el botón de parada a mano. La evasión de obstáculos no entra en esta sesión: si aparece algo en el camino, el robot solo frena.
+```bash
+ros2 launch nav nav.launch.py map_file:=/tmp/slam/aula.yaml config_file:=$PWD/config/real.yaml \
+  base_frame:=base_link odom_topic:=/odom
+ros2 topic echo /nav/state > /tmp/slam/nav_state.log                    # en otra terminal
+```
 
-Para qué: es el resultado de punta a punta que evalúa la consigna. El error de llegada con cinta es la única medida de exactitud que hay en el robot real.
+1. Marcar la pose con **2D Pose Estimate** y verificar que quedó bien ubicado, como en el paso 9.
+2. Primer objetivo cerca, a 1 o 2 m en línea recta y sin nada en el medio, con **2D Goal Pose**. En RViz aparece el camino en naranja. El robot gira hacia el camino, avanza y al llegar gira al ángulo del objetivo.
+3. Después, objetivos sobre las cruces. Al llegar, medir con la cinta la distancia del centro del robot a la cruz y anotar el ángulo.
+4. Una vez, marcar otro objetivo con el robot en marcha: tiene que replanificar.
+5. Una vez, marcar un objetivo adentro de una pared: lo tiene que rechazar y quedarse quieto.
 
-El planificador, el seguidor y la máquina de estados todavía no existen. El comando se agrega acá cuando estén probados en el simulador.
+Tener una mano en el teleop o en el botón de parada. El robot va a 0,2 m/s como máximo. La evasión de obstáculos no entra en esta sesión: si algo queda a menos de 40 cm delante, frena, espera hasta 15 s y si no se despeja abandona el objetivo. Para frenarlo a mano, Ctrl+C en el launch.
+
+Para qué: es el resultado de punta a punta que evalúa la consigna. El error de llegada con cinta es la única medida de exactitud que hay en el robot real. En el simulador llegó a 13 a 22 cm y 4 a 5° del objetivo ([007](decisiones/007-seguimiento-del-camino.md)).
 
 ## Antes de irse
 
-Copiar fuera del robot: todos los bags, `/tmp/slam/aula.pgm` y `.yaml`, `status.log`, una captura de RViz y las fotos.
+Copiar fuera del robot: todos los bags, `/tmp/slam/aula.pgm` y `.yaml`, los `.log` de `/tmp/slam/`, una captura de RViz y las fotos.
 
 Anotar:
 
 - si la sala y el punto de partida son los mismos que en el bag del Parcial;
 - las medidas de los pasos 3 y 4 y las de las paredes;
 - la velocidad aproximada de manejo y cualquier patinada o choque.
+
+## Después de la sesión
+
+Cada bag se convierte y se analiza offline con los cuatro comandos de [Analizar un bag](guia_etapa_b.md#analizar-un-bag): extraer, correr la localización, medir la repetibilidad sobre las cruces y comparar con el SLAM. Con eso se llenan las tablas pendientes de las decisiones 004, 010 y 011.

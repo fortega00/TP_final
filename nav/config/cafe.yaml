@@ -34,3 +34,28 @@ localization:
   injection_alpha_slow: 0.001
   injection_alpha_fast: 0.1
   injection_max_fraction: 0.2
+planner:
+  # Radio del robot más margen: ninguna celda más cerca que eso de un obstáculo es transitable.
+  robot_radius: 0.17
+  safety_margin: 0.05
+  clearance_distance: 0.50
+  clearance_weight: 5.0
+  start_snap_distance: 0.30
+follower:
+  lookahead: 0.40
+  max_linear: 0.20
+  max_angular: 0.80
+  min_linear: 0.05
+  slowdown_distance: 0.50
+  align_start: 0.80
+  align_done: 0.15
+  rotate_gain: 1.5
+  min_angular: 0.20
+  goal_tolerance_xy: 0.08
+  goal_tolerance_yaw: 0.05
+navigator:
+  stop_distance: 0.40
+  stop_half_width: 0.20
+  blocked_timeout: 15.0
+  lost_timeout: 10.0
+  pose_timeout: 1.0

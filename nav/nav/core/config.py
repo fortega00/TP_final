@@ -43,11 +43,63 @@ class LocalizationConfig:
 
 
 @dataclass(frozen=True)
+class PlannerConfig:
+    """Mapa de costos y A*. Distancias en metros."""
+    # Inflación dura: ninguna celda a menos de robot_radius + safety_margin de un
+    # obstáculo es transitable.
+    robot_radius: float = 0.17
+    safety_margin: float = 0.05
+    # Costo de cercanía: desde el borde de la inflación decae linealmente hasta
+    # cero en clearance_distance. Con peso 0 el camino es el más corto.
+    clearance_distance: float = 0.50
+    clearance_weight: float = 5.0
+    # Si el robot arranca dentro de la zona inflada, el camino empieza en la celda
+    # transitable más cercana, hasta esta distancia.
+    start_snap_distance: float = 0.30
+
+
+@dataclass(frozen=True)
+class FollowerConfig:
+    """Pure pursuit y giros en el lugar. m, rad, m/s, rad/s."""
+    lookahead: float = 0.40
+    max_linear: float = 0.20
+    max_angular: float = 0.80
+    # Cerca del objetivo la velocidad baja proporcional a la distancia, con este piso.
+    min_linear: float = 0.05
+    slowdown_distance: float = 0.50
+    # Giro en el lugar: empieza con un error de orientación mayor que align_start y
+    # termina por debajo de align_done.
+    align_start: float = 0.80
+    align_done: float = 0.15
+    rotate_gain: float = 1.5
+    min_angular: float = 0.20
+    goal_tolerance_xy: float = 0.08
+    goal_tolerance_yaw: float = 0.05
+
+
+@dataclass(frozen=True)
+class NavigatorConfig:
+    """Máquina de estados y parada de seguridad."""
+    # Parada de seguridad: frena si el lidar ve algo dentro de un rectángulo delante
+    # del robot, de este largo (desde el centro) y este semiancho.
+    stop_distance: float = 0.40
+    stop_half_width: float = 0.20
+    # Tiempos máximos, en segundos, parado por obstáculo o sin localización.
+    blocked_timeout: float = 15.0
+    lost_timeout: float = 10.0
+    # Si la pose no se actualiza en este tiempo, el robot frena.
+    pose_timeout: float = 1.0
+
+
+@dataclass(frozen=True)
 class NavConfig:
     sensor: SensorConfig = field(default_factory=SensorConfig)
     motion: MotionConfig = field(default_factory=MotionConfig)
     scan_match: ScanMatchConfig = field(default_factory=ScanMatchConfig)
     localization: LocalizationConfig = field(default_factory=LocalizationConfig)
+    planner: PlannerConfig = field(default_factory=PlannerConfig)
+    follower: FollowerConfig = field(default_factory=FollowerConfig)
+    navigator: NavigatorConfig = field(default_factory=NavigatorConfig)
 
     def __post_init__(self):
         # SlamConfig valida los tres grupos compartidos con sus propias reglas.
@@ -77,6 +129,19 @@ class NavConfig:
             raise ValueError("Require 0 < injection_alpha_slow < injection_alpha_fast <= 1")
         if not 0 < c.injection_max_fraction <= 1:
             raise ValueError("localization.injection_max_fraction must be in (0, 1]")
+        for name, group, may_be_zero in (("planner", self.planner, ("safety_margin", "clearance_weight")),
+                                         ("follower", self.follower, ()),
+                                         ("navigator", self.navigator, ())):
+            for f in fields(group):
+                value = getattr(group, f.name)
+                if not isinstance(value, (float, int)) or isinstance(value, bool) or not math.isfinite(value):
+                    raise ValueError(f"{name}.{f.name} must be a finite number")
+                if value < 0 or (value == 0 and f.name not in may_be_zero):
+                    raise ValueError(f"{name}.{f.name} must be positive")
+        if self.follower.align_done >= self.follower.align_start:
+            raise ValueError("follower.align_done must be smaller than follower.align_start")
+        if self.follower.min_linear > self.follower.max_linear:
+            raise ValueError("follower.min_linear must not exceed follower.max_linear")
 
     def slam_config(self) -> SlamConfig:
         """Los grupos compartidos en el formato que esperan las clases de `slam.core`."""
@@ -87,7 +152,9 @@ class NavConfig:
         if not isinstance(data, Mapping):
             raise ValueError("Configuration must be a mapping")
         groups = {"sensor": SensorConfig, "motion": MotionConfig,
-                  "scan_match": ScanMatchConfig, "localization": LocalizationConfig}
+                  "scan_match": ScanMatchConfig, "localization": LocalizationConfig,
+                  "planner": PlannerConfig, "follower": FollowerConfig,
+                  "navigator": NavigatorConfig}
         unknown = set(data) - set(groups)
         if unknown:
             raise ValueError(f"Unknown configuration groups: {sorted(unknown)}")

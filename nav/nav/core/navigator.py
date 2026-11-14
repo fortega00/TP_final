@@ -1,0 +1,173 @@
+"""Máquina de estados de la navegación. Sin ROS.
+
+Decide qué hace el robot en cada instante a partir de: la pose estimada, el
+estado de la localización, el objetivo pedido y lo que ve el lidar adelante.
+Devuelve velocidades. Estados y alternativas en docs/decisiones/009.
+
+Lo que todavía no hace (docs/decisiones/008): agregar obstáculos nuevos al mapa
+de costos y replanificar. Por ahora, ante un obstáculo el robot solo frena y
+espera a que se despeje.
+"""
+
+from enum import Enum
+import math
+
+from slam.core.geometry import Pose2D, wrap_angle
+
+from .config import NavConfig
+from .follower import PurePursuit, rotate_command
+from .planner import Costmap, PlanningError, plan
+
+
+class State(Enum):
+    WAIT_INITIAL_POSE = "WAIT_INITIAL_POSE"   # el filtro no arrancó o se perdió
+    LOCALIZING = "LOCALIZING"                 # hay pose inicial, la nube no convergió
+    IDLE = "IDLE"                             # ubicado, sin objetivo
+    PLANNING = "PLANNING"
+    ALIGNING = "ALIGNING"                     # gira hacia el camino
+    FOLLOWING = "FOLLOWING"
+    FINAL_ALIGN = "FINAL_ALIGN"               # gira al ángulo del objetivo
+    BLOCKED = "BLOCKED"                       # parado por un obstáculo
+    LOST = "LOST"                             # parado, la localización dejó de ser confiable
+
+
+MOVING = (State.PLANNING, State.ALIGNING, State.FOLLOWING, State.FINAL_ALIGN, State.BLOCKED, State.LOST)
+
+
+class Navigator:
+    def __init__(self, costmap: Costmap, config: NavConfig):
+        self.costmap = costmap
+        self.config = config
+        self.state = State.WAIT_INITIAL_POSE
+        self.goal = None        # objetivo vigente o guardado (Pose2D)
+        self.follower = None
+        self.path = []
+        self.events = []        # (tiempo, texto): registro de transiciones
+        self._since = 0.0       # instante en que se entró al estado actual
+        self._resume = None     # estado al que volver después de BLOCKED
+        self._needs_initial_pose = False   # la localización no se recuperó: hace falta un click nuevo
+
+    # ----- Entradas -----
+
+    def set_goal(self, goal: Pose2D, now: float):
+        """Objetivo nuevo. Reemplaza al anterior, también con el robot en marcha."""
+        self.goal = goal
+        self._log(now, f"goal ({goal.x:.2f}, {goal.y:.2f}, {math.degrees(goal.yaw):.0f} deg)")
+        if self.state in (State.IDLE,) + MOVING and self.state != State.LOST:
+            self._go(State.PLANNING, now)
+        # En WAIT_INITIAL_POSE, LOCALIZING o LOST queda guardado y se planifica
+        # cuando el robot esté ubicado.
+
+    def on_reinitialized(self, now: float):
+        """Llegó un /initialpose nuevo. Con el robot en marcha: frenar y replanificar.
+
+        El objetivo se conserva: el usuario estaba corrigiendo la pose, no
+        cancelando el viaje.
+        """
+        self._log(now, "new initial pose")
+        self._needs_initial_pose = False
+        # Desde WAIT_INITIAL_POSE el estado sigue al de la localización en update().
+        if self.state != State.WAIT_INITIAL_POSE:
+            self._go(State.LOCALIZING, now)
+
+    def update(self, now: float, pose, localization: str, blocked: bool):
+        """Un paso. Devuelve (v, w).
+
+        `pose` es la pose estimada o None. `localization` es el estado del nodo
+        de localización: WAITING_INITIAL_POSE, NOT_CONVERGED, LOCALIZED o LOST.
+        `blocked` dice si el lidar ve algo en el rectángulo de seguridad.
+        """
+        located = localization == "LOCALIZED" and pose is not None
+        # Transiciones globales por el estado de la localización.
+        if self._needs_initial_pose or localization in ("WAITING_INITIAL_POSE", "LOST"):
+            if self.state != State.WAIT_INITIAL_POSE:
+                self._go(State.WAIT_INITIAL_POSE, now)
+            return 0.0, 0.0
+        if self.state == State.WAIT_INITIAL_POSE:
+            self._go(State.LOCALIZING, now)
+        if self.state == State.LOCALIZING:
+            if located:
+                self._go(State.PLANNING if self.goal is not None else State.IDLE, now)
+            return 0.0, 0.0
+        if not located:
+            # La nube se abrió con el robot ubicado: frenar y esperar.
+            if self.state in (State.ALIGNING, State.FOLLOWING, State.FINAL_ALIGN, State.BLOCKED,
+                              State.PLANNING):
+                self._go(State.LOST, now)
+            elif self.state == State.IDLE:
+                self._go(State.LOCALIZING, now)
+            if self.state == State.LOST and now - self._since > self.config.navigator.lost_timeout:
+                self._log(now, "localization did not recover in time, send a new initial pose")
+                self._needs_initial_pose = True
+                self._go(State.WAIT_INITIAL_POSE, now)
+            return 0.0, 0.0
+        if self.state == State.LOST:
+            self._go(State.PLANNING, now)
+
+        if self.state == State.IDLE:
+            return 0.0, 0.0
+        if self.state == State.PLANNING:
+            self._plan(now, pose)
+            return 0.0, 0.0
+
+        f = self.config.follower
+        if self.state == State.BLOCKED:
+            if not blocked:
+                self._go(self._resume, now)
+            elif now - self._since > self.config.navigator.blocked_timeout:
+                self._log(now, "obstacle did not clear in time, goal dropped")
+                self.goal = None
+                self._go(State.IDLE, now)
+            return 0.0, 0.0
+        if self.state == State.ALIGNING:
+            error = self.follower.heading_error(pose)
+            if abs(error) < f.align_done:
+                self._go(State.FOLLOWING, now)
+                return 0.0, 0.0
+            return 0.0, rotate_command(error, f)
+        if self.state == State.FOLLOWING:
+            if self.follower.distance_to_goal(pose) < f.goal_tolerance_xy:
+                self._go(State.FINAL_ALIGN, now)
+                return 0.0, 0.0
+            if blocked:
+                # La parada de seguridad solo aplica al avanzar, no a los giros.
+                self._resume = State.FOLLOWING
+                self._go(State.BLOCKED, now)
+                return 0.0, 0.0
+            if abs(self.follower.heading_error(pose)) > f.align_start:
+                self._go(State.ALIGNING, now)
+                return 0.0, 0.0
+            return self.follower.command(pose)
+        if self.state == State.FINAL_ALIGN:
+            error = wrap_angle(self.goal.yaw - pose.yaw)
+            if abs(error) < f.goal_tolerance_yaw:
+                self._log(now, f"goal reached, {100 * self.follower.distance_to_goal(pose):.0f} cm "
+                               f"and {math.degrees(error):.1f} deg from it")
+                self.goal = None
+                self._go(State.IDLE, now)
+                return 0.0, 0.0
+            return 0.0, rotate_command(error, f)
+        raise RuntimeError(f"Unhandled state {self.state}")
+
+    # ----- Internas -----
+
+    def _plan(self, now, pose):
+        try:
+            self.path = plan(self.costmap, (pose.x, pose.y), (self.goal.x, self.goal.y))
+        except PlanningError as exc:
+            # Sin camino en el mapa estático: se rechaza el objetivo.
+            self._log(now, f"goal rejected: {exc}")
+            self.goal, self.path, self.follower = None, [], None
+            self._go(State.IDLE, now)
+            return
+        self.follower = PurePursuit(self.path, self.config.follower)
+        self._go(State.ALIGNING, now)
+
+    def _go(self, state: State, now: float):
+        if state != self.state:
+            self._log(now, f"{self.state.value} -> {state.value}")
+        self.state = state
+        self._since = now
+
+    def _log(self, now, text):
+        self.events.append((now, text))

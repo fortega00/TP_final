@@ -63,7 +63,7 @@ class MonteCarloLocalization:
         self.poses = None
         self.diagnostics = {"processed_scans": 0, "skipped_motion": 0, "invalid_scans": 0,
                             "resamples": 0, "injected_particles": 0, "burst_iterations": 0,
-                            "ess": 0.0, "update_seconds": 0.0}
+                            "ess": 0.0, "scan_score": 0.0, "update_seconds": 0.0}
 
     # ----- Inicialización -----
 
@@ -121,6 +121,8 @@ class MonteCarloLocalization:
                 stable = (math.hypot(moved.x, moved.y) < c.burst_stable_xy
                           and abs(moved.yaw) < c.burst_stable_yaw)
             previous = self._estimate
+            # Puntaje del scan en la pose estimada: promedio ponderado por los pesos.
+            self.diagnostics["scan_score"] = float(np.sum(weights * beam_score))
             if self.converged and iteration > 0 and stable:
                 self._score_slow = self._score_fast = float(beam_score.mean())
                 return True
@@ -158,6 +160,7 @@ class MonteCarloLocalization:
         self.log_weights = normalize_log_weights(self.log_weights + log_likelihood)
         weights = np.exp(self.log_weights)
         self._update_estimate(weights)
+        self.diagnostics["scan_score"] = float(np.sum(weights * beam_score))
         self._resample(weights, float(beam_score.mean()))
         self._last_odom = odom_pose
         self.diagnostics["processed_scans"] += 1

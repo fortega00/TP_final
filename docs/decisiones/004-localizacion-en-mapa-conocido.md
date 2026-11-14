@@ -1,6 +1,6 @@
 # 004. Localización en mapa conocido (etapa B)
 
-Estado: núcleo implementado en la rama `nav` (2026-11-14) y medido sin ROS sobre una grabación del simulador. Falta el nodo ROS, repetir las mediciones con un mapa hecho por nuestro SLAM y la sesión con el robot real del 2026-11-16. Las tablas marcadas como pendientes se completan con esos datos.
+Estado: implementada en la rama `nav` (2026-11-14), medida sin ROS sobre una grabación del simulador y probada con el nodo ROS en el simulador en vivo y con el bag real del Parcial. Falta repetir las mediciones con un mapa hecho por nuestro SLAM y la sesión con el robot real del 2026-11-16. Las tablas marcadas como pendientes se completan con esos datos.
 
 ## Problema
 
@@ -98,6 +98,20 @@ Las cuatro quedaron confirmadas el 2026-11-14.
 | Fin de la ráfaga | Nube chica y estimación estable | Solo nube chica | Solo con la nube chica cortaba en la primera iteración sobre una única partícula |
 | Inyección | Uniforme sobre las celdas libres, con tope de 20 % de las partículas | Alrededor de la estimación | Es la versión del libro. Los datos de abajo muestran que no alcanza, queda abierta |
 
+## Nodo ROS en vivo y bag real
+
+Nodo `nav/ros/localization_node.py` en Gazebo Classic sin ventana, café, odometría con deriva (`/calc_odom`), mapa de los profesores, 1000 partículas. `scripts/sim_live_check.py` publica un `/initialpose` corrido 36 cm y 9° y compara `/nav/pose` con la pose real:
+
+| Corrida | Después de la ráfaga (cm) | RMSE en marcha (cm) | Máximo (cm) | Ráfaga |
+|---|---|---|---|---|
+| Ida y vuelta de 2 m con teleop automático | 6,2 | 8,3 | 10,3 | 9 iteraciones, 23 ms |
+| Un objetivo a 4 m | 6,1 | 6,0 | 8,0 | 6 iteraciones |
+| Dos objetivos, 15 m en total | 14,3 | 12,5 | 20,0 | |
+
+El filtro tardó 8 a 18 ms por actualización con el simulador corriendo en la misma máquina.
+
+Bag real del Parcial sobre el mapa del laboratorio de los profesores (`my_map3`), pose inicial `(0, 0, 0)`, sin ROS: 839 actualizaciones, 4,5 ms cada una, la ráfaga converge en 3 a 6 iteraciones. Tres semillas coinciden entre sí a 1,4 cm de RMSE. La pose final es `(0,93, 0,21)`, la misma que dio mi filtro del TP3 sobre ese bag `(0,89, 0,20)`. Contra la trayectoria del SLAM de la etapa A sobre el mismo bag hay 8,3 cm de RMSE con ajuste rígido.
+
 ## Métrica sin pose real
 
 Para el robot real pensaba usar el residuo del scan contra el mapa (distancia media de los extremos del scan a la pared más cercana, desde la pose estimada). En simulación, con el filtro ya convergido, el residuo no sigue al error real: la correlación entre los dos dio 0,41 en un tramo y -0,73 en el otro. Sirve como mucho para distinguir ubicado de perdido, y eso todavía no está medido.
@@ -106,7 +120,6 @@ Las medidas que lo reemplazan en el robot real están en [010](010-metricas-de-e
 
 ## Pendiente
 
-- Nodo ROS y prueba en el simulador en vivo.
 - Repetir todas las tablas con un mapa hecho por nuestro SLAM.
 - Medir si el puntaje del scan separa un encaje correcto de uno falso, y con eso decidir cómo validar la ráfaga.
 - Decidir qué hacer con la inyección: dejarla, sacarla o inyectar alrededor de la estimación en lugar de en todo el mapa.

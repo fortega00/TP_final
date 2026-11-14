@@ -194,7 +194,7 @@ class LocalizationTests(unittest.TestCase):
 class ConfigTests(unittest.TestCase):
     def test_unknown_group_and_bad_values_raise(self):
         with self.assertRaises(ValueError):
-            NavConfig.from_dict({"planner": {}})
+            NavConfig.from_dict({"mission": {}})
         with self.assertRaises(ValueError):
             NavConfig.from_dict({"localization": {"particles": 0}})
         with self.assertRaises(ValueError):

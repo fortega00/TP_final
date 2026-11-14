@@ -1,6 +1,6 @@
 # 009. Máquina de estados de la navegación
 
-Estado: decidida el 2026-11-14. Sin implementar.
+Estado: decidida el 2026-11-14. Implementada en `nav/nav/core/navigator.py` y probada en el simulador en vivo, con dos diferencias provisorias que se detallan abajo.
 
 ## Estados
 
@@ -57,10 +57,33 @@ Elegí A.
 
 Elegí A.
 
+## Cómo quedó implementada
+
+Dos diferencias con la tabla de arriba, las dos provisorias:
+
+- `BLOCKED` todavía no agrega el obstáculo al mapa de costos ni replanifica ([008](008-obstaculos-no-mapeados.md)). El robot frena si el lidar ve algo en un rectángulo de 40 cm por 40 cm delante suyo, y retoma cuando se despeja. Si no se despeja en 15 s abandona el objetivo y vuelve a `IDLE`. La parada solo aplica al avanzar, no a los giros en el lugar.
+- La ráfaga inicial la hace el nodo de localización. El navegador mira el estado que ese nodo publica: `LOCALIZING` mientras dice `NOT_CONVERGED` y `WAIT_INITIAL_POSE` mientras espera un click o se perdió.
+
+Registro de una corrida en el simulador con dos objetivos seguidos:
+
+```
+WAIT_INITIAL_POSE -> LOCALIZING -> IDLE
+goal (3.19, -8.17, -87 deg)
+IDLE -> PLANNING -> ALIGNING -> FOLLOWING -> FINAL_ALIGN
+goal reached, 8 cm and 1.8 deg from it
+FINAL_ALIGN -> IDLE
+goal (0.00, 0.00, 0 deg)
+IDLE -> PLANNING -> ALIGNING -> FOLLOWING -> FINAL_ALIGN
+goal reached, 14 cm and -2.6 deg from it
+FINAL_ALIGN -> IDLE
+```
+
+Los demás casos (objetivo antes de ubicarse, objetivo nuevo en marcha, `/initialpose` en marcha, objetivo inalcanzable, obstáculo, localización perdida) están cubiertos por los tests de `nav/tests/test_navigation.py` con un robot simulado, no en vivo.
+
 ## Punto abierto
 
 La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). La condición de salida de `LOCALIZING` y la de entrada a `LOST` se definen cuando esté medida una señal mejor.
 
 ## Datos
 
-Pendiente: diagrama final y registro de transiciones de una corrida completa.
+Pendiente: diagrama final, y probar en vivo los casos que hoy solo cubren los tests.

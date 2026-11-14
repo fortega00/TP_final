@@ -50,14 +50,20 @@ Comentarios y docstrings en español; identificadores, mensajes de error y commi
 | `../docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
 | `../docs/guia_ejecucion.md`, `../docs/parametros.md`, `../docs/architecture.md`, `../docs/entrega_a.md` | Ejecución, parámetros, arquitectura e informe con diez respuestas. |
 
-Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004-localizacion-en-mapa-conocido.md`. Todavía sin nodos ROS.
+Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `011`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`. Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
 
 | Ruta | Responsabilidad |
 | --- | --- |
 | `nav/core/config.py`, `config/cafe.yaml` | Configuración validada. Los grupos `sensor`, `motion` y `scan_match` son los de `slam.core`. |
 | `nav/core/map.py` | Carga PGM/YAML trinario como `OccupancyGrid` de `slam.core`. |
 | `nav/core/localization.py` | MCL sobre mapa conocido: ráfaga inicial, compuerta de movimiento, ESS, inyección, scan matching opcional. |
-| `scripts/replay_localization.py` | Corre la localización sin ROS sobre una grabación y la mide contra la pose real. |
+| `nav/core/planner.py` | Mapa de costos (desconocido es obstáculo, inflación dura, costo de cercanía) y A*. |
+| `nav/core/follower.py` | Pure pursuit con avance y giro, y giros en el lugar. |
+| `nav/core/navigator.py` | Máquina de estados de la navegación y parada de seguridad. |
+| `nav/ros/localization_node.py`, `nav/ros/navigator_node.py`, `launch/nav.launch.py` | Nodos y launch. `/nav/pose`, `/nav/plan`, `/nav/state`, `/nav/localization_status`. |
+| `scripts/bag_to_npz.py`, `scripts/replay_localization.py` | Extraen un bag y corren la localización sin ROS sobre la grabación. |
+| `scripts/mark_repeatability.py`, `scripts/compare_trajectories.py` | Medidas sin pose real: repetibilidad sobre marcas del piso y comparación con el SLAM. |
+| `scripts/sim_live_check.py`, `scripts/chairs_sim.py` | Prueba en vivo contra la pose real del simulador y prueba sintética de sillas movidas. |
 | `tests/` | `PYTHONPATH=../slam:. python3 -m unittest discover -s tests` |
 
 ### Invariantes

@@ -43,4 +43,6 @@ El residuo se sigue registrando. Queda por medir si sirve para separar ubicado d
 
 ## Datos
 
+Los scripts que calculan cada medida están en `nav/scripts/` y se explican en la [guía de la etapa B](../guia_etapa_b.md#analizar-un-bag). La extracción del bag, el replay y la comparación con el SLAM están probados con el bag real del Parcial. La repetibilidad sobre marcas solo está probada con datos sintéticos, porque ese bag no pasa dos veces por el mismo punto con el robot detenido.
+
 Pendiente: todas las filas de la tabla, en simulación con mapa propio y en el robot real.
