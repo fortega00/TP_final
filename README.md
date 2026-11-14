@@ -59,7 +59,7 @@ ros2 launch slam slam.launch.py mode:=toy
 - [Parámetros](docs/parametros.md): qué hace cada uno y cómo ajustarlos.
 - [Arquitectura](docs/architecture.md): módulos, máquina de estados y puntos de extensión.
 - [Decisiones](docs/decisiones/): alternativas y datos de cada decisión de diseño.
-- [Checklist del robot real](docs/robot_real_checklist.md): pasos para la sesión con el RosMaster físico.
+- [Plan para el robot real](docs/robot_real_checklist.md): pasos en orden para la sesión con el RosMaster físico, con el motivo de cada uno.
 - [macOS](docs/macos.md): cómo correr el núcleo y el nodo ROS en Mac.
 - [Informe de la etapa A](docs/entrega_a.md) y [experimentos](docs/experimentos_a.md).
 - [Validación](docs/validacion.md): qué está probado y qué no.

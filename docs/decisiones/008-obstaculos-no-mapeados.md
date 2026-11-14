@@ -1,6 +1,6 @@
 # 008. Obstáculos que no están en el mapa
 
-Estado: decidida el 2026-11-14. Sin implementar. No entra en la sesión con el robot real del 2026-11-16.
+Estado: decidida el 2026-11-14 y ampliada el mismo día por [011](011-entorno-que-cambia.md). Sin implementar. No entra en la sesión con el robot real del 2026-11-16, donde solo va la parada de seguridad.
 
 ## Problema
 
@@ -27,6 +27,10 @@ Elegí A. Debajo hay siempre una parada de seguridad: si el lidar ve algo demasi
 | C. Sin memoria, solo el último scan | Lo mínimo | El robot puede replanificar hacia un obstáculo que dejó de ver |
 
 Elegí B. Es la misma actualización en log-odds que hace la grilla del SLAM (`slam/core/grid.py`).
+
+## Ampliación: también se liberan celdas del mapa estático
+
+Tal como estaba, solo se liberaban los obstáculos detectados en vivo. El laboratorio tiene sillas con ruedas que cambian de lugar entre sesiones, y una silla guardada en el mapa seguiría bloqueando un paso libre. Por eso el mapa de costos es una grilla viva que arranca del mapa estático, y el lidar agrega y libera cualquier celda. Las alternativas y los datos están en [011](011-entorno-que-cambia.md). La localización sigue usando el mapa fijo.
 
 ## Datos
 
