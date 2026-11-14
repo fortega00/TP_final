@@ -1,4 +1,9 @@
-"""Validated configuration shared by the CLI and ROS adapter."""
+"""Parámetros del SLAM, agrupados y validados. Sin ROS.
+
+Los valores de acá son los que se usan si el YAML omite un campo. Los perfiles
+reales están en config/*.yaml. Cualquier valor inválido lanza un error al
+cargar, no se corrige en silencio.
+"""
 
 from dataclasses import asdict, dataclass, field, fields
 import math
@@ -9,6 +14,7 @@ import yaml
 
 @dataclass(frozen=True)
 class MapConfig:
+    """Grilla: tamaño de celda y extensión en metros. `prior` es la ocupación inicial."""
     resolution: float = 0.05
     width: float = 16.0
     height: float = 16.0
@@ -19,6 +25,7 @@ class MapConfig:
 
 @dataclass(frozen=True)
 class SensorConfig:
+    """Modelo inverso (p_hit, p_free, hit_thickness) y campo de verosimilitud (sigma_hit, z_*)."""
     p_hit: float = 0.70
     p_free: float = 0.35
     log_odds_min: float = -4.0
@@ -34,14 +41,15 @@ class SensorConfig:
     likelihood_max_dist: float = 0.60
     likelihood_temperature: float = 1.0
     occupied_threshold: float = 0.65
-    # +inf means "no echo". On a real lidar that is no information (glass, dark or
-    # grazing surfaces); in Gazebo it means the beam is empty up to range_max.
+    # +inf significa "el rayo no volvió". En el lidar real no aporta información
+    # (vidrio, superficies oscuras o rasantes). En Gazebo significa que no hay
+    # nada hasta range_max.
     no_return_is_free: bool = False
 
 
 @dataclass(frozen=True)
 class MotionConfig:
-    # Variance coefficients for translation/rotation of a relative SE(2) increment.
+    # Coeficientes de varianza del ruido de odometría (ver motion.py).
     alpha1: float = 0.0001
     alpha2: float = 0.00001
     alpha3: float = 0.0001
@@ -50,6 +58,7 @@ class MotionConfig:
 
 @dataclass(frozen=True)
 class FilterConfig:
+    """Cantidad de partículas, semilla, umbral de remuestreo y pose inicial."""
     particles: int = 24
     seed: int = 7
     resample_ess_ratio: float = 0.5
@@ -62,6 +71,7 @@ class FilterConfig:
 
 @dataclass(frozen=True)
 class UpdateConfig:
+    """Un scan se integra solo si el robot se movió o giró lo suficiente, o pasó max_interval."""
     min_translation: float = 0.08
     min_rotation: float = 0.06
     max_interval: float = 1.0
@@ -69,16 +79,16 @@ class UpdateConfig:
 
 @dataclass(frozen=True)
 class ScanMatchConfig:
-    """Scan-matching proposal (slam/core/scan_match.py). Disabled: odometry proposal."""
+    """Propuesta con scan matching (scan_match.py). Desactivada: propuesta de odometría."""
     enabled: bool = False
-    window_xy: float = 0.10       # search half-width around the odometry guess, m
+    window_xy: float = 0.10       # media ventana de búsqueda alrededor de la odometría, m
     step_xy: float = 0.025
     window_yaw: float = 0.06      # rad
     step_yaw: float = 0.01
-    sigma: float = 0.05           # endpoint-to-wall distance that counts as a fit, m (one cell)
-    prior_xy: float = 0.05        # std of the pull towards the odometry guess, m
+    sigma: float = 0.05           # distancia punto-pared que cuenta como ajuste, m (una celda)
+    prior_xy: float = 0.05        # desvío del prior hacia la odometría, m
     prior_yaw: float = 0.03       # rad
-    sample_xy: float = 0.01       # std of the sample around the matched pose, m
+    sample_xy: float = 0.01       # desvío del ruido alrededor de la pose ajustada, m
     sample_yaw: float = 0.005     # rad
     beams: int = 180
     effective_beams: float = 20.0
@@ -87,6 +97,7 @@ class ScanMatchConfig:
 
 @dataclass(frozen=True)
 class SlamConfig:
+    """Configuración completa. `__post_init__` valida todo al construir."""
     map: MapConfig = field(default_factory=MapConfig)
     sensor: SensorConfig = field(default_factory=SensorConfig)
     motion: MotionConfig = field(default_factory=MotionConfig)
@@ -144,7 +155,7 @@ class SlamConfig:
     def from_dict(cls, data: Mapping) -> "SlamConfig":
         if not isinstance(data, Mapping):
             raise ValueError("Configuration must be a mapping")
-        # Accept a plain core config or a ROS parameter-file envelope.
+        # Acepta un YAML plano o uno con el envoltorio de parámetros de ROS.
         if "/**" in data:
             data = data["/**"]["ros__parameters"]
         elif "ros__parameters" in data:

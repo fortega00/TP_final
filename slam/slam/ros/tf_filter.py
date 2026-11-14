@@ -1,4 +1,9 @@
-"""Keep recorded sensor/odometry TF, discard previous map localization edges."""
+"""Filtro de TF para reproducir bags.
+
+Un bag puede traer grabada una transformación `map -> odom` de otra localización.
+Si se reproduce tal cual, compite con la que publica este SLAM. Este nodo deja
+pasar los TF del sensor y de la odometría y descarta los que involucran al mapa.
+"""
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy, qos_profile_sensor_data
@@ -22,6 +27,7 @@ class BagTfFilter(Node):
         self.create_subscription(TFMessage, '/slam/bag_tf_static', self.on_static, static)
 
     def allowed(self, transform):
+        """Un TF pasa si su padre no es el mapa y su hijo no es ni el mapa ni odom."""
         return (transform.header.frame_id.lstrip('/') != self.map_frame
                 and transform.child_frame_id.lstrip('/') not in (self.map_frame, self.odom_frame))
 

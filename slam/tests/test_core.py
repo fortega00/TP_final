@@ -1,4 +1,4 @@
-"""Algorithmic invariants independent of ROS or hardware (stdlib unittest)."""
+"""Propiedades del algoritmo que no dependen de ROS ni del hardware (unittest estándar)."""
 
 from dataclasses import replace
 import json
@@ -70,10 +70,10 @@ class GridTests(unittest.TestCase):
         grid = OccupancyGrid(cfg.map)
         grid.integrate(Pose2D(), scan((float("nan"), float("-inf"), 0, -1, 0.05, 6.0)), cfg.sensor)
         self.assertFalse(grid.observed.any())
-        # A real lidar returns +inf when no echo comes back: no information by default.
+        # Un lidar real devuelve +inf cuando el rayo no vuelve: por defecto no aporta información.
         grid.integrate(Pose2D(), scan((float("inf"),)), cfg.sensor)
         self.assertFalse(grid.observed.any())
-        # A simulated lidar returns +inf only when the beam is empty up to its range.
+        # Un lidar simulado devuelve +inf solo cuando no hay nada hasta su alcance.
         grid.integrate(Pose2D(), scan((float("inf"),)), replace(cfg.sensor, no_return_is_free=True))
         self.assertTrue(grid.observed.any())
         self.assertFalse((grid.log_odds > 0).any())

@@ -1,4 +1,4 @@
-"""Standalone reproducible validation commands; ROS is deliberately optional."""
+"""Línea de comandos para correr el mundo sintético (toy) sin ROS."""
 from __future__ import annotations
 
 import argparse

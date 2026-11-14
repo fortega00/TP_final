@@ -1,4 +1,4 @@
-"""Republish /calc_odom as /slam_odom with child_frame_id base_footprint (macOS Classic adapter)."""
+"""Republica /calc_odom como /slam_odom con child_frame_id base_footprint (macOS, Gazebo Classic)."""
 import rclpy
 from rclpy.node import Node
 from rclpy.parameter import Parameter

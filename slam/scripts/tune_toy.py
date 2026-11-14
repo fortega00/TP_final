@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a small explicit parameter/measurement ablation and retain every result."""
+"""Corre una comparación chica de parámetros sobre el toy y guarda todos los resultados."""
 from __future__ import annotations
 
 import argparse

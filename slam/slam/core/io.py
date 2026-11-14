@@ -1,4 +1,4 @@
-"""Map-server compatible PGM/YAML export; no ROS dependency."""
+"""Exporta el mapa a PGM + YAML, el formato que lee el map_server de ROS. Sin ROS."""
 
 from pathlib import Path
 import numpy as np
@@ -6,10 +6,11 @@ import yaml
 
 
 def save_map(grid, path, occupied_thresh=0.65, free_thresh=0.25):
-    """Save a conservative trinary map: unknown cells remain unknown.
+    """Guarda un mapa de tres valores: libre (254), ocupado (0) y desconocido (128).
 
-    Arrays use lower-left origins; PGM rows start at the top, hence flipud.
-    Unknown pixel 128 lies strictly between the YAML free/occupied thresholds.
+    Una celda nunca observada queda desconocida, no libre. La grilla tiene el
+    origen abajo a la izquierda y el PGM empieza por la fila de arriba, por eso
+    se invierte con flipud.
     """
     if not 0 < free_thresh < occupied_thresh < 1:
         raise ValueError("Require 0 < free_thresh < occupied_thresh < 1")

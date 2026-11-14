@@ -1,4 +1,16 @@
-"""FastSLAM-style RBPF with one conditional occupancy map per trajectory."""
+"""FastSLAM: filtro de partículas Rao-Blackwellizado con un mapa por partícula.
+
+SLAM estima a la vez la trayectoria del robot y el mapa. FastSLAM separa el
+problema en dos (Rao-Blackwell):
+
+- la trayectoria se estima con un filtro de partículas: cada partícula es una
+  hipótesis de por dónde pasó el robot;
+- dada una trayectoria, el mapa se calcula de forma directa (mapeo con pose
+  conocida). Por eso cada partícula lleva su propia grilla de ocupación.
+
+`FastSLAM.process` ejecuta un paso del filtro por cada scan. Este módulo no
+depende de ROS.
+"""
 
 from dataclasses import dataclass, field
 import math
@@ -17,16 +29,24 @@ from .types import Scan
 
 @dataclass
 class Particle:
+    """Una hipótesis: pose actual, su mapa, su peso (en logaritmo) y su trayectoria."""
     pose: Pose2D
     grid: OccupancyGrid
     log_weight: float
     trajectory: list = field(default_factory=list)
 
     def clone(self):
+        # Copia profunda del mapa: al remuestrear, dos copias no deben compartir grilla.
         return Particle(self.pose, self.grid.clone(), self.log_weight, self.trajectory.copy())
 
 
 def normalize_log_weights(log_weights):
+    """Normaliza log-pesos para que los pesos sumen 1.
+
+    Se trabaja en logaritmos porque el peso de un scan es un producto de muchas
+    probabilidades chicas y en escala lineal da cero numérico. Restar el máximo
+    antes de exponenciar evita ese underflow (truco log-sum-exp).
+    """
     values = np.asarray(log_weights, dtype=float)
     if values.ndim != 1 or not len(values) or not np.isfinite(values).all():
         raise ValueError("Particle log-weights must be finite")
@@ -36,6 +56,12 @@ def normalize_log_weights(log_weights):
 
 
 def systematic_resample(weights, rng):
+    """Remuestreo sistemático: devuelve los índices de las partículas que sobreviven.
+
+    Se tira un solo número aleatorio y se recorre la suma acumulada de pesos con
+    N marcas equiespaciadas. Una partícula con peso w sale cerca de N*w veces.
+    Tiene menos varianza que sortear N veces de forma independiente.
+    """
     values = np.asarray(weights, dtype=float)
     if values.ndim != 1 or not len(values) or not np.isfinite(values).all() or (values < 0).any():
         raise ValueError("Resampling requires finite nonnegative weights")
@@ -49,15 +75,16 @@ def systematic_resample(weights, rng):
 
 
 class FastSLAM:
-    """Online RBPF; dependency injection keeps future proposals/sensors separate.
+    """Filtro online. La propuesta y el modelo de medición se pueden reemplazar.
 
-    ``process`` receives odometry interpolated to the scan's timestamp. First
-    odometry anchors only the coordinate origin; the configured initial pose is
-    the map-frame pose of the first scan. No ground truth is consumed.
+    `process` recibe la odometría interpolada al instante del scan. La primera
+    odometría solo fija el origen: la pose inicial configurada es la pose del
+    primer scan en el frame del mapa. Nunca se usa ground truth.
     """
 
     def __init__(self, config=None, proposal=None, measurement_model=None):
         self.config = config or SlamConfig()
+        # Propuesta: de dónde sale la nueva pose de cada partícula (scan matching u odometría).
         self.proposal = proposal or (
             ScanMatchProposal(self.config) if self.config.scan_match.enabled
             else OdometryProposal(SE2OdometryModel(self.config.motion)))
@@ -71,11 +98,12 @@ class FastSLAM:
 
     @property
     def best_particle(self):
-        # This is a detached snapshot selected before resampling, not an average
-        # grid and not the arbitrarily first equally weighted resampled particle.
+        # Copia de la partícula de mayor peso, tomada antes de remuestrear. No es
+        # un promedio de mapas ni la primera partícula después del remuestreo.
         return self._best_particle
 
     def reset(self):
+        """Vuelve al estado inicial: N partículas en la pose inicial con mapas vacíos."""
         self.machine.reset()
         self.rng = np.random.default_rng(self.config.filter.seed)
         c = self.config.filter
@@ -116,9 +144,15 @@ class FastSLAM:
         self.diagnostics["state"] = self.state.value
 
     def estimate(self):
+        """Pose estimada (media ponderada de las partículas) y su covarianza."""
         return self._estimate_pose, self._estimate_cov.copy()
 
     def _posterior_statistics(self, weights):
+        """Media y covarianza ponderadas de las poses.
+
+        El ángulo se promedia con seno y coseno (media circular): promediar
+        directamente 179 y -179 grados daría 0, que es la dirección opuesta.
+        """
         points = np.array([[p.pose.x, p.pose.y, p.pose.yaw] for p in self.particles])
         x, y = np.sum(points[:, :2] * weights[:, None], axis=0)
         yaw = math.atan2(float(np.sum(weights * np.sin(points[:, 2]))),

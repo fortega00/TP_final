@@ -1,22 +1,26 @@
-"""Scan-matching proposal: place each particle where the scan fits its own map.
+"""Propuesta con scan matching: ubica cada partícula donde el scan encaja en su mapa.
 
-The odometry proposal scatters particles around the odometry increment and lets
-the weights discard the bad ones. The lidar is far more precise than the wheels,
-so this proposal uses the scan first (the idea behind GMapping / FastSLAM 2.0):
+La propuesta de odometría dispersa las partículas alrededor de lo que dicen las
+ruedas y deja que los pesos descarten las malas. El lidar es mucho más preciso
+que las ruedas, entonces esta propuesta usa primero el scan (la idea de GMapping
+y FastSLAM 2.0):
 
-1. guess = previous pose composed with the odometry increment, without noise;
-2. every pose of a small window around the guess is scored by how close the
-   scan endpoints fall to occupied cells of the particle's map, plus a Gaussian
-   prior that keeps the answer near the guess where the scan cannot decide
-   (a featureless corridor);
-3. the best pose is returned with a small Gaussian sample to keep diversity.
+1. estimación inicial = pose anterior compuesta con el incremento de odometría,
+   sin ruido;
+2. se prueban todas las poses de una ventana chica alrededor de esa estimación.
+   Cada una recibe un puntaje: qué tan cerca caen los puntos del scan de las
+   celdas ocupadas del mapa de la partícula, más un prior gaussiano que mantiene
+   la respuesta cerca de la odometría cuando el scan no alcanza para decidir
+   (un pasillo sin detalles);
+3. se devuelve la mejor pose con un ruido gaussiano chico, para que las
+   partículas no queden todas iguales.
 
-While the map has too few occupied cells there is nothing to match against, so
-the plain odometry proposal is used.
+Mientras el mapa tiene muy pocas celdas ocupadas no hay contra qué comparar y se
+usa la propuesta de odometría.
 
-Simplification: the exact importance weight of this proposal integrates the
-likelihood over the window. Here the correction is 0, so the filter weights
-each particle by the scan likelihood at its matched pose.
+Simplificación: el peso exacto de esta propuesta integra la verosimilitud sobre
+toda la ventana. Acá la corrección es 0 y el filtro pesa cada partícula con la
+verosimilitud del scan en su pose ajustada. Ver docs/decisiones/002. Sin ROS.
 """
 
 import math
@@ -34,10 +38,13 @@ class ScanMatchProposal:
         self.sensor = config.sensor
         self.config = c = config.scan_match
         self.odometry = OdometryProposal(SE2OdometryModel(config.motion))
+        # Ventana de búsqueda: todas las combinaciones de (dx, dy, dyaw). Con los
+        # valores por defecto son 9 x 9 x 13 = 1053 candidatas. Se arma una sola vez.
         offsets_xy = np.arange(-c.window_xy, c.window_xy + 1e-9, c.step_xy)
         offsets_yaw = np.arange(-c.window_yaw, c.window_yaw + 1e-9, c.step_yaw)
         self.dx, self.dy, self.dyaw = (a.ravel() for a in np.meshgrid(
             offsets_xy, offsets_xy, offsets_yaw, indexing="ij"))
+        # Prior gaussiano centrado en la odometría: penaliza alejarse de ella.
         self.log_prior = (-(self.dx ** 2 + self.dy ** 2) / (2 * c.prior_xy ** 2)
                           - self.dyaw ** 2 / (2 * c.prior_yaw ** 2))
 
@@ -46,12 +53,14 @@ class ScanMatchProposal:
         threshold = math.log(sensor.occupied_threshold / (1 - sensor.occupied_threshold))
         occupied = grid.observed & (grid.log_odds >= threshold)
         ranges, angles, hits = prepare_scan(scan, sensor, c.beams)
+        # Mapa todavía casi vacío: no hay contra qué comparar, se usa la odometría.
         if occupied.sum() < c.min_occupied_cells or not hits.any():
             return self.odometry.propose(pose, odometry_delta, scan, grid, rng)
         ranges, angles = ranges[hits], angles[hits]
         guess = pose.compose(odometry_delta)
 
-        # Distance to the nearest occupied cell, only in the patch the scan can reach.
+        # Campo de distancias: para cada celda, la distancia a la celda ocupada más
+        # cercana. Se calcula solo en el recorte del mapa que el scan puede alcanzar.
         resolution = grid.config.resolution
         max_range = min(scan.range_max, sensor.max_range)
         reach = int(math.ceil((max_range + c.window_xy) / resolution)) + 1
@@ -63,7 +72,8 @@ class ScanMatchProposal:
             return self.odometry.propose(pose, odometry_delta, scan, grid, rng)
         distance = np.minimum(distance_transform_edt(~patch) * resolution, sensor.likelihood_max_dist)
 
-        # Scan endpoints for every candidate pose: arrays of shape (candidates, beams).
+        # Puntos donde termina cada rayo para cada pose candidata, todo vectorizado:
+        # arreglos de forma (candidatas, rayos).
         yaw = guess.yaw + self.dyaw
         mount = scan.sensor_pose
         sensor_x = guess.x + self.dx + np.cos(yaw) * mount.x - np.sin(yaw) * mount.y
@@ -74,15 +84,18 @@ class ScanMatchProposal:
         rows = np.floor((sensor_y[:, None] + ranges * np.sin(beam) - grid.config.origin_y)
                         / resolution).astype(int) - row0
         inside = (cols >= 0) & (cols < patch.shape[1]) & (rows >= 0) & (rows < patch.shape[0])
+        # d = distancia de cada punto a la pared conocida más cercana.
         d = np.full(cols.shape, sensor.likelihood_max_dist)
         d[inside] = distance[rows[inside], cols[inside]]
 
-        # Same mixture as the likelihood field: the uniform term makes the score
-        # saturate for endpoints far from any known wall (newly seen areas), so
-        # they cannot drag the pose. Neighbouring beams are correlated, so the
-        # mean over beams is scaled as if only `effective_beams` were independent.
+        # Misma mezcla que el campo de verosimilitud. El término uniforme hace que
+        # el puntaje sature para los puntos lejos de toda pared conocida (zonas
+        # recién vistas), así no arrastran la pose. Los rayos vecinos están
+        # correlacionados, entonces el promedio se escala como si solo
+        # `effective_beams` rayos fueran independientes.
         probability = sensor.z_hit * np.exp(-d ** 2 / (2 * c.sigma ** 2)) + sensor.z_rand / max_range
         score = c.effective_beams * np.log(probability).mean(axis=1) + self.log_prior
+        # Mejor candidata, más un ruido chico para mantener diversidad entre partículas.
         best = int(np.argmax(score))
         noise = rng.normal(size=3)
         return Pose2D(guess.x + self.dx[best] + noise[0] * c.sample_xy,

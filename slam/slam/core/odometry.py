@@ -1,4 +1,10 @@
-"""Timestamp interpolation independent of ROS; never extrapolate robot motion."""
+"""Buffer de odometría con interpolación por tiempo. Sin ROS.
+
+El scan y la odometría llegan a instantes distintos. Para saber dónde decía la
+odometría que estaba el robot en el instante exacto del scan, se interpola entre
+las dos muestras que lo rodean. Nunca se extrapola: si falta una muestra
+posterior, se espera.
+"""
 from bisect import bisect_left
 import math
 
@@ -21,12 +27,13 @@ class OdometryBuffer:
         if self.samples and stamp <= self.samples[-1][0]:
             return False
         self.samples.append((stamp, pose))
-        # Keep one sample before the window, so its boundary can be interpolated.
+        # Se conserva una muestra anterior a la ventana para poder interpolar en su borde.
         while len(self.samples) > 2 and self.samples[1][0] < stamp - self.history_seconds:
             self.samples.pop(0)
         return True
 
     def at(self, stamp):
+        """Pose de odometría interpolada en `stamp`, o None si no hay muestras que lo rodeen."""
         if not self.samples or not math.isfinite(stamp):
             return None
         times = [sample[0] for sample in self.samples]
@@ -37,6 +44,7 @@ class OdometryBuffer:
             return None
         t0, a = self.samples[i - 1]
         t1, b = self.samples[i]
+        # Interpolación lineal. El ángulo se interpola por el camino corto (wrap_angle).
         fraction = (stamp - t0) / (t1 - t0)
         return Pose2D(a.x + fraction * (b.x - a.x),
                       a.y + fraction * (b.y - a.y),

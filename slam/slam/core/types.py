@@ -1,4 +1,4 @@
-"""Sensor input types; adapters must provide a scan-time odometry pose."""
+"""Tipo de dato de entrada del filtro: un barrido del lidar. Sin ROS."""
 
 from dataclasses import dataclass, field
 import math
@@ -9,6 +9,11 @@ from .geometry import Pose2D
 
 @dataclass(frozen=True)
 class Scan:
+    """Un barrido del lidar, con los mismos campos que LaserScan de ROS.
+
+    `stamp` es el tiempo en segundos. `sensor_pose` es dónde está montado el
+    lidar respecto de la base del robot (la extrínseca).
+    """
     ranges: np.ndarray
     angle_min: float
     angle_increment: float

@@ -1,4 +1,4 @@
-"""Tests for simulator geometry and evaluation independent of SLAM internals."""
+"""Tests de la geometría del simulador y de su evaluación, sin depender del SLAM."""
 import math
 from pathlib import Path
 import tempfile
@@ -14,7 +14,7 @@ from slam.core.config import MapConfig
 class ToyTests(unittest.TestCase):
     def test_analytic_raycast_sees_doorway_and_wall(self):
         world = OfficeWorld.standard()
-        # Doorway on y=0 reaches outer wall; one metre above doorway meets partition.
+        # Por la puerta (y=0) el rayo llega a la pared exterior; un metro más arriba pega en el tabique.
         self.assertAlmostEqual(world.raycast(Pose2D(0, 0, 0), np.array([0.]), 10.)[0], 7.)
         self.assertAlmostEqual(world.raycast(Pose2D(0, 2, 0), np.array([0.]), 10.)[0], 2.5)
 

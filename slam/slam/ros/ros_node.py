@@ -1,7 +1,13 @@
-"""ROS 2 adapter: timestamp alignment, TF, services and transport only.
+"""Nodo ROS 2 del SLAM. Solo conecta ROS con el algoritmo, no contiene SLAM.
 
-The probabilistic algorithm lives in filter.py; this module never substitutes a
-latest TF for a transform at the sensor acquisition timestamp.
+El algoritmo está en slam/core/filter.py. Este nodo hace cuatro cosas:
+
+1. recibe `/scan` y la odometría, y busca la odometría en el instante exacto de
+   cada scan (nunca usa "la última disponible");
+2. le pasa cada par (scan, odometría) a `FastSLAM.process`;
+3. publica el resultado: `/map`, `/slam_pose`, `/particles`, `/path` y la
+   transformación `map -> odom`;
+4. ofrece servicios para guardar, pausar, reanudar y reiniciar.
 """
 from collections import deque
 import json
@@ -32,10 +38,12 @@ from ..core.types import Scan
 
 
 def seconds(stamp):
+    """Tiempo de un mensaje ROS en segundos."""
     return stamp.sec + stamp.nanosec * 1e-9
 
 
 def yaw_from_quaternion(q):
+    """Ángulo de giro sobre el eje z de un cuaternión (el robot se mueve en el plano)."""
     values = np.array([q.x, q.y, q.z, q.w], dtype=float)
     norm = np.linalg.norm(values)
     if not np.isfinite(norm) or norm < 1e-8:
@@ -59,6 +67,7 @@ def pose_message(pose):
 
 class SlamNode(Node):
     def __init__(self):
+        """Lee parámetros, crea el filtro y arma publicadores, suscripciones y servicios."""
         super().__init__('slam')
         defaults = {
             'config_file': '', 'scan_topic': '/scan', 'odom_topic': '/odom',
@@ -91,6 +100,7 @@ class SlamNode(Node):
         self.tf_buffer = Buffer(cache_time=Duration(seconds=self.options['odom_history_seconds']))
         self.tf_listener = TransformListener(self.tf_buffer, self)
         self.tf_broadcaster = TransformBroadcaster(self)
+        # TRANSIENT_LOCAL: quien se suscribe tarde (RViz) igual recibe el último mapa.
         persistent = QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE,
                                 durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.map_pub = self.create_publisher(OccupancyGrid, '/map', persistent)
@@ -102,6 +112,7 @@ class SlamNode(Node):
         self.path.header.frame_id = self.options['map_frame']
         self.references = ReferencePaths(self, persistent, pose_message, seconds,
                                          yaw_from_quaternion)
+        # Cola de scans que esperan su odometría o su TF.
         self.pending = deque()
         self.last_scan_received = None
         self.last_integrated_message = None
@@ -112,8 +123,8 @@ class SlamNode(Node):
         self.dropped_scans = 0
         self.adapter_error = ''
         self.last_wait_reason = ''
-        # The DDS queue must survive one expensive map update as well as the
-        # explicit waiting queue; the default sensor profile holds just 5 scans.
+        # La cola de DDS tiene que aguantar una actualización lenta del mapa. El
+        # perfil de sensores por defecto guarda solo 5 scans.
         scan_qos = QoSProfile(depth=self.options['scan_queue_size'],
                               reliability=ReliabilityPolicy.BEST_EFFORT)
         odom_qos = QoSProfile(depth=max(100, self.options['scan_queue_size']),
@@ -126,7 +137,8 @@ class SlamNode(Node):
         self.create_service(Trigger, '/slam/pause', self.on_pause)
         self.create_service(Trigger, '/slam/resume', self.on_resume)
         self.create_service(Trigger, '/slam/reset', self.on_reset)
-        # Wall timer allows services/diagnostics and TF retries while /clock pauses.
+        # Timers con reloj de pared: los servicios y el estado siguen funcionando
+        # aunque /clock esté pausado (bag o simulador detenidos).
         steady = Clock(clock_type=ClockType.STEADY_TIME)
         self.create_timer(0.025, self.drain, clock=steady)
         self.create_timer(1.0, self.publish_status, clock=steady)
@@ -135,12 +147,14 @@ class SlamNode(Node):
             f'{self.options["odom_source"]} odometry; scan={self.options["scan_topic"]}')
 
     def lookup(self, target, source, stamp):
+        """Transformación TF entre dos frames en un instante dado, como Pose2D."""
         if target == source:
             return Pose2D()
         transform = self.tf_buffer.lookup_transform(target, source, Time.from_msg(stamp))
         return pose_from_transform(transform.transform)
 
     def on_odom(self, message):
+        """Guarda cada odometría en el buffer, expresada como pose de `base_frame`."""
         if self.adapter_error:
             return
         try:
@@ -150,6 +164,8 @@ class SlamNode(Node):
                 raise ValueError('Odometry child_frame_id is empty')
             body = message.pose.pose
             pose = Pose2D(body.position.x, body.position.y, yaw_from_quaternion(body.orientation))
+            # La odometría da la pose de child_frame_id. Si ese frame no es la base
+            # del robot, se compone con el TF entre los dos.
             pose = pose.compose(self.lookup(message.child_frame_id, self.options['base_frame'],
                                             message.header.stamp))
             stamp = seconds(message.header.stamp)
@@ -167,6 +183,7 @@ class SlamNode(Node):
             self.get_logger().warning(f'Odometry unavailable: {exc}', throttle_duration_sec=5.0)
 
     def on_scan(self, message):
+        """Encola el scan. No se procesa acá para no bloquear la recepción de mensajes."""
         stamp = seconds(message.header.stamp)
         if not message.header.frame_id or not message.ranges:
             self.dropped_scans += 1
@@ -183,6 +200,11 @@ class SlamNode(Node):
         self.pending.append((message, time.monotonic()))
 
     def drain(self):
+        """Procesa un scan de la cola: busca su odometría y su extrínseca y llama al filtro.
+
+        Si todavía no hay odometría posterior al scan, el scan espera en la cola
+        hasta `tf_wait_timeout`. Así se interpola y nunca se extrapola.
+        """
         if self.adapter_error:
             return
         if self.options['odom_source'] == 'tf' and self.map_to_odom is not None:
@@ -192,11 +214,12 @@ class SlamNode(Node):
                 self.publish_correction(latest.header.stamp)
             except TransformException:
                 pass
-        # One scan per tick keeps the executor responsive to TF and services.
+        # Un scan por tick: el nodo sigue atendiendo TF y servicios entre scans.
         if not self.pending:
             return
         message, received = self.pending[0]
         try:
+            # Extrínseca: dónde está el lidar respecto de la base, en el instante del scan.
             sensor = self.lookup(self.options['base_frame'], message.header.frame_id,
                                  message.header.stamp)
             if self.options['odom_source'] == 'tf':
@@ -235,6 +258,7 @@ class SlamNode(Node):
             self.publish_status()
 
     def broadcast(self, parent, child, pose, stamp):
+        """Publica una transformación TF plana (x, y, yaw)."""
         transform = TransformStamped()
         transform.header.frame_id, transform.child_frame_id = parent, child
         transform.header.stamp = stamp
@@ -245,8 +269,13 @@ class SlamNode(Node):
         self.tf_broadcaster.sendTransform(transform)
 
     def publish_update(self, scan_message):
+        """Publica el resultado de un scan integrado: TF, pose, partículas, trayectoria y mapa."""
         stamp = scan_message.header.stamp
         best = self.core.best_particle
+        # map -> odom es la corrección del SLAM sobre la odometría:
+        # (pose en el mapa) = (map -> odom) compuesta con (pose de odometría).
+        # Publicar esta transformación, y no map -> base, es la convención de ROS
+        # (REP 105): la odometría sigue siendo continua y el SLAM solo la corrige.
         self.map_to_odom = best.pose.compose(self.last_odom_at_scan.inverse())
         self.broadcast(self.options['map_frame'], self.options['odom_frame'], self.map_to_odom, stamp)
         self.last_correction_stamp = max(self.last_correction_stamp, seconds(stamp))
@@ -255,7 +284,8 @@ class SlamNode(Node):
         pose.pose.pose = pose_message(best.pose)
         mean, covariance = self.core.estimate()
         difference = best.pose.between(mean)
-        # Publish the second moment about the selected hypothesis, in map axes.
+        # Se publica la pose de la mejor partícula. La covarianza se calcula
+        # alrededor de esa pose y no de la media, por eso se suma el término residual.
         residual = np.array([mean.x - best.pose.x, mean.y - best.pose.y, difference.yaw])
         covariance += np.outer(residual, residual)
         for a, row in enumerate((0, 1, 5)):
@@ -282,8 +312,11 @@ class SlamNode(Node):
             self.last_map_publish = now
 
     def publish_correction(self, stamp):
-        # Keep the latest SLAM correction valid at actual odometry timestamps.
-        # Only the TF transport uses this heartbeat; scoring still uses scan-time poses.
+        """Republica la última corrección map -> odom con el tiempo de cada odometría.
+
+        Entre dos scans integrados la corrección no cambia, pero TF necesita
+        transformaciones con tiempos recientes. El filtro no usa esto.
+        """
         timestamp = seconds(stamp)
         if self.map_to_odom is not None and timestamp > self.last_correction_stamp:
             self.broadcast(self.options['map_frame'], self.options['odom_frame'],
@@ -291,6 +324,7 @@ class SlamNode(Node):
             self.last_correction_stamp = timestamp
 
     def publish_map(self, stamp):
+        """Publica en /map la grilla de la mejor partícula."""
         grid = self.core.best_particle.grid
         message = OccupancyGrid()
         message.header.frame_id, message.header.stamp = self.options['map_frame'], stamp
@@ -303,6 +337,7 @@ class SlamNode(Node):
         self.map_pub.publish(message)
 
     def publish_status(self):
+        """Publica en /slam/status los diagnósticos del filtro y del nodo, en JSON."""
         status = dict(self.core.diagnostics)
         status.update(state='ERROR' if self.adapter_error else self.core.state.name,
                       adapter_error=self.adapter_error, waiting_for=self.last_wait_reason,
@@ -312,6 +347,7 @@ class SlamNode(Node):
         self.status_pub.publish(message)
 
     def save(self):
+        """Guarda el mapa (PGM + YAML) y un JSON con la configuración y los diagnósticos."""
         if self.last_integrated_message is None:
             raise ValueError('No integrated scan; map has not been created')
         output = Path(self.options['output_path']).expanduser()
@@ -357,6 +393,7 @@ class SlamNode(Node):
         return response
 
     def on_reset(self, request, response):
+        """Empieza una sesión nueva: borra mapa, partículas, colas y trayectorias."""
         del request
         self.core.reset()
         self.odometry.clear()
@@ -388,7 +425,7 @@ def main(args=None):
         if node is not None:
             if node.last_integrated_message is not None:
                 try:
-                    # Saving to disk remains valid after a ROS context shutdown.
+                    # Guardar a disco sigue siendo válido después de cerrar ROS.
                     node.save()
                 except Exception as exc:
                     node.get_logger().error(f'Could not save map on shutdown: {exc}')

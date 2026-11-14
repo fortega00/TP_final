@@ -1,4 +1,4 @@
-"""Publish the independent toy simulator through real ROS 2 interfaces."""
+"""Publica el mundo sintético (toy) por tópicos ROS reales, para probar el nodo sin Gazebo."""
 import math
 
 import rclpy
@@ -52,7 +52,7 @@ class ToyNode(Node):
         self.ticks = 0
         self.timer = self.create_timer(1.0 / get('rate'), self.tick,
                                       clock=Clock(clock_type=ClockType.STEADY_TIME))
-        # One wall second gives DDS discovery time; this node supplies /clock.
+        # Espera un segundo de reloj para que los nodos se descubran. Este nodo publica /clock.
         self.startup_ticks = int(math.ceil(get('rate')))
 
     def tick(self):
@@ -91,7 +91,7 @@ class ToyNode(Node):
         scan.angle_min, scan.angle_increment = sample.scan.angle_min, sample.scan.angle_increment
         scan.angle_max = scan.angle_min + (len(sample.scan.ranges) - 1) * scan.angle_increment
         scan.range_min, scan.range_max = sample.scan.range_min, sample.scan.range_max
-        # Synthetic observations are instantaneous: no unmodelled rolling scan.
+        # El scan sintético es instantáneo: no hay distorsión por movimiento durante el barrido.
         scan.scan_time, scan.time_increment = 0.25, 0.0
         scan.ranges = sample.scan.ranges.astype('float32').tolist()
         self.scan_pub.publish(scan)

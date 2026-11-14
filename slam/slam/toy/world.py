@@ -1,8 +1,9 @@
-"""Deterministic planar office benchmark, independent of ROS and of the SLAM map.
+"""Mundo sintético (toy): una oficina simulada en Python puro, sin ROS ni Gazebo.
 
-The simulator ray-casts analytic segments rather than the estimated grid.  Ground
-truth is used only by the evaluator; the filter receives noisy odometry and scans.
-This is an algorithm smoke test, not a substitute for Gazebo or real-robot trials.
+Sirve para probar el algoritmo en segundos. El simulador calcula los rayos del
+lidar contra paredes definidas como segmentos, no contra el mapa estimado. La
+pose real solo la usa el evaluador: el filtro recibe odometría y scans con
+ruido. Es una prueba rápida del algoritmo y no reemplaza a Gazebo ni al robot.
 """
 from __future__ import annotations
 
@@ -59,19 +60,19 @@ class ToyConfig:
 
 @dataclass(frozen=True)
 class OfficeWorld:
-    """9 x 7 metre room, two offices connected by a two metre doorway."""
+    """Sala de 9 x 7 m: dos oficinas conectadas por una puerta de 2 m."""
 
     segments: np.ndarray
     bounds: tuple[float, float, float, float] = (-2.0, 7.0, -3.5, 3.5)
 
     @classmethod
     def standard(cls) -> "OfficeWorld":
-        # Zero-width analytic surfaces. Rasterization marks their containing cells.
+        # Paredes sin espesor. Al rasterizar se marcan las celdas que las contienen.
         return cls(np.array([
             [-2., -3.5, 7., -3.5], [7., -3.5, 7., 3.5],
             [7., 3.5, -2., 3.5], [-2., 3.5, -2., -3.5],
             [2.5, -3.5, 2.5, -1.], [2.5, 1., 2.5, 3.5],
-            # Asymmetric short wall helps disambiguate the two sides.
+            # Una pared corta asimétrica ayuda a distinguir los dos lados.
             [5.8, 1., 7., 1.],
         ], dtype=float))
 
@@ -95,8 +96,8 @@ class OfficeWorld:
         return np.where(nearest < range_max, nearest, np.inf)
 
     def trajectory(self, config: ToyConfig) -> list[Pose2D]:
-        # Every translation is collision free; turns are sampled in place.  Start
-        # and end use the same full pose, making loop error directly measurable.
+        # Los tramos rectos no chocan y los giros son en el lugar. Empieza y termina
+        # en la misma pose, así el error de cierre del lazo se mide directo.
         waypoints = [(0., 0.), (5., 0.), (5., 2.), (4., 2.), (4., 0.),
                      (1., 0.), (1., -2.), (0., -2.), (0., 0.)]
         poses = [Pose2D(0., 0., 0.)]
@@ -120,7 +121,7 @@ class OfficeWorld:
         return poses
 
     def rasterize(self, map_config) -> np.ndarray:
-        """Occupancy in ROS orientation [row y, column x], independently generated."""
+        """Mapa real en la orientación de ROS [fila y, columna x], generado sin el SLAM."""
         resolution = map_config.resolution
         width = math.ceil(map_config.width / resolution)
         height = math.ceil(map_config.height / resolution)
@@ -149,7 +150,8 @@ class ToySample:
 
 def generate_samples(config: ToyConfig = ToyConfig(), seed: int = 7,
                      world: OfficeWorld | None = None) -> Iterator[ToySample]:
-    """Separate RNG streams keep odometry identical across sensor-noise ablations."""
+    """Genera los pares (odometría, scan). Usa generadores aleatorios separados para
+    que la odometría sea la misma aunque cambie el ruido del sensor."""
     world = world or OfficeWorld.standard()
     sensor_rng, odom_rng = [np.random.default_rng(s) for s in np.random.SeedSequence(seed).spawn(2)]
     poses = world.trajectory(config)
@@ -199,7 +201,7 @@ def _dilate(mask: np.ndarray, radius_cells: int, circular: bool = False) -> np.n
 def _nearest_distances(points: np.ndarray, targets: np.ndarray) -> np.ndarray:
     if len(points) == 0 or len(targets) == 0:
         return np.array([], dtype=float)
-    # Bounded batches avoid allocating the full point-to-point distance matrix.
+    # Por lotes, para no armar la matriz completa de distancias punto a punto.
     return np.concatenate([np.sqrt(np.min(np.sum((points[i:i+256, None, :]
                             - targets[None, :, :]) ** 2, axis=2), axis=1))
                            for i in range(0, len(points), 256)])
@@ -210,7 +212,7 @@ def evaluate_map(occupancy: np.ndarray, ground_truth: np.ndarray, map_config,
                  safety_margin: float = .05) -> dict:
     occupied = occupancy >= 65
     truth_occupied = ground_truth >= 65
-    # One-cell Chebyshev tolerance is explicitly resolution-dependent.
+    # Tolerancia de una celda: depende de la resolución.
     matched_est = occupied & _dilate(truth_occupied, 1)
     matched_truth = truth_occupied & _dilate(occupied, 1)
     est_count, truth_count = int(occupied.sum()), int(truth_occupied.sum())
@@ -218,7 +220,7 @@ def evaluate_map(occupancy: np.ndarray, ground_truth: np.ndarray, map_config,
     truth_free = ground_truth == 0
     known = occupancy >= 0
     free = (occupancy >= 0) & (occupancy <= 25)
-    blocked = ~free  # Unknown and uncertain cells are obstacles for this check.
+    blocked = ~free  # Para este chequeo, desconocido e incierto cuentan como obstáculo.
     radius_cells = math.ceil((robot_radius + safety_margin) / map_config.resolution)
     blocked = _dilate(blocked, radius_cells, circular=True)
     blocked[:radius_cells, :] = blocked[-radius_cells:, :] = True
@@ -240,7 +242,7 @@ def evaluate_map(occupancy: np.ndarray, ground_truth: np.ndarray, map_config,
                 if 0 <= y < height and 0 <= x < width and not blocked[y, x] and not reachable[y, x]:
                     reachable[y, x] = True
                     queue.append((y, x))
-    # Check all translated route samples, so doors and narrow paths matter.
+    # Se revisan todos los puntos de la ruta, así cuentan las puertas y los pasos angostos.
     route_cells = sorted(set(cell(pose) for pose in route))
     goals = [reachable[y, x] if 0 <= y < height and 0 <= x < width else False for y, x in route_cells]
     precision = int(matched_est.sum()) / max(1, est_count)
@@ -267,7 +269,7 @@ def evaluate_map(occupancy: np.ndarray, ground_truth: np.ndarray, map_config,
 
 
 def _write_pgm(path: Path, occupancy: np.ndarray) -> None:
-    # 128 falls between the YAML thresholds; 205 would be read as free at .25.
+    # 128 queda entre los umbrales del YAML. 205 se leería como libre con umbral 0,25.
     pixels = np.full(occupancy.shape, 128, dtype=np.uint8)
     pixels[(occupancy >= 0) & (occupancy <= 25)] = 254
     pixels[occupancy >= 65] = 0
@@ -277,11 +279,11 @@ def _write_pgm(path: Path, occupancy: np.ndarray) -> None:
 
 
 def load_trinary_map(metadata_path: str | Path) -> tuple[np.ndarray, dict]:
-    """Read the actual PGM/YAML artifact with map-server threshold semantics.
+    """Lee el PGM/YAML guardado con las mismas reglas de umbral que el map_server.
 
-    This small P5 reader intentionally supports our 8-bit export format. Evaluating
-    the saved artifact catches origin/row-order/unknown errors hidden by in-memory
-    probability arrays. Values strictly between thresholds remain unknown.
+    Se evalúa el archivo guardado y no la grilla en memoria, para detectar
+    errores de origen, de orden de filas o de celdas desconocidas. Los valores
+    entre los dos umbrales quedan como desconocidos.
     """
     metadata_path = Path(metadata_path)
     metadata = yaml.safe_load(metadata_path.read_text(encoding="utf-8"))
@@ -312,7 +314,7 @@ def load_trinary_map(metadata_path: str | Path) -> tuple[np.ndarray, dict]:
 
 
 def _write_overview(path: Path, occupancy: np.ndarray, map_config, trajectory: list[dict]) -> None:
-    # Display cells as runs to keep the vector artifact compact and inspectable.
+    # Las celdas se dibujan por tramos para que el SVG quede chico.
     height, width = occupancy.shape
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="960" height="960" viewBox="0 0 {width} {height}">',
              f'<title>Toy FastSLAM: map, ground truth (green), estimated (red), odometry (blue)</title>',
@@ -389,7 +391,7 @@ def run_benchmark(slam_config, output: str | Path, toy_config: ToyConfig = ToyCo
         "diagnostics": slam.diagnostics,
         "validation_scope": "Synthetic planar office only; not Gazebo, rosbag or physical RosMaster validation.",
     })
-    # Thresholds qualify only this toy scenario; retain the individual measurements.
+    # Los umbrales de aceptación valen solo para este escenario; se guardan todas las medidas.
     metrics["toy_acceptance_passed"] = bool(
         metrics["loop_completed"] and metrics["occupied_precision_1cell"] >= .80
         and metrics["occupied_recall_1cell"] >= .65

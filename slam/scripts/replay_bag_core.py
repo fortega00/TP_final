@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Screen the unchanged FastSLAM core on aligned real-bag measurements.
+"""Corre el núcleo de FastSLAM, sin ROS, sobre los scans y la odometría de un bag.
 
-This is parameter screening, not ROS integration or an independent accuracy test.
+Lee un .npz con los datos ya extraídos del bag y alineados en tiempo. Sirve para
+comparar configuraciones rápido sobre las mismas lecturas. No prueba el nodo ROS.
 """
 import argparse
 import json

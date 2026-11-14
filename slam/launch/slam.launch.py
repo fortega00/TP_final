@@ -1,4 +1,8 @@
-"""One entry point for toy, external Gazebo simulation, ROS bag and real robot."""
+"""Un solo launch para los cuatro modos: toy, simulación en Gazebo, bag y robot real.
+
+El nodo de SLAM es el mismo en los cuatro. Lo que cambia es quién publica los
+datos: el mundo sintético, Gazebo, un bag reproducido o el robot.
+"""
 import os
 from pathlib import Path
 

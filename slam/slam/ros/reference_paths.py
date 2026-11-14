@@ -1,4 +1,8 @@
-"""Diagnostic trajectories only: never feed ground truth back into SLAM."""
+"""Trayectorias de referencia para comparar en RViz. Solo diagnóstico.
+
+Publica la odometría cruda y, si existe, la pose real del simulador, las dos
+alineadas con el inicio del mapa. El SLAM nunca recibe estos datos.
+"""
 from collections import deque
 
 from geometry_msgs.msg import PoseStamped
@@ -50,16 +54,18 @@ class ReferencePaths:
         publisher.publish(path)
 
     def observe(self, stamp, odom):
+        """Agrega un punto a la trayectoria de odometría cruda, por cada scan integrado."""
         if self.raw_alignment is None:
             self.anchor_stamp = self.seconds(stamp)
             self.raw_alignment = self.initial.compose(odom.inverse())
-        # Freeze alignment at session start, independent of map -> odom TF.
+        # La alineación se fija al inicio de la sesión y no depende del TF map -> odom.
         self.append(self.raw, self.raw_pub, stamp, self.raw_alignment.compose(odom))
         if self.enabled:
             self.pending.append(stamp)
             self.flush_truth()
 
     def on_truth(self, message):
+        """Guarda cada muestra de la pose real en un buffer para interpolarla después."""
         try:
             frames = (message.header.frame_id, getattr(message, 'child_frame_id', ''))
             if self.source_frames is not None and frames != self.source_frames:
@@ -84,6 +90,7 @@ class ReferencePaths:
             self.node.get_logger().warning(str(exc), throttle_duration_sec=5.0)
 
     def flush_truth(self):
+        """Publica la pose real interpolada en los instantes de los scans integrados."""
         if self.anchor_stamp is None:
             return
         if self.truth_alignment is None:

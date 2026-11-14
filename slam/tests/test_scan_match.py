@@ -1,4 +1,4 @@
-"""Scan-matching proposal: places a particle where the scan fits its own map."""
+"""Propuesta con scan matching: ubica una partícula donde el scan encaja en su mapa."""
 
 from dataclasses import replace
 import math
@@ -13,13 +13,13 @@ from slam.core.grid import OccupancyGrid
 from slam.core.scan_match import ScanMatchProposal
 from slam.core.types import Scan
 
-# Rectangular room centred on the origin. Walls sit on cell centres (5 cm cells), so
-# the map has no half-cell bias and the expected accuracy is one search step.
+# Sala rectangular centrada en el origen. Las paredes caen en centros de celda (5 cm),
+# así el mapa no tiene sesgo de media celda y la precisión esperada es un paso de búsqueda.
 HALF_X, HALF_Y = 2.025, 1.525
 
 
 def room_scan(pose=Pose2D(), beams=360):
-    """Exact ranges a lidar at ``pose`` would measure inside the room."""
+    """Rangos exactos que mediría un lidar en `pose` dentro de la sala."""
     angles = np.arange(beams) * (2 * math.pi / beams)
     world = angles + pose.yaw
     c, s = np.cos(world), np.sin(world)
