@@ -1,0 +1,36 @@
+# Mundo café de custom_map en Gazebo. Unidades SI: m, rad, s.
+# Los valores de sensor son los de slam/config/cafe.yaml.
+sensor:
+  # Gazebo devuelve retornos del propio chasis a 0,14-0,20 m.
+  min_range: 0.25
+  max_range: 8.0
+  likelihood_beams: 60
+  sigma_hit: 0.10
+  z_hit: 0.95
+  z_rand: 0.05
+  likelihood_max_dist: 0.60
+  likelihood_temperature: 1.0
+motion:
+  alpha1: 0.02
+  alpha2: 0.002
+  alpha3: 0.02
+  alpha4: 0.02
+scan_match:
+  enabled: false
+localization:
+  particles: 1000
+  seed: 7
+  resample_ess_ratio: 0.5
+  min_translation: 0.08
+  min_rotation: 0.06
+  converged_std_xy: 0.10
+  converged_std_yaw: 0.10
+  burst_max_iterations: 30
+  burst_stable_xy: 0.01
+  burst_stable_yaw: 0.01
+  burst_jitter_xy: 0.03
+  burst_jitter_yaw: 0.02
+  injection_enabled: true
+  injection_alpha_slow: 0.001
+  injection_alpha_fast: 0.1
+  injection_max_fraction: 0.2

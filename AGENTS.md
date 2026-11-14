@@ -50,6 +50,16 @@ Comentarios y docstrings en español; identificadores, mensajes de error y commi
 | `../docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
 | `../docs/guia_ejecucion.md`, `../docs/parametros.md`, `../docs/architecture.md`, `../docs/entrega_a.md` | Ejecución, parámetros, arquitectura e informe con diez respuestas. |
 
+Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004-localizacion-en-mapa-conocido.md`. Todavía sin nodos ROS.
+
+| Ruta | Responsabilidad |
+| --- | --- |
+| `nav/core/config.py`, `config/cafe.yaml` | Configuración validada. Los grupos `sensor`, `motion` y `scan_match` son los de `slam.core`. |
+| `nav/core/map.py` | Carga PGM/YAML trinario como `OccupancyGrid` de `slam.core`. |
+| `nav/core/localization.py` | MCL sobre mapa conocido: ráfaga inicial, compuerta de movimiento, ESS, inyección, scan matching opcional. |
+| `scripts/replay_localization.py` | Corre la localización sin ROS sobre una grabación y la mide contra la pose real. |
+| `tests/` | `PYTHONPATH=../slam:. python3 -m unittest discover -s tests` |
+
 ### Invariantes
 
 - Cada partícula mantiene mapa y trayectoria ancestral propios. El remuestreo no comparte arrays mutables.

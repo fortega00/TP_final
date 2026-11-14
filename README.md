@@ -5,7 +5,7 @@ Trabajo final de Principios de la Robótica Autónoma (I-402), con un Yahboom Ro
 | Etapa | Qué pide | Carpeta | Estado |
 |---|---|---|---|
 | A | Construir el mapa y estimar la pose (SLAM) | `slam/` | Implementada, falta la sesión con el robot real |
-| B | Localizarse en el mapa, planificar y navegar | `nav/` | Sin empezar |
+| B | Localizarse en el mapa, planificar y navegar | `nav/` | En curso: núcleo de localización, sin nodo ROS todavía |
 | C | Explorar y buscar conos rojos con la cámara | `mission/` | Sin empezar |
 
 ## Organización
@@ -35,6 +35,13 @@ cd slam
 python3 -m pip install -r requirements.txt
 python3 -m unittest discover -s tests
 python3 -m slam.toy.cli toy --config config/default.yaml --output /tmp/slam_toy --seed 7 --check
+```
+
+Etapa B, desde `nav/` (importa `slam.core`, por eso el `PYTHONPATH`):
+
+```bash
+cd nav
+PYTHONPATH=../slam:. python3 -m unittest discover -s tests
 ```
 
 ## Con ROS
