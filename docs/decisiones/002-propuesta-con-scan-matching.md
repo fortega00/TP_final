@@ -53,6 +53,16 @@ Las referencias son independientes del SLAM: en el bag real, el mapa del laborat
 | Scan matching | 16 | 7,4 / 6,7 / 5,9 | 19,1 / 23,0 / 20,1 | 0,97 / 0,98 / 0,97 | 0,95 / 0,97 / 0,96 |
 | Scan matching, ventana ±15 cm y ±0,09 rad | 8 | 8,3 / 6,9 / 7,7 | 22,2 / 26,3 / 24,3 | 0,96 / 0,98 / 0,96 | 0,94 / 0,96 / 0,94 |
 
+Corrección del 2026-11-14: esta tabla alinea la trayectoria con una sola pose de referencia, y eso infla el RMSE (ver [003](003-metrica-de-evaluacion.md)). Sirve para comparar filas entre sí. Con el mejor ajuste rígido de toda la trayectoria, las dos filas que se pudieron recalcular dan:
+
+| Configuración | Partículas | RMSE de posición (cm) | Recall a 10 cm | Precisión a 10 cm |
+|---|---|---|---|---|
+| Odometría, ajustada | 128 | 7,4 / 7,7 / 6,9 | 0,96 / 0,96 / 0,97 | 0,93 / 0,92 / 0,95 |
+| Scan matching | 8 | 5,8 / 5,7 / 5,4 | 0,97 / 0,97 / 0,98 | 0,96 / 0,96 / 0,96 |
+| Scan matching, nodo ROS en tiempo real | 8 | 5,5 / 5,3 / 5,4 | 0,97 / 0,97 / 0,98 | 0,96 / 0,96 / 0,97 |
+
+Scan matching sigue siendo mejor y mucho más barato, pero la ventaja en precisión es de unos 2 cm, no de 2 a 5.
+
 El resultado no depende de la cantidad de partículas ni del tamaño de la ventana. Solo el 0,01 % de los ajustes tocó el borde de la ventana de ±10 cm.
 
 **Simulación con deriva** (café en Gazebo Classic, recorrido de 54,7 m con vuelta al inicio, 556 actualizaciones). La odometría sola termina con 667 cm de RMSE y hasta 120° de error de yaw:

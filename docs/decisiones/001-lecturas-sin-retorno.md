@@ -39,7 +39,14 @@ SLAM completo con `parcial_bag_tuned.yaml`, semillas 7 / 1 / 2:
 | `+inf` libera | 10,5 / 11,8 / 28,2 | 0,80 / 0,76 / 0,53 | 0,99 / 0,96 / 0,73 | 325 m² |
 | `+inf` ignorado | 9,5 / 12,8 / 7,9 | 0,96 / 0,88 / 0,98 | 0,91 / 0,84 / 0,95 | 116 m² |
 
-Con la regla vieja la semilla 2 doblaba el mapa. Con la nueva las tres semillas quedan por debajo de 13 cm.
+Corrección del 2026-11-14: esta tabla alinea la trayectoria con una sola pose de referencia, y eso infla el RMSE y arrastra al recall y a la precisión (ver [003](003-metrica-de-evaluacion.md)). Los 28,2 cm de la semilla 2 con la regla vieja eran ese efecto, la trayectoria no estaba deformada. Con el mejor ajuste rígido de toda la trayectoria:
+
+| Regla | RMSE de posición (cm) | Recall a 10 cm | Precisión a 10 cm | Área libre (referencia 121 m²) |
+|---|---|---|---|---|
+| `+inf` libera | 7,4 / 8,1 / 7,9 | 0,80 / 0,80 / 0,80 | 0,99 / 0,99 / 0,99 | 325 m² |
+| `+inf` ignorado | 7,4 / 7,7 / 6,9 | 0,96 / 0,96 / 0,97 | 0,93 / 0,92 / 0,95 | 116 m² |
+
+La regla casi no cambia la trayectoria. Cambia el mapa: con la regla vieja se pierde el 20 % de las paredes y aparecen 200 m² de espacio libre que no existe. Por eso se mantiene la decisión.
 
 ## Pendiente
 
