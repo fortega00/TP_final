@@ -16,6 +16,9 @@ El ejemplo genera un mapa PGM/YAML, una figura SVG, la trayectoria y métricas r
 - [Arquitectura](docs/architecture.md): módulos, máquina de estados y puntos de extensión.
 - [Informe de la entrega A](docs/entrega_a.md): decisiones, evaluación y respuestas a las diez preguntas de la consigna.
 - [Experimentos de café y rosbag real](docs/experimentos_a.md): mapas, métricas, capturas de RViz y límites de aceptación.
+- [Decisiones](docs/decisiones/): alternativas y datos de cada decisión de diseño.
+- [Checklist del robot real](docs/robot_real_checklist.md): pasos para la sesión con el RosMaster físico.
+- [macOS](docs/macos.md): cómo correr el núcleo y el nodo ROS en Mac.
 - [AGENTS.md](AGENTS.md): contexto y convenciones para continuar las etapas A, B y C.
 
 Las consignas originales están en los tres PDF de la raíz. El alcance implementado es el mapeo de A; B y C utilizarán estos mapas para navegación y exploración.

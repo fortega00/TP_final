@@ -83,17 +83,19 @@ El resultado no depende de la cantidad de partículas ni del tamaño de la venta
 
 El nodo sigue el ritmo del simulador sin acumular cola. Falta medirlo en la computadora del robot.
 
-**Toy** (odometría casi perfecta, 2,0 cm de RMSE): acá scan matching no ayuda. RMSE de posición 3,8 cm contra 2,6 cm de la propuesta de odometría con 24 partículas, y precisión de celdas ocupadas 0,76 contra 0,88. La búsqueda trabaja en pasos de 2,5 cm sobre celdas de 5 cm, entonces cuando la odometría es mejor que eso agrega un poco de ruido. Es el costo conocido de usarla por defecto.
+**Toy** (odometría casi perfecta, 2,0 cm de RMSE): acá scan matching no ayuda. Con los valores de sensor originales del default (`hit_thickness` 0,03, `sigma_hit` 0,10) dio 3,8 cm de RMSE contra 2,6 cm de la propuesta de odometría con 24 partículas, y precisión de celdas ocupadas 0,76 contra 0,88. Con los valores actuales (0,08 y 0,15, ver parámetros sensibles) da 2,9 / 3,2 / 3,2 cm y precisión 0,84 / 0,83 / 0,84 en las semillas 7 / 1 / 2, y pasa el chequeo de aceptación del toy. La búsqueda trabaja en pasos de 2,5 cm sobre celdas de 5 cm, entonces cuando la odometría es mejor que eso agrega un poco de ruido. Es el costo conocido de usarla por defecto.
 
 ## Parámetros sensibles
 
 - `scan_match.sigma` (qué distancia extremo-pared cuenta como ajuste). Con el prototipo, 8 partículas y tres semillas: 0,03 m da 6,6 a 11,0 cm de RMSE; 0,05 m da 7,2 a 8,0; 0,07 m da 9,3 a 11,8; 0,10 m falla en dos semillas (45 y 47 cm). Queda en 0,05 m, una celda.
 - El puntaje tiene que saturar para los extremos lejos de toda pared conocida (zonas recién vistas). La primera versión usaba la distancia al cuadrado sin saturar y esos extremos arrastraban la pose: 22 cm de RMSE. Por eso se usa la misma mezcla que el campo de verosimilitud (`z_hit` gaussiana más `z_rand` uniforme).
 - `sensor.hit_thickness`: con 0,03 m en lugar de 0,08 m el resultado empeora (RMSE 11,5 / 13,3 / 7,4 cm, recall 0,90 / 0,83 / 0,93). Queda en 0,08 m. El grosor de las paredes se trata aparte.
+- Valores de sensor de `default.yaml` (2026-11-13). El default tenía `hit_thickness` 0,03 y `sigma_hit` 0,10, distintos del perfil validado con el bag. Corrí el bag real con el default completo y solo el mapa agrandado: con 0,03 / 0,10 da 7,9 / 11,7 / 11,0 cm de RMSE y recall 0,85 / 0,81 / 0,83; con 0,08 / 0,15 da 7,6 / 8,0 / 6,7 cm y recall 0,94 / 0,88 / 0,94. `default.yaml` pasa a 0,08 y 0,15. `cafe.yaml` queda con 0,03 y 0,10, que son los valores con los que se midió la corrida en vivo de Gazebo.
 
 ## Limitaciones
 
 - El peso exacto de esta propuesta integra la verosimilitud sobre la ventana. Acá la corrección es 0 y cada partícula se pesa con la verosimilitud en su pose ajustada. Es una simplificación habitual, hay que decirla en el informe.
 - La ventana supone que la odometría se equivoca menos de 10 cm y 0,06 rad por paso. Vale para el bag y para la simulación, no está probado con movimientos más bruscos.
 - Con odometría casi perfecta (toy) empeora un poco el resultado, ver arriba.
-- No está probado en el robot real ni en su computadora.
+- No está probado en el robot real ni en su computadora. Los pasos para esa sesión están en `docs/robot_real_checklist.md`.
+- El mapa de `default.yaml` (16 × 16 m) no alcanza para el aula: en el bag el robot se alejó 9,5 m del punto de partida. Para el robot real hay que usar `parcial_bag_scan_match.yaml` (48 × 40 m).
