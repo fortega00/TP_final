@@ -69,7 +69,7 @@ class UpdateConfig:
 
 @dataclass(frozen=True)
 class ScanMatchConfig:
-    """Scan-matching proposal (tp_slam/scan_match.py). Disabled: odometry proposal."""
+    """Scan-matching proposal (slam/core/scan_match.py). Disabled: odometry proposal."""
     enabled: bool = False
     window_xy: float = 0.10       # search half-width around the odometry guess, m
     step_xy: float = 0.025

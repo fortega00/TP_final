@@ -17,8 +17,8 @@ from rclpy.serialization import serialize_message
 from sensor_msgs.msg import LaserScan
 from tf2_msgs.msg import TFMessage
 
-from tp_slam.ros_node import pose_message
-from tp_slam.toy import ToyConfig, generate_samples
+from slam.ros.ros_node import pose_message
+from slam.toy.world import ToyConfig, generate_samples
 
 
 def set_stamp(stamp, value):

@@ -23,12 +23,12 @@ from std_msgs.msg import String
 from std_srvs.srv import Trigger
 from tf2_ros import Buffer, TransformBroadcaster, TransformException, TransformListener
 
-from .config import SlamConfig
-from .filter import FastSLAM
-from .geometry import Pose2D
-from .odometry import OdometryBuffer
+from ..core.config import SlamConfig
+from ..core.filter import FastSLAM
+from ..core.geometry import Pose2D
+from ..core.odometry import OdometryBuffer
 from .reference_paths import ReferencePaths
-from .types import Scan
+from ..core.types import Scan
 
 
 def seconds(stamp):

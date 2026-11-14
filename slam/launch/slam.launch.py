@@ -24,7 +24,7 @@ def _setup(context):
     config_file = str(Path(get('config_file')).expanduser().resolve())
     if not Path(config_file).is_file():
         raise ValueError(f'Configuration file does not exist: {config_file}')
-    share = get_package_share_directory('tp_slam')
+    share = get_package_share_directory('slam')
     sim_time = mode != 'real' if get('use_sim_time') == 'auto' else _boolean(get('use_sim_time'))
     parameters = {
         'config_file': config_file, 'use_sim_time': sim_time,
@@ -42,12 +42,12 @@ def _setup(context):
                                 '/ground_truth/odom' if mode == 'simulation' else '')
                                if get('ground_truth_topic') == 'auto' else get('ground_truth_topic')),
     }
-    actions = [Node(package='tp_slam', executable='slam_node', name='slam',
+    actions = [Node(package='slam', executable='slam_node', name='slam',
                     parameters=[parameters], output='screen')]
     if mode == 'toy':
         if _boolean(get('publish_scan_tf')):
             raise ValueError('Toy publishes its own identity sensor TF; publish_scan_tf must be false')
-        actions.append(Node(package='tp_slam', executable='toy_node', output='screen', parameters=[{
+        actions.append(Node(package='slam', executable='toy_node', output='screen', parameters=[{
             'config_file': config_file, 'use_sim_time': sim_time, 'rate': float(get('toy_rate')),
             'scan_topic': get('scan_topic'), 'odom_topic': get('odom_topic'),
             'odom_frame': get('odom_frame'), 'base_frame': get('base_frame'),
@@ -70,7 +70,7 @@ def _setup(context):
         rate = float(get('bag_rate'))
         if rate <= 0:
             raise ValueError('bag_rate must be positive')
-        actions.append(Node(package='tp_slam', executable='bag_tf_filter', output='screen',
+        actions.append(Node(package='slam', executable='bag_tf_filter', output='screen',
                             parameters=[{'use_sim_time': sim_time, 'map_frame': get('map_frame'),
                                          'odom_frame': get('odom_frame')}]))
         command = ['ros2', 'bag', 'play', str(bag_path), '--clock', '--rate', str(rate),
@@ -93,7 +93,7 @@ def _setup(context):
 
 
 def generate_launch_description():
-    share = get_package_share_directory('tp_slam')
+    share = get_package_share_directory('slam')
     defaults = {
         'mode': 'toy', 'config_file': os.path.join(share, 'config', 'default.yaml'),
         'scan_topic': '/scan', 'odom_topic': '/odom', 'odom_source': 'topic',

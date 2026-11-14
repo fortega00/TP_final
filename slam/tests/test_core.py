@@ -10,14 +10,14 @@ import unittest
 import numpy as np
 import yaml
 
-from tp_slam.config import SlamConfig, MapConfig, SensorConfig, MotionConfig, FilterConfig, UpdateConfig
-from tp_slam.filter import FastSLAM, normalize_log_weights, systematic_resample
-from tp_slam.geometry import Pose2D
-from tp_slam.grid import OccupancyGrid
-from tp_slam.io import save_map
-from tp_slam.sensor import LaserSensorModel, prepare_scan
-from tp_slam.state_machine import SlamState
-from tp_slam.types import Scan
+from slam.core.config import SlamConfig, MapConfig, SensorConfig, MotionConfig, FilterConfig, UpdateConfig
+from slam.core.filter import FastSLAM, normalize_log_weights, systematic_resample
+from slam.core.geometry import Pose2D
+from slam.core.grid import OccupancyGrid
+from slam.core.io import save_map
+from slam.core.sensor import LaserSensorModel, prepare_scan
+from slam.core.state_machine import SlamState
+from slam.core.types import Scan
 
 
 def scan(ranges=(1.0,), stamp=0.0, sensor_pose=Pose2D()):

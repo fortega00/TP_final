@@ -1,8 +1,8 @@
 import math
 import unittest
 
-from tp_slam.geometry import Pose2D
-from tp_slam.odometry import OdometryBuffer
+from slam.core.geometry import Pose2D
+from slam.core.odometry import OdometryBuffer
 
 
 class OdometryTests(unittest.TestCase):

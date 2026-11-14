@@ -35,7 +35,7 @@ import yaml
 
 class Observer(Node):
     def __init__(self):
-        super().__init__("tp_slam_transport_smoke")
+        super().__init__("slam_transport_smoke")
         self.status = None
         self.map = None
         self.pose = None
@@ -145,7 +145,7 @@ def validate_export(output):
 def run(args, summary):
     output = args.output.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=True)
-    command = ["ros2", "launch", "tp_slam", "slam.launch.py", f"mode:={args.mode}",
+    command = ["ros2", "launch", "slam", "slam.launch.py", f"mode:={args.mode}",
                "rviz:=false", "toy_rate:=10", "scan_queue_size:=100",
                f"odom_source:={args.odom_source}",
                f"output_path:={output / 'map'}"]
@@ -199,8 +199,8 @@ def run(args, summary):
         if args.mode == 'toy':
             wait_until(node, lambda: node.truth_path is not None and len(node.truth_path.poses) == 118,
                        deadline, 'timestamp-aligned ground truth trajectory', process)
-            from tp_slam.toy import ToyConfig, generate_samples
-            from tp_slam.geometry import Pose2D
+            from slam.toy.world import ToyConfig, generate_samples
+            from slam.core.geometry import Pose2D
             samples = list(generate_samples(ToyConfig(), seed=7))
             for path, field in ((node.raw_path, 'odometry'), (node.truth_path, 'truth')):
                 assert path.header.frame_id == 'map'

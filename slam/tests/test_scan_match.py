@@ -6,12 +6,12 @@ import unittest
 
 import numpy as np
 
-from tp_slam.config import FilterConfig, MapConfig, MotionConfig, ScanMatchConfig, SlamConfig
-from tp_slam.filter import FastSLAM
-from tp_slam.geometry import Pose2D
-from tp_slam.grid import OccupancyGrid
-from tp_slam.scan_match import ScanMatchProposal
-from tp_slam.types import Scan
+from slam.core.config import FilterConfig, MapConfig, MotionConfig, ScanMatchConfig, SlamConfig
+from slam.core.filter import FastSLAM
+from slam.core.geometry import Pose2D
+from slam.core.grid import OccupancyGrid
+from slam.core.scan_match import ScanMatchProposal
+from slam.core.types import Scan
 
 # Rectangular room centred on the origin. Walls sit on cell centres (5 cm cells), so
 # the map has no half-cell bias and the expected accuracy is one search step.

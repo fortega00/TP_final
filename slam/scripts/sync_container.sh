@@ -11,7 +11,7 @@ usage() {
   cat <<'EOF'
 Usage: ./scripts/sync_container.sh [--sync-only]
 
-Copy tp_slam into the running PRA_00 container and build only that package.
+Copy slam into the running PRA_00 container and build only that package.
 --sync-only copies sources without building.
 Override SLAM_CONTAINER and SLAM_CONTAINER_WS if needed.
 Afterwards enter with ~/PRA_00/container.sh enter and source install/setup.bash.
@@ -31,22 +31,28 @@ if [[ "$(docker inspect --format '{{.State.Running}}' "$SLAM_CONTAINER" 2>/dev/n
   exit 1
 fi
 
-echo "Copying tp_slam to ${SLAM_CONTAINER}:${SLAM_CONTAINER_WS}/src/tp_slam"
+# The package was called tp_slam before the reorganization; two copies would both build.
+if docker exec "$SLAM_CONTAINER" test -d "$SLAM_CONTAINER_WS/src/tp_slam"; then
+  echo "Remove the old package first: rm -rf $SLAM_CONTAINER_WS/src/tp_slam $SLAM_CONTAINER_WS/{build,install}/tp_slam" >&2
+  exit 1
+fi
+
+echo "Copying slam to ${SLAM_CONTAINER}:${SLAM_CONTAINER_WS}/src/slam"
 tar --exclude='__pycache__' --exclude='*.pyc' --exclude='*.pyo' \
   -C "$SLAM_SOURCE" -cf - \
-  package.xml setup.py setup.cfg requirements.txt tp_slam launch config resource rviz worlds \
+  package.xml setup.py setup.cfg requirements.txt slam launch config resource rviz worlds \
   | docker exec -i "$SLAM_CONTAINER" bash -c \
-    'set -e; mkdir -p "$1/src/tp_slam"; tar -xf - -C "$1/src/tp_slam"' \
+    'set -e; mkdir -p "$1/src/slam"; tar -xf - -C "$1/src/slam"' \
     _ "$SLAM_CONTAINER_WS"
 
 if ((SLAM_BUILD)); then
   docker exec -w "$SLAM_CONTAINER_WS" "$SLAM_CONTAINER" bash -c '
     set -e
     source /opt/ros/humble/setup.bash
-    colcon build --symlink-install --packages-select tp_slam
+    colcon build --symlink-install --packages-select slam
     source install/setup.bash
-    ros2 pkg prefix tp_slam
-    ros2 pkg executables tp_slam
+    ros2 pkg prefix slam
+    ros2 pkg executables slam
   '
 fi
 

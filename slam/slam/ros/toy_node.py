@@ -12,9 +12,9 @@ from sensor_msgs.msg import LaserScan
 from std_msgs.msg import String
 from tf2_ros import StaticTransformBroadcaster, TransformBroadcaster
 
-from .config import SlamConfig
+from ..core.config import SlamConfig
 from .ros_node import pose_message
-from .toy import ToyConfig, generate_samples
+from ..toy.world import ToyConfig, generate_samples
 
 
 class ToyNode(Node):

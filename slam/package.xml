@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="3">
-  <name>tp_slam</name>
+  <name>slam</name>
   <version>0.1.0</version>
   <description>Educational FastSLAM grid mapping for RosMaster, ROS 2 Humble.</description>
   <maintainer email="fortega@udesa.edu.ar">Grupo TP Final PRA</maintainer>

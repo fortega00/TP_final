@@ -6,9 +6,9 @@ import unittest
 
 import numpy as np
 
-from tp_slam.geometry import Pose2D
-from tp_slam.toy import OfficeWorld, ToyConfig, evaluate_map, generate_samples, load_trinary_map
-from tp_slam.config import MapConfig
+from slam.core.geometry import Pose2D
+from slam.toy.world import OfficeWorld, ToyConfig, evaluate_map, generate_samples, load_trinary_map
+from slam.core.config import MapConfig
 
 
 class ToyTests(unittest.TestCase):
@@ -58,8 +58,8 @@ class ToyTests(unittest.TestCase):
         self.assertEqual(metrics["occupied_iou_exact"], 0.)
 
     def test_saved_artifact_preserves_unknown_thresholds_and_row_order(self):
-        from tp_slam.grid import OccupancyGrid
-        from tp_slam.io import save_map
+        from slam.core.grid import OccupancyGrid
+        from slam.core.io import save_map
 
         config = MapConfig(resolution=.1, width=.4, height=.2, origin_x=-.2, origin_y=-.1)
         grid = OccupancyGrid(config)

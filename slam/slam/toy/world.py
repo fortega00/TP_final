@@ -18,8 +18,8 @@ from typing import Iterator
 import numpy as np
 import yaml
 
-from .geometry import Pose2D
-from .types import Scan
+from ..core.geometry import Pose2D
+from ..core.types import Scan
 
 
 def _wrap(angle: float) -> float:
@@ -334,8 +334,8 @@ def _write_overview(path: Path, occupancy: np.ndarray, map_config, trajectory: l
 
 def run_benchmark(slam_config, output: str | Path, toy_config: ToyConfig = ToyConfig(),
                   seed: int = 7, max_scans: int | None = None) -> dict:
-    from .filter import FastSLAM
-    from .io import save_map
+    from ..core.filter import FastSLAM
+    from ..core.io import save_map
 
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)

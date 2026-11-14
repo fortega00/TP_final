@@ -6,8 +6,8 @@ from dataclasses import replace
 import json
 from pathlib import Path
 
-from .config import SlamConfig
-from .toy import ToyConfig, run_benchmark
+from ..core.config import SlamConfig
+from .world import ToyConfig, run_benchmark
 
 
 def main(argv=None) -> int:

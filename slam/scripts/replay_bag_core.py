@@ -11,10 +11,10 @@ from pathlib import Path
 import time
 import numpy as np
 import yaml
-from tp_slam.config import SlamConfig
-from tp_slam.filter import FastSLAM
-from tp_slam.geometry import Pose2D
-from tp_slam.types import Scan
+from slam.core.config import SlamConfig
+from slam.core.filter import FastSLAM
+from slam.core.geometry import Pose2D
+from slam.core.types import Scan
 
 
 def main():

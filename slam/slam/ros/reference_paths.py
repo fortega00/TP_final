@@ -6,8 +6,8 @@ from nav_msgs.msg import Odometry, Path
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from tf2_ros import TransformException
 
-from .geometry import Pose2D
-from .odometry import OdometryBuffer
+from ..core.geometry import Pose2D
+from ..core.odometry import OdometryBuffer
 
 
 class ReferencePaths:

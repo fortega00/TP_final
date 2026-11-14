@@ -33,8 +33,8 @@ from tf2_ros import Buffer, TransformListener, TransformException
 from rclpy.time import Time
 from ament_index_python.packages import get_package_share_directory
 
-from tp_slam.geometry import Pose2D, wrap_angle
-from tp_slam.ros_node import yaw_from_quaternion
+from slam.core.geometry import Pose2D, wrap_angle
+from slam.ros.ros_node import yaw_from_quaternion
 
 
 def seconds(stamp):
@@ -246,7 +246,7 @@ def main():
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     os.environ.update(ROS_DOMAIN_ID=str(args.domain), ROS_LOCALHOST_ONLY='1',
-                      IGN_PARTITION='tp_slam_entrega_a_' + str(args.domain),
+                      IGN_PARTITION='slam_entrega_a_' + str(args.domain),
                       DISPLAY=args.display, QT_QPA_PLATFORM='xcb', LIBGL_ALWAYS_SOFTWARE='1')
     os.environ.pop('XAUTHORITY', None)
     processes, logs = [], []
@@ -292,7 +292,7 @@ def main():
         app = QApplication([])
         rclpy.init(args=[], signal_handler_options=SignalHandlerOptions.NO)
         node = Observer(args.mode == 'simulation', args.route)
-        command = ['ros2', 'launch', 'tp_slam', 'slam.launch.py', 'rviz:=false',
+        command = ['ros2', 'launch', 'slam', 'slam.launch.py', 'rviz:=false',
                    'mode:=' + args.mode, 'config_file:=' + str(args.config.resolve()),
                    'scan_queue_size:=200',
                    'tf_wait_timeout:=' + ('60' if args.mode == 'bag' else '10'),
@@ -308,7 +308,7 @@ def main():
             command += ['bag_path:=' + str(args.bag), 'bag_rate:=' + str(args.bag_rate)]
         result['launch_command'] = command
         slam = launch('launch', command)
-        config = yaml.safe_load((Path(get_package_share_directory('tp_slam')) / 'rviz/slam.rviz').read_text())
+        config = yaml.safe_load((Path(get_package_share_directory('slam')) / 'rviz/slam.rviz').read_text())
         config['Visualization Manager']['Views']['Current'].update(
             Scale=25.0 if args.mode == 'simulation' else 18.0,
             X=-0.4 if args.mode == 'simulation' else 8.0,

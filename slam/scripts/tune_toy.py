@@ -10,8 +10,8 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from tp_slam.config import SlamConfig
-from tp_slam.toy import ToyConfig, run_benchmark
+from slam.core.config import SlamConfig
+from slam.toy.world import ToyConfig, run_benchmark
 
 
 def main():
