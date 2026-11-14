@@ -4,7 +4,7 @@ Gazebo Fortress no renderiza en macOS, así que el contenedor no sirve acá. Hay
 
 ## Núcleo sin ROS (cualquier sistema operativo)
 
-El núcleo, los tests y el replay offline del bag solo necesitan Python y [uv](https://docs.astral.sh/uv/):
+El núcleo, los tests y el replay offline del bag solo necesitan Python y [uv](https://docs.astral.sh/uv/). Desde la carpeta `slam/`:
 
 ```bash
 uv run --no-project --with-requirements requirements-evaluation.txt python -m unittest discover -s tests
@@ -20,9 +20,9 @@ Requiere el workspace de simulación de la materia con el entorno `classic` de p
 Compilar (una vez, y de nuevo si cambian launch o entry points):
 
 ```bash
-ln -s /ruta/a/TP_final tp_slam
+ln -s /ruta/a/TP_final/slam slam
 pixi run -e classic colcon build --symlink-install --build-base build_classic \
-  --install-base install_classic --packages-select tp_slam
+  --install-base install_classic --packages-select slam
 ```
 
 En cada terminal:
@@ -35,17 +35,17 @@ source install_classic/setup.bash
 Toy, sin Gazebo:
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=toy rviz:=false
+ros2 launch slam slam.launch.py mode:=toy rviz:=false
 ```
 
 Café con odometría con deriva (una terminal por comando):
 
 ```bash
 ros2 launch custom_map cafe.launch.py rviz:=False gui:=false
-python scripts/macos_calc_odom_relay.py
-ros2 launch tp_slam slam.launch.py mode:=simulation start_simulator:=false rviz:=false \
+python slam/scripts/macos_calc_odom_relay.py
+ros2 launch slam slam.launch.py mode:=simulation start_simulator:=false rviz:=false \
   odom_topic:=/slam_odom ground_truth_topic:=/odom \
-  config_file:=$PWD/tp_slam/config/cafe.yaml
+  config_file:=$PWD/slam/config/cafe.yaml
 ```
 
 ## Diferencias con el contenedor

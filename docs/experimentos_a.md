@@ -6,7 +6,7 @@ Fecha: 10 de noviembre de 2026. Esta evaluación distingue completar una ejecuci
 
 Cada sesión inicia un filtro nuevo, con mapas desconocidos y pose `(0,0,0)` sin dispersión inicial. Se separan dominios ROS, particiones de Gazebo, pantallas Xvfb y directorios de salida. El ground truth sólo alimenta la evaluación y su trayectoria de referencia; no interviene en el filtro ni en el control. Las capturas `rviz.png` son capturas reales de la pantalla virtual de RViz, sin reconstruir la interfaz a partir de una imagen del mapa.
 
-Los archivos se conservan en [artifacts/entrega_a_20261110](../artifacts/entrega_a_20261110). Cada corrida incluye mapa PGM/YAML, configuración y diagnósticos, muestras, scans comprimidos, logs y vista de RViz. `metrics.json` y `map_and_paths.png` se generan con `scripts/analyze_a_experiment.py`.
+Los archivos se conservan en [artifacts/entrega_a_20261110](../slam/artifacts/entrega_a_20261110). Cada corrida incluye mapa PGM/YAML, configuración y diagnósticos, muestras, scans comprimidos, logs y vista de RViz. `metrics.json` y `map_and_paths.png` se generan con `scripts/analyze_a_experiment.py`.
 
 ### Café
 
@@ -22,7 +22,7 @@ La cobertura estructural se estima rasterizando cajas de colisión del SDF a la 
 
 ### Bag real del Parcial
 
-Entrada original: `/tmp/real_rosbag_input` dentro de `yahboom_rosmaster`, correspondiente a `rosbag2_2026_09_07-08_51_02`. Duración de almacenamiento 163,858 s; 1188 scans y 1633 mensajes de odometría. Los hashes del DB3 y de sus metadatos están en [provenance.json](../artifacts/entrega_a_20261110/provenance.json).
+Entrada original: `/tmp/real_rosbag_input` dentro de `yahboom_rosmaster`, correspondiente a `rosbag2_2026_09_07-08_51_02`. Duración de almacenamiento 163,858 s; 1188 scans y 1633 mensajes de odometría. Los hashes del DB3 y de sus metadatos están en [provenance.json](../slam/artifacts/entrega_a_20261110/provenance.json).
 
 Se utilizan `/scan`, `/odom` y TF grabados. El bag aporta `odom → base_footprint`, `base_footprint → base_link` y `base_link → laser_link`, con traslación planar del láser `(0,0435; 0,0000526)` m y yaw π. No se reproduce `/cmd_vel`, no se carga el mapa conocido del Parcial ni su filtro de localización. La grilla de `config/parcial_bag.yaml` incluye la extensión completa de la odometría cruda y el alcance del sensor; no pretende que el ambiente real tenga ese tamaño.
 
@@ -32,7 +32,7 @@ El bag no tiene GT. La distancia inicio–fin no es error absoluto de pose: el r
 
 La corrida ROS con los parámetros del toy y sólo la grilla ampliada completó los 1188 scans: 857 integrados, 331 omitidos por el umbral de movimiento y cero descartes de transporte/sincronización. Duró 341,54 s de pared a velocidad de reproducción 0,5×. La distancia inicio–fin fue 17,738 m para SLAM y 17,855 m para odometría. Sólo 6,62 % de los extremos evaluados quedó a menos de 10 cm de un obstáculo del PGM exportado. El mapa perdió paredes y **no aprueba la calidad de A**, aunque la integración ROS funcione.
 
-Evidencia: [métricas](../artifacts/entrega_a_20261110/rosbag/metrics.json), [RViz](../artifacts/entrega_a_20261110/rosbag/rviz.png), [mapa exportado](../artifacts/entrega_a_20261110/rosbag/map.yaml).
+Evidencia: [métricas](../slam/artifacts/entrega_a_20261110/rosbag/metrics.json), [RViz](../slam/artifacts/entrega_a_20261110/rosbag/rviz.png), [mapa exportado](../slam/artifacts/entrega_a_20261110/rosbag/map.yaml).
 
 El screening de 64 partículas con mayor incertidumbre de movimiento redujo la distancia inicio–fin a 2,365 m, pero la concordancia interna de extremos a 10 cm fue sólo 16,19 % y siguieron faltando paredes. Esto muestra por qué no se selecciona una configuración sólo por su cierre.
 
@@ -59,11 +59,11 @@ La odometría de ruedas tuvo RMSE de 0,040 mm, menor que el del filtro: el perfi
 
 El estado capturado tenía 1466 integraciones y 1598 omisiones por movimiento. El exportado al cerrar agregó una lectura estacionaria: 1467 integraciones, con timestamp 1 s posterior al último path capturado. `metrics.json` conserva ambos snapshots. El ejecutor actual pausa el filtro antes de guardar para evitar ese desfase en repeticiones.
 
-- [Captura real de RViz](../artifacts/entrega_a_20261110/cafe/rviz.png)
-- [Mapa con trayectorias](../artifacts/entrega_a_20261110/cafe/map_and_paths.png)
-- [Errores contra GT](../artifacts/entrega_a_20261110/cafe/pose_errors.png)
-- [Cobertura y referencia aproximada](../artifacts/entrega_a_20261110/cafe/coverage.png)
-- [Mapa PGM/YAML](../artifacts/entrega_a_20261110/cafe/map.yaml) y [métricas](../artifacts/entrega_a_20261110/cafe/metrics.json)
+- [Captura real de RViz](../slam/artifacts/entrega_a_20261110/cafe/rviz.png)
+- [Mapa con trayectorias](../slam/artifacts/entrega_a_20261110/cafe/map_and_paths.png)
+- [Errores contra GT](../slam/artifacts/entrega_a_20261110/cafe/pose_errors.png)
+- [Cobertura y referencia aproximada](../slam/artifacts/entrega_a_20261110/cafe/coverage.png)
+- [Mapa PGM/YAML](../slam/artifacts/entrega_a_20261110/cafe/map.yaml) y [métricas](../slam/artifacts/entrega_a_20261110/cafe/metrics.json)
 
 ### Bag real
 
@@ -73,9 +73,9 @@ El mapa recupera la estructura principal y varios obstáculos interiores. La dis
 
 **La ejecución del paso rosbag está completada y es reproducible, pero no se certifica todavía el mapa como definitivo para navegación:** persisten discontinuidades y ruido exterior, y una pose visitada de las 43 muestreadas no quedó conectada bajo inflación conservadora. No se da por cumplida toda la calidad geométrica de A únicamente por la mejora del cierre. El mapeo vivo y la verificación física del aula siguen pendientes.
 
-- [Captura real de RViz](../artifacts/entrega_a_20261110/rosbag_tuned/rviz.png)
-- [Mapa con trayectorias](../artifacts/entrega_a_20261110/rosbag_tuned/map_and_paths.png)
-- [Comparación con el mapa del Parcial, sin alineación ajustada](../artifacts/entrega_a_20261110/rosbag_tuned/reference_comparison.png)
-- [Mapa PGM/YAML](../artifacts/entrega_a_20261110/rosbag_tuned/map.yaml) y [métricas](../artifacts/entrega_a_20261110/rosbag_tuned/metrics.json)
+- [Captura real de RViz](../slam/artifacts/entrega_a_20261110/rosbag_tuned/rviz.png)
+- [Mapa con trayectorias](../slam/artifacts/entrega_a_20261110/rosbag_tuned/map_and_paths.png)
+- [Comparación con el mapa del Parcial, sin alineación ajustada](../slam/artifacts/entrega_a_20261110/rosbag_tuned/reference_comparison.png)
+- [Mapa PGM/YAML](../slam/artifacts/entrega_a_20261110/rosbag_tuned/map.yaml) y [métricas](../slam/artifacts/entrega_a_20261110/rosbag_tuned/metrics.json)
 
 Ambas sesiones terminaron con códigos de salida cero para Xvfb, launcher y RViz. Se ejecutaron en dominios independientes sobre el mismo host, por lo que sus tiempos incluyen carga concurrente. Una medición durante la ejecución registró máximos residentes de aproximadamente 121 MiB para el nodo de café y 1021 MiB para el del bag. Las 31 pruebas unitarias del núcleo siguieron aprobando. Los scripts de evaluación usan sólo bibliotecas generales y ROS, sin bibliotecas de SLAM.

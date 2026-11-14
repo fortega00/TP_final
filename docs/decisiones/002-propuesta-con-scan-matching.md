@@ -35,7 +35,7 @@ El resto del filtro (pesos, actualización del mapa, remuestreo) no cambia. Mien
 
 ## Decisión
 
-Opción B, en `tp_slam/scan_match.py`, enchufada en la interfaz `Proposal` que ya tenía el filtro. Queda activada en los perfiles de simulación, robot real y bag, con 8 partículas. La propuesta de odometría sigue en el código (`scan_match.enabled: false`) y sirve de comparación; `parcial_bag.yaml` y `parcial_bag_tuned.yaml` la conservan para reproducir los resultados anteriores.
+Opción B, en `slam/core/scan_match.py`, enchufada en la interfaz `Proposal` que ya tenía el filtro. Queda activada en los perfiles de simulación, robot real y bag, con 8 partículas. La propuesta de odometría sigue en el código (`scan_match.enabled: false`) y sirve de comparación; `parcial_bag.yaml` y `parcial_bag_tuned.yaml` la conservan para reproducir los resultados anteriores.
 
 También se acepta `scipy` en el núcleo, solo para la transformada de distancia. No es una librería de SLAM.
 

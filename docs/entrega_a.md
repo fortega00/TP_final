@@ -8,7 +8,7 @@ El fundamento es la separación entre hipótesis de trayectoria y mapa condicion
 
 La implementación de los algoritmos es propia. NumPy realiza operaciones numéricas y ROS proporciona mensajes, TF y herramientas; no se utiliza una biblioteca que resuelva SLAM. No se extraen landmarks ni se ejecuta un EKF por celda. Tampoco se implementa la propuesta informada por scan matching de FastSLAM 2.0: la propuesta actual viene de odometría.
 
-El paquete se organiza en módulos y una máquina de estados. El núcleo no depende de ROS y se prueba con un mundo sintético. El adaptador ROS permite usar las mismas operaciones en simulación, reproducción de un bag y ejecución con sensores reales. Las instrucciones están en [A.md](../A.md) y el diseño en [architecture.md](architecture.md).
+El paquete se organiza en módulos y una máquina de estados. El núcleo no depende de ROS y se prueba con un mundo sintético. El adaptador ROS permite usar las mismas operaciones en simulación, reproducción de un bag y ejecución con sensores reales. Las instrucciones están en [guia_ejecucion.md](guia_ejecucion.md) y el diseño en [architecture.md](architecture.md).
 
 ## Ajustes respecto de un filtro básico
 
@@ -40,7 +40,7 @@ Actualización del 10/11/2026: se completaron sesiones independientes de Gazebo 
 El mundo toy representa una oficina de 9 × 7 m, con pared divisoria y puerta de 2 m. La ruta es cerrada y recorre ambos lados de la partición, con poses inicial y final coincidentes. El generador aporta ground truth de geometría y pose; el filtro sólo recibe LIDAR y odometría perturbados. Los scans son instantáneos: el paso de 0,28 m y el período de 0,25 s son un muestreo del benchmark y no un ensayo físico de barrido a 1,12 m/s. Los datos, parámetros y métricas se guardan juntos para evitar comparar mapas sin saber qué cambió.
 
 ```bash
-python3 -m tp_slam.cli toy --output artifacts/toy --seed 7 --check
+python3 -m slam.toy.cli toy --output artifacts/toy --seed 7 --check
 ```
 
 Las métricas se definen así:
@@ -62,7 +62,7 @@ Los resultados completos y los parámetros exactos de cada corrida están en los
 
 ### Resultados medidos del toy
 
-La corrida final de semilla 7 procesó 118 de 119 scans; una lectura se omitió por el umbral de movimiento. El mapa cubrió el 100 % de las celdas interiores con evidencia y dejó el 98,73 % como libre con confianza suficiente. Se conservó conectividad hacia todos los puntos evaluados tras inflar por radio de 22 cm más margen de 5 cm. El error final de cierre fue 1,82 cm y 0,0053 rad. Las grillas de las 24 partículas ocuparon 12.288.000 bytes, sin contar copias temporales, trayectoria ni otros objetos. La corrida sin ROS tardó aproximadamente 4,5 s en este equipo. Fuente reproducible: [metrics.json](../artifacts/toy/metrics.json).
+La corrida final de semilla 7 procesó 118 de 119 scans; una lectura se omitió por el umbral de movimiento. El mapa cubrió el 100 % de las celdas interiores con evidencia y dejó el 98,73 % como libre con confianza suficiente. Se conservó conectividad hacia todos los puntos evaluados tras inflar por radio de 22 cm más margen de 5 cm. El error final de cierre fue 1,82 cm y 0,0053 rad. Las grillas de las 24 partículas ocuparon 12.288.000 bytes, sin contar copias temporales, trayectoria ni otros objetos. La corrida sin ROS tardó aproximadamente 4,5 s en este equipo. Fuente reproducible: [metrics.json](../slam/artifacts/toy/metrics.json).
 
 Se ejecutaron además cuatro perfiles manteniendo mundo, ruta y semilla. Los ruidos de adquisición son independientes de los coeficientes de movimiento asumidos por el filtro:
 
@@ -73,7 +73,7 @@ Se ejecutaron además cuatro perfiles manteniendo mundo, ruta y semilla. Los rui
 | LIDAR con σ=6 cm | 5 cm | 0,6087 / 0,9961 | 2,12 cm | 15 cm | 4,43 s | Falla precision |
 | Odometría más ruidosa y sesgada | 5 cm | 0,6705 / 0,9712 | 5,37 cm | 15 cm | 4,52 s | Falla precision |
 
-Datos y parámetros: [comparison.md](../artifacts/tuning/comparison.md), [comparison.json](../artifacts/tuning/comparison.json). Todas conservaron conectividad en los puntos evaluados; eso no compensa la degradación geométrica de las dos condiciones ruidosas. La tolerancia de una celda es de 10 cm en la grilla gruesa y 5 cm en las otras: su precision mayor no prueba una mejora de detalle. El RMSE usa la pose elegida online en cada timestamp, sin alinear la estimación a posteriori al ground truth.
+Datos y parámetros: [comparison.md](../slam/artifacts/tuning/comparison.md), [comparison.json](../slam/artifacts/tuning/comparison.json). Todas conservaron conectividad en los puntos evaluados; eso no compensa la degradación geométrica de las dos condiciones ruidosas. La tolerancia de una celda es de 10 cm en la grilla gruesa y 5 cm en las otras: su precision mayor no prueba una mejora de detalle. El RMSE usa la pose elegida online en cada timestamp, sin alinear la estimación a posteriori al ground truth.
 
 La odometría base obtuvo RMSE de 2,01 cm, menor que los 2,46 cm de SLAM. En este escenario de odometría ya buena, el filtro no mejora esa métrica; produce un mapa consistente y conserva un margen pequeño de error. Las pruebas ruidosas muestran que estos defaults no bastan para cualquier ruido del RosMaster. Es necesario calibrarlos o mejorar la propuesta y la compensación temporal antes de atribuir robustez real al sistema.
 
@@ -87,11 +87,11 @@ Se verificaron dos semillas adicionales sin reajustar parámetros:
 | 11 | 0,9361 / 1,0000 | 0,4245 | 2,88 / 3,78 cm | 3,71 cm | 1,0 | Aprueba |
 | 19 | 0,8976 / 1,0000 | 0,3512 | 2,37 / 3,84 cm | 2,04 cm | 1,0 | Aprueba |
 
-Resultados: [comparación de semillas](../artifacts/seeds/comparison.json). Hay mejoras sobre odometría en dos de las tres semillas y una degradación pequeña en la base. Tres repeticiones del mismo mundo siguen siendo una validación inicial, no una prueba de robustez para otros entornos.
+Resultados: [comparación de semillas](../slam/artifacts/seeds/comparison.json). Hay mejoras sobre odometría en dos de las tres semillas y una degradación pequeña en la base. Tres repeticiones del mismo mundo siguen siendo una validación inicial, no una prueba de robustez para otros entornos.
 
 ## Respuestas a las preguntas de la consigna
 
-La integración se validó también en ROS 2 Humble: el publicador toy, el rosbag2 sintético con odometría por tópico y el mismo bag con odometría por TF integraron 118 scans sin descartes y exportaron PGM idénticos. Se verificaron los servicios, el reset, el cierre y la exclusión de TF de localización obsoletos y órdenes de velocidad grabadas. [Evidencia de integración](../artifacts/ros/README.md). Esto no sustituye un recorrido con Gazebo ni el bag físico del RosMaster.
+La integración se validó también en ROS 2 Humble: el publicador toy, el rosbag2 sintético con odometría por tópico y el mismo bag con odometría por TF integraron 118 scans sin descartes y exportaron PGM idénticos. Se verificaron los servicios, el reset, el cierre y la exclusión de TF de localización obsoletos y órdenes de velocidad grabadas. [Evidencia de integración](../slam/artifacts/ros/README.md). Esto no sustituye un recorrido con Gazebo ni el bag físico del RosMaster.
 
 ### 1. ¿Qué tan sensible a hiperparámetros es el método elegido? ¿Por qué?
 

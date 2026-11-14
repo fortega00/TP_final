@@ -23,25 +23,31 @@ flowchart LR
 
 ## Responsabilidades
 
+Los módulos de algoritmo están en `slam/slam/core/` y no importan ROS. Los nodos están en `slam/slam/ros/` y el mundo sintético en `slam/slam/toy/`.
+
 | Módulo | Responsabilidad |
 | --- | --- |
 | `config.py` | Configuración tipada, validación y carga de YAML. |
 | `geometry.py` | Poses, composición/inversa en SE(2) y normalización angular. |
 | `types.py` | Lecturas de rango y estructuras independientes del transporte. |
 | `motion.py` | Propuesta basada en incrementos de odometría y ruido. |
+| `scan_match.py` | Propuesta con scan matching contra el mapa de cada partícula. |
 | `sensor.py` | Preparación de haces y likelihood de los extremos de impacto. |
 | `grid.py` | Geometría de grilla, celdas observadas y modelo inverso en log-odds. |
 | `filter.py` | Ciclo RBPF, pesos, selección de partícula, ESS y remuestreo. |
 | `state_machine.py` | Estados y transiciones del ciclo de mapeo. |
 | `io.py` | Exportación interoperable de mapas. |
-| `toy.py` / `cli.py` | Mundo sintético, entrada sin ROS y evaluación. |
-| Adaptador ROS | TF al tiempo de la lectura, publicación, servicios y persistencia. |
+| `odometry.py` | Buffer de odometría interpolada al instante del scan. |
+| `toy/world.py`, `toy/cli.py` | Mundo sintético, entrada sin ROS y evaluación. |
+| `ros/ros_node.py` y demás nodos | TF al tiempo de la lectura, publicación, servicios y persistencia. |
 
 ## Ciclo de estimación
 
+Es `FastSLAM.process` en `core/filter.py`. Cada paso es un método: `_gate` (1 y 2), `_predict` (3), `_weigh` (4 y 5), `_update_maps` (6), `_update_estimate` y `_resample_if_needed` (7).
+
 1. Validar la lectura y su timestamp. Una lectura fuera de orden no debe incorporar un movimiento espurio.
 2. Obtener el incremento de odometría respecto de la última lectura integrada. Los umbrales de movimiento se acumulan desde esa referencia.
-3. Muestrear la nueva pose de cada partícula con el modelo de movimiento.
+3. Muestrear la nueva pose de cada partícula con la propuesta: scan matching contra su propio mapa, o el modelo de movimiento si está desactivado o el mapa todavía está casi vacío (`_predict`).
 4. Evaluar la lectura contra **el mapa previo** de esa partícula y actualizar su log-peso.
 5. Normalizar los pesos en el dominio logarítmico.
 6. Integrar los haces en cada grilla usando la pose propuesta y la extrínseca del sensor.

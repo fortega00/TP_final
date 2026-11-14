@@ -1,8 +1,6 @@
-# Entrega A: ejecución y configuración
+# Guía de ejecución del SLAM
 
-Se implementa FastSLAM con mapas de ocupación en grilla: cada partícula conserva su pose y su propio mapa en log-odds. El LIDAR actualiza las celdas mediante un modelo inverso; la ponderación usa la concordancia con obstáculos del mapa previo. Los algoritmos de movimiento, medición, mapeo y filtrado son propios; NumPy aporta operaciones numéricas, PyYAML carga configuración y ROS proporciona transporte, TF y visualización. No se delega SLAM a GMapping, SLAM Toolbox, Cartographer u otra biblioteca.
-
-La base de integración es **ROS 2 Humble**. El núcleo también funciona con Python 3 sin instalar ROS. [docs/architecture.md](docs/architecture.md) describe los módulos y estados; [docs/entrega_a.md](docs/entrega_a.md) responde las preguntas de la consigna y distingue resultados medidos de validaciones pendientes.
+Todos los comandos se corren desde la carpeta `slam/` del repositorio, que es el paquete ROS. Los parámetros están en [parametros.md](parametros.md) y el alcance de lo validado en [validacion.md](validacion.md).
 
 ## 1. Prueba reproducible sin ROS
 
@@ -10,7 +8,7 @@ Desde la raíz del proyecto:
 
 ```bash
 python3 -m pip install numpy PyYAML
-python3 -m tp_slam.cli toy --output artifacts/toy --seed 7 --check
+python3 -m slam.toy.cli toy --output artifacts/toy --seed 7 --check
 python3 -m unittest discover -s tests -v
 ```
 
@@ -31,14 +29,14 @@ La salida en `artifacts/toy` contiene:
 Para explorar otra resolución o cantidad de partículas:
 
 ```bash
-python3 -m tp_slam.cli toy --output artifacts/toy_coarse --seed 7 --resolution 0.10
-python3 -m tp_slam.cli toy --output artifacts/toy_dense --seed 7 --particles 48
+python3 -m slam.toy.cli toy --output artifacts/toy_coarse --seed 7 --resolution 0.10
+python3 -m slam.toy.cli toy --output artifacts/toy_dense --seed 7 --particles 48
 ```
 
 Los argumentos específicos del generador incluyen `--sensor-noise`, `--odom-translation-noise`, `--odom-rotation-noise`, `--odom-scale`, `--beams` y `--scan-step`. Modifican los datos sintéticos; los coeficientes del filtro se configuran por separado. Consultar los valores y unidades con:
 
 ```bash
-python3 -m tp_slam.cli toy --help
+python3 -m slam.toy.cli toy --help
 ```
 
 ## 2. Instalar el paquete ROS
@@ -52,7 +50,7 @@ cd ~/TP_final
 ./scripts/sync_container.sh
 ```
 
-El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/tp_slam` y construye únicamente `tp_slam` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/tp_slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
+El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/slam` y construye únicamente `slam` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
 
 Después entrar como siempre:
 
@@ -65,7 +63,7 @@ Y ejecutar **dentro del contenedor**:
 ```bash
 cd ~/rosmaster_ws
 source install/setup.bash
-ros2 launch tp_slam slam.launch.py mode:=toy rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_toy
+ros2 launch slam slam.launch.py mode:=toy rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/slam_toy
 ```
 
 El modo toy publica los sensores sintéticos y abre RViz. Al terminar el recorrido se puede guardar desde otra terminal del mismo contenedor, cargando el overlay:
@@ -75,12 +73,12 @@ source ~/rosmaster_ws/install/setup.bash
 ros2 service call /slam/save_map std_srvs/srv/Trigger '{}'
 ```
 
-Los archivos `tp_slam_toy.pgm`, `.yaml` y `.json` quedan en `/home/alumno/rosmaster_ws/maps`, dentro del contenedor. Esa carpeta no está montada en `~/TP_final`: los resultados no se copian automáticamente al host y se perderían al eliminar el contenedor.
+Los archivos `slam_toy.pgm`, `.yaml` y `.json` quedan en `/home/alumno/rosmaster_ws/maps`, dentro del contenedor. Esa carpeta no está montada en `~/TP_final`: los resultados no se copian automáticamente al host y se perderían al eliminar el contenedor.
 
 Como alternativa, detener primero el launcher toy con **Ctrl+C** y ejecutar Gazebo desde ese mismo entorno:
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_simulation
+ros2 launch slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/slam_simulation
 ```
 
 No ejecutar ambos launchers simultáneamente: comparten tópicos, reloj y TF. En simulación se conduce el robot con el teleop del RosMaster para explorar el mundo, como se detalla en la sección 4.
@@ -96,7 +94,7 @@ En ese caso, antes de ejecutar ROS completar la construcción dentro del contene
 
 ```bash
 cd ~/rosmaster_ws
-colcon build --symlink-install --packages-select tp_slam
+colcon build --symlink-install --packages-select slam
 source install/setup.bash
 ```
 
@@ -113,15 +111,15 @@ El repositorio es un paquete `ament_python`. Puede colocarse o enlazarse en `src
 
 ```bash
 TP_SLAM_SOURCE="$(pwd)"
-mkdir -p ~/tp_slam_ws/src
-ln -s "$TP_SLAM_SOURCE" ~/tp_slam_ws/src/tp_slam
-cd ~/tp_slam_ws
+mkdir -p ~/slam_ws/src
+ln -s "$TP_SLAM_SOURCE" ~/slam_ws/src/slam
+cd ~/slam_ws
 rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install --packages-select tp_slam
+colcon build --symlink-install --packages-select slam
 source install/setup.bash
 ```
 
-Si el enlace ya existe, se omite `ln -s`. Cada terminal nueva debe cargar `/opt/ros/humble/setup.bash` y `~/tp_slam_ws/install/setup.bash`. El modo `simulation` puede requerir además el workspace de los drivers y la simulación del RosMaster; el paquete de SLAM no necesita ese backend para procesar datos existentes.
+Si el enlace ya existe, se omite `ln -s`. Cada terminal nueva debe cargar `/opt/ros/humble/setup.bash` y `~/slam_ws/install/setup.bash`. El modo `simulation` puede requerir además el workspace de los drivers y la simulación del RosMaster; el paquete de SLAM no necesita ese backend para procesar datos existentes.
 
 ## 3. Contrato de entrada
 
@@ -137,7 +135,7 @@ ros2 run tf2_ros tf2_echo base_footprint laser
 Cambiar `base_footprint` y `laser` por los frames efectivos. La cadena esperada es:
 
 ```text
-map --(tp_slam)--> odom --(base / simulación / bag)--> base_footprint --(URDF o estática calibrada)--> laser
+map --(slam)--> odom --(base / simulación / bag)--> base_footprint --(URDF o estática calibrada)--> laser
 ```
 
 `odom_source:=topic` consume `/odom` de tipo `nav_msgs/msg/Odometry` e interpola la pose al timestamp de la lectura. `odom_source:=tf` obtiene `odom → base` directamente de TF. Para mensajes de odometría se verifica el marco padre y el `child_frame_id`. Si este último describe un punto distinto de la base, debe existir la transformación de montaje correspondiente o configurarse explícitamente la convención correcta. Cambiar sólo el nombre de un tópico no convierte una pose de `calc_base` a `base_link`.
@@ -151,7 +149,7 @@ El frame `map` se fija a la pose inicial configurada, por defecto `(0,0,0)`. El 
 El punto de entrada es:
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=toy
+ros2 launch slam slam.launch.py mode:=toy
 ```
 
 Los modos seleccionan la fuente de lecturas y el reloj. La configuración del algoritmo se comparte mediante `config_file`.
@@ -159,7 +157,7 @@ Los modos seleccionan la fuente de lecturas y el reloj. La configuración del al
 Para consultar todos los argumentos del launcher:
 
 ```bash
-ros2 launch tp_slam slam.launch.py --show-args
+ros2 launch slam slam.launch.py --show-args
 ```
 
 | Argumento | Default | Uso |
@@ -209,7 +207,7 @@ Las referencias se alinean **una sola vez**, en el primer scan integrado: `T_map
 
 Iniciar la fuente de ground truth antes del mapeo y mantener el robot quieto al arrancar. Si faltan muestras que encierren `t0`, la línea verde queda vacía y se avisa; no se extrapola ni se inventa ground truth. En bag/real queda vacía por defecto. Las tres trayectorias se borran con `/slam/reset`; las referencias guardan como máximo `max_path_poses` (5000) y el buffer de ground truth usa `odom_history_seconds` (30 s). Pausar mapeo también pausa el muestreo de referencias.
 
-Para instalar cambios ejecutar `./scripts/sync_container.sh` en el host. Luego cargar `source ~/rosmaster_ws/install/setup.bash` dentro del contenedor y reiniciar el launcher con la misma receta (toy o café/simulation) que se estaba usando. Guardar antes con `/slam/save_map` si se desea conservar el mapa actual. Para abrir sólo la nueva configuración sin reiniciar el mapeador: **File → Open Config** y elegir `~/rosmaster_ws/install/tp_slam/share/tp_slam/rviz/slam.rviz`; las nuevas referencias requieren reiniciar también el nodo SLAM.
+Para instalar cambios ejecutar `./scripts/sync_container.sh` en el host. Luego cargar `source ~/rosmaster_ws/install/setup.bash` dentro del contenedor y reiniciar el launcher con la misma receta (toy o café/simulation) que se estaba usando. Guardar antes con `/slam/save_map` si se desea conservar el mapa actual. Para abrir sólo la nueva configuración sin reiniciar el mapeador: **File → Open Config** y elegir `~/rosmaster_ws/install/slam/share/slam/rviz/slam.rviz`; las nuevas referencias requieren reiniciar también el nodo SLAM.
 
 Mover la cámara no conduce al robot. La conducción sigue siendo por teleop externo; seleccionar objetivos de navegación en RViz corresponde a la Parte B, todavía no implementada.
 
@@ -218,7 +216,7 @@ Validación del 10/11/2026: 31 pruebas del núcleo aprobadas en host y Humble; e
 ### Ejemplo sintético con ROS
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=toy rviz:=true output_path:=/tmp/tp_slam/toy
+ros2 launch slam slam.launch.py mode:=toy rviz:=true output_path:=/tmp/slam/toy
 ```
 
 Este modo permite inspeccionar el mismo filtro con tópicos y TF, sin depender del robot. El ejemplo Python de la sección 1 es la vía para obtener las métricas contra ground truth.
@@ -226,19 +224,19 @@ Este modo permite inspeccionar el mismo filtro con tópicos y TF, sin depender d
 ### Simulación
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=simulation rviz:=true output_path:=/tmp/tp_slam/simulation
+ros2 launch slam slam.launch.py mode:=simulation rviz:=true output_path:=/tmp/slam/simulation
 ```
 
 Se puede usar cualquier mundo si el simulador publica el contrato de entrada. Para conectarse a una simulación que ya está ejecutándose:
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=simulation start_simulator:=false scan_topic:=/scan odom_topic:=/odom base_frame:=base_link output_path:=/tmp/tp_slam/otro_mundo
+ros2 launch slam slam.launch.py mode:=simulation start_simulator:=false scan_topic:=/scan odom_topic:=/odom base_frame:=base_link output_path:=/tmp/slam/otro_mundo
 ```
 
 Para iniciar otro mundo con el backend del RosMaster:
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=simulation world:=/ruta/absoluta/mundo.sdf config_file:=/ruta/absoluta/config.yaml headless:=true rviz:=false
+ros2 launch slam slam.launch.py mode:=simulation world:=/ruta/absoluta/mundo.sdf config_file:=/ruta/absoluta/config.yaml headless:=true rviz:=false
 ```
 
 El backend esperado es `yahboom_rosmaster_gazebo`, launchfile `rosmaster_gazebo_fortress.launch.py`, con Gazebo Fortress. Se incluye directamente el robot/mundo y se evita incorporar los launchers de mapas estáticos de otros TPs. La disponibilidad de ese paquete se comprueba con `ros2 pkg prefix yahboom_rosmaster_gazebo`.
@@ -264,7 +262,7 @@ source ~/rosmaster_ws/install/setup.bash
 CAFE_SHARE="$(ros2 pkg prefix custom_map)/share/custom_map"
 export IGN_GAZEBO_RESOURCE_PATH="$CAFE_SHARE/models${IGN_GAZEBO_RESOURCE_PATH:+:$IGN_GAZEBO_RESOURCE_PATH}"
 export GZ_SIM_RESOURCE_PATH="$CAFE_SHARE/models${GZ_SIM_RESOURCE_PATH:+:$GZ_SIM_RESOURCE_PATH}"
-ros2 launch tp_slam slam.launch.py mode:=simulation world:="$CAFE_SHARE/worlds/cafe.world" config_file:="$(ros2 pkg prefix tp_slam)/share/tp_slam/config/cafe.yaml" rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/cafe
+ros2 launch slam slam.launch.py mode:=simulation world:="$CAFE_SHARE/worlds/cafe.world" config_file:="$(ros2 pkg prefix slam)/share/slam/config/cafe.yaml" rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/cafe
 ```
 
 Los modelos locales `custom_cafe` y `custom_cafe_table` se referencian con `model://`; por eso se agregan sus rutas de recursos preservando los valores existentes. Se verificó que el mundo y sus modelos están instalados en el contenedor, sin ejecutar todavía este mundo.
@@ -284,7 +282,7 @@ ros2 bag info /ruta/al/bag
 Luego iniciar la reproducción desde el launcher:
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=bag bag_path:=/ruta/al/bag bag_rate:=0.5 scan_topic:=/scan odom_source:=topic odom_topic:=/odom output_path:=/tmp/tp_slam/bag rviz:=true
+ros2 launch slam slam.launch.py mode:=bag bag_path:=/ruta/al/bag bag_rate:=0.5 scan_topic:=/scan odom_source:=topic odom_topic:=/odom output_path:=/tmp/slam/bag rviz:=true
 ```
 
 El modo bag usa tiempo simulado y el player publica `/clock`. Bajar `bag_rate` ayuda si el procesamiento tarda más que el intervalo entre lecturas. No altera la velocidad física registrada, ni elimina la distorsión de movimiento del LIDAR. Si el bag contiene `/tf` con la odometría correcta, también puede usarse `odom_source:=tf`. Si contiene sólo `/odom`, la integración puede publicar el enlace auxiliar mediante `publish_odom_tf:=true`, siempre que otro nodo no lo publique.
@@ -304,7 +302,7 @@ Adaptar nombres al sistema y verificar que `/tf_static` quedó registrado. El pr
 Primero ejecutar los drivers, la odometría y la publicación del URDF según el setup del RosMaster. Con `/scan`, `/odom` y TF comprobados:
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=real scan_topic:=/scan odom_source:=topic odom_topic:=/odom base_frame:=base_link output_path:=/tmp/tp_slam/aula rviz:=true
+ros2 launch slam slam.launch.py mode:=real scan_topic:=/scan odom_source:=topic odom_topic:=/odom base_frame:=base_link output_path:=/tmp/slam/aula rviz:=true
 ```
 
 El modo real usa reloj de pared. Los equipos deben compartir una referencia temporal coherente; escaneos y odometría desfasados deforman las paredes aunque las transformaciones espaciales estén bien calibradas. Manejar el robot con el teleop ya validado y guardar el bag de la sesión para comparar configuraciones sobre las mismas lecturas.
@@ -335,108 +333,6 @@ ros2 topic echo /slam_pose
 
 El diagnóstico informa scans integrados, omitidos por movimiento, rechazados por tiempo o datos, ESS, remuestreos, tiempo de actualización, rayos que salen de la grilla y colas/descartes del adaptador. Un salto temporal hacia atrás exige `/slam/reset` antes de una nueva sesión. La covarianza describe la dispersión de la población; una población empobrecida puede estar muy concentrada y equivocada, por lo que ese valor no reemplaza las métricas geométricas.
 
-## 6. Hiperparámetros del filtro
-
-Crear una copia de `config/default.yaml` y pasar su ruta absoluta con `config_file:=/ruta/a/config.yaml`. Es un YAML del núcleo con grupos `map`, `sensor`, `motion`, `filter`, `update` y `scan_match` (opcional, ver `docs/decisiones/002-propuesta-con-scan-matching.md`), compartido por CLI y ROS. Los campos desconocidos se rechazan para evitar que un error de escritura deje un parámetro sin aplicar. Ejemplo de una configuración parcial válida:
-
-```yaml
-map:
-  resolution: 0.05
-  width: 16.0
-  height: 16.0
-  origin_x: -8.0
-  origin_y: -8.0
-sensor:
-  p_hit: 0.70
-  p_free: 0.35
-filter:
-  particles: 24
-  seed: 7
-```
-
-Los campos omitidos toman los valores de las tablas. Son un punto de partida para el toy, no una calibración del robot real.
-
-Los valores finales se eligieron después de comparar alternativas en el toy. La corrida base de semilla 7 obtuvo precision de obstáculos de 0,9032, recall de 1,0 —con tolerancia de una celda de 5 cm— y RMSE de posición de 2,46 cm. El detalle, las variantes que fallaron y las limitaciones están en [el informe](docs/entrega_a.md) y en `artifacts/tuning`. La odometría de ese toy ya es precisa: su RMSE fue 2,01 cm, menor que el de SLAM; no se presenta como una mejora general de localización.
-
-### Geometría y prior
-
-| Campo | Default | Unidad y efecto |
-| --- | ---: | --- |
-| `map.resolution` | `0.05` | m/celda. Permite representar puertas y paredes finas con más detalle que 10 cm. |
-| `map.width` | `16.0` | Ancho en metros, redondeado hacia arriba a celdas completas. |
-| `map.height` | `16.0` | Alto en metros. |
-| `map.origin_x` | `-8.0` | Coordenada x del extremo inferior izquierdo de la grilla, en m. |
-| `map.origin_y` | `-8.0` | Coordenada y del extremo inferior izquierdo, en m. |
-| `map.prior` | `0.5` | Probabilidad inicial; la máscara de observación mantiene unknown separado. |
-
-La extensión es fija. Antes de mapear un entorno mayor, ampliar dimensiones y elegir el origen de modo que la trayectoria y las paredes quepan. No se rellena automáticamente el exterior ni se usa la frontera como obstáculo. El consumo de grillas crece aproximadamente con `partículas × ancho × alto / resolución²`.
-
-### Modelo inverso del sensor
-
-| Campo | Default | Unidad y efecto |
-| --- | ---: | --- |
-| `sensor.p_hit` | `0.70` | Probabilidad inversa de ocupación para un impacto. |
-| `sensor.p_free` | `0.35` | Probabilidad inversa de ocupación para espacio atravesado. |
-| `sensor.log_odds_min` | `-4.0` | Límite inferior de evidencia; corresponde aproximadamente a p=0,018. |
-| `sensor.log_odds_max` | `4.0` | Límite superior; corresponde aproximadamente a p=0,982. |
-| `sensor.hit_thickness` | `0.03` | Espesor radial total de la zona de impacto, en m. |
-| `sensor.min_range` | `0.12` | Rango mínimo utilizable, en m, combinado con el del mensaje. |
-| `sensor.max_range` | `8.0` | Alcance máximo de mapeo, en m, combinado con el del mensaje. |
-| `sensor.max_beams` | `180` | Máximo de haces integrados, seleccionados a lo largo del campo angular. |
-
-Se exige `0 < p_free < prior < p_hit < 1`. La actualización suma el logit de la probabilidad inversa **menos el logit del prior** y luego satura. Una observación de la misma celda no se acumula decenas de veces sólo porque varios haces del mismo scan la atraviesen; se deduplican las celdas por lectura y el impacto tiene precedencia sobre evidencia libre de esa lectura.
-
-Las lecturas `NaN`, `-inf`, no positivas, demasiado cercanas o finitas fuera del rango físico declarado se descartan. Un `+inf` representa ausencia de retorno. Por defecto (`sensor.no_return_is_free: false`) no aporta evidencia, porque en el lidar real un `+inf` aparece con vidrio, superficies oscuras o rasantes y no garantiza espacio libre. Con `no_return_is_free: true` (perfil de Gazebo, `cafe.yaml`) libera el tramo observable sin crear un obstáculo en el extremo. Un valor finito igual al alcance útil libera el tramo y tampoco crea obstáculo. Si se limita el alcance configurado por debajo de un retorno válido, sólo se usa evidencia libre hasta ese límite.
-
-### Modelo de likelihood
-
-| Campo | Default | Unidad y efecto |
-| --- | ---: | --- |
-| `sensor.likelihood_beams` | `60` | Máximo de extremos usados para ponderar partículas. |
-| `sensor.sigma_hit` | `0.10` | Desvío espacial, en m, de la concordancia con obstáculos. |
-| `sensor.z_hit` | `0.95` | Peso de la componente de impacto. |
-| `sensor.z_rand` | `0.05` | Peso de la componente uniforme; debe ser positivo. |
-| `sensor.likelihood_max_dist` | `0.60` | Truncamiento de distancia al obstáculo, en m. |
-| `sensor.likelihood_temperature` | `1.0` | Multiplica la suma de log-likelihoods y permite moderar la confianza. |
-| `sensor.occupied_threshold` | `0.65` | Umbral para considerar una celda obstáculo en la ponderación. |
-
-La mezcla exige `z_hit + z_rand = 1`. Para un impacto a distancia `d` del obstáculo más próximo se usa una puntuación proporcional a `z_hit·exp(-d²/(2·sigma_hit²)) + z_rand/rango_máximo`. Se evalúa sobre el mapa de cada partícula antes de integrar el scan. El primer scan arranca sin obstáculos previos y no discrimina hipótesis por concordancia artificial con su propio mapa.
-
-Reducir `sigma_hit` o aumentar cantidad de haces/temperatura vuelve la ponderación más selectiva; con odometría ruidosa puede concentrar el peso en una hipótesis equivocada. Aumentarlos en sentido opuesto puede suavizar diferencias hasta que las partículas casi no se corrijan con el LIDAR.
-
-### Movimiento, partículas y actualización
-
-| Campo | Default | Unidad y efecto |
-| --- | ---: | --- |
-| `motion.alpha1` | `0.0001` | Coeficiente de varianza del ruido de traslación por traslación. |
-| `motion.alpha2` | `0.00001` | Varianza de traslación por rotación. |
-| `motion.alpha3` | `0.0001` | Varianza de rotación por rotación. |
-| `motion.alpha4` | `0.0001` | Varianza de rotación por traslación. |
-| `filter.particles` | `24` | Cantidad fija de hipótesis; aumenta costo y diversidad. |
-| `filter.seed` | `7` | Semilla entera no negativa. |
-| `filter.resample_ess_ratio` | `0.5` | Remuestreo si ESS es menor que esta fracción de N. |
-| `filter.initial_x` | `0.0` | Posición inicial del robot en `map`, en m. |
-| `filter.initial_y` | `0.0` | Posición inicial y, en m. |
-| `filter.initial_yaw` | `0.0` | Orientación inicial en radianes. |
-| `filter.initial_std_xy` | `0.0` | Desvío de muestreo inicial por eje, en m. |
-| `filter.initial_std_yaw` | `0.0` | Desvío angular inicial, en radianes. |
-| `update.min_translation` | `0.08` | Desplazamiento neto mínimo desde el último scan integrado, en m. |
-| `update.min_rotation` | `0.06` | Giro neto mínimo desde el último integrado, en radianes. |
-| `update.max_interval` | `1.0` | Máximo intervalo entre integraciones, en segundos de datos. |
-
-Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para un incremento relativo `(dx,dy,dtheta)`, la varianza por eje de traslación es `alpha1·(dx²+dy²) + alpha2·dtheta²`; la angular es `alpha3·dtheta² + alpha4·(dx²+dy²)`. El modelo conserva movimiento lateral; no supone una base exclusivamente diferencial. Se integra un scan al superar cualquiera de los umbrales de desplazamiento/giro/tiempo. Los scans omitidos no reinician la referencia, de modo que movimientos pequeños pueden acumularse hasta superar el umbral. La semilla no compensa datos perdidos o diferencias en el orden temporal de ROS.
-
-## 7. Cómo ajustar y evaluar
-
-1. Verificar unidades, frames, timestamps, extrínseca y odometría antes de tocar la likelihood. Una extrínseca equivocada genera paredes dobles que no se arreglan aumentando partículas.
-2. Elegir extensión y resolución para cubrir el mundo completo y las puertas relevantes. Mantener la referencia geométrica y el recorrido cuando se comparan resoluciones.
-3. Estimar ruido y deriva de la odometría, incluyendo desplazamientos laterales, giros y retroceso; ajustar `alpha` para representar la incertidumbre observada.
-4. Ajustar el modelo inverso y el espesor de impacto sin ocultar aperturas reales. Una probabilidad de ocupación extrema satura rápido y dificulta corregir falsos obstáculos.
-5. Ajustar `sigma_hit`, haces y temperatura observando ESS, pérdida de diversidad, consistencia geométrica y costo. Probar más de una semilla.
-6. Guardar parámetros, bag/trayectoria, mapa y métricas de cada corrida. Comparar precisión/recall de paredes con tolerancia métrica, error de trayectoria cuando exista ground truth, ancho de puertas y conectividad después de inflar por el robot.
-
-Para B, comprobar caminos sobre celdas conocidas libres e inflar obstáculos por la huella y un margen. Las métricas de conectividad del toy hacen una comprobación conservadora con disco; no sustituyen el planificador ni certifican cualquier ruta del entorno real. La zona desconocida no debe convertirse en libre para conseguir que una ruta exista.
-
 ## 8. Problemas frecuentes
 
 | Síntoma | Comprobación concreta |
@@ -450,82 +346,3 @@ Para B, comprobar caminos sobre celdas conocidas libres e inflar obstáculos por
 | Mapa truncado | Ampliar `map.width/height` y ajustar origen; el mapa tiene extensión fija. |
 | Retraso creciente con el bag | Reducir `bag_rate`, haces o partículas; medir tiempo por scan. |
 | Se perdió la hipótesis correcta | Reiniciar y repetir con mejor odometría/recorrido o mayor diversidad; esta versión no hace optimización global retrospectiva. |
-
-## 9. Alcance de la validación
-
-| Prueba | Estado y alcance |
-| --- | --- |
-| Núcleo y utilidades | 31 pruebas unitarias aprobadas; cubren sensor, grilla, pesos/remuestreo, estados, tiempo, odometría y toy. |
-| Benchmark sin ROS | Semillas 7, 11 y 19 aprobadas con los defaults; variantes de ruido muestran fallos de calidad documentados. |
-| Build ROS 2 Humble | `colcon build` y carga de argumentos del launcher comprobados en la imagen Docker disponible del RosMaster. |
-| ROS con toy y bag sintético | Tres integraciones aprobadas: toy con odometría de tópico, rosbag2 sintético con tópico y con TF. Cada una integró 118 scans sin descartes, con PGM idéntico; servicios, reset y cierre limpio comprobados. [Evidencia](artifacts/ros/README.md). |
-| Gazebo café | Recorrido guiado completo, RMSE 2,063 cm, cobertura SDF aproximada observada 99,863 %, 74/74 poses muestreadas conectadas. Perfil ideal; no demuestra corrección de deriva severa. |
-| Rosbag real del Parcial | Corrida completa con perfil específico: separación inicio–fin 0,842 m vs 17,855 m de odometría. Persisten discontinuidades y ruido; no certificar mapa definitivo para navegación. |
-| Robot físico vivo | Pendiente de ejecución y verificación geométrica del aula. |
-
-La consigna pide un mapa real exportado y adecuado para navegación. El paquete prepara los modos de adquisición y los criterios de evaluación; el mapa del aula sólo puede acreditarse con una sesión física.
-
-Con la imagen Docker existente de los TPs anteriores se puede repetir la validación completa aislada:
-
-```bash
-./scripts/validate_ros.sh
-```
-
-El script construye el paquete dentro de un contenedor temporal, valida el SDF y ejecuta las pruebas de núcleo, toy ROS y rosbag2 sintético. Monta los fuentes en sólo lectura y escribe evidencia en `artifacts/ros`. No modifica la imagen. Se puede cambiar `TASK_IMAGE` o `TASK_RESULTS`; el script necesita Docker y una imagen con ROS 2 Humble, colcon y las dependencias declaradas. No requiere red durante la ejecución.
-
-## 10. Corridas integrales de café y del bag del Parcial
-
-El procedimiento, las limitaciones de cada métrica y los resultados están en [docs/experimentos_a.md](docs/experimentos_a.md). El recorrido guiado se aprobó para la evidencia de A; sus puntos sólo alimentan al controlador de prueba. El filtro sigue comenzando con mapa desconocido. `ideal` y `motion_bias=false` se mantienen en café.
-
-Para reproducir los experimentos en el contenedor habitual, primero sincronizar y copiar los auxiliares **desde el host**:
-
-```bash
-cd ~/TP_final
-./scripts/sync_container.sh
-docker cp scripts/run_a_experiment.py yahboom_rosmaster:/tmp/tp_final_run_a.py
-docker cp scripts/cafe_route.yaml yahboom_rosmaster:/tmp/tp_final_cafe_route.yaml
-~/PRA_00/container.sh enter
-```
-
-Dentro del contenedor, con directorios de salida nuevos y dominios/pantallas libres:
-
-```bash
-source ~/rosmaster_ws/install/setup.bash
-export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
-python3 /tmp/tp_final_run_a.py --mode simulation \
-  --config "$(ros2 pkg prefix tp_slam)/share/tp_slam/config/cafe.yaml" \
-  --route /tmp/tp_final_cafe_route.yaml --max-sim-seconds 900 \
-  --output /tmp/entrega_a/cafe --domain 96 --display :96
-```
-
-El ejecutor inicia su pantalla Xvfb y RViz, conduce en la simulación, exporta el mapa y guarda una captura al terminar el recorrido. Sus estados y puntos se registran en las muestras. Si se omite `--route`, utiliza el seguidor izquierdo experimental, que no garantiza cobertura.
-
-En otra sesión independiente puede ejecutarse el bag real, cuya ruta debe existir **dentro** del contenedor:
-
-```bash
-python3 /tmp/tp_final_run_a.py --mode bag \
-  --config "$(ros2 pkg prefix tp_slam)/share/tp_slam/config/parcial_bag_tuned.yaml" \
-  --bag /tmp/real_rosbag_input --bag-rate 0.15 --timeout 2400 \
-  --output /tmp/entrega_a/rosbag --domain 97 --display :97
-```
-
-El perfil del bag es específico del experimento: 128 partículas, alpha `(0.10,0.01,0.10,0.10)`, sigma 0,15 m, `p_hit=0.75`, `p_free=0.40` y espesor 0,08 m. No cambia los defaults del toy o del robot real ni constituye calibración general. `parcial_bag.yaml` conserva los defaults con una grilla ampliada para reproducir la referencia que falla.
-
-Después de terminar, traer las salidas **al host** y analizarlas:
-
-```bash
-docker cp yahboom_rosmaster:/tmp/entrega_a ./artifacts/entrega_a_repeticion
-python3 -m pip install -r requirements-evaluation.txt
-python3 scripts/analyze_a_experiment.py artifacts/entrega_a_repeticion/cafe \
-  --cafe-package /home/fran/PRA_00/pkg/custom_map
-python3 scripts/analyze_a_experiment.py artifacts/entrega_a_repeticion/rosbag
-```
-
-El análisis requiere NumPy/PyYAML, Pillow para leer el PGM y Matplotlib para las figuras. No incorpora bibliotecas de SLAM. En café se calcula error respecto del GT y cobertura aproximada desde el SDF; en el bag no se informa RMSE absoluto porque no hay GT. Conectividad de poses visitadas e inspección de un mapa no certifican navegación entre cualquier par de puntos.
-
-## Referencias
-
-- Thrun, Burgard y Fox, *Probabilistic Robotics*, MIT Press, 2005. Capítulos sobre movimiento, sensores, occupancy grids y FastSLAM. [Ficha de la editorial](https://mitpress.mit.edu/9780262201629/probabilistic-robotics/).
-- Montemerlo et al., *FastSLAM: A Factored Solution to the Simultaneous Localization and Mapping Problem*, 2002. [Publicación original](https://robots.stanford.edu/papers/montemerlo.fastslam-tr.html).
-- Grisetti, Stachniss y Burgard, *Improved Techniques for Grid Mapping with Rao-Blackwellized Particle Filters*, IEEE T-RO, 2007. [PDF de los autores](https://www.ipb.uni-bonn.de/wp-content/papercite-data/pdf/grisetti07tro.pdf). Orienta el RBPF en grillas y el remuestreo selectivo; su propuesta con scan matching queda como extensión.
-- ROS 2: [LaserScan de Humble](https://github.com/ros2/common_interfaces/blob/humble/sensor_msgs/msg/LaserScan.msg) y [rosbag2 Humble](https://github.com/ros2/rosbag2/tree/humble).

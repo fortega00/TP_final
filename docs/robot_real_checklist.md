@@ -19,9 +19,11 @@ Al terminar, `ros2 bag info bag_aula` tiene que mostrar mensajes en `/tf_static`
 
 ## Lanzar el SLAM
 
+Desde la carpeta `slam/` del repositorio, con el paquete `slam` ya compilado en el workspace del robot:
+
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=real scan_topic:=/scan odom_source:=topic \
-  odom_topic:=/odom base_frame:=base_link output_path:=/tmp/tp_slam/aula rviz:=true \
+ros2 launch slam slam.launch.py mode:=real scan_topic:=/scan odom_source:=topic \
+  odom_topic:=/odom base_frame:=base_link output_path:=/tmp/slam/aula rviz:=true \
   config_file:=$PWD/config/parcial_bag_scan_match.yaml
 ```
 
@@ -30,7 +32,7 @@ Uso `parcial_bag_scan_match.yaml` y no `default.yaml` por el tamaño del mapa. E
 En otra terminal, guardar el estado del nodo para medir el tiempo real:
 
 ```bash
-ros2 topic echo /slam/status > /tmp/tp_slam/status.log
+ros2 topic echo /slam/status > /tmp/slam/status.log
 ```
 
 ## Manejo
@@ -59,7 +61,7 @@ Si la computadora no llega: bajar `filter.particles` de 8 a 4 (en el bag dio la 
 ros2 service call /slam/save_map std_srvs/srv/Trigger '{}'
 ```
 
-Copiar fuera del robot: el bag, `/tmp/tp_slam/aula.pgm` y `.yaml`, `status.log` y una captura de RViz.
+Copiar fuera del robot: el bag, `/tmp/slam/aula.pgm` y `.yaml`, `status.log` y una captura de RViz.
 
 ## Qué anotar
 

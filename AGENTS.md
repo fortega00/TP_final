@@ -5,7 +5,7 @@ Actualizado: 10 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 ## Organización y consignas
 
 - Grupo de tres integrantes. El TP tiene etapas A, B y C progresivas; cada entrega incluye paquetes ROS con launchfiles e informe.
-- Leer las consignas originales `PRA_TPFinal_Parte_A.pdf`, `PRA_TPFinal_Parte_B.pdf` y `PRA_TPFinal_Parte_C.pdf`. La documentación del proyecto no sustituye sus requisitos.
+- Leer las consignas originales `consignas/PRA_TPFinal_Parte_A.pdf`, `consignas/PRA_TPFinal_Parte_B.pdf` y `consignas/PRA_TPFinal_Parte_C.pdf`. La documentación del proyecto no sustituye sus requisitos.
 - Robot: Yahboom RosMaster X3 con ruedas mecanum. **ROS 2 Humble**, confirmado por el usuario. Sensores disponibles: LIDAR, cámara de profundidad y RGB.
 - **A:** construir mapa de ocupación y estimar pose con sensores/odometría; evaluar primero simulación, después rosbag real y finalmente robot vivo. Se exige geometría nítida, cobertura completa, resolución y utilidad para rutas seguras. Exportar mapa real e incluir las diez respuestas del PDF en el informe.
 - **B:** localización probabilística en mapa conocido, `/initialpose` (`PoseWithCovarianceStamped`), `/goal_pose` (`PoseStamped`), planificación, control, orientación final, nuevos objetivos, obstáculos no mapeados, recuperación y máquina de estados.
@@ -16,28 +16,30 @@ Actualizado: 10 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 - La primera implementación aborda **A** con **FastSLAM, grillas de ocupación, log-odds y modelo inverso del sensor**, influida por *Probabilistic Robotics* de Thrun, Burgard y Fox.
 - **No usar bibliotecas que resuelvan SLAM o algoritmos centrales similares.** Filtro, movimiento, likelihood, modelo inverso, grilla, pesos, ESS, remuestreo y estados son propios. NumPy/PyYAML resuelven cálculo general/configuración; ROS aporta transporte, TF y visualización. No sustituir el núcleo por GMapping, Cartographer, SLAM Toolbox, filtros o planificadores ajenos.
 - Mantener módulos y máquina de estados explícita. Permitir propuestas con scan matching y sensores adicionales sin mezclarlos con ROS.
-- Mantener `A.md` con comandos para los cuatro modos e hiperparámetros completos con defaults reproducibles. Actualizar este archivo al cambiar interfaces, decisiones, comandos o validaciones.
+- Mantener `docs/guia_ejecucion.md` y `docs/parametros.md` con comandos para los cuatro modos e hiperparámetros completos con defaults reproducibles. Actualizar este archivo al cambiar interfaces, decisiones, comandos o validaciones.
 - Repositorio creado a pedido del usuario: **https://github.com/fortega00/TP_final**, privado, rama `main`, remoto `origin`. Mantener esa visibilidad salvo pedido expreso de publicación pública.
 - Distinguir evidencia sintética de pruebas físicas. No afirmar calidad del aula o del bag real sin ejecutarlos.
 
 ## Implementación
 
-Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio. El núcleo es importable directamente desde aquí sin ROS.
+Un paquete ROS 2 por etapa. La etapa A es el paquete `ament_python` **`slam`**, en la carpeta `slam/`. Adentro, `slam/slam/core/` tiene los algoritmos y no importa ROS, `slam/slam/ros/` tiene los nodos y `slam/slam/toy/` el mundo sintético. Las etapas B y C van en `nav/` y `mission/` con la misma separación `core/` y `ros/`, y pueden importar de `slam.core`. Las rutas de la tabla son relativas a `slam/`.
+
+Comentarios y docstrings en español; identificadores, mensajes de error y commits en inglés.
 
 | Ruta | Responsabilidad |
 | --- | --- |
-| `tp_slam/config.py`, `config/default.yaml` | Configuración validada; defaults idénticos. |
+| `slam/core/config.py`, `config/default.yaml` | Configuración validada; defaults idénticos. |
 | `config/cafe.yaml` | Perfil de grilla 16 × 32 m para el mundo café de `custom_map`. |
-| `tp_slam/geometry.py`, `types.py` | SE(2), `Pose2D`, `Scan` con timestamp y extrínseca. |
-| `tp_slam/motion.py` | Movimiento holonómico y protocolo de propuestas. |
-| `tp_slam/sensor.py` | Haces, likelihood de extremos y protocolo de medición. |
-| `tp_slam/grid.py` | Grilla independiente, modelo inverso y máscara observada. |
-| `tp_slam/filter.py` | RBPF, log-pesos, ESS, remuestreo y selección coherente. |
-| `tp_slam/state_machine.py` | `WAITING`, `RUNNING`, `PAUSED`, `ERROR`, `STOPPED`. |
-| `tp_slam/io.py` | PGM/YAML trinarío compatible con map server. |
-| `tp_slam/odometry.py`, `ros_node.py` | Interpolación, TF, colas, publicaciones y servicios. |
-| `tp_slam/tf_filter.py` | Filtra TF de localización obsoletos de bags. |
-| `tp_slam/toy.py`, `cli.py`, `toy_node.py` | Toy analítico, benchmark y publicador ROS. |
+| `slam/core/geometry.py`, `slam/core/types.py` | SE(2), `Pose2D`, `Scan` con timestamp y extrínseca. |
+| `slam/core/motion.py` | Movimiento holonómico y protocolo de propuestas. |
+| `slam/core/sensor.py` | Haces, likelihood de extremos y protocolo de medición. |
+| `slam/core/grid.py` | Grilla independiente, modelo inverso y máscara observada. |
+| `slam/core/filter.py` | RBPF, log-pesos, ESS, remuestreo y selección coherente. |
+| `slam/core/state_machine.py` | `WAITING`, `RUNNING`, `PAUSED`, `ERROR`, `STOPPED`. |
+| `slam/core/io.py` | PGM/YAML trinarío compatible con map server. |
+| `slam/core/odometry.py`, `slam/ros/ros_node.py` | Interpolación, TF, colas, publicaciones y servicios. |
+| `slam/ros/tf_filter.py` | Filtra TF de localización obsoletos de bags. |
+| `slam/toy/world.py`, `slam/toy/cli.py`, `slam/ros/toy_node.py` | Toy analítico, benchmark y publicador ROS. |
 | `launch/slam.launch.py` | Launcher único para toy/simulation/bag/real. |
 | `worlds/office.sdf`, `rviz/slam.rviz` | Oficina Gazebo y visualización. |
 | `tests/`, `scripts/validate_ros.sh` | Pruebas de núcleo e integración ROS aislada. |
@@ -45,8 +47,8 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 | `scripts/tune_toy.py`, `artifacts/` | Ablaciones y evidencia. |
 | `scripts/run_a_experiment.py`, `scripts/cafe_route.yaml` | Ejecutor ROS aislado y recorrido guiado de evaluación, separado del SLAM. |
 | `scripts/analyze_a_experiment.py`, `scripts/replay_bag_core.py` | Métricas y screening del núcleo sobre entradas reales alineadas. |
-| `docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
-| `A.md`, `docs/architecture.md`, `docs/entrega_a.md` | Ejecución, arquitectura e informe con diez respuestas. |
+| `../docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
+| `../docs/guia_ejecucion.md`, `../docs/parametros.md`, `../docs/architecture.md`, `../docs/entrega_a.md` | Ejecución, parámetros, arquitectura e informe con diez respuestas. |
 
 ### Invariantes
 
@@ -68,22 +70,22 @@ Paquete ROS 2 `ament_python` **`tp_slam`**, situado en la raíz del repositorio.
 - Sensor: `p_hit=0.70`, `p_free=0.35`, log-odds `[-4,4]`, espesor 0,08 m, rango 0,12–8 m, 180 haces de mapa/60 de likelihood, sigma 0,15 m, mezcla 0,95/0,05, distancia máxima 0,60 m, temperatura 1, ocupado 0,65.
 - Movimiento: `alpha1=0.0001`, `alpha2=0.00001`, `alpha3=0.0001`, `alpha4=0.0001`.
 - Incorporación por movimiento/tiempo: 0,08 m, 0,06 rad o 1 s.
-- Valores calificados sólo para el toy; **no calibrados en robot real**. Todas las opciones y fórmulas están en `A.md`.
+- Valores calificados sólo para el toy; **no calibrados en robot real**. Todas las opciones y fórmulas están en `docs/parametros.md`.
 - El usuario pidió conservar el perfil cinemático `ideal`. El 10/11 aprobó usar un recorrido guiado para cerrar la prueba de café, después de que el seguidor izquierdo necesitara recuperaciones. No agregar `stress` ni sesgos de movimiento a esa sesión.
 - El perfil café usa `sensor.min_range=0.25`: se observaron retornos del propio chasis a 0,14–0,20 m. Los defaults generales permanecen en 0,12 m.
 
 ## Ejecución
 
-Sin ROS, desde la raíz:
+Sin ROS, desde `slam/`:
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 -m unittest discover -s tests -v
-python3 -m tp_slam.cli toy --config config/default.yaml --output artifacts/toy --seed 7 --check
+python3 -m slam.toy.cli toy --config config/default.yaml --output artifacts/toy --seed 7 --check
 python3 scripts/tune_toy.py --output artifacts/tuning
 ```
 
-Instalar/enlazar esta carpeta como paquete dentro de `src/` de un workspace. Ejecutar `colcon build --symlink-install --packages-select tp_slam` y cargar ROS y overlay en cada terminal. Ver preparación completa en `A.md`.
+Instalar/enlazar esta carpeta como paquete dentro de `src/` de un workspace. Ejecutar `colcon build --symlink-install --packages-select slam` y cargar ROS y overlay en cada terminal. Ver preparación completa en `docs/guia_ejecucion.md`.
 
 ### Contenedor habitual del usuario
 
@@ -98,26 +100,26 @@ cd ~/TP_final
 # Dentro del contenedor
 cd ~/rosmaster_ws
 source install/setup.bash
-ros2 launch tp_slam slam.launch.py mode:=toy rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_toy
+ros2 launch slam slam.launch.py mode:=toy rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/slam_toy
 ```
 
-El script copia sólo archivos del paquete a `~/rosmaster_ws/src/tp_slam` y construye únicamente ese paquete por defecto. `--sync-only` omite la construcción; luego ejecutar `colcon build --symlink-install --packages-select tp_slam` dentro del workspace. Tras editar los fuentes del host hay que resincronizar, construir y cargar de nuevo el overlay. El 10 de noviembre de 2026 se verificaron sincronización y build en el contenedor habitual: colcon aprobó, el prefijo instalado es `/home/alumno/rosmaster_ws/install/tp_slam` y ROS enumeró los cuatro ejecutables. No se lanzaron nodos, RViz ni Gazebo durante esa comprobación; la evidencia de ejecución anterior corresponde al contenedor aislado.
+El script copia sólo archivos del paquete a `~/rosmaster_ws/src/slam` y construye únicamente ese paquete por defecto. `--sync-only` omite la construcción; luego ejecutar `colcon build --symlink-install --packages-select slam` dentro del workspace. Tras editar los fuentes del host hay que resincronizar, construir y cargar de nuevo el overlay. El 10 de noviembre de 2026 se verificaron sincronización y build en el contenedor habitual: colcon aprobó, el prefijo instalado es `/home/alumno/rosmaster_ws/install/slam` y ROS enumeró los cuatro ejecutables. No se lanzaron nodos, RViz ni Gazebo durante esa comprobación; la evidencia de ejecución anterior corresponde al contenedor aislado.
 
-Guardar con `/slam/save_map` genera PGM/YAML/JSON en `~/rosmaster_ws/maps` dentro del contenedor. Esa salida **no se persiste automáticamente en el host** y se pierde si se elimina el contenedor. Para probar Gazebo, detener el toy con Ctrl+C y ejecutar `ros2 launch tp_slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/tp_slam_simulation`. No ejecutar ambos modos a la vez porque comparten sensores, reloj y TF. La guía completa está en `A.md`.
+Guardar con `/slam/save_map` genera PGM/YAML/JSON en `~/rosmaster_ws/maps` dentro del contenedor. Esa salida **no se persiste automáticamente en el host** y se pierde si se elimina el contenedor. Para probar Gazebo, detener el toy con Ctrl+C y ejecutar `ros2 launch slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/alumno/rosmaster_ws/maps/slam_simulation`. No ejecutar ambos modos a la vez porque comparten sensores, reloj y TF. La guía completa está en `docs/guia_ejecucion.md`.
 
 ### Modos del launcher
 
 ```bash
-ros2 launch tp_slam slam.launch.py mode:=toy rviz:=false output_path:=/tmp/slam/toy
-ros2 launch tp_slam slam.launch.py mode:=simulation world:=/ruta/mundo.sdf
-ros2 launch tp_slam slam.launch.py mode:=bag bag_path:=/ruta/bag bag_rate:=0.5
-ros2 launch tp_slam slam.launch.py mode:=real base_frame:=base_link
+ros2 launch slam slam.launch.py mode:=toy rviz:=false output_path:=/tmp/slam/toy
+ros2 launch slam slam.launch.py mode:=simulation world:=/ruta/mundo.sdf
+ros2 launch slam slam.launch.py mode:=bag bag_path:=/ruta/bag bag_rate:=0.5
+ros2 launch slam slam.launch.py mode:=real base_frame:=base_link
 ros2 service call /slam/save_map std_srvs/srv/Trigger '{}'
 ```
 
 `simulation start_simulator:=false` se conecta a un simulador existente. Para iniciar Gazebo usa directamente `yahboom_rosmaster_gazebo/rosmaster_gazebo_fortress.launch.py`, Fortress, mundo configurable, perfil `ideal` y `motion_bias=false`. El backend/driver es externo. La exploración A se hace con teleop externo; este paquete no publica velocidades.
 
-Para el café de los TPs anteriores, ver la receta de `A.md` en «Probar el mundo café de custom_map». Resincronizar antes para instalar `config/cafe.yaml`. Dentro del contenedor, el share verificado de `custom_map` es `/home/alumno/rosmaster_ws/install/custom_map/share/custom_map`: existen `worlds/cafe.world` y `models`. Agregar `models` a `IGN_GAZEBO_RESOURCE_PATH` y `GZ_SIM_RESOURCE_PATH`, preservando los valores previos, y lanzar `tp_slam` con ese world y el YAML café instalado. La grilla tiene ancho 16 m, alto 32 m, origen `(-8,-16)` y celda 0,05 m; la grilla toy truncaría el café en Y. Se verificaron rutas y assets sin ejecutar el mundo. Detener toy/simulaciones anteriores y no usar `custom_map/cafe.launch.py`, que agrega map server y TF fijo incompatibles con SLAM.
+Para el café de los TPs anteriores, ver la receta de `docs/guia_ejecucion.md` en «Probar el mundo café de custom_map». Resincronizar antes para instalar `config/cafe.yaml`. Dentro del contenedor, el share verificado de `custom_map` es `/home/alumno/rosmaster_ws/install/custom_map/share/custom_map`: existen `worlds/cafe.world` y `models`. Agregar `models` a `IGN_GAZEBO_RESOURCE_PATH` y `GZ_SIM_RESOURCE_PATH`, preservando los valores previos, y lanzar `slam` con ese world y el YAML café instalado. La grilla tiene ancho 16 m, alto 32 m, origen `(-8,-16)` y celda 0,05 m; la grilla toy truncaría el café en Y. Se verificaron rutas y assets sin ejecutar el mundo. Detener toy/simulaciones anteriores y no usar `custom_map/cafe.launch.py`, que agrega map server y TF fijo incompatibles con SLAM.
 
 Transporte por defecto: `/scan`, `/odom`, `odom_source=topic`, frames `map`, `odom`, **`base_footprint`**. Para robot real seleccionar los frames efectivos. Otro `child_frame_id` requiere TF hacia la base; `/calc_odom` con child `calc_base` no es intercambiable sólo cambiando el tópico. Alternativa `odom_source:=tf`.
 

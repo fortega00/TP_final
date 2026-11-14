@@ -1,24 +1,59 @@
-# TP final: SLAM del RosMaster
+# TP Final: SLAM y navegación autónoma
 
-Repositorio privado: [fortega00/TP_final](https://github.com/fortega00/TP_final).
+Trabajo final de Principios de la Robótica Autónoma (I-402), con un Yahboom RosMaster X3 y ROS 2 Humble. Las consignas están en [consignas/](consignas/).
 
-Primera implementación de la entrega A: FastSLAM basado en un filtro de partículas Rao–Blackwellizado, con una grilla de ocupación independiente por partícula, actualización en log-odds y modelo inverso del LIDAR. El núcleo funciona sin ROS; el paquete `tp_slam` lo integra con ROS 2 Humble mediante una máquina de estados.
+| Etapa | Qué pide | Carpeta | Estado |
+|---|---|---|---|
+| A | Construir el mapa y estimar la pose (SLAM) | `slam/` | Implementada, falta la sesión con el robot real |
+| B | Localizarse en el mapa, planificar y navegar | `nav/` | Sin empezar |
+| C | Explorar y buscar conos rojos con la cámara | `mission/` | Sin empezar |
 
-Desde la raíz del proyecto, con Python 3, NumPy y PyYAML:
+## Organización
 
-```bash
-python3 -m tp_slam.cli toy --output artifacts/toy --seed 7 --check
+Hay un paquete ROS por etapa. Adentro de cada uno, los algoritmos y ROS están separados:
+
+```
+slam/                 paquete ROS de la etapa A
+  slam/core/          algoritmos, sin ROS: filtro, grilla, sensor, movimiento, scan matching
+  slam/ros/           nodos ROS: reciben scans y odometría, llaman al core y publican
+  slam/toy/           mundo sintético para probar el algoritmo en segundos
+  config/             perfiles de parámetros (YAML)
+  launch/             un launch para toy, simulación, bag y robot real
+  tests/              tests del core
+  scripts/            replay de bags, experimentos, utilidades
+  artifacts/          resultados guardados de las corridas
+docs/                 guías, decisiones e informe
+consignas/            los tres PDF de la materia
 ```
 
-El ejemplo genera un mapa PGM/YAML, una figura SVG, la trayectoria y métricas reproducibles. Es una prueba sintética; las validaciones con Gazebo, el rosbag y el RosMaster físico se registran por separado.
+El método de la etapa A es FastSLAM: un filtro de partículas donde cada partícula lleva su propia grilla de ocupación, con scan matching para ubicar las partículas. Para leer el código conviene empezar por `slam/slam/core/filter.py`, que tiene los cinco pasos del algoritmo.
 
-- [A.md](A.md): instalación, launcher para cada modo, parámetros y diagnóstico.
+## Prueba rápida sin ROS
+
+```bash
+cd slam
+python3 -m pip install -r requirements.txt
+python3 -m unittest discover -s tests
+python3 -m slam.toy.cli toy --config config/default.yaml --output /tmp/slam_toy --seed 7 --check
+```
+
+## Con ROS
+
+Enlazar la carpeta `slam/` dentro de `src/` de un workspace y compilar:
+
+```bash
+colcon build --symlink-install --packages-select slam
+ros2 launch slam slam.launch.py mode:=toy
+```
+
+## Documentación
+
+- [Guía de ejecución](docs/guia_ejecucion.md): instalación y launch para cada modo.
+- [Parámetros](docs/parametros.md): qué hace cada uno y cómo ajustarlos.
 - [Arquitectura](docs/architecture.md): módulos, máquina de estados y puntos de extensión.
-- [Informe de la entrega A](docs/entrega_a.md): decisiones, evaluación y respuestas a las diez preguntas de la consigna.
-- [Experimentos de café y rosbag real](docs/experimentos_a.md): mapas, métricas, capturas de RViz y límites de aceptación.
 - [Decisiones](docs/decisiones/): alternativas y datos de cada decisión de diseño.
 - [Checklist del robot real](docs/robot_real_checklist.md): pasos para la sesión con el RosMaster físico.
 - [macOS](docs/macos.md): cómo correr el núcleo y el nodo ROS en Mac.
-- [AGENTS.md](AGENTS.md): contexto y convenciones para continuar las etapas A, B y C.
-
-Las consignas originales están en los tres PDF de la raíz. El alcance implementado es el mapeo de A; B y C utilizarán estos mapas para navegación y exploración.
+- [Informe de la etapa A](docs/entrega_a.md) y [experimentos](docs/experimentos_a.md).
+- [Validación](docs/validacion.md): qué está probado y qué no.
+- [AGENTS.md](AGENTS.md): contexto y convenciones para herramientas de IA.
