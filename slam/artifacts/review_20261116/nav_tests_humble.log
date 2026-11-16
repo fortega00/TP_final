@@ -1,0 +1,33 @@
+test_unknown_group_and_bad_values_raise (test_localization.ConfigTests) ... ok
+test_burst_converges_from_a_rough_click (test_localization.LocalizationTests) ... ok
+test_injection_reacts_when_the_scan_stops_matching (test_localization.LocalizationTests) ... ok
+test_process_requires_an_initial_pose (test_localization.LocalizationTests) ... ok
+test_standing_still_does_not_update (test_localization.LocalizationTests) ... ok
+test_tracking_corrects_odometry_drift (test_localization.LocalizationTests) ... ok
+test_tracking_with_scan_matching (test_localization.LocalizationTests) ... ok
+test_cells_are_classified_and_oriented (test_localization.MapTests) ... ok
+test_rejects_negated_map (test_localization.MapTests) ... ok
+test_path_to_the_left_turns_left (test_navigation.FollowerTests) ... ok
+test_straight_path_ahead_gives_no_turn (test_navigation.FollowerTests) ... ok
+test_goal_before_localization_is_stored (test_navigation.NavigatorTests) ... ok
+test_localization_lost_for_too_long_asks_for_a_new_initial_pose (test_navigation.NavigatorTests) ... ok
+test_losing_localization_stops_then_replans (test_navigation.NavigatorTests) ... ok
+test_new_goal_while_moving_replans (test_navigation.NavigatorTests) ... ok
+test_new_initial_pose_while_moving_keeps_the_goal (test_navigation.NavigatorTests) ... ok
+test_obstacle_ahead_stops_and_resumes (test_navigation.NavigatorTests) ... ok
+test_obstacle_that_never_clears_drops_the_goal (test_navigation.NavigatorTests) ... ok
+test_reaches_goal_position_and_angle_without_touching_walls (test_navigation.NavigatorTests) ... ok
+test_unreachable_goal_is_rejected_and_robot_stays (test_navigation.NavigatorTests) ... ok
+test_clearance_cost_centres_the_path_in_the_door (test_navigation.PlannerTests) ... ok
+test_closed_room_has_no_path (test_navigation.PlannerTests) ... ok
+test_goal_in_wall_unknown_or_outside_is_rejected (test_navigation.PlannerTests) ... ok
+test_path_goes_through_the_door_and_keeps_the_hard_margin (test_navigation.PlannerTests) ... ok
+test_start_next_to_a_wall_snaps_to_free_space (test_navigation.PlannerTests) ... ok
+test_unknown_space_is_not_traversable (test_navigation.PlannerTests) ... ok
+test_compare_separates_frame_offset_from_shape_error (test_scripts.ScriptTests) ... ok
+test_marks_group_visits_and_report_their_spread (test_scripts.ScriptTests) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 6.531s
+
+OK

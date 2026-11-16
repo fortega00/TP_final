@@ -1,0 +1,35 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-16-17-09-07-364513-3f001c74bd6b-1402
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [localization_node-1]: process started with pid [1403]
+[INFO] [navigator_node-2]: process started with pid [1405]
+[navigator_node-2] [INFO] [1794848948.125816999] [navigator]: Navigator ready; waiting for localization and /goal_pose
+[localization_node-1] [INFO] [1794848948.218813411] [localization]: Localization with 1000 particles on /results/bag_scan_match_ros/map.yaml; waiting for /initialpose
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [navigator_node-2]: sending signal 'SIGINT' to process[navigator_node-2]
+[INFO] [localization_node-1]: sending signal 'SIGINT' to process[localization_node-1]
+[navigator_node-2] Traceback (most recent call last):
+[navigator_node-2]   File "/tmp/review_ws/install/nav/lib/nav/navigator_node", line 33, in <module>
+[navigator_node-2]     sys.exit(load_entry_point('nav', 'console_scripts', 'navigator_node')())
+[navigator_node-2]   File "/tmp/review_ws/build/nav/nav/ros/navigator_node.py", line 177, in main
+[navigator_node-2]     node.destroy_node()
+[navigator_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1687, in destroy_node
+[localization_node-1] Traceback (most recent call last):
+[localization_node-1]   File "/tmp/review_ws/install/nav/lib/nav/localization_node", line 33, in <module>
+[localization_node-1]     sys.exit(load_entry_point('nav', 'console_scripts', 'localization_node')())
+[localization_node-1]   File "/tmp/review_ws/build/nav/nav/ros/localization_node.py", line 264, in main
+[localization_node-1]     node.destroy_node()
+[localization_node-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1687, in destroy_node
+[navigator_node-2]     self.destroy_subscription(self._subscriptions[0])
+[navigator_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1583, in destroy_subscription
+[navigator_node-2]     subscription.destroy()
+[navigator_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/subscription.py", line 80, in destroy
+[navigator_node-2]     self.handle.destroy_when_not_in_use()
+[navigator_node-2] KeyboardInterrupt
+[localization_node-1]     self.destroy_subscription(self._subscriptions[0])
+[localization_node-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1583, in destroy_subscription
+[localization_node-1]     subscription.destroy()
+[localization_node-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/subscription.py", line 80, in destroy
+[localization_node-1]     self.handle.destroy_when_not_in_use()
+[localization_node-1] KeyboardInterrupt
+[ERROR] [navigator_node-2]: process has died [pid 1405, exit code -2, cmd '/tmp/review_ws/install/nav/lib/nav/navigator_node --ros-args -r __node:=navigator --params-file /tmp/launch_params_myb6pzsb'].
+[ERROR] [localization_node-1]: process has died [pid 1403, exit code -2, cmd '/tmp/review_ws/install/nav/lib/nav/localization_node --ros-args -r __node:=localization --params-file /tmp/launch_params_0ym1nqv_'].

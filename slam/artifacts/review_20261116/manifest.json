@@ -1,0 +1,34 @@
+{
+  "commit": "1c14cf2063ecea9e170bc1e191f7022f0e28102c",
+  "baseline": "18a7784",
+  "date": "2026-11-16",
+  "host_tests": {
+    "slam": 37,
+    "nav": 28,
+    "passed": true
+  },
+  "bag_sha256": "3cc3858ea91a8c866e7b60f7c2cd2d01b6356dae7a680ade7885335d6cd2cc86",
+  "ros_image": "yahboom_rosmaster:latest",
+  "ros_scipy": "1.8.0",
+  "source_read_only": true,
+  "original_container_started": false,
+  "algorithm_edits": false,
+  "limitations": [
+    "Bag has no ground truth",
+    "Timing measured under concurrent load",
+    "Reported Ivan tables not all reproduced"
+  ],
+  "temporary_container_removed": true,
+  "humble_nav_tests": {
+    "count": 28,
+    "passed": true
+  },
+  "cafe": {
+    "finish_reason": "simulation_duration",
+    "waypoints": 31,
+    "total_waypoints": 32,
+    "rmse_m": 0.16329915896944014
+  },
+  "original_container_started_by_review": false,
+  "original_container_state_at_end": "running; left untouched"
+}

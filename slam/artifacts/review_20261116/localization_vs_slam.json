@@ -1,0 +1,11 @@
+{
+  "samples": 840,
+  "direct": {
+    "rmse_cm": 9.3,
+    "max_cm": 24.9
+  },
+  "rigid_fit": {
+    "rmse_cm": 8.1,
+    "max_cm": 20.9
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "mode": "bag",
+  "run_completed": true,
+  "has_ground_truth": false,
+  "poses": {
+    "odom": {
+      "samples": 857,
+      "duration_s": 162.9285490512848,
+      "length_m": 75.56980967091148,
+      "end_to_start_distance_m": 17.854928144335137,
+      "end_to_start_yaw_deg": -122.43461538463785,
+      "last_pose": [
+        17.615203268850934,
+        2.916002886904311,
+        -2.136887156874834
+      ]
+    },
+    "slam": {
+      "samples": 857,
+      "duration_s": 162.9285490512848,
+      "length_m": 63.187900598819105,
+      "end_to_start_distance_m": 0.7046552745189241,
+      "end_to_start_yaw_deg": -18.451847137570475,
+      "last_pose": [
+        0.6766165316575773,
+        0.19679716714173248,
+        -0.3220454856252959
+      ]
+    }
+  },
+  "status": {
+    "state": "PAUSED",
+    "processed_scans": 857,
+    "skipped_motion": 331,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 122,
+    "ess": 4.5924464687830575,
+    "update_seconds": 0.44247058499991,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 0,
+    "queued_scans": 0
+  },
+  "map": {
+    "resolution_m": 0.05,
+    "width": 960,
+    "height": 800,
+    "occupied_cells": 6794,
+    "free_cells": 46419,
+    "unknown_cells": 714787,
+    "known_area_m2": 133.03250000000003
+  },
+  "wall_seconds": 348.4616169189999,
+  "in_sample_consistency": {
+    "label": "in_sample_endpoint_to_exported_obstacle_distance",
+    "samples": 25710,
+    "distance_cap_m": 0.6,
+    "distance_m": {
+      "mean": 0.03514442088591758,
+      "median": 0.0224030252140123,
+      "p95": 0.0995587589032906,
+      "max": 0.6
+    },
+    "fraction_within_10cm": 0.950291715285881,
+    "warning": "Uses the same measurements that built the map; not independent accuracy."
+  },
+  "export_snapshot": {
+    "scan_stamp": 1788792829.2259517,
+    "captured_path_stamp": 1788792829.2259517,
+    "gap_s": 0.0,
+    "diagnostics": {
+      "state": "PAUSED",
+      "processed_scans": 857,
+      "skipped_motion": 331,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 122,
+      "ess": 4.5924464687830575,
+      "update_seconds": 0.44247058499991,
+      "clipped_rays": 0,
+      "out_of_bounds_particles": 0
+    }
+  },
+  "navigation_check": {
+    "robot_radius_plus_margin_m": 0.27,
+    "sampled_visited_poses": 43,
+    "connected_visited_fraction": 0.9767441860465116,
+    "unknown_is_blocked": true,
+    "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+  },
+  "sampled_update_wall_seconds": {
+    "mean": 0.2735898649582036,
+    "median": 0.2610164559998793,
+    "p95": 0.44127962319987546,
+    "max": 0.5544831619999968
+  },
+  "timing_sampling": "Latest filter update sampled by 1 Hz wall-time status messages."
+}

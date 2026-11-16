@@ -1,0 +1,225 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-16-16-59-13-397889-3f001c74bd6b-699
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [rosmaster_gazebo_motion_profile]: Using 'ideal' wheel-contact profile from /home/alumno/rosmaster_ws/install/yahboom_rosmaster_gazebo/share/yahboom_rosmaster_gazebo/config/motion_profiles.yaml
+[INFO] [slam_node-1]: process started with pid [736]
+[INFO] [ruby-2]: process started with pid [738]
+[slam_node-1] [INFO] [1794848354.157988134] [slam]: FastSLAM 8 particles; topic odometry; scan=/scan
+[ruby-2] [1;32m[Msg] [0m[1;32mIgnition Gazebo Server v[0m[1;32m6.18.0[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mLoading SDF world file[[0m[1;32m/custom_map/worlds/cafe.world[0m[1;32m].[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing entity system service on [[0m[1;32m/[0m[1;32mentity/system/add[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [Physics.cc:804] [0m[1;36mLoaded [[0m[1;36mignition::physics::dartsim::Plugin[0m[1;36m] from library [[0m[1;36m/usr/lib/x86_64-linux-gnu/ign-physics-5/engine-plugins/libignition-physics-dartsim-plugin.so[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Physics[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mCreate service on [[0m[1;32m/world/default/create[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mRemove service on [[0m[1;32m/world/default/remove[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPose service on [[0m[1;32m/world/default/set_pose[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPose service on [[0m[1;32m/world/default/set_pose_vector[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mLight configuration service on [[0m[1;32m/world/default/light_config[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPhysics service on [[0m[1;32m/world/default/set_physics[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mSphericalCoordinates service on [[0m[1;32m/world/default/set_spherical_coordinates[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mEnable collision service on [[0m[1;32m/world/default/enable_collision[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mDisable collision service on [[0m[1;32m/world/default/disable_collision[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mMaterial service on [[0m[1;32m/world/default/visual_config[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mMaterial service on [[0m[1;32m/world/default/wheel_slip[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::UserCommands[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::SceneBroadcaster[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Contact[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:506] [0m[1;36mConfiguring Sensors system[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:431] [0m[1;36mSensorsPrivate::Run[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Sensors[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:411] [0m[1;36mSensorsPrivate::RenderThread started[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:258] [0m[1;36mWaiting for init[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Imu[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mLoaded level [[0m[1;32m3[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing world controls on [[0m[1;32m/world/default[0m[1;32m/control], [[0m[1;32m/world/default[0m[1;32m/control/state] and [[0m[1;32m/world/default[0m[1;32m/playback/control][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing GUI information on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mgui/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mWorld [[0m[1;32mdefault[0m[1;32m] initialized with [[0m[1;32m1ms[0m[1;32m] physics profile.[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing world SDF generation service on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mgenerate_world_sdf[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing world names on [[0m[1;32m/gazebo/worlds[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mResource path add service on [[0m[1;32m/gazebo/resource_paths/add[0m[1;32m].[0m[1;32m[0m
+[INFO] [robot_state_publisher-3]: process started with pid [765]
+[robot_state_publisher-3] [INFO] [1794848355.761701054] [robot_state_publisher]: got segment back_left_wheel_link
+[robot_state_publisher-3] [INFO] [1794848355.761810857] [robot_state_publisher]: got segment back_right_wheel_link
+[robot_state_publisher-3] [INFO] [1794848355.761817519] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-3] [INFO] [1794848355.761821405] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-3] [INFO] [1794848355.761824901] [robot_state_publisher]: got segment cam_1_color_frame
+[robot_state_publisher-3] [INFO] [1794848355.761828252] [robot_state_publisher]: got segment cam_1_color_optical_frame
+[robot_state_publisher-3] [INFO] [1794848355.761831723] [robot_state_publisher]: got segment cam_1_depth_frame
+[robot_state_publisher-3] [INFO] [1794848355.761835102] [robot_state_publisher]: got segment cam_1_depth_optical_frame
+[robot_state_publisher-3] [INFO] [1794848355.761838429] [robot_state_publisher]: got segment cam_1_infra1_frame
+[robot_state_publisher-3] [INFO] [1794848355.761841769] [robot_state_publisher]: got segment cam_1_infra1_optical_frame
+[robot_state_publisher-3] [INFO] [1794848355.761845087] [robot_state_publisher]: got segment cam_1_infra2_frame
+[robot_state_publisher-3] [INFO] [1794848355.761848337] [robot_state_publisher]: got segment cam_1_infra2_optical_frame
+[robot_state_publisher-3] [INFO] [1794848355.761851572] [robot_state_publisher]: got segment cam_1_link
+[robot_state_publisher-3] [INFO] [1794848355.761854914] [robot_state_publisher]: got segment front_left_wheel_link
+[robot_state_publisher-3] [INFO] [1794848355.761858215] [robot_state_publisher]: got segment front_right_wheel_link
+[robot_state_publisher-3] [INFO] [1794848355.761861510] [robot_state_publisher]: got segment imu_link
+[robot_state_publisher-3] [INFO] [1794848355.761864909] [robot_state_publisher]: got segment laser_frame
+[INFO] [create-4]: process started with pid [783]
+[create-4] [INFO] [1794848356.692954761] [ros_gz_sim]: Requesting list of world names.
+[create-4] [INFO] [1794848356.899241602] [ros_gz_sim]: Requested creation of entity.
+[create-4] [INFO] [1794848356.899354905] [ros_gz_sim]: OK creation of entity.
+[ruby-2] [INFO] [1794848357.004845509] [GazeboSimROS2ControlPlugin]: robot_param_node is robot_state_publisher
+[ruby-2] [INFO] [1794848357.004875106] [GazeboSimROS2ControlPlugin]: robot_param_node is robot_description
+[INFO] [create-4]: process has finished cleanly [pid 783]
+[ruby-2] [INFO] [1794848357.031384786] [gz_ros2_control]: connected to service!! robot_state_publisher asking for robot_description
+[ruby-2] [INFO] [1794848357.031835452] [gz_ros2_control]: Received URDF from param server
+[ruby-2] [INFO] [1794848357.038376951] [gz_ros2_control]: The position_proportional_gain has been set to: 0.1
+[ruby-2] [INFO] [1794848357.038433674] [gz_ros2_control]: Loading joint: front_left_wheel_joint
+[ruby-2] [INFO] [1794848357.038441657] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1794848357.038447138] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1794848357.038452231] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1794848357.038456556] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1794848357.038469667] [gz_ros2_control]: Loading joint: front_right_wheel_joint
+[ruby-2] [INFO] [1794848357.038477120] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1794848357.038482663] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1794848357.038488760] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1794848357.038494873] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1794848357.038508323] [gz_ros2_control]: Loading joint: back_left_wheel_joint
+[ruby-2] [INFO] [1794848357.038513456] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1794848357.038517239] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1794848357.038521283] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1794848357.038525015] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1794848357.038535194] [gz_ros2_control]: Loading joint: back_right_wheel_joint
+[ruby-2] [INFO] [1794848357.038542463] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1794848357.038546712] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1794848357.038550638] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1794848357.038554325] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1794848357.038640498] [gz_ros2_control]: Loading sensor: imu_sensor
+[ruby-2] [INFO] [1794848357.038650486] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1794848357.038660597] [gz_ros2_control]: 		 orientation.x
+[ruby-2] [INFO] [1794848357.038668516] [gz_ros2_control]: 		 orientation.y
+[ruby-2] [INFO] [1794848357.038672706] [gz_ros2_control]: 		 orientation.z
+[ruby-2] [INFO] [1794848357.038677678] [gz_ros2_control]: 		 orientation.w
+[ruby-2] [INFO] [1794848357.038681917] [gz_ros2_control]: 		 angular_velocity.x
+[ruby-2] [INFO] [1794848357.038686267] [gz_ros2_control]: 		 angular_velocity.y
+[ruby-2] [INFO] [1794848357.038690313] [gz_ros2_control]: 		 angular_velocity.z
+[ruby-2] [INFO] [1794848357.038694144] [gz_ros2_control]: 		 linear_acceleration.x
+[ruby-2] [INFO] [1794848357.038698173] [gz_ros2_control]: 		 linear_acceleration.y
+[ruby-2] [INFO] [1794848357.038704677] [gz_ros2_control]: 		 linear_acceleration.z
+[ruby-2] [INFO] [1794848357.038737494] [resource_manager]: Initialize hardware 'RobotSystem' 
+[ruby-2] [INFO] [1794848357.038800723] [resource_manager]: Successful initialization of hardware 'RobotSystem'
+[ruby-2] [INFO] [1794848357.038838954] [resource_manager]: 'configure' hardware 'RobotSystem' 
+[ruby-2] [INFO] [1794848357.038844348] [gz_ros2_control]: System Successfully configured!
+[ruby-2] [INFO] [1794848357.038855618] [resource_manager]: Successful 'configure' of hardware 'RobotSystem'
+[ruby-2] [INFO] [1794848357.038861341] [resource_manager]: 'activate' hardware 'RobotSystem' 
+[ruby-2] [INFO] [1794848357.038867608] [resource_manager]: Successful 'activate' of hardware 'RobotSystem'
+[ruby-2] [INFO] [1794848357.038872185] [gz_ros2_control]: Loading controller_manager
+[ruby-2] [1;32m[Msg] [0m[1;32mResource path get service on [[0m[1;32m/gazebo/resource_paths/get[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mResource path resolve service on [[0m[1;32m/gazebo/resource_paths/resolve[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mResource paths published on [[0m[1;32m/gazebo/resource_paths[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServer control service on [[0m[1;32m/server_control[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mFound no publishers on /stats, adding root stats topic[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mFound no publishers on /clock, adding root clock topic[0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:501] [0m[1;36mCreating PostUpdate worker threads: [0m[1;36m5[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m0[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m1[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m2[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m3[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing scene information on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mscene/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing graph information on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mscene/graph[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing full state on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mstate[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing full state (async) on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mstate_async[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing scene information on [[0m[1;32m/world/default/scene/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing entity deletions on [[0m[1;32m/world/default/scene/deletion[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing state changes on [[0m[1;32m/world/default/state[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing pose messages on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mpose/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing dynamic pose messages on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mdynamic_pose/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz_ros2_control::GazeboSimROS2ControlPlugin[0m[1;36m] for entity [[0m[1;36m89[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mMecanumDrive subscribing to twist messages on [[0m[1;32m/model/rosmaster_x3/cmd_vel[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mignition::gazebo::systems::MecanumDrive[0m[1;36m] for entity [[0m[1;36m89[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mOdometryPublisher publishing odometry on [[0m[1;32m/model/rosmaster_x3/ground_truth[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mOdometryPublisher publishing odometry with covariance on [[0m[1;32m/model/rosmaster_x3/ground_truth_with_covariance[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mOdometryPublisher publishing Pose_V (TF) on [[0m[1;32m/model/rosmaster_x3/ground_truth_pose[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mignition::gazebo::systems::OdometryPublisher[0m[1;36m] for entity [[0m[1;36m89[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [UserCommands.cc:1303] [0m[1;36mCreated entity [[0m[1;36m89[0m[1;36m] named [[0m[1;36mrosmaster_x3[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:610] [0m[1;36mInitialization needed[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:270] [0m[1;36mInitializing render context[0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
+[ruby-2] [WARN] [1794848357.095460233] [gz_ros2_control]:  Desired controller update period (0.0333333 s) is slower than the gazebo simulation period (0.001 s).
+[ruby-2] [INFO] [1794848357.095933393] [gz_ros2_control]: IMU imu_sensor has a topic name: imu/data
+[INFO] [parameter_bridge-5]: process started with pid [872]
+[INFO] [image_bridge-6]: process started with pid [874]
+[INFO] [cmd_vel_watchdog.py-7]: process started with pid [876]
+[INFO] [calculated_odometry.py-8]: process started with pid [878]
+[INFO] [ground_truth_tf.py-9]: process started with pid [880]
+[cmd_vel_watchdog.py-7] [INFO] [1794848359.099373751] [cmd_vel_watchdog]: Relaying /cmd_vel to /cmd_vel_gz with 0.50s watchdog timeout
+[calculated_odometry.py-8] [INFO] [1794848359.135703831] [cmd_vel_odometry]: Publishing pure cmd_vel odometry on /calc_odom as odom -> calc_base with 0.5s watchdog
+[ground_truth_tf.py-9] [INFO] [1794848359.169336711] [ground_truth_tf]: Broadcasting odom -> ground_truth_base from /ground_truth/odom
+[parameter_bridge-5] [INFO] [1794848359.816982140] [ros_gz_bridge]: Creating ROS->GZ Bridge: [cmd_vel_gz (geometry_msgs/msg/Twist) -> /model/rosmaster_x3/cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1794848359.821050099] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/cam_1/camera_info (gz.msgs.CameraInfo) -> cam_1/color/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1794848359.823774637] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/cam_1/camera_info (gz.msgs.CameraInfo) -> cam_1/depth/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1794848359.824329315] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/cam_1/points (gz.msgs.PointCloudPacked) -> cam_1/depth/color/points (sensor_msgs/msg/PointCloud2)] (Lazy 1)
+[parameter_bridge-5] [INFO] [1794848359.825123445] [ros_gz_bridge]: Creating GZ->ROS Bridge: [scan (gz.msgs.LaserScan) -> scan (sensor_msgs/msg/LaserScan)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1794848359.827906759] [ros_gz_bridge]: Creating GZ->ROS Bridge: [imu/data (gz.msgs.IMU) -> imu/data (sensor_msgs/msg/Imu)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1794848359.831626876] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1794848359.834690422] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/model/rosmaster_x3/ground_truth (gz.msgs.Odometry) -> ground_truth/odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1794848359.836816615] [ros_gz_bridge]: Passing message from ROS geometry_msgs/msg/Twist to Gazebo gz.msgs.Twist (showing msg only once per type)
+[ruby-2] [1;36m[Dbg] [ImuSensor.cc:148] [0m[1;36mIMU data for [[0m[1;36mrosmaster_x3::base_footprint::imu_sensor[0m[1;36m] advertised on [[0m[1;36mimu/data[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([Dbg] [SimulationRunner.cc:528] [0m[1;36m3[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36mExiting postupdate worker thread ([0m[1;36mExiting postupdate worker thread ([0m[1;36mExiting postupdate worker thread ([Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m0[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m21[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m21[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:501] [0m[1;36mCreating PostUpdate worker threads: [0m[1;36m8[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m0[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m1[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m2[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m3[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m4[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m5[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m6[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RenderUtil.cc:2591] [0m[1;36mCreate scene [[0m[1;36mscene[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:284] [0m[1;36m[Dbg] [Sensors.cc:610] Rendering Thread initialized[0m[1;36m[Dbg] [Sensors.cc:610] Rendering Thread initialized[0m[1;36m[0m
+[ruby-2] [1;36mInitialization needed[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RgbdCameraSensor.cc:219] [0m[1;36mRGB images for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1[0m[1;36m/image][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RgbdCameraSensor.cc:233] [0m[1;36mDepth images for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1[0m[1;36m/depth_image][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RgbdCameraSensor.cc:247] [0m[1;36mPoints for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1[0m[1;36m/points][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [CameraSensor.cc:705] [0m[1;36mCamera info for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1/camera_info[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Lidar.cc:138] [0m[1;36mLaser scans for [[0m[1;36mrosmaster_x3::base_footprint::lidar_sensor[0m[1;36m] advertised on [[0m[1;36mscan[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [GpuLidarSensor.cc:163] [0m[1;36mLidar points for [[0m[1;36mrosmaster_x3::base_footprint::lidar_sensor[0m[1;36m] advertised on [[0m[1;36mscan/points[0m[1;36m][0m[1;36m[0m
+[INFO] [ros2-10]: process started with pid [977]
+[INFO] [python3-11]: process started with pid [979]
+[python3-11] [INFO] [1794848366.768207315] [wheel_state_odometry]: Publishing wheel-state odometry from /joint_states to /odom
+[ros2-10] [INFO] [1794848367.361114761] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[ruby-2] [INFO] [1794848369.628992533] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2-10] [INFO] [1794848369.658619811] [spawner_joint_state_broadcaster]: [94mLoaded [1mjoint_state_broadcaster[0m
+[ruby-2] [INFO] [1794848369.745127846] [controller_manager]: Configuring controller 'joint_state_broadcaster'
+[ruby-2] [INFO] [1794848369.745423514] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2-10] [INFO] [1794848369.942077689] [spawner_joint_state_broadcaster]: [92mConfigured and activated [1mjoint_state_broadcaster[0m
+[INFO] [ros2-10]: process has finished cleanly [pid 977]
+[slam_node-1] [WARN] [1794848371.906245145] [slam]: Discarding scan: No odometry samples bracketing scan timestamp
+[slam_node-1] [WARN] [1794848377.405701433] [slam]: Discarding scan: No odometry samples bracketing scan timestamp
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [rosmaster_gazebo_shutdown]: Gazebo acknowledged the clean stop request
+[INFO] [rosmaster_gazebo_shutdown]: Gazebo completed its clean stop before signal fallback
+[INFO] [python3-11]: sending signal 'SIGINT' to process[python3-11]
+[INFO] [ground_truth_tf.py-9]: sending signal 'SIGINT' to process[ground_truth_tf.py-9]
+[INFO] [calculated_odometry.py-8]: sending signal 'SIGINT' to process[calculated_odometry.py-8]
+[INFO] [cmd_vel_watchdog.py-7]: sending signal 'SIGINT' to process[cmd_vel_watchdog.py-7]
+[INFO] [image_bridge-6]: sending signal 'SIGINT' to process[image_bridge-6]
+[INFO] [parameter_bridge-5]: sending signal 'SIGINT' to process[parameter_bridge-5]
+[INFO] [robot_state_publisher-3]: sending signal 'SIGINT' to process[robot_state_publisher-3]
+[INFO] [ruby-2]: sending signal 'SIGINT' to process[ruby-2]
+[INFO] [slam_node-1]: sending signal 'SIGINT' to process[slam_node-1]
+[ruby-2] [1;36m[Dbg] [Sensors.cc:439] [0m[1;36mSensorsPrivate::Stop[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:425] [0m[1;36mSensorsPrivate::RenderThread stopped[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [gz.cc:410] [0m[1;36mShutting down ign-gazebo-server[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m2[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m3[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m4[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m1[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m0[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m6[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m5[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:439] [0m[1;36mSensorsPrivate::Stop[0m[1;36m[0m
+[image_bridge-6] [INFO] [1794849263.512765951] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[parameter_bridge-5] [INFO] [1794849263.517751055] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-3] [INFO] [1794849263.520973289] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [ruby-2]: process has finished cleanly [pid 738]
+[INFO] [parameter_bridge-5]: process has finished cleanly [pid 872]
+[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 765]
+[INFO] [image_bridge-6]: process has finished cleanly [pid 874]
+[INFO] [cmd_vel_watchdog.py-7]: process has finished cleanly [pid 876]
+[INFO] [ground_truth_tf.py-9]: process has finished cleanly [pid 880]
+[INFO] [calculated_odometry.py-8]: process has finished cleanly [pid 878]
+[INFO] [python3-11]: process has finished cleanly [pid 979]
+[INFO] [slam_node-1]: process has finished cleanly [pid 736]

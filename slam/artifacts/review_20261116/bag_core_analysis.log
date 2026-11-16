@@ -1,0 +1,75 @@
+{
+  "mode": "bag",
+  "run_completed": true,
+  "has_ground_truth": false,
+  "poses": {
+    "slam": {
+      "samples": 857,
+      "duration_s": 162.9285490512848,
+      "length_m": 63.18790059881912,
+      "end_to_start_distance_m": 0.7046552745189366,
+      "end_to_start_yaw_deg": -18.451847137570653,
+      "last_pose": [
+        0.6766165316575892,
+        0.19679716714173645,
+        -0.322045485625299
+      ]
+    },
+    "odom": {
+      "samples": 857,
+      "duration_s": 162.9285490512848,
+      "length_m": 75.56980967091148,
+      "end_to_start_distance_m": 17.854928144335137,
+      "end_to_start_yaw_deg": -122.43461538463785,
+      "last_pose": [
+        17.615203268850934,
+        2.916002886904311,
+        -2.136887156874834
+      ]
+    }
+  },
+  "status": {
+    "state": "RUNNING",
+    "processed_scans": 857,
+    "skipped_motion": 331,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 122,
+    "ess": 4.5924464687833515,
+    "update_seconds": 0.2460029090000262,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0
+  },
+  "map": {
+    "resolution_m": 0.05,
+    "width": 960,
+    "height": 800,
+    "occupied_cells": 6794,
+    "free_cells": 46419,
+    "unknown_cells": 714787,
+    "known_area_m2": 133.03250000000003
+  },
+  "wall_seconds": 214.09413007900002,
+  "in_sample_consistency": {
+    "label": "in_sample_endpoint_to_exported_obstacle_distance",
+    "samples": 25710,
+    "distance_cap_m": 0.6,
+    "distance_m": {
+      "mean": 0.03514442088591739,
+      "median": 0.022403025214013078,
+      "p95": 0.09955875890328215,
+      "max": 0.6
+    },
+    "fraction_within_10cm": 0.950291715285881,
+    "warning": "Uses the same measurements that built the map; not independent accuracy."
+  },
+  "navigation_check": {
+    "robot_radius_plus_margin_m": 0.27,
+    "sampled_visited_poses": 43,
+    "connected_visited_fraction": 0.9767441860465116,
+    "unknown_is_blocked": true,
+    "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+  },
+  "sampled_update_wall_seconds": null,
+  "timing_sampling": "Latest filter update sampled by 1 Hz wall-time status messages."
+}

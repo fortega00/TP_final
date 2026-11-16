@@ -1,0 +1,21 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-16-16-58-48-881910-3f001c74bd6b-548
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [slam_node-1]: process started with pid [582]
+[INFO] [bag_tf_filter-2]: process started with pid [584]
+[slam_node-1] [INFO] [1794848329.346493836] [slam]: FastSLAM 8 particles; topic odometry; scan=/scan
+[INFO] [ros2-3]: process started with pid [624]
+[ros2-3] stdin is not a terminal device. Keyboard handling disabled.[INFO] [1794848332.540022971] [rosbag2_storage]: Opened database '/tmp/real_rosbag_input/rosbag2_2026_09_07-08_51_02_0.db3' for READ_ONLY.
+[ros2-3] [INFO] [1794848332.540077581] [rosbag2_player]: Set rate to 0.5
+[ros2-3] [INFO] [1794848332.540663087] [rosbag2_player]: Overriding QoS profile for topic /tf_static
+[ros2-3] [INFO] [1794848332.546544824] [rosbag2_player]: Adding keyboard callbacks.
+[ros2-3] [INFO] [1794848332.546578047] [rosbag2_player]: Press SPACE for Pause/Resume
+[ros2-3] [INFO] [1794848332.546586496] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[ros2-3] [INFO] [1794848332.546593578] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[ros2-3] [INFO] [1794848332.546599719] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[ros2-3] [INFO] [1794848332.547043883] [rosbag2_storage]: Opened database '/tmp/real_rosbag_input/rosbag2_2026_09_07-08_51_02_0.db3' for READ_ONLY.
+[INFO] [ros2-3]: process has finished cleanly [pid 624]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [bag_tf_filter-2]: sending signal 'SIGINT' to process[bag_tf_filter-2]
+[INFO] [slam_node-1]: sending signal 'SIGINT' to process[slam_node-1]
+[INFO] [bag_tf_filter-2]: process has finished cleanly [pid 584]
+[INFO] [slam_node-1]: process has finished cleanly [pid 582]

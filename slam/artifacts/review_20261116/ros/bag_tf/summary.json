@@ -1,0 +1,25 @@
+{
+  "mode": "bag",
+  "odom_source": "tf",
+  "passed": false,
+  "forced_cleanup": false,
+  "launch_command": [
+    "ros2",
+    "launch",
+    "slam",
+    "slam.launch.py",
+    "mode:=bag",
+    "rviz:=false",
+    "toy_rate:=10",
+    "scan_queue_size:=100",
+    "odom_source:=tf",
+    "output_path:=/results/bag_tf/map",
+    "bag_path:=/tmp/slam-test-bag",
+    "bag_rate:=2"
+  ],
+  "launch_pid": 209,
+  "launch_returncode": 0,
+  "error": "AssertionError: Timeout waiting for bag final scan and queue drain; last status={'state': 'RUNNING', 'processed_scans': 114, 'skipped_motion': 0, 'rejected_stamp': 0, 'invalid_scans': 0, 'resamples': 1, 'ess': 6.334318599566839, 'update_seconds': 0.14418335300001672, 'clipped_rays': 0, 'out_of_bounds_particles': 0, 'adapter_error': '', 'waiting_for': '', 'dropped_scans': 0, 'queued_scans': 0}",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/src/slam/tests/ros_smoke.py\", line 295, in main\n    run(args, summary)\n  File \"/workspace/src/slam/tests/ros_smoke.py\", line 180, in run\n    wait_until(node, lambda: node.status and node.status.get(\"processed_scans\", 0)\n  File \"/workspace/src/slam/tests/ros_smoke.py\", line 108, in wait_until\n    raise AssertionError(f\"Timeout waiting for {description}; last status={node.status}\")\nAssertionError: Timeout waiting for bag final scan and queue drain; last status={'state': 'RUNNING', 'processed_scans': 114, 'skipped_motion': 0, 'rejected_stamp': 0, 'invalid_scans': 0, 'resamples': 1, 'ess': 6.334318599566839, 'update_seconds': 0.14418335300001672, 'clipped_rays': 0, 'out_of_bounds_particles': 0, 'adapter_error': '', 'waiting_for': '', 'dropped_scans': 0, 'queued_scans': 0}\n",
+  "wall_seconds": 45.256472293000115
+}

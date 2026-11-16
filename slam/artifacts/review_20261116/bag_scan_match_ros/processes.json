@@ -1,0 +1,47 @@
+[
+  {
+    "name": "xvfb",
+    "pid": 533,
+    "command": [
+      "Xvfb",
+      ":103",
+      "-screen",
+      "0",
+      "1440x1080x24",
+      "-ac",
+      "-nolisten",
+      "tcp"
+    ]
+  },
+  {
+    "name": "launch",
+    "pid": 548,
+    "command": [
+      "ros2",
+      "launch",
+      "slam",
+      "slam.launch.py",
+      "rviz:=false",
+      "mode:=bag",
+      "config_file:=/repo/slam/config/parcial_bag_scan_match.yaml",
+      "scan_queue_size:=200",
+      "tf_wait_timeout:=60",
+      "max_path_poses:=20000",
+      "output_path:=/results/bag_scan_match_ros/map",
+      "bag_path:=/tmp/real_rosbag_input",
+      "bag_rate:=0.5"
+    ]
+  },
+  {
+    "name": "rviz",
+    "pid": 549,
+    "command": [
+      "/opt/ros/humble/lib/rviz2/rviz2",
+      "-d",
+      "/results/bag_scan_match_ros/view.rviz",
+      "--ros-args",
+      "-p",
+      "use_sim_time:=true"
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "startup_passed": true,
+  "returncode": 0,
+  "shutdown_passed": true,
+  "signal": "SIGINT to launcher only",
+  "scope": "Startup/shutdown only, no sensors"
+}

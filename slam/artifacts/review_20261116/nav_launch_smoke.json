@@ -1,0 +1,8 @@
+{
+  "passed": false,
+  "startup_passed": true,
+  "shutdown_passed": false,
+  "signal": "SIGINT to entire subprocess group; launch also forwards SIGINT",
+  "error": "Both nodes interrupted in destroy_node with KeyboardInterrupt, child exit code -2",
+  "scope": "Startup smoke without sensors; not a navigation test"
+}

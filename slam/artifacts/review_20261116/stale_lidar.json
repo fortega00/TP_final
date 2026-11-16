@@ -1,0 +1,9 @@
+{
+  "seconds_without_scan": 99,
+  "localization": "LOCALIZED",
+  "published_pose_stamp": 100.0,
+  "navigator_state": "FOLLOWING",
+  "linear_x": 0.2,
+  "angular_z": 0.0,
+  "kind": "callback reproduction with fake publishers; not a physical test"
+}

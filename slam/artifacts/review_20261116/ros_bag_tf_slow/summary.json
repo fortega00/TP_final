@@ -1,0 +1,107 @@
+{
+  "mode": "bag",
+  "odom_source": "tf",
+  "passed": true,
+  "forced_cleanup": false,
+  "launch_command": [
+    "ros2",
+    "launch",
+    "slam",
+    "slam.launch.py",
+    "mode:=bag",
+    "rviz:=false",
+    "toy_rate:=10",
+    "scan_queue_size:=100",
+    "odom_source:=tf",
+    "output_path:=/results/ros_bag_tf_slow/map",
+    "bag_path:=/tmp/review-synthetic-bag",
+    "bag_rate:=0.5"
+  ],
+  "launch_pid": 1229,
+  "final_status": {
+    "state": "RUNNING",
+    "processed_scans": 118,
+    "skipped_motion": 1,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 1,
+    "ess": 6.754670883466576,
+    "update_seconds": 0.367266797999946,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 0,
+    "queued_scans": 0
+  },
+  "final_pose": {
+    "x": -0.01689993246459911,
+    "y": -0.01806010522139581
+  },
+  "services": [
+    {
+      "service": "pause",
+      "success": true,
+      "message": "Mapping paused"
+    },
+    {
+      "service": "pause",
+      "success": false,
+      "message": "Cannot pause from PAUSED"
+    },
+    {
+      "service": "resume",
+      "success": true,
+      "message": "Mapping resumed"
+    },
+    {
+      "service": "resume",
+      "success": false,
+      "message": "Cannot resume from RUNNING"
+    },
+    {
+      "service": "save_map",
+      "success": true,
+      "message": "/results/ros_bag_tf_slow/map.pgm, /results/ros_bag_tf_slow/map.yaml"
+    },
+    {
+      "service": "reset",
+      "success": true,
+      "message": "New mapping session; previous map discarded"
+    }
+  ],
+  "map_observed_cells": 26519,
+  "map_export": {
+    "width": 320,
+    "height": 320,
+    "resolution": 0.05,
+    "pixel_histogram": {
+      "0": 2305,
+      "128": 75958,
+      "254": 24137
+    }
+  },
+  "poses_received": 118,
+  "maps_received": 31,
+  "cmd_vel_received": 0,
+  "stale_map_tf_received": 0,
+  "reset_verified": true,
+  "reset_status": {
+    "state": "WAITING",
+    "processed_scans": 0,
+    "skipped_motion": 0,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 0,
+    "ess": 8.0,
+    "update_seconds": 0.0,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 0,
+    "queued_scans": 0
+  },
+  "launch_returncode": 0,
+  "wall_seconds": 64.72915606699985
+}

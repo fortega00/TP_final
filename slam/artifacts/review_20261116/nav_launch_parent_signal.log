@@ -1,0 +1,11 @@
+[INFO] [launch]: All log files can be found below /root/.ros/log/2026-11-16-17-10-17-362525-3f001c74bd6b-1466
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [localization_node-1]: process started with pid [1467]
+[INFO] [navigator_node-2]: process started with pid [1469]
+[navigator_node-2] [INFO] [1794849018.046982639] [navigator]: Navigator ready; waiting for localization and /goal_pose
+[localization_node-1] [INFO] [1794849018.119396958] [localization]: Localization with 1000 particles on /results/bag_scan_match_ros/map.yaml; waiting for /initialpose
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [navigator_node-2]: sending signal 'SIGINT' to process[navigator_node-2]
+[INFO] [localization_node-1]: sending signal 'SIGINT' to process[localization_node-1]
+[INFO] [localization_node-1]: process has finished cleanly [pid 1467]
+[INFO] [navigator_node-2]: process has finished cleanly [pid 1469]
