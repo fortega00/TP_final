@@ -135,6 +135,7 @@ En las dos corridas completas:
 9. **Los bags se grabaron en la PC por wifi.** Puede faltar algún scan. Grabar también en el robot sería más seguro.
 10. **Con el bag completo, los parámetros se prueban offline.** No hace falta volver a manejar el robot para comparar configuraciones.
 11. **Git en la PC del laboratorio.** No tiene identidad configurada (se pasa con `git -c user.name=... -c user.email=...`) ni `git lfs`. El `.gitignore` del repo excluye `*.db3` y `logs/`: los bags se agregan con `git add -f`. `bag_mapa` pesa 57 MB y GitHub avisa por encima de 50 MB.
+12. **No bajar procesos con `pkill -f` desde un script o una línea compuesta.** El patrón también coincide con la línea de comando del propio shell y lo mata antes de terminar. `session.sh` lista los procesos con `ps` y descarta los `bash`. A mano, usar `kill -INT <pid>`.
 
 ## Pendiente
 
@@ -155,5 +156,4 @@ ros2 launch nav nav.launch.py map_file:=$SESION/mapa/intento3/aula.yaml \
 
 Sin `navigate:=false` para el paso 10. Ninguno de los dos se probó todavía en el robot.
 
-- Actualizar `robot_real_checklist.md` con `base_footprint` y el domain.
 - Analizar offline `bag_mapa` y `bag_mapa2` con los comandos de [Analizar un bag](guia_etapa_b.md#analizar-un-bag).
