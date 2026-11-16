@@ -13,13 +13,16 @@ Para qué: las sillas nunca quedan dos veces en el mismo lugar. Debajo de la mes
 ## 2. Verificar que llegan los datos
 
 1. Levantar drivers, odometría y URDF del RosMaster.
+1. En cada terminal de la PC, pasar al domain del robot: `source ~/ivnafra/ws/env.sh 11`. Las terminales nuevas arrancan en el domain 0 y ahí el robot no se ve.
 2. `ros2 topic hz /scan` y `ros2 topic hz /odom`.
-3. `ros2 run tf2_ros tf2_echo base_link laser`, con los nombres de frames que publique el robot.
-4. Anotar el frame de la base (`base_link` o `base_footprint`), el tópico de odometría y el `child_frame_id` de sus mensajes.
+3. `ros2 run tf2_ros tf2_echo base_footprint laser_link`.
+4. Confirmar el frame de la base, el tópico de odometría y el `child_frame_id` de sus mensajes.
 
 Para qué: en el simulador los frames y el tópico de odometría son distintos a los del robot. Si un nombre está mal, el nodo descarta todos los scans y parece que no hace nada.
 
-Con los paquetes `slam` y `nav` ya compilados en el workspace del robot ([guía de la etapa B](guia_etapa_b.md)). En los comandos de abajo, cambiar `base_link` y `/odom` por lo anotado acá.
+Con los paquetes `slam` y `nav` ya compilados en el workspace ([guía de la etapa B](guia_etapa_b.md)).
+
+Medido el 2026-11-16 ([bitácora](sesion_robot_20261116.md)): robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`, odometría en `/odom` con `child_frame_id: base_footprint`, lidar en `laser_link`, `/scan` a 7,3 Hz y `/odom` a 10 Hz. Los comandos de abajo ya usan esos nombres. Si el robot o su configuración cambian, volver a verificarlos.
 
 ## 3. Medir el robot y una silla
 
@@ -53,7 +56,7 @@ Desde la carpeta `slam/`, con el paquete compilado en el workspace del robot:
 
 ```bash
 ros2 launch slam slam.launch.py mode:=real scan_topic:=/scan odom_source:=topic \
-  odom_topic:=/odom base_frame:=base_link output_path:=/tmp/slam/aula rviz:=true \
+  odom_topic:=/odom base_frame:=base_footprint output_path:=/tmp/slam/aula rviz:=true \
   config_file:=$PWD/config/parcial_bag_scan_match.yaml
 ros2 topic echo /slam/status > /tmp/slam/status.log     # en otra terminal
 ```
@@ -101,7 +104,7 @@ Cerrar el SLAM del paso 6. Desde la carpeta `nav/`, con el mapa guardado:
 
 ```bash
 ros2 launch nav nav.launch.py map_file:=/tmp/slam/aula.yaml config_file:=$PWD/config/real.yaml \
-  base_frame:=base_link odom_topic:=/odom navigate:=false
+  base_frame:=base_footprint odom_topic:=/odom navigate:=false
 ros2 topic echo /nav/localization_status > /tmp/slam/loc_status.log     # en otra terminal
 ```
 
@@ -123,7 +126,7 @@ Cerrar el launch del paso 9 y lanzarlo completo:
 
 ```bash
 ros2 launch nav nav.launch.py map_file:=/tmp/slam/aula.yaml config_file:=$PWD/config/real.yaml \
-  base_frame:=base_link odom_topic:=/odom
+  base_frame:=base_footprint odom_topic:=/odom
 ros2 topic echo /nav/state > /tmp/slam/nav_state.log                    # en otra terminal
 ```
 

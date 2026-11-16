@@ -1,0 +1,32 @@
+[INFO] [launch]: All log files can be found below /home/alumno1/.ros/log/2026-11-16-15-53-14-513346-A1702-UBU-13476
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [slam_node-1]: process started with pid [13491]
+[INFO] [rviz2-2]: process started with pid [13493]
+[rviz2-2] Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
+[rviz2-2] [INFO] [1794855194.737778831] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-2] [INFO] [1794855194.737828679] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[rviz2-2] [INFO] [1794855194.748261837] [rviz2]: Stereo is NOT SUPPORTED
+[slam_node-1] [INFO] [1794855194.852848648] [slam]: FastSLAM 8 particles; topic odometry; scan=/scan
+[rviz2-2] [INFO] [1794855196.433657058] [rviz2]: Trying to create a map of size 960 x 800 using 1 swatches
+[rviz2-2] [ERROR] [1794855196.465394827] [rviz2]: Vertex Program:rviz/glsl120/indexed_8bit_image.vert Fragment Program:rviz/glsl120/indexed_8bit_image.frag GLSL link result : 
+[rviz2-2] active samplers with a different type refer to the same texture image unit
+[rviz2-2] [ERROR] [1794855196.685889184] [rviz2]: Lookup would require extrapolation into the future.  Requested time 1794855195.759417 but the latest data is at time 1794855195.710629, when looking up transform from frame [laser_link] to frame [map]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [rviz2-2]: sending signal 'SIGINT' to process[rviz2-2]
+[INFO] [slam_node-1]: sending signal 'SIGINT' to process[slam_node-1]
+[rviz2-2] [INFO] [1794855847.336716988] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rviz2-2] [INFO] [1794855847.338602331] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[slam_node-1] Traceback (most recent call last):
+[slam_node-1]   File "/home/alumno1/ivnafra/ws/install/slam/lib/slam/slam_node", line 33, in <module>
+[slam_node-1]     sys.exit(load_entry_point('slam', 'console_scripts', 'slam_node')())
+[slam_node-1]   File "/home/alumno1/ivnafra/ws/build/slam/slam/ros/ros_node.py", line 429, in main
+[slam_node-1]     node.save()
+[slam_node-1]   File "/home/alumno1/ivnafra/ws/build/slam/slam/ros/ros_node.py", line 354, in save
+[slam_node-1]     paths = self.core.save_map(output)
+[slam_node-1]   File "/home/alumno1/ivnafra/ws/build/slam/slam/core/filter.py", line 304, in save_map
+[slam_node-1]     return save_map(self.best_particle.grid, path,
+[slam_node-1]   File "/home/alumno1/ivnafra/ws/build/slam/slam/core/io.py", line 29, in save_map
+[slam_node-1]     handle.write(np.flipud(pixels).tobytes())
+[slam_node-1] KeyboardInterrupt
+[ERROR] [slam_node-1]: process has died [pid 13491, exit code -2, cmd '/home/alumno1/ivnafra/ws/install/slam/lib/slam/slam_node --ros-args -r __node:=slam --params-file /tmp/launch_params_d_syzy67'].
+[INFO] [rviz2-2]: process has finished cleanly [pid 13493]
