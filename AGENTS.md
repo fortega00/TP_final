@@ -50,7 +50,7 @@ Comentarios y docstrings en español; identificadores, mensajes de error y commi
 | `../docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
 | `../docs/guia_ejecucion.md`, `../docs/parametros.md`, `../docs/architecture.md`, `../docs/entrega_a.md` | Ejecución, parámetros, arquitectura e informe con diez respuestas. |
 
-Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `011`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3`, revisado solo a ojo). Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
+Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `012`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3_corregido`, sin medidas con cinta). Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
 
 | Ruta | Responsabilidad |
 | --- | --- |
@@ -85,7 +85,7 @@ Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/d
 - 8 partículas con propuesta de scan matching (`docs/decisiones/002-propuesta-con-scan-matching.md`), semilla 7, remuestreo con ESS < 0,5 N; pose inicial `(0,0,0)` sin dispersión.
 - Sensor: `p_hit=0.70`, `p_free=0.35`, log-odds `[-4,4]`, espesor 0,08 m, rango 0,12–8 m, 180 haces de mapa/60 de likelihood, sigma 0,15 m, mezcla 0,95/0,05, distancia máxima 0,60 m, temperatura 1, ocupado 0,65.
 - Movimiento: `alpha1=0.0001`, `alpha2=0.00001`, `alpha3=0.0001`, `alpha4=0.0001`.
-- Incorporación por movimiento/tiempo: 0,08 m, 0,06 rad o 1 s.
+- Incorporación solo por movimiento: 0,08 m o 0,06 rad (`docs/decisiones/012-integracion-con-el-robot-quieto.md`).
 - Valores calificados sólo para el toy; **no calibrados en robot real**. Todas las opciones y fórmulas están en `docs/parametros.md`.
 - El usuario pidió conservar el perfil cinemático `ideal`. El 10/11 aprobó usar un recorrido guiado para cerrar la prueba de café, después de que el seguidor izquierdo necesitara recuperaciones. No agregar `stress` ni sesgos de movimiento a esa sesión.
 - El perfil café usa `sensor.min_range=0.25`: se observaron retornos del propio chasis a 0,14–0,20 m. Los defaults generales permanecen en 0,12 m.

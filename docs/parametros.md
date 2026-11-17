@@ -87,9 +87,8 @@ Reducir `sigma_hit` o aumentar cantidad de haces/temperatura vuelve la ponderaci
 | `filter.initial_std_yaw` | `0.0` | Desvío angular inicial, en radianes. |
 | `update.min_translation` | `0.08` | Desplazamiento neto mínimo desde el último scan integrado, en m. |
 | `update.min_rotation` | `0.06` | Giro neto mínimo desde el último integrado, en radianes. |
-| `update.max_interval` | `1.0` | Máximo intervalo entre integraciones, en segundos de datos. |
 
-Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para un incremento relativo `(dx,dy,dtheta)`, la varianza por eje de traslación es `alpha1·(dx²+dy²) + alpha2·dtheta²`; la angular es `alpha3·dtheta² + alpha4·(dx²+dy²)`. El modelo conserva movimiento lateral; no supone una base exclusivamente diferencial. Se integra un scan al superar cualquiera de los umbrales de desplazamiento/giro/tiempo. Los scans omitidos no reinician la referencia, de modo que movimientos pequeños pueden acumularse hasta superar el umbral. La semilla no compensa datos perdidos o diferencias en el orden temporal de ROS.
+Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para un incremento relativo `(dx,dy,dtheta)`, la varianza por eje de traslación es `alpha1·(dx²+dy²) + alpha2·dtheta²`; la angular es `alpha3·dtheta² + alpha4·(dx²+dy²)`. El modelo conserva movimiento lateral; no supone una base exclusivamente diferencial. Se integra un scan al superar el umbral de desplazamiento o el de giro; con el robot quieto no se integra nada ([012](decisiones/012-integracion-con-el-robot-quieto.md)). Los scans omitidos no reinician la referencia, de modo que movimientos pequeños pueden acumularse hasta superar el umbral. La semilla no compensa datos perdidos o diferencias en el orden temporal de ROS.
 
 ## 7. Cómo ajustar y evaluar
 

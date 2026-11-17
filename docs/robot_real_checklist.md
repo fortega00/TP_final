@@ -65,7 +65,8 @@ Va `parcial_bag_scan_match.yaml` y no `default.yaml` por el tamaño del mapa: el
 
 Manejo:
 
-- despacio, sobre todo en los giros. El scan matching busca hasta 10 cm y 0,06 rad por actualización;
+- a 0,15 m/s y con giros lentos. El 16/11 la mediana fue 0,4 m/s y las paredes salieron de 20 cm de grosor;
+- arrancar a 0,5 m o más de cualquier pared, mirando hacia la sala;
 - mirar cada puerta desde los dos lados;
 - recorrer todas las zonas y volver a la cruz de partida para cerrar el lazo.
 

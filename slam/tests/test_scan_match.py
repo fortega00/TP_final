@@ -70,6 +70,19 @@ class ScanMatchTests(unittest.TestCase):
         self.assertAlmostEqual(pose.y, delta.y)
         self.assertAlmostEqual(pose.yaw, delta.yaw)
 
+    def test_parked_robot_keeps_its_pose_and_does_not_reintegrate(self):
+        # Robot quieto 5 minutos: misma odometría y mismo scan a 7,4 Hz. La pose
+        # estimada no se puede mover y el scan repetido no se vuelve a integrar.
+        cfg = replace(config(), scan_match=ScanMatchConfig(enabled=True, min_occupied_cells=1))
+        slam = FastSLAM(cfg)
+        parked = Pose2D(3.0, -2.0, 0.5)
+        for i in range(2222):
+            slam.process(replace(room_scan(), stamp=i * 0.135), parked)
+        pose = slam.best_particle.pose
+        self.assertEqual((pose.x, pose.y, pose.yaw), (0.0, 0.0, 0.0))
+        self.assertEqual(slam.diagnostics["processed_scans"], 1)
+        self.assertEqual(slam.diagnostics["skipped_motion"], 2221)
+
     def test_filter_selects_the_proposal_from_config(self):
         self.assertIsInstance(FastSLAM(config()).proposal, ScanMatchProposal)
         self.assertNotIsInstance(FastSLAM(SlamConfig()).proposal, ScanMatchProposal)

@@ -86,7 +86,7 @@ Para no abrir cuatro terminales, `~/ivnafra/ws/session.sh`:
 ~/ivnafra/ws/session.sh stop               # baja todo; no guarda el mapa
 ```
 
-Parámetros de `parcial_bag_scan_match.yaml`: grilla 48 × 40 m con origen `(-16, -20)` y celda 0,05 m; 8 partículas, semilla 7; scan matching activado con ventana ±0,10 m y ±0,06 rad; actualización cada 0,08 m, 0,06 rad o 1 s; `p_hit` 0,75, `p_free` 0,40; `no_return_is_free: false`. El detalle completo queda en el `aula.json` de cada mapa.
+Parámetros de `parcial_bag_scan_match.yaml`: grilla 48 × 40 m con origen `(-16, -20)` y celda 0,05 m; 8 partículas, semilla 7; scan matching activado con ventana ±0,10 m y ±0,06 rad; actualización cada 0,08 m, 0,06 rad o 1 s (la condición de tiempo se sacó después, ver [012](decisiones/012-integracion-con-el-robot-quieto.md)); `p_hit` 0,75, `p_free` 0,40; `no_return_is_free: false`. El detalle completo queda en el `aula.json` de cada mapa.
 
 Resto de los valores de esa configuración:
 
@@ -120,7 +120,7 @@ El robot solo publica la imagen sin comprimir. Por wifi ocupa mucho ancho de ban
 | (regrabado encima) | `mapa/intento1` | | | 200 | ESS 6,1 de 8; 1392 scans salteados por falta de movimiento. Cobertura parcial (54 m² libres), parte de abajo torcida unos 15 a 20°. Descartado |
 | `bag_intento_descartado` | no tiene | 109 s | 816 | | El robot se movió sin querer y había dos SLAM corriendo. Descartado |
 | `bag_mapa` | `mapa/intento2` | 734 s | 5381 | 1104 | Sala completa, 108,5 m² libres. Paredes gruesas, contorno algo inclinado |
-| `bag_mapa2` | `mapa/intento3` | 475 s | 3614 | 962 | Sala completa, 108,2 m² libres. Paredes rectas y finas. **Elegido para la etapa B** |
+| `bag_mapa2` | `mapa/intento3` | 475 s | 3614 | 962 | Sala completa, 108,2 m² libres. Paredes rectas. Reemplazado por `mapa/intento3_corregido` para la etapa B (ver Análisis posterior) |
 
 En las dos corridas completas:
 
@@ -147,13 +147,40 @@ En las dos corridas completas:
 10. **Con el bag completo, los parámetros se prueban offline.** No hace falta volver a manejar el robot para comparar configuraciones.
 11. **Git en la PC del laboratorio.** No tiene identidad configurada (se pasa con `git -c user.name=... -c user.email=...`) ni `git lfs`. El `.gitignore` del repo excluye `*.db3` y `logs/`: los bags se agregan con `git add -f`. `bag_mapa` pesa 57 MB y GitHub avisa por encima de 50 MB (el límite es 100 MB por archivo).
 12. **Push desde la PC del laboratorio.** El remoto es HTTPS y no hay `gh` ni claves SSH. GitHub no acepta la contraseña de la cuenta: en `Password` va un token personal con permiso `repo` (github.com/settings/tokens). El `!` de Claude Code no sirve para el push porque no puede pedir credenciales; hay que usar una terminal normal. Como la cuenta `alumno1` es compartida, no guardar el token (`credential.helper store`) y revocarlo al terminar. La rama `sesion-robot-20261116` se subió el mismo 16/11.
-12. **No bajar procesos con `pkill -f` desde un script o una línea compuesta.** El patrón también coincide con la línea de comando del propio shell y lo mata antes de terminar. `session.sh` lista los procesos con `ps` y descarta los `bash`. A mano, usar `kill -INT <pid>`.
+13. **No bajar procesos con `pkill -f` desde un script o una línea compuesta.** El patrón también coincide con la línea de comando del propio shell y lo mata antes de terminar. `session.sh` lista los procesos con `ps` y descarta los `bash`. A mano, usar `kill -INT <pid>`.
+
+## Análisis posterior
+
+Hecho el mismo 16/11 con los bags, sin el robot: replays offline del núcleo con 3 a 8 semillas por bag y comparación de los dos mapas entre sí. No hay medidas con cinta, entonces todo esto mide consistencia, no exactitud.
+
+Lo que se confirma:
+
+- Los replays offline reproducen los mapas en vivo.
+- La odometría sola termina 1,45 m y 14° corrida en `bag_mapa`, y 1,89 m y 21° en `bag_mapa2`. El SLAM vuelve al lugar de partida con unos 10 cm de diferencia.
+- `intento2` e `intento3`, alineados con un giro de 177°, coinciden: 83 % de las celdas ocupadas a 10 cm o menos y 95 % a 20 cm o menos. La diferencia está en una pared larga, 20 a 30 cm, y el torcido es `intento2`.
+- El planificador de la etapa B encuentra una sola zona transitable de 70 m² y llega a todos los pasillos. La localización sobre `intento3` sigue al SLAM a 3,7 cm con su propio bag y a 4,6 a 4,9 cm con el otro, sin perderse.
+
+Lo que corrige a esta bitácora:
+
+- **Manejamos mucho más rápido que 0,15 m/s.** Mediana de 0,37 a 0,42 m/s, picos de 0,5 a 0,6 m/s y giros de hasta 1 rad/s. A 7,4 Hz, un scan abarca hasta 7 cm y 8° de movimiento.
+- **Las paredes miden unos 20 cm de grosor en los dos mapas**, no son finas. La velocidad es la causa más probable, sin probar.
+- **Con el robot quieto la pose del SLAM derivaba**: 17 cm en 215 s en `bag_mapa2`. El `(0,0)` de `intento3` está a unos 20 cm del lugar físico de partida. Corregido en el código, ver [012](decisiones/012-integracion-con-el-robot-quieto.md). El mapa para la etapa B pasa a ser `sesiones/20261116/mapa/intento3_corregido`, regenerado del mismo bag.
+- **El robot arrancó y terminó las dos corridas casi tocando una pared.** En `bag_mapa2` estaba de frente, con 40 % de los haces sin retorno. El "sin retornos por debajo de 0,25 m" de arriba salió de un solo scan: quieto contra la pared, 19 % de los haces miden menos de 0,30 m.
+- **El 62 % de `bag_mapa2` y el 80 % de `bag_mapa` es el robot quieto.**
+- `bag_mapa` tiene un hueco de 22 s sin scans en t = 430 s, con el robot quieto. `bag_mapa2` perdió unos 5 scans.
+
+Para la próxima sesión:
+
+- Manejar a 0,15 m/s de verdad y girar despacio. Mirar la velocidad que imprime el teleop.
+- Arrancar a 0,5 m o más de cualquier pared, sobre una cruz marcada, mirando hacia la sala.
+- Hacer las medidas con cinta de los pasos 3, 4 y 6.
+- Dejar el robot quieto unos minutos con el SLAM en vivo para confirmar la corrección de [012](decisiones/012-integracion-con-el-robot-quieto.md).
 
 ## Pendiente
 
 - Paso 3: medir con cinta la altura del lidar, el ancho del robot y la base de una silla.
 - Paso 4: marcar las cruces y medir su distancia a dos paredes.
-- Paso 6: medir dos o tres paredes o puertas y compararlas con `intento3`.
+- Paso 6: medir dos o tres paredes o puertas y compararlas con `intento3_corregido`.
 - Pasos 7 y 8: recorridos sobre las cruces, con y sin sillas movidas.
 - Paso 9: localización en vivo. Cerrar el SLAM antes.
 - Paso 10: ir a un objetivo.
@@ -162,7 +189,7 @@ Comandos de los pasos 9 y 10 con los nombres de este robot:
 
 ```bash
 cd $TP/nav
-ros2 launch nav nav.launch.py map_file:=$SESION/mapa/intento3/aula.yaml \
+ros2 launch nav nav.launch.py map_file:=$TP/sesiones/20261116/mapa/intento3_corregido/map.yaml \
   config_file:=$PWD/config/real.yaml base_frame:=base_footprint odom_topic:=/odom navigate:=false
 ```
 

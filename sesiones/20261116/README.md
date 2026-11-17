@@ -33,10 +33,11 @@ Todas con `slam/config/parcial_bag_scan_match.yaml`, `mode:=real`, `odom_source:
 | `bags/bag_intento_descartado` | no tiene | 109 s | 816 | | El robot se movió sin querer y había dos nodos SLAM a la vez. Sin `/cmd_vel` |
 | (sin bag, se regrabó encima) | `mapa/intento1` | | | 200 | Cobertura parcial, mapa torcido. Descartado |
 | `bags/bag_mapa` | `mapa/intento2` | 734 s | 5381 | 1104 | Recorrido completo. Paredes gruesas, contorno algo inclinado |
-| `bags/bag_mapa2` | `mapa/intento3` | 475 s | 3614 | 962 | Recorrido completo. Paredes rectas y finas. El elegido para la etapa B |
+| `bags/bag_mapa2` | `mapa/intento3` | 475 s | 3614 | 962 | Recorrido completo. Paredes rectas. Reemplazado por `mapa/intento3_corregido` |
+| `bags/bag_mapa2` | `mapa/intento3_corregido` | 475 s | 3614 | 691 | Replay offline con el código corregido ([012](../../docs/decisiones/012-integracion-con-el-robot-quieto.md)). El elegido para la etapa B |
 
 En las dos corridas completas: `update_seconds` entre 0,08 y 0,09 s, cero scans descartados, cero en cola y ninguna partícula fuera del mapa. Zona libre 108,5 m² y 108,2 m². Los dos mapas están girados 180° entre sí porque el robot arrancó mirando para lados opuestos.
 
-Cada carpeta de mapa tiene `aula.pgm`, `aula.yaml`, `aula.json` (configuración usada) y `status.log` (`/slam/status` de la corrida). `aula_vista.png` es el mapa recortado y ampliado.
+`mapa/intento3_corregido` tiene `map.pgm`, `map.yaml` y `config.yaml`. Las demás carpetas tienen `aula.pgm`, `aula.yaml`, `aula.json` (configuración usada) y `status.log` (`/slam/status` de la corrida). `aula_vista.png` es el mapa recortado y ampliado.
 
 Los bags se grabaron en la PC por wifi, con `/scan` best-effort: puede faltar algún scan.

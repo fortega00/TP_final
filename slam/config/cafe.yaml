@@ -43,7 +43,6 @@ filter:
 update:
   min_translation: 0.08
   min_rotation: 0.06
-  max_interval: 1.0
 scan_match:
   # Scan-matching proposal, docs/decisiones/002-propuesta-con-scan-matching.md.
   enabled: true
