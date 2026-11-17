@@ -114,7 +114,7 @@ Bag real del Parcial sobre el mapa del laboratorio de los profesores (`my_map3`)
 
 ## Métrica sin pose real
 
-Para el robot real pensaba usar el residuo del scan contra el mapa (distancia media de los extremos del scan a la pared más cercana, desde la pose estimada). En simulación, con el filtro ya convergido, el residuo no sigue al error real: la correlación entre los dos dio 0,41 en un tramo y -0,73 en el otro. Sirve como mucho para distinguir ubicado de perdido, y eso todavía no está medido.
+Para el robot real pensaba usar el residuo del scan contra el mapa (distancia media de los extremos del scan a la pared más cercana, desde la pose estimada). En simulación, con el filtro ya convergido, el residuo no sigue al error real: la correlación entre los dos dio 0,41 en un tramo y -0,73 en el otro. Sirve como mucho para distinguir ubicado de perdido. Con los bags del robot real dio 1 cm ubicado y 20 a 34 cm perdido ([bitácora](../sesion_robot_20261116.md#pruebas-offline-del-1711)); usarlo en el nodo es una decisión abierta.
 
 Las medidas que lo reemplazan en el robot real están en [010](010-metricas-de-evaluacion.md).
 

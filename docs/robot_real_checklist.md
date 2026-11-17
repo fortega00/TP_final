@@ -1,6 +1,6 @@
 # Plan para la sesión con el robot real
 
-Sesión del lunes 2026-11-16. Los pasos están en orden y cada uno dice para qué sirve. Si el tiempo no alcanza, se corta desde el final: los pasos 1 a 5 son los que no se pueden recuperar después.
+Se usó en la sesión del 2026-11-16 ([bitácora](sesion_robot_20261116.md)), que llegó hasta el paso 6, y quedó actualizado con lo que se aprendió ahí para la próxima. Los pasos están en orden y cada uno dice para qué sirve. Si el tiempo no alcanza, se corta desde el final: los pasos 1 a 5 son los que no se pueden recuperar después.
 
 Llevar cinta métrica, cinta de papel para marcar el piso y algo para anotar.
 
@@ -63,6 +63,8 @@ ros2 topic echo /slam/status > /tmp/slam/status.log     # en otra terminal
 
 Va `parcial_bag_scan_match.yaml` y no `default.yaml` por el tamaño del mapa: el default cubre 8 m para cada lado y en el bag del Parcial el robot se alejó 9,5 m. Si todas las partículas salen del mapa, el filtro aborta.
 
+Antes de manejar, dejar el robot quieto un minuto y mirar `/slam/status`: `processed_scans` no tiene que subir, `skipped_motion` sí, y la pose en RViz no se tiene que mover. Es la prueba en el robot de la corrección de [012](decisiones/012-integracion-con-el-robot-quieto.md).
+
 Manejo:
 
 - a 0,15 m/s y con giros lentos. El 16/11 la mediana fue 0,4 m/s y las paredes salieron de 20 cm de grosor;
@@ -109,11 +111,11 @@ ros2 launch nav nav.launch.py map_file:=/tmp/slam/aula.yaml config_file:=$PWD/co
 ros2 topic echo /nav/localization_status > /tmp/slam/loc_status.log     # en otra terminal
 ```
 
-`navigate:=false` lanza solo la localización, el robot se maneja con teleop.
+`navigate:=false` lanza solo la localización, el robot se maneja con teleop. Si en la sesión no se hizo un mapa nuevo, usar `map_file:=$TP/sesiones/20261116/mapa/intento3_corregido/map.yaml`, también en el paso 10.
 
 1. En RViz, marcar la pose con **2D Pose Estimate**. La nube de flechas azules se tiene que cerrar sobre el robot y los puntos rojos del lidar tienen que caer sobre las paredes del mapa.
 2. Manejar con teleop y mirar que la pose siga al robot.
-3. Repetir el click con errores a propósito: 30 cm, 1 m y 45°.
+3. Repetir el click con errores a propósito: 30 cm, 1 m, 45° y 90°. Offline, hasta 1,5 m o 45° queda bien ubicado; con 90° se pierde la mitad de las veces sin avisar.
 
 Anotar para cada click si quedó bien ubicado. El log del nodo dice cuántas iteraciones y milisegundos tardó, y `update_seconds` en el estado es el tiempo por actualización.
 
@@ -131,6 +133,7 @@ ros2 launch nav nav.launch.py map_file:=/tmp/slam/aula.yaml config_file:=$PWD/co
 ros2 topic echo /nav/state > /tmp/slam/nav_state.log                    # en otra terminal
 ```
 
+0. Dejar el robot a 0,5 m o más de cualquier pared y sin nada a menos de 40 cm por delante. En el lugar donde arrancaron las corridas del 16/11 el robot estaba a 15 cm de la pared: el planificador igual arranca (corre el inicio 10 a 15 cm, hasta la celda transitable más cercana), pero el robot gira en el lugar pegado a la pared y la puede tocar. Además, con el robot de frente a la pared la parada de seguridad ya está activa antes de salir.
 1. Marcar la pose con **2D Pose Estimate** y verificar que quedó bien ubicado, como en el paso 9.
 2. Primer objetivo cerca, a 1 o 2 m en línea recta y sin nada en el medio, con **2D Goal Pose**. En RViz aparece el camino en naranja. El robot gira hacia el camino, avanza y al llegar gira al ángulo del objetivo.
 3. Después, objetivos sobre las cruces. Al llegar, medir con la cinta la distancia del centro del robot a la cruz y anotar el ángulo.

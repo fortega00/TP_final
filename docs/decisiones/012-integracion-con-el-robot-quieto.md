@@ -74,7 +74,7 @@ El origen sigue sin ser transitable porque el robot arrancó casi tocando la par
 
 | Medición | Estado |
 |---|---|
-| Correr el nodo ROS con el cambio sobre un bag | pendiente |
+| Correr el nodo ROS con el cambio sobre un bag | hecho el 17/11 con `bag_mapa2`: mismo resultado que el replay, 0,00 cm de movimiento con el robot quieto ([bitácora](../sesion_robot_20261116.md#pruebas-offline-del-1711)) |
 | Robot quieto varios minutos en el laboratorio, con el SLAM en vivo | pendiente |
 | Decidir entre A y C con una corrida más, manejada a 0,15 m/s | pendiente |
 

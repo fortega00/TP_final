@@ -43,10 +43,10 @@ En el contenedor del RosMaster, `slam/scripts/sync_container.sh` copia y compila
 
 ```bash
 ros2 launch nav nav.launch.py map_file:=/ruta/al/mapa.yaml config_file:=$PWD/config/real.yaml \
-  base_frame:=base_link odom_topic:=/odom
+  base_frame:=base_footprint odom_topic:=/odom
 ```
 
-Después, en RViz: marcar la pose con **2D Pose Estimate** y el objetivo con **2D Goal Pose**.
+`base_footprint` es el frame de la base del robot del laboratorio, medido el 2026-11-16. Después, en RViz: marcar la pose con **2D Pose Estimate** y el objetivo con **2D Goal Pose**.
 
 | Argumento | Para qué |
 |---|---|
@@ -100,7 +100,7 @@ Los scripts están en `scripts/`. El primero necesita ROS, el resto solo Python.
 
 ```bash
 # 1. Bag a .npz (entorno con ROS)
-python scripts/bag_to_npz.py bag_aula bag_aula.npz --base-frame base_link
+python scripts/bag_to_npz.py bag_aula bag_aula.npz --base-frame base_footprint
 
 # 2. Correr la localización sobre la grabación
 PYTHONPATH=../slam:. python3 scripts/replay_localization.py --input bag_aula.npz \
