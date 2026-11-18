@@ -1,0 +1,31 @@
+1795007677.0205741 [INFO] [launch]: All log files can be found below /home/alumno/.ros/log/2026-11-18-13-14-37-019253-fran-ThinkPad-E15-Gen-2-133
+1795007677.0206928 [INFO] [launch]: Default logging verbosity is set to INFO
+1795007677.1799026 [INFO] [rosmaster_gazebo_motion_profile]: Using 'ideal' wheel-contact profile from /home/alumno/rosmaster_ws/install/yahboom_rosmaster_gazebo/share/yahboom_rosmaster_gazebo/config/motion_profiles.yaml
+1795007677.2088649 [INFO] [slam_node-1]: process started with pid [135]
+1795007677.2090335 [INFO] [ruby-2]: process started with pid [137]
+1795007677.2091236 [INFO] [ruby-3]: process started with pid [139]
+1795007677.2091923 [INFO] [rviz2-4]: process started with pid [141]
+1795007679.2521327 [INFO] [robot_state_publisher-5]: process started with pid [275]
+1795007680.2120030 [INFO] [create-6]: process started with pid [300]
+1795007680.5714025 [INFO] [create-6]: process has finished cleanly [pid 300]
+1795007682.2309475 [INFO] [parameter_bridge-7]: process started with pid [390]
+1795007682.2312133 [INFO] [image_bridge-8]: process started with pid [392]
+1795007682.2313430 [INFO] [cmd_vel_watchdog.py-9]: process started with pid [394]
+1795007682.2314284 [INFO] [calculated_odometry.py-10]: process started with pid [396]
+1795007682.2315052 [INFO] [ground_truth_tf.py-11]: process started with pid [398]
+1795007689.2191648 [INFO] [ros2-12]: process started with pid [490]
+1795007689.2201648 [INFO] [python3-13]: process started with pid [492]
+1795007694.1000998 [INFO] [ros2-12]: process has finished cleanly [pid 490]
+1795008352.5438089 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1795008354.2488897 [WARNING] [rosmaster_gazebo_shutdown]: Gazebo did not acknowledge the stop service; using signal fallback: Service call timed out
+1795008354.2541647 [INFO] [parameter_bridge-7]: process has finished cleanly [pid 390]
+1795008354.2544081 [INFO] [robot_state_publisher-5]: process has finished cleanly [pid 275]
+1795008354.2545903 [ERROR] [rviz2-4]: process has died [pid 141, exit code -6, cmd '/opt/ros/humble/lib/rviz2/rviz2 -d /home/alumno/rosmaster_ws/install/slam/share/slam/rviz/slam.rviz --ros-args --params-file /tmp/launch_params_mu6rar87'].
+1795008354.2547636 [INFO] [image_bridge-8]: process has finished cleanly [pid 392]
+1795008354.2549586 [INFO] [cmd_vel_watchdog.py-9]: process has finished cleanly [pid 394]
+1795008354.2551670 [INFO] [ground_truth_tf.py-11]: process has finished cleanly [pid 398]
+1795008354.2553973 [INFO] [calculated_odometry.py-10]: process has finished cleanly [pid 396]
+1795008354.2554801 [INFO] [python3-13]: process has finished cleanly [pid 492]
+1795008354.2555478 [INFO] [ruby-2]: process has finished cleanly [pid 137]
+1795008354.2556260 [INFO] [slam_node-1]: process has finished cleanly [pid 135]
+1795008354.2557001 [INFO] [ruby-3]: process has finished cleanly [pid 139]

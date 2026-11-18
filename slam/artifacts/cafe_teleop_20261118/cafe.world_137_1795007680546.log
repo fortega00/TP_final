@@ -1,0 +1,58 @@
+[INFO] [1795007680.569726181] [gz_ros2_control]: connected to service!! robot_state_publisher asking for robot_description
+[INFO] [1795007680.570935572] [gz_ros2_control]: Received URDF from param server
+[INFO] [1795007680.579745161] [gz_ros2_control]: The position_proportional_gain has been set to: 0.1
+[INFO] [1795007680.579868496] [gz_ros2_control]: Loading joint: front_left_wheel_joint
+[INFO] [1795007680.579884113] [gz_ros2_control]: 	State:
+[INFO] [1795007680.579892964] [gz_ros2_control]: 		 position
+[INFO] [1795007680.579900815] [gz_ros2_control]: 		 velocity
+[INFO] [1795007680.579907546] [gz_ros2_control]: 	Command:
+[INFO] [1795007680.579924822] [gz_ros2_control]: Loading joint: front_right_wheel_joint
+[INFO] [1795007680.579931626] [gz_ros2_control]: 	State:
+[INFO] [1795007680.579938286] [gz_ros2_control]: 		 position
+[INFO] [1795007680.579946227] [gz_ros2_control]: 		 velocity
+[INFO] [1795007680.579953102] [gz_ros2_control]: 	Command:
+[INFO] [1795007680.579968669] [gz_ros2_control]: Loading joint: back_left_wheel_joint
+[INFO] [1795007680.579976376] [gz_ros2_control]: 	State:
+[INFO] [1795007680.579982047] [gz_ros2_control]: 		 position
+[INFO] [1795007680.579989419] [gz_ros2_control]: 		 velocity
+[INFO] [1795007680.579996189] [gz_ros2_control]: 	Command:
+[INFO] [1795007680.580010435] [gz_ros2_control]: Loading joint: back_right_wheel_joint
+[INFO] [1795007680.580017525] [gz_ros2_control]: 	State:
+[INFO] [1795007680.580024784] [gz_ros2_control]: 		 position
+[INFO] [1795007680.580030448] [gz_ros2_control]: 		 velocity
+[INFO] [1795007680.580035354] [gz_ros2_control]: 	Command:
+[INFO] [1795007680.580143202] [gz_ros2_control]: Loading sensor: imu_sensor
+[INFO] [1795007680.580152355] [gz_ros2_control]: 	State:
+[INFO] [1795007680.580165159] [gz_ros2_control]: 		 orientation.x
+[INFO] [1795007680.580175174] [gz_ros2_control]: 		 orientation.y
+[INFO] [1795007680.580181809] [gz_ros2_control]: 		 orientation.z
+[INFO] [1795007680.580187972] [gz_ros2_control]: 		 orientation.w
+[INFO] [1795007680.580193646] [gz_ros2_control]: 		 angular_velocity.x
+[INFO] [1795007680.580199530] [gz_ros2_control]: 		 angular_velocity.y
+[INFO] [1795007680.580205524] [gz_ros2_control]: 		 angular_velocity.z
+[INFO] [1795007680.580214119] [gz_ros2_control]: 		 linear_acceleration.x
+[INFO] [1795007680.580219800] [gz_ros2_control]: 		 linear_acceleration.y
+[INFO] [1795007680.580225880] [gz_ros2_control]: 		 linear_acceleration.z
+[INFO] [1795007680.580297376] [resource_manager]: Initialize hardware 'RobotSystem' 
+[INFO] [1795007680.580456422] [resource_manager]: Successful initialization of hardware 'RobotSystem'
+[INFO] [1795007680.580511292] [resource_manager]: 'configure' hardware 'RobotSystem' 
+[INFO] [1795007680.580518094] [gz_ros2_control]: System Successfully configured!
+[INFO] [1795007680.580535343] [resource_manager]: Successful 'configure' of hardware 'RobotSystem'
+[INFO] [1795007680.580545344] [resource_manager]: 'activate' hardware 'RobotSystem' 
+[INFO] [1795007680.580557929] [resource_manager]: Successful 'activate' of hardware 'RobotSystem'
+[INFO] [1795007680.580564764] [gz_ros2_control]: Loading controller_manager
+[WARN] [1795007680.632831577] [gz_ros2_control]:  Desired controller update period (0.0333333 s) is slower than the gazebo simulation period (0.001 s).
+[INFO] [1795007680.633856524] [gz_ros2_control]: IMU imu_sensor has a topic name: imu/data
+[INFO] [1795007693.198502100] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[INFO] [1795007693.611465664] [controller_manager]: Configuring controller 'joint_state_broadcaster'
+[INFO] [1795007693.612063472] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[INFO] [1795008352.546039355] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1795008352.546176353] [controller_manager]: Shutdown request received....
+[INFO] [1795008352.546241647] [controller_manager]: Shutting down all controllers in the controller manager.
+[INFO] [1795008352.546269824] [controller_manager]: Deactivating controller 'joint_state_broadcaster'
+[INFO] [1795008352.546322298] [controller_manager]: Shutting down controller 'joint_state_broadcaster'
+[INFO] [1795008352.546377144] [resource_manager]: 'deactivate' hardware 'RobotSystem' 
+[INFO] [1795008352.546393957] [resource_manager]: Successful 'deactivate' of hardware 'RobotSystem'
+[INFO] [1795008352.546398372] [resource_manager]: 'shutdown' hardware 'RobotSystem' 
+[INFO] [1795008352.546404265] [resource_manager]: Successful 'shutdown' of hardware 'RobotSystem'
+[INFO] [1795008352.546409156] [controller_manager]: Shutting down the controller manager.
