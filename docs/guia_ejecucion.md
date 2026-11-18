@@ -339,6 +339,24 @@ Los modelos locales `custom_cafe` y `custom_cafe_table` se referencian con `mode
 
 No ejecutar a la vez `ros2 launch custom_map cafe.launch.py`: ese launcher inicia su propio map server y una transformación fija `map → odom`, que entrarían en conflicto con las salidas de SLAM. Una vez abierto Gazebo, explorar con el teleop del RosMaster y guardar con `/slam/save_map` como en la sección 5. La salida `cafe.pgm/.yaml/.json` queda dentro de `~/rosmaster_ws/maps` en el contenedor.
 
+Para comparar varias corridas, elegir un prefijo nuevo **antes de cada launch**:
+`output_path` se vuelve a escribir al guardar y también al cerrar ordenadamente.
+El nombre fijo `cafe` no conserva versiones anteriores. Por ejemplo:
+
+```bash
+CAFE_RUN="$HOME/rosmaster_ws/maps/cafe_lento_$(date +%Y%m%d_%H%M%S)"
+ros2 launch slam slam.launch.py mode:=simulation \
+  world:="$CAFE_SHARE/worlds/cafe.world" \
+  config_file:="$(ros2 pkg prefix slam)/share/slam/config/cafe.yaml" \
+  rviz:=true output_path:="$CAFE_RUN"
+```
+
+En la corrida rápida, cambiar `cafe_lento` por `cafe_rapido`. Conservar los tres
+archivos de cada prefijo y copiarlos al host antes de eliminar el contenedor.
+La velocidad reportada por teleop es una consigna; medirla exige guardar
+odometría o GT con timestamps. El PGM/YAML/JSON final permite analizar geometría
+y diagnósticos, pero no reconstruir trayectorias ni calcular RMSE de pose.
+
 ### Rosbag
 
 Inspeccionar primero el bag:
@@ -402,6 +420,17 @@ ros2 topic echo /slam_pose
 El diagnóstico informa scans integrados, omitidos por movimiento, rechazados por tiempo o datos, ESS, remuestreos, tiempo de actualización, rayos que salen de la grilla y colas/descartes del adaptador. Un salto temporal hacia atrás exige `/slam/reset` antes de una nueva sesión. La covarianza describe la dispersión de la población; una población empobrecida puede estar muy concentrada y equivocada, por lo que ese valor no reemplaza las métricas geométricas.
 
 ## 8. Problemas frecuentes
+
+### Perfil real E16
+
+`config/parcial_bag_scan_match.yaml` adopta E16: 16 partículas,
+`prior_xy=0.05`, `sample_xy=0.005`, elegido tras comparar el bag del 16/11.
+Indicar ese archivo con `config_file` en los modos bag/real y resincronizar
+antes de relanzar. La [decisión 012](decisiones/012-perfil-real-e16.md) conserva
+los valores completos de la selección, la comparación y sus límites.
+El perfil mejora modestamente los residuos; ocho partículas resultaron más
+rápidas. P95 de E16 medido con Numba: 122 ms en el núcleo; pendiente ROS1×.
+Preparar/verificar Numba con los comandos de la sección siguiente.
 
 ### Perfil Café D y aceleración numérica opcional
 

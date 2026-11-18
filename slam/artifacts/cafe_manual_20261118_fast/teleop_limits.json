@@ -1,0 +1,14 @@
+{
+  "source": "Teleop terminal output supplied by the user for the fast run",
+  "reported_speed_and_turn_sequence": [
+    [0.50, 1.00], [0.55, 1.10], [0.61, 1.21], [0.67, 1.33],
+    [0.73, 1.46], [0.81, 1.61], [0.89, 1.77], [0.97, 1.95],
+    [1.07, 2.14], [1.18, 2.36], [1.30, 2.59], [1.43, 2.85],
+    [1.57, 3.14], [1.73, 3.45], [1.55, 3.11], [1.40, 2.80],
+    [1.26, 2.52], [1.13, 2.27], [1.02, 2.04], [0.92, 1.83],
+    [0.83, 1.65], [0.91, 1.82], [1.00, 2.00]
+  ],
+  "max_linear_setpoint_m_s": 1.73,
+  "max_angular_setpoint_rad_s": 3.45,
+  "warning": "Setpoints, not measured speeds. No timestamps, duration at each limit or complete movement key sequence."
+}

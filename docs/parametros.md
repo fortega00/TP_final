@@ -7,6 +7,14 @@ La selección no cambia `default.yaml` ni los perfiles del robot/bag real.
 Todavía faltan múltiples semillas y validación ROS1×. Para reproducir los
 tiempos medidos usar el backend Numba con las versiones de la guía.
 
+Perfil de trabajo real/bag adoptado posteriormente el 18/11: **E16** en
+`config/parcial_bag_scan_match.yaml`, con `filter.particles: 16`,
+`scan_match.prior_xy: 0.05` y `scan_match.sample_xy: 0.005`.
+Mejora modestamente la consistencia del replay frente al perfil de ocho
+partículas usado el 16/11; requiere más cómputo. Elección, métricas y límites
+en [la decisión 012](decisiones/012-perfil-real-e16.md). El backend medido es
+Numba; el YAML no lo activa. Faltan otras semillas y validación ROS1×.
+
 Los perfiles experimentales `config/cafe_compare_*.yaml` y la matriz de
 [comparación manual](comparacion_cafe_manual.md) separan implementación,
 cantidad de partículas, `scan_match.prior_xy` y `scan_match.sample_xy`.
@@ -106,6 +114,11 @@ Reducir `sigma_hit` o aumentar cantidad de haces/temperatura vuelve la ponderaci
 | `update.max_interval` | `1.0` | Máximo intervalo entre integraciones, en segundos de datos. |
 
 Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para un incremento relativo `(dx,dy,dtheta)`, la varianza por eje de traslación es `alpha1·(dx²+dy²) + alpha2·dtheta²`; la angular es `alpha3·dtheta² + alpha4·(dx²+dy²)`. El modelo conserva movimiento lateral; no supone una base exclusivamente diferencial. Se integra un scan al superar cualquiera de los umbrales de desplazamiento/giro/tiempo. Los scans omitidos no reinician la referencia, de modo que movimientos pequeños pueden acumularse hasta superar el umbral. La semilla no compensa datos perdidos o diferencias en el orden temporal de ROS.
+
+La [auditoría de ruido odométrico](ruido_odometria.md) distingue perturbaciones
+de las lecturas de entrada y cambios en la incertidumbre asumida por el filtro,
+con los antecedentes persistidos y sus límites. Los ensayos con `alpha` mayores
+de la propuesta odométrica no prueban por sí solos robustez del perfil Café D.
 
 ## 7. Cómo ajustar y evaluar
 

@@ -1,0 +1,20 @@
+{
+  "kind": "Static evaluation of existing manual fast Cafe run",
+  "identification_source": "User confirmed the latest run was fast",
+  "original_container": "yahboom_rosmaster",
+  "original_prefix": "/home/alumno/rosmaster_ws/maps/cafe",
+  "slow_run_available": false,
+  "collision_run_excluded": true,
+  "execution": "Static analysis with existing container Python 3.10, NumPy 1.21.5, SciPy 1.8.0, Pillow 9.0.1 and Matplotlib 3.5.1; no estimator or ROS execution",
+  "files_sha256": {
+    "cafe.pgm": "5b7a980f39a567ef597098d4c79dd8370f3903ae666fc7854acf5eec3bbe3e5a",
+    "cafe.yaml": "c475d5541612fec2498b647ac79b8ca220714d1ffbfd3af729e38ace46dae5b6",
+    "cafe.json": "acb681edb87be536bb14872d10de6bc1087876fea969d89a10517720a333f247",
+    "launch.log": "818c11a3b8b778f0cceb475f83fc09db2a271fecb7c087dfd316c58c438bacfb",
+    "slam_node.log": "0aa7fa9899d2de068a177237e2f2d6dc4076e378fbfdb24936a856d1444c6773",
+    "teleop_limits.json": "f9f67360dbeba1534aceddda98bd66933641a36c2b0fe15ebc5f2ecbae208831",
+    "analyze_saved_map.py": "8a0c2e33b2072d1a6a55a494731fdd8af08dd8b1c4f248586a5670a650bf5eba",
+    "source/analyze_a_experiment.py": "d30b2d88ac10305ebd09db66296662344b1fcf070dba884ea63a923fbf9a9925",
+    "source/experiment_metrics.py": "63fab8b735996868a437873e6a25a45f2d8012494e84882a47ce404311ccacf8"
+  }
+}

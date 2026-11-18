@@ -1,0 +1,31 @@
+1795037851.9206419 [INFO] [launch]: All log files can be found below /home/alumno/.ros/log/2026-11-18-21-37-31-918173-fran-ThinkPad-E15-Gen-2-1468
+1795037851.9207950 [INFO] [launch]: Default logging verbosity is set to INFO
+1795037852.0685472 [INFO] [rosmaster_gazebo_motion_profile]: Using 'ideal' wheel-contact profile from /home/alumno/rosmaster_ws/install/yahboom_rosmaster_gazebo/share/yahboom_rosmaster_gazebo/config/motion_profiles.yaml
+1795037852.0939543 [INFO] [slam_node-1]: process started with pid [1470]
+1795037852.0941823 [INFO] [ruby-2]: process started with pid [1472]
+1795037852.0942767 [INFO] [ruby-3]: process started with pid [1474]
+1795037852.0943537 [INFO] [rviz2-4]: process started with pid [1476]
+1795037854.1333916 [INFO] [robot_state_publisher-5]: process started with pid [1610]
+1795037855.0958476 [INFO] [create-6]: process started with pid [1635]
+1795037855.4960995 [INFO] [create-6]: process has finished cleanly [pid 1635]
+1795037857.1222332 [INFO] [parameter_bridge-7]: process started with pid [1725]
+1795037857.1239908 [INFO] [image_bridge-8]: process started with pid [1727]
+1795037857.1250441 [INFO] [cmd_vel_watchdog.py-9]: process started with pid [1729]
+1795037857.1265876 [INFO] [calculated_odometry.py-10]: process started with pid [1731]
+1795037857.1268585 [INFO] [ground_truth_tf.py-11]: process started with pid [1733]
+1795037864.1028078 [INFO] [ros2-12]: process started with pid [1825]
+1795037864.1036599 [INFO] [python3-13]: process started with pid [1827]
+1795037868.7927055 [INFO] [ros2-12]: process has finished cleanly [pid 1825]
+1795038158.8844290 [WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+1795038160.6598511 [WARNING] [rosmaster_gazebo_shutdown]: Gazebo did not acknowledge the stop service; using signal fallback: Service call timed out
+1795038160.6652713 [INFO] [parameter_bridge-7]: process has finished cleanly [pid 1725]
+1795038160.6655059 [INFO] [robot_state_publisher-5]: process has finished cleanly [pid 1610]
+1795038160.6657181 [INFO] [image_bridge-8]: process has finished cleanly [pid 1727]
+1795038160.6657877 [INFO] [calculated_odometry.py-10]: process has finished cleanly [pid 1731]
+1795038160.6658616 [INFO] [rviz2-4]: process has finished cleanly [pid 1476]
+1795038160.6659234 [INFO] [ground_truth_tf.py-11]: process has finished cleanly [pid 1733]
+1795038160.6659832 [INFO] [python3-13]: process has finished cleanly [pid 1827]
+1795038160.6660371 [INFO] [cmd_vel_watchdog.py-9]: process has finished cleanly [pid 1729]
+1795038160.6661034 [INFO] [ruby-2]: process has finished cleanly [pid 1472]
+1795038160.6661620 [INFO] [slam_node-1]: process has finished cleanly [pid 1470]
+1795038160.6662183 [INFO] [ruby-3]: process has finished cleanly [pid 1474]

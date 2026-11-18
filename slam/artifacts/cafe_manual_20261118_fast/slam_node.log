@@ -1,0 +1,3 @@
+[INFO] [1795037852.909056216] [slam]: FastSLAM 16 particles; topic odometry; scan=/scan
+[WARN] [1795037860.975600325] [slam]: Discarding scan: No odometry samples bracketing scan timestamp
+[WARN] [1795037866.125894148] [slam]: Discarding scan: No odometry samples bracketing scan timestamp
