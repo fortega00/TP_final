@@ -1,5 +1,13 @@
 # Ciclo colaborativo 01 sobre el bag del 16/11
 
+**Registro histórico anterior a la compuerta solo por movimiento.** Las
+configuraciones y fuentes archivados conservan `update.max_interval=1`.
+Los YAML instalables `bag16_compare_*` se migraron al esquema actual y las
+métricas de este documento no validan esa combinación nueva. Para reproducir
+exactamente este ciclo, preparar los fuentes/configuración del commit
+`68ebc13` y el núcleo original `b9d82a1`, como en la receta histórica de abajo.
+El runner rechaza el núcleo posterior para evitar mezclar implementaciones.
+
 Autorizado el 18/11/2026 mediante el pedido de probar el bag mientras el usuario
 evalúa D en Café, siguiendo los criterios anteriores y en un worktree aparte.
 Rama `exp/rosbag-20261116-cycle01`, worktree

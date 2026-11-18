@@ -428,11 +428,14 @@ El diagnóstico informa scans integrados, omitidos por movimiento, rechazados po
 `config/parcial_bag_scan_match.yaml` adopta E16: 16 partículas,
 `prior_xy=0.05`, `sample_xy=0.005`, elegido tras comparar el bag del 16/11.
 Indicar ese archivo con `config_file` en los modos bag/real y resincronizar
-antes de relanzar. La [decisión 012](decisiones/012-perfil-real-e16.md) conserva
+antes de relanzar. La [decisión 013](decisiones/013-perfil-real-e16.md) conserva
 los valores completos de la selección, la comparación y sus límites.
 El perfil mejora modestamente los residuos; ocho partículas resultaron más
 rápidas. P95 de E16 medido con Numba: 122 ms en el núcleo; pendiente ROS1×.
 Preparar/verificar Numba con los comandos de la sección siguiente.
+Las métricas archivadas preceden la compuerta solo por movimiento del PR #3.
+El YAML actual conserva N/prior/sample elegidos y elimina `max_interval`;
+todavía no se midieron esos resultados con el código actualizado.
 
 ### Perfil Café D y aceleración numérica opcional
 

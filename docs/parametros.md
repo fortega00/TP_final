@@ -12,8 +12,11 @@ Perfil de trabajo real/bag adoptado posteriormente el 18/11: **E16** en
 `scan_match.prior_xy: 0.05` y `scan_match.sample_xy: 0.005`.
 Mejora modestamente la consistencia del replay frente al perfil de ocho
 partículas usado el 16/11; requiere más cómputo. Elección, métricas y límites
-en [la decisión 012](decisiones/012-perfil-real-e16.md). El backend medido es
+en [la decisión 013](decisiones/013-perfil-real-e16.md). El backend medido es
 Numba; el YAML no lo activa. Faltan otras semillas y validación ROS1×.
+Estos resultados preceden la corrección de integración por tiempo: el YAML
+actual usa solo movimiento y omite `max_interval`. No se trasladan los tiempos
+ni la calidad medidos a esa compuerta sin una nueva evaluación.
 
 Los perfiles experimentales `config/cafe_compare_*.yaml` y la matriz de
 [comparación manual](comparacion_cafe_manual.md) separan implementación,

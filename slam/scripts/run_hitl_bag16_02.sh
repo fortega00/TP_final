@@ -14,7 +14,7 @@ if [[ -e "$BAG16_OUTPUT/E16" ]]; then
   echo "Experiment already exists: $BAG16_OUTPUT/E16" >&2
   exit 1
 fi
-python3 -c 'from slam.core.acceleration import BACKEND; assert BACKEND == "numba", BACKEND; print("Required backend:", BACKEND)'
+python3 -c 'from slam.core.acceleration import BACKEND; from slam.core.config import SlamConfig; assert BACKEND == "numba", BACKEND; assert hasattr(SlamConfig().update, "max_interval"), "Historical replay requires pre-motion-only sources/configs from commit 68ebc13"; print("Required backend:", BACKEND)'
 for specification in \
   'E16 16_sample' \
   'F24 24' \

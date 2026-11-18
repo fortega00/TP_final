@@ -10,6 +10,8 @@ unset SLAM_DISABLE_NUMBA
 BAG16_SOURCE=/tmp/bag16_source
 BAG16_OUTPUT=/tmp/hitl_bag16_01
 BAG16_INPUT="$BAG16_OUTPUT/input/bag_mapa2.npz"
+PYTHONPATH=/tmp/bag16_source/slam:/tmp/profile_site057 python3 -c \
+  'from slam.core.config import SlamConfig; assert hasattr(SlamConfig().update, "max_interval"), "Historical replay requires pre-motion-only sources/configs from commit 68ebc13"'
 if [[ -e "$BAG16_OUTPUT/A" ]]; then
   echo "Experiment already exists: $BAG16_OUTPUT/A" >&2
   exit 1

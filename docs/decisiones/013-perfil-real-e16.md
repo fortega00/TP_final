@@ -1,10 +1,16 @@
-# 012 — Perfil de trabajo E16 para robot y bags reales
+# 013 — Perfil de trabajo E16 para robot y bags reales
 
 El 18/11/2026 el usuario revisó las comparativas y comentó que los mapas se
 ven muy parecidos. Pidió adoptar la configuración que mejor dio, priorizando
 un FastSLAM rápido y útil. Se adopta **E16** en
 `slam/config/parcial_bag_scan_match.yaml`: 16 partículas, `prior_xy=0.05` y
 `sample_xy=0.005`. El perfil de Café D sigue separado.
+
+Al preparar el PR se incorporó el `main` con la
+[compuerta solo por movimiento](012-integracion-con-el-robot-quieto.md).
+El YAML instalable ya no contiene `update.max_interval`. Las métricas de abajo
+son anteriores a esa corrección: no validan E16 con la compuerta actual ni
+reemplazan el mapa `intento3_corregido` incorporado por esa revisión.
 
 ## Evidencia y costo de la elección
 
@@ -41,8 +47,9 @@ de navegabilidad ni cobertura física.
 
 ## Reproducción y alcance
 
-Los parámetros completos coinciden con el caso E16 medido. Semilla 7 y el
-resto del sensor, grilla, movimiento y actualización se conservan. La selección
+N/prior/sample, semilla, sensor, grilla y movimiento coinciden con el caso E16
+medido. La actualización conserva los umbrales de desplazamiento/giro y adopta
+la eliminación de la incorporación por tiempo del `main` actual. La selección
 no cambia el YAML default, Café ni los perfiles históricos de odometría.
 
 Para usar el YAML actualizado en el contenedor habitual, desde el host:

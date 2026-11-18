@@ -1,4 +1,4 @@
-# Perfil real E16 elegido el 18/11/2026 (docs/decisiones/012-perfil-real-e16.md).
+# Perfil real E16 elegido el 18/11/2026 (docs/decisiones/013-perfil-real-e16.md).
 # Usar Numba para reproducir los tiempos medidos. Sensor/grilla del perfil real.
 map:
   resolution: 0.05

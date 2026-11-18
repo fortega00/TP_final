@@ -1,9 +1,15 @@
 # Ciclo colaborativo bag16/11 02: 24 partículas
 
+**Evidencia histórica previa a la compuerta solo por movimiento.** Los
+resultados usan `update.max_interval=1` y los fuentes/configuración del commit
+`68ebc13`. Los perfiles instalables se migraron al esquema actual; no se
+atribuyen estas métricas a la nueva compuerta. Para repetir las corridas
+históricas, preparar aquella revisión; el runner rechaza el núcleo posterior.
+
 Selección posterior del usuario tras revisar los mapas: los ve muy parecidos
 y pide adoptar la configuración que mejor dio, priorizando rapidez/utilidad.
 Se adopta E16 en el YAML habitual del robot/bag; ver
-[decisión 012](decisiones/012-perfil-real-e16.md). La mejora de residuos es
+[decisión 013](decisiones/013-perfil-real-e16.md). La mejora de residuos es
 modesta y ocho partículas son más rápidas. Los resultados, estados de revisión
 y restricciones que siguen conservan el cierre original del ciclo, anterior
 a esa selección. No se ejecutaron nuevas pruebas al adoptar el YAML.

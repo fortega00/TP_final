@@ -161,5 +161,15 @@
     "ROS1x queues/drops and total callback cost",
     "Independent physical accuracy verification"
   ],
-  "adoption_execution": "Static configuration validation only; no new replay, ROS node, simulator, container update, merge or push."
+  "adoption_execution": "Static configuration validation only; no new replay, ROS node, simulator, container update, merge or push.",
+  "adopted_yaml_sha256_before_motion_only_merge": "f28a872768b38a16520f795090e06a3176538a494610b66401390c1cd533a56b",
+  "current_yaml_sha256": "689f7191aba7685bc96e14b9f0684314ee8440d1a0e66c3d73d0378743f569df",
+  "current_configuration_compatibility": {
+    "main_incorporated": "bc44b56",
+    "behavior": "Motion-only gate from merged PR3; update.max_interval removed from installed YAML.",
+    "historical_measurements_apply_to_current_gate": false,
+    "tested_configuration": "Frozen pre-motion-only config retained in tested_config.yaml and the experiment artifacts.",
+    "current_gate_requires_new_validation": true,
+    "decision_document": "docs/decisiones/013-perfil-real-e16.md"
+  }
 }

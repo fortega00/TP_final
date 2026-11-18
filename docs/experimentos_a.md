@@ -4,9 +4,12 @@ Selección posterior, 18/11/2026: el perfil real con scan matching adopta **E16*
 (16 partículas, `prior_xy=0.05`, `sample_xy=0.005`) tras los ciclos del bag
 `bag_mapa2` del 16/11 y revisión visual humana. Mejora modesta de consistencia
 frente al replay de ocho partículas, con mayor costo; no acredita mayor
-exactitud física ni ROS1×. [Métricas y límites](decisiones/012-perfil-real-e16.md).
+exactitud física ni ROS1×. [Métricas y límites](decisiones/013-perfil-real-e16.md).
 Las configuraciones históricas de las corridas siguientes siguen archivadas
 en sus propias exportaciones; no se reinterpretan como E16.
+Las métricas de los ciclos bag16 preceden la corrección de deriva en reposo.
+La configuración instalable sigue ahora la compuerta solo por movimiento;
+la migración del YAML no equivale a revalidar E16 con ese comportamiento.
 
 Fecha: 10 de noviembre de 2026. Esta evaluación distingue completar una ejecución de aprobar la calidad del mapa exigida por la consigna. Los resultados de los ajustes sin ROS son screening; sólo las corridas con el launcher validan transporte, TF, exportación y RViz.
 
