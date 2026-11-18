@@ -120,23 +120,47 @@ Las medidas que lo reemplazan en el robot real están en [010](010-metricas-de-e
 
 ## Detección de perdido
 
-Decidida e implementada el 2026-11-17.
+Decidida e implementada el 2026-11-17. La señal se cambió el mismo día, al sumar la evasión de obstáculos.
 
 Problema: con un click muy equivocado (90° en el aula, 2 m en el café) la ráfaga se cierra en una pose falsa. La nube queda concentrada, el filtro dice que convergió y el robot navegaría con una pose a metros de la real.
 
+Regla: el nodo informa `LOST` cuando más del 25 % de los puntos del scan cae a más de 20 cm de toda pared del mapa (`localization.lost_fraction` y `localization.unexplained_distance`). La máquina de estados frena y espera un `/initialpose` nuevo. Si la fracción vuelve a bajar, el estado vuelve solo a `LOCALIZED`.
+
+| Señal | Falsas alarmas, bien ubicado | Detecta perdido, por actualización | Con un obstáculo cerca que no está en el mapa |
+|---|---|---|---|
+| A. Mirar los puntos del lidar en RViz | no aplica | Depende de que alguien mire | no aplica |
+| B. Distancia media a las paredes mayor que 10 cm | 0 % | 100 % aula, 94 % café | **Falla**: una caja de 40 cm a 25 cm sube la media a 10 cm. En Gazebo, 3 de 5 corridas con caja terminaron en `LOST` |
+| C. Mediana de la distancia mayor que 5 cm | 0 % | 97 % aula, **41 % café** | No la mueve |
+| D. Fracción de puntos a más de 20 cm de toda pared, mayor que 25 % | 0 % | 98 % aula, 72 % café | Una caja de 40 cm a 25 cm da 15 a 18 %. Un obstáculo de 90 cm a 25 cm da 23 a 25 % |
+
+Elegí D. Primero había elegido B, que separa mejor los dos casos pero choca con la evasión: un obstáculo tapa pocos rayos y queda muy lejos de las paredes, así que mueve mucho la media. La mediana (C) no ve un falso encaje, porque un falso encaje es justamente una pose que explica más de la mitad del scan.
+
+El 72 % es por actualización. Por episodio alcanza: en las 10 corridas perdidas (6 del aula, 4 del café) D marcó `LOST` en la primera actualización, y el robot frena con la primera.
+
+Datos: aula real, bags del 16/11 con click correcto y con 90° de error, 3822 actualizaciones ubicado y 2140 perdido, contra la corrida bien ubicada. Café simulado con pose real, 2590 ubicado y 547 perdido. Scripts en `tp4_final/review/` del repo personal (`lab_residual_statistic.py`).
+
+### Prueba en vivo en Gazebo (café), con los nodos ROS
+
+| Caso | `unexplained_fraction` | Estado |
+|---|---|---|
+| Bien ubicado, sin caja (4 corridas) | hasta 0,03 | `LOCALIZED` |
+| Bien ubicado, rodeando una caja de 30 cm (3 corridas) | 0,07 a 0,21 | `LOCALIZED`. Con la media, estas tres terminaban en `LOST` |
+| Click a 2 m, la ráfaga recupera la pose real (2 de 5) | 0,00 a 0,01 | `LOCALIZED` |
+| Click a 2 m, la ráfaga cae 1 a 3 m corrida a lo largo de un pasillo (3 de 5) | 0,22 a 0,24 | `LOCALIZED`, **no lo detecta** |
+
+### Límite conocido y punto abierto
+
+La regla detecta errores gruesos (los 90° del aula, siempre) y no molesta al rodear una caja. No detecta un falso encaje corrido a lo largo de un pasillo, que explica casi el 80 % del scan: en el café quedó en 0,22 a 0,24, pegado a lo que da una caja cerca con la pose correcta (0,21). Con una sola fracción no hay umbral que separe esos dos casos.
+
+Opciones, sin decidir:
+
 | Opción | A favor | En contra |
 |---|---|---|
-| A. Mirar los puntos del lidar contra el mapa en RViz | Sin código | Depende de que alguien mire |
-| B. Declarar `LOST` cuando el residuo del scan supera un umbral | Una comparación por actualización. Separa bien los dos casos | Un umbral más. Muchas sillas movidas podrían subir el residuo |
+| Dejar 25 % y seguir mirando los puntos del lidar en RViz después de cada click | Sin cambios. En el aula el click falla solo con errores gruesos, que sí detecta | El falso encaje de pasillo queda a ojo |
+| Umbral más estricto (15 %) solo en la ráfaga del click, 25 % en marcha | Detecta los 3 casos del café | Un click con una caja a menos de 50 cm daría `LOST` |
+| Bajar a 20 % siempre | Detecta los 3 casos del café | Rodear una caja de cerca puede dar `LOST` (0,21 medido) |
 
-Elegí B con umbral de 10 cm (`localization.lost_residual`). El nodo informa `LOST`, la máquina de estados frena y espera un `/initialpose` nuevo. Si el residuo vuelve a bajar, el estado vuelve solo a `LOCALIZED`.
-
-| Datos | Bien ubicado | Perdido |
-|---|---|---|
-| Aula real, 82 corridas sobre los dos bags, contra el SLAM | Residuo de 1,3 cm de mediana. Supera 10 cm en el 0,1 % de las actualizaciones | 20 a 34 cm de mediana. Supera 10 cm en el 100 % |
-| Café simulado, 16 corridas, contra la pose real | 2,1 cm de mediana. 0 falsas alarmas en 2603 actualizaciones | 18,6 cm de mediana. Detectado en 351 de 366 (96 %) |
-
-Sin medir: el residuo con sillas movidas en el aula real. Se mide con el bag del paso 7 de la [guía de laboratorio](../robot_real_checklist.md).
+Los datos para decidir salen de la visita 1: los clicks equivocados del paso 4 y la caja del paso 6 de la [guía de laboratorio](../robot_real_checklist.md), anotando `unexplained_fraction`. Tampoco está medido con sillas movidas en el aula real.
 
 ## Pendiente
 

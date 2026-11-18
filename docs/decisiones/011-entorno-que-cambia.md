@@ -37,6 +37,8 @@ Elegí A.
 
 Elegí A. La localización sigue usando el mapa fijo. Esto cambia la decisión [008](008-obstaculos-no-mapeados.md).
 
+**Cambiada el 2026-11-17 a B**, con datos: en los bags del aula el lidar borró del 15 al 38 % de las celdas de pared. Detalle en [008](008-obstaculos-no-mapeados.md#dónde-se-guardan-los-obstáculos).
+
 **Si se mide con el robot real.** Sí: grabar un bag, mover las sillas y grabar otro sobre el mismo recorrido. Son datos directos para las preguntas 4 y 7 del informe.
 
 ## Datos de simulación

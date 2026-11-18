@@ -4,18 +4,21 @@ Decide qué hace el robot en cada instante a partir de: la pose estimada, el
 estado de la localización, el objetivo pedido y lo que ve el lidar adelante.
 Devuelve velocidades. Estados y alternativas en docs/decisiones/009.
 
-Lo que todavía no hace (docs/decisiones/008): agregar obstáculos nuevos al mapa
-de costos y replanificar. Por ahora, ante un obstáculo el robot solo frena y
-espera a que se despeje.
+Obstáculos que no están en el mapa (docs/decisiones/008): el lidar los anota en
+una capa aparte. Si uno tapa el camino, el robot frena y planifica de nuevo con
+esa capa sumada al mapa. Si no queda camino, espera a que se despeje.
 """
 
 from enum import Enum
 import math
+import numpy as np
 
 from slam.core.geometry import Pose2D, wrap_angle
+from slam.core.types import Scan
 
 from .config import NavConfig
 from .follower import PurePursuit, rotate_command
+from .obstacles import ObstacleLayer
 from .planner import Costmap, PlanningError, plan
 
 
@@ -31,20 +34,35 @@ class State(Enum):
     LOST = "LOST"                             # parado, la localización dejó de ser confiable
 
 
+def safety_stop(scan: Scan, config: NavConfig) -> bool:
+    """Parada de seguridad: el lidar ve algo dentro del rectángulo delante del robot."""
+    ranges = np.asarray(scan.ranges)
+    angles = scan.angle_min + np.arange(len(ranges)) * scan.angle_increment
+    # Lecturas más cortas que min_range son el propio chasis.
+    valid = np.isfinite(ranges) & (ranges > max(scan.range_min, config.sensor.min_range))
+    beam = angles[valid] + scan.sensor_pose.yaw
+    x = scan.sensor_pose.x + ranges[valid] * np.cos(beam)
+    y = scan.sensor_pose.y + ranges[valid] * np.sin(beam)
+    c = config.navigator
+    return bool(np.any((x > 0) & (x < c.stop_distance) & (np.abs(y) < c.stop_half_width)))
+
+
 MOVING = (State.PLANNING, State.ALIGNING, State.FOLLOWING, State.FINAL_ALIGN, State.BLOCKED, State.LOST)
 
 
 class Navigator:
     def __init__(self, costmap: Costmap, config: NavConfig):
-        self.costmap = costmap
+        self.costmap = costmap          # solo el mapa estático
         self.config = config
+        self.obstacles = ObstacleLayer(costmap.grid, config.sensor, config.obstacles)
         self.state = State.WAIT_INITIAL_POSE
         self.goal = None        # objetivo vigente o guardado (Pose2D)
         self.follower = None
         self.path = []
         self.events = []        # (tiempo, texto): registro de transiciones
         self._since = 0.0       # instante en que se entró al estado actual
-        self._resume = None     # estado al que volver después de BLOCKED
+        self._safety = False        # BLOCKED por la parada de seguridad (y no por falta de camino)
+        self._blocked_since = None  # desde cuándo un obstáculo no deja avanzar
         self._needs_initial_pose = False   # la localización no se recuperó: hace falta un click nuevo
 
     # ----- Entradas -----
@@ -52,11 +70,16 @@ class Navigator:
     def set_goal(self, goal: Pose2D, now: float):
         """Objetivo nuevo. Reemplaza al anterior, también con el robot en marcha."""
         self.goal = goal
+        self._blocked_since = None
         self._log(now, f"goal ({goal.x:.2f}, {goal.y:.2f}, {math.degrees(goal.yaw):.0f} deg)")
         if self.state in (State.IDLE,) + MOVING and self.state != State.LOST:
             self._go(State.PLANNING, now)
         # En WAIT_INITIAL_POSE, LOCALIZING o LOST queda guardado y se planifica
         # cuando el robot esté ubicado.
+
+    def observe(self, pose: Pose2D, scan: Scan):
+        """Scan nuevo tomado desde `pose`: actualiza los obstáculos que no están en el mapa."""
+        self.obstacles.observe(pose, scan)
 
     def on_reinitialized(self, now: float):
         """Llegó un /initialpose nuevo. Con el robot en marcha: frenar y replanificar.
@@ -66,6 +89,8 @@ class Navigator:
         """
         self._log(now, "new initial pose")
         self._needs_initial_pose = False
+        # Los obstáculos anotados con la pose anterior quedaron en lugares equivocados.
+        self.obstacles = ObstacleLayer(self.costmap.grid, self.config.sensor, self.config.obstacles)
         # Desde WAIT_INITIAL_POSE el estado sigue al de la localización en update().
         if self.state != State.WAIT_INITIAL_POSE:
             self._go(State.LOCALIZING, now)
@@ -112,12 +137,23 @@ class Navigator:
 
         f = self.config.follower
         if self.state == State.BLOCKED:
-            if not blocked:
-                self._go(self._resume, now)
-            elif now - self._since > self.config.navigator.blocked_timeout:
+            c = self.config.navigator
+            if now - self._blocked_since > c.blocked_timeout:
                 self._log(now, "obstacle did not clear in time, goal dropped")
                 self.goal = None
                 self._go(State.IDLE, now)
+            elif self._safety:
+                # Parada de seguridad: se retoma cuando se despeja, o se rodea el
+                # obstáculo en cuanto la capa lo anotó sobre el camino.
+                if not blocked or self._path_blocked():
+                    self._go(State.PLANNING, now)
+            elif now - self._since >= c.retry_period:
+                # Sin camino por obstáculos nuevos: cada tanto se prueba de nuevo.
+                self._go(State.PLANNING, now)
+            return 0.0, 0.0
+        if self.state in (State.ALIGNING, State.FOLLOWING) and self._path_blocked():
+            self._log(now, "path blocked by an unmapped obstacle, replanning")
+            self._go(State.PLANNING, now)
             return 0.0, 0.0
         if self.state == State.ALIGNING:
             error = self.follower.heading_error(pose)
@@ -131,12 +167,12 @@ class Navigator:
                 return 0.0, 0.0
             if blocked:
                 # La parada de seguridad solo aplica al avanzar, no a los giros.
-                self._resume = State.FOLLOWING
-                self._go(State.BLOCKED, now)
+                self._block(now, safety=True)
                 return 0.0, 0.0
             if abs(self.follower.heading_error(pose)) > f.align_start:
                 self._go(State.ALIGNING, now)
                 return 0.0, 0.0
+            self._blocked_since = None      # está avanzando
             return self.follower.command(pose)
         if self.state == State.FINAL_ALIGN:
             error = wrap_angle(self.goal.yaw - pose.yaw)
@@ -152,16 +188,45 @@ class Navigator:
     # ----- Internas -----
 
     def _plan(self, now, pose):
+        start, goal = (pose.x, pose.y), (self.goal.x, self.goal.y)
+        obstacles = self.obstacles.cells()
         try:
-            self.path = plan(self.costmap, (pose.x, pose.y), (self.goal.x, self.goal.y))
+            costmap = (Costmap(self.costmap.grid, self.config.planner, obstacles)
+                       if obstacles.any() else self.costmap)
+            self.path = plan(costmap, start, goal)
         except PlanningError as exc:
-            # Sin camino en el mapa estático: se rechaza el objetivo.
-            self._log(now, f"goal rejected: {exc}")
-            self.goal, self.path, self.follower = None, [], None
-            self._go(State.IDLE, now)
+            try:
+                # La causa decide: si el mapa estático solo tampoco tiene camino, el
+                # objetivo es inalcanzable. Si lo tapan obstáculos nuevos, se espera.
+                if not obstacles.any():
+                    raise
+                plan(self.costmap, start, goal)
+            except PlanningError:
+                self._log(now, f"goal rejected: {exc}")
+                self.goal, self.path, self.follower = None, [], None
+                self._go(State.IDLE, now)
+                return
+            self.path, self.follower = [], None
+            self._block(now, safety=False)
             return
         self.follower = PurePursuit(self.path, self.config.follower)
         self._go(State.ALIGNING, now)
+
+    def _block(self, now, safety: bool):
+        self._safety = safety
+        if self._blocked_since is None:
+            self._blocked_since = now
+        self._go(State.BLOCKED, now)
+
+    def _path_blocked(self) -> bool:
+        """Algún obstáculo nuevo quedó a menos del radio inflado del camino que falta recorrer."""
+        rows, cols = np.nonzero(self.obstacles.cells())
+        if not len(rows):
+            return False
+        ahead = self.follower.path[self.follower.index:]
+        cells = np.column_stack(self.costmap.point(rows, cols))
+        distance = np.hypot(*(ahead[:, None, :] - cells[None, :, :]).transpose(2, 0, 1))
+        return bool(distance.min() <= self.config.planner.robot_radius + self.config.planner.safety_margin)
 
     def _go(self, state: State, now: float):
         if state != self.state:

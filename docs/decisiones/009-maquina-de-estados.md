@@ -1,6 +1,6 @@
 # 009. Máquina de estados de la navegación
 
-Estado: decidida el 2026-11-14. Implementada en `nav/nav/core/navigator.py` y probada en el simulador en vivo, con dos diferencias provisorias que se detallan abajo.
+Estado: decidida el 2026-11-14. Implementada en `nav/nav/core/navigator.py` y probada en el simulador en vivo, con dos diferencias que se detallan abajo.
 
 ## Estados
 
@@ -11,9 +11,9 @@ Estado: decidida el 2026-11-14. Implementada en `nav/nav/core/navigator.py` y pr
 | `IDLE` | Quieto, ubicado | Llega `/goal_pose` → `PLANNING` |
 | `PLANNING` | Quieto, corre el planificador | Hay camino → `ALIGNING`. No hay camino, ver abajo |
 | `ALIGNING` | Gira hacia el camino | Error de orientación chico → `FOLLOWING` |
-| `FOLLOWING` | Pure pursuit | Cerca del objetivo → `FINAL_ALIGN`. Camino bloqueado → `BLOCKED`. Nube demasiado dispersa → `LOST` |
+| `FOLLOWING` | Pure pursuit | Cerca del objetivo → `FINAL_ALIGN`. Obstáculo nuevo sobre el camino → `PLANNING`. Algo dentro de la parada de seguridad → `BLOCKED`. Nube demasiado dispersa → `LOST` |
 | `FINAL_ALIGN` | Gira al ángulo del objetivo | Error de ángulo chico → `IDLE` |
-| `BLOCKED` | Quieto, agrega el obstáculo al mapa de costos | Enseguida → `PLANNING` |
+| `BLOCKED` | Quieto: un obstáculo no deja avanzar | Se despejó, o pasaron 2 s → `PLANNING`. 15 s sin poder avanzar → abandona el objetivo, `IDLE` |
 | `LOST` | Quieto, espera que el filtro vuelva a converger | Convergió → `PLANNING`. Se acabó el tiempo → `WAIT_INITIAL_POSE` |
 
 Eventos globales: un `/goal_pose` nuevo en cualquier estado en movimiento lleva a `PLANNING`, y un `/initialpose` nuevo en cualquier estado frena al robot y lleva a `LOCALIZING`.
@@ -59,9 +59,9 @@ Elegí A.
 
 ## Cómo quedó implementada
 
-Dos diferencias con la tabla de arriba, las dos provisorias:
+Dos diferencias con el diseño original:
 
-- `BLOCKED` todavía no agrega el obstáculo al mapa de costos ni replanifica ([008](008-obstaculos-no-mapeados.md)). El robot frena si el lidar ve algo en un rectángulo de 40 cm por 40 cm delante suyo, y retoma cuando se despeja. Si no se despeja en 15 s abandona el objetivo y vuelve a `IDLE`. La parada solo aplica al avanzar, no a los giros en el lugar.
+- Los obstáculos nuevos no se agregan en `BLOCKED` sino todo el tiempo, en una capa aparte ([008](008-obstaculos-no-mapeados.md)). Si uno tapa el camino, el robot pasa directo a `PLANNING`. `BLOCKED` queda para dos casos: no hay camino por obstáculos nuevos, o la parada de seguridad ve algo en un rectángulo de 40 cm por 40 cm delante del robot. La parada solo aplica al avanzar, no a los giros en el lugar.
 - La ráfaga inicial la hace el nodo de localización. El navegador mira el estado que ese nodo publica: `LOCALIZING` mientras dice `NOT_CONVERGED` y `WAIT_INITIAL_POSE` mientras espera un click o se perdió.
 
 Registro de una corrida en el simulador con dos objetivos seguidos:
@@ -82,7 +82,7 @@ Los demás casos (objetivo antes de ubicarse, objetivo nuevo en marcha, `/initia
 
 ## Punto abierto
 
-La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). Resuelto el 2026-11-17: el nodo de localización informa `LOST` cuando el residuo del scan contra el mapa supera 10 cm ([004](004-localizacion-en-mapa-conocido.md#detección-de-perdido)), y con eso la máquina frena y espera un `/initialpose` nuevo.
+La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). Resuelto el 2026-11-17: el nodo de localización informa `LOST` cuando más del 25 % del scan cae lejos de las paredes del mapa ([004](004-localizacion-en-mapa-conocido.md#detección-de-perdido)), y con eso la máquina frena y espera un `/initialpose` nuevo.
 
 ## Datos
 

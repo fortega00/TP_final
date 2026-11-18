@@ -16,7 +16,7 @@ Todos los comandos van desde la carpeta `nav/`.
 | Launch | `launch/nav.launch.py` | Lanza los dos nodos y RViz |
 | Parámetros | `config/cafe.yaml` (simulador), `config/real.yaml` (robot) | Todos los valores, con comentarios |
 
-Falta la evasión de obstáculos no mapeados ([008](decisiones/008-obstaculos-no-mapeados.md)). Hoy, si algo aparece delante, el robot frena y espera hasta 15 s a que se despeje.
+Obstáculos que no están en el mapa ([008](decisiones/008-obstaculos-no-mapeados.md)): el lidar los anota en una capa aparte (`nav/core/obstacles.py`). Si uno tapa el camino, el robot frena y planifica de nuevo. Si no hay paso, espera hasta 15 s y abandona el objetivo.
 
 ## Sin ROS
 
@@ -88,9 +88,9 @@ Publica un `/initialpose` corrido 36 cm, manda el objetivo e imprime el error re
 |---|---|
 | `/nav/pose` | Pose del robot en el mapa |
 | `/nav/particles` | Nube de partículas |
-| `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score`, `scan_residual` |
+| `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score`, `unexplained_fraction` |
 
-`LOST` aparece cuando `scan_residual` (distancia media del scan a las paredes del mapa, en metros) supera 0,10: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
+`LOST` aparece cuando `unexplained_fraction` (fracción de los puntos del scan a más de 20 cm de toda pared del mapa) supera 0,25: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
 
 | `/nav/plan` | Camino planificado |
 | `/nav/state` | JSON: estado de la máquina, si la parada de seguridad está activa y los últimos eventos |

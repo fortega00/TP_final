@@ -198,7 +198,7 @@ class LocalizationNode(Node):
         """Estado que se informa después de una actualización del filtro."""
         if self.core.lost(scan):
             self.get_logger().warning(
-                f'Scan is {100 * self.core.diagnostics["scan_residual"]:.0f} cm off the map on average: '
+                f'{100 * self.core.diagnostics["unexplained_fraction"]:.0f} % of the scan is far from every mapped wall: '
                 'LOST, send a new /initialpose', throttle_duration_sec=5.0)
             return 'LOST'
         return 'LOCALIZED' if self.core.converged else 'NOT_CONVERGED'
