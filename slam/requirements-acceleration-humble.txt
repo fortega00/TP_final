@@ -1,0 +1,6 @@
+# Aceleración opcional reproducida en Humble/Python3.10 y NumPy1.21.5.
+# Instalar en un entorno separado; requirements.txt conserva el camino NumPy.
+-r requirements.txt
+numpy>=1.21.5,<1.25
+numba==0.57.1
+llvmlite==0.40.1

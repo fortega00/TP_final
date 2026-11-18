@@ -338,6 +338,33 @@ El diagnóstico informa scans integrados, omitidos por movimiento, rechazados po
 
 ## 8. Problemas frecuentes
 
+### Aceleración numérica opcional
+
+El worktree de profiling agrega kernels propios compilables con Numba para
+consultas del scan matcher, distancias del likelihood y escritura de la grilla.
+Si Numba no está instalado o `SLAM_DISABLE_NUMBA=1`, usa NumPy. No cambia el
+modelo ni los parámetros del sensor. La ruta compilada usa `fastmath=false` y
+calienta sus firmas antes de recibir sensores; el primer arranque puede tardar
+más por la compilación. `NUMBA_CACHE_DIR` puede seleccionar una carpeta writable
+si los fuentes están montados read-only.
+
+La combinación evaluada en ROS2 Humble/Python3.10 fue NumPy1.21.5,
+Numba0.57.1 y llvmlite0.40.1. El archivo
+`slam/requirements-acceleration-humble.txt` conserva esas restricciones. No
+instalarlo sobre el Python global del host: usar un entorno dedicado compatible
+con las dependencias ROS del sistema. Para ejecutar el camino NumPy de control,
+antes del launch:
+
+```bash
+export SLAM_DISABLE_NUMBA=1
+```
+
+Al quitar esa variable, el import selecciona Numba si está disponible. El
+sincronizador no instala dependencias ni copia este archivo opcional. El núcleo
+sigue ejecutándose sin Numba con los requirements habituales. Los métodos de
+profiling y la condición de integración están en
+[perfilado_20261118.md](perfilado_20261118.md).
+
 | Síntoma | Comprobación concreta |
 | --- | --- |
 | Espera indefinida sin mapa | Confirmar scans válidos, odometría temporalmente compatible y extrínseca base-láser. |

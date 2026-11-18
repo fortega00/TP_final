@@ -27,6 +27,7 @@ import math
 import numpy as np
 from scipy.ndimage import distance_transform_edt
 
+from .acceleration import BACKEND, lookup_scores, warmup
 from .config import SlamConfig
 from .geometry import Pose2D, wrap_angle
 from .motion import OdometryProposal, SE2OdometryModel
@@ -35,6 +36,8 @@ from .sensor import prepare_scan
 
 class ScanMatchProposal:
     def __init__(self, config: SlamConfig):
+        self.acceleration_backend = BACKEND
+        warmup()
         self.sensor = config.sensor
         self.config = c = config.scan_match
         self.odometry = OdometryProposal(SE2OdometryModel(config.motion))
@@ -44,6 +47,9 @@ class ScanMatchProposal:
         offsets_yaw = np.arange(-c.window_yaw, c.window_yaw + 1e-9, c.step_yaw)
         self.dx, self.dy, self.dyaw = (a.ravel() for a in np.meshgrid(
             offsets_xy, offsets_xy, offsets_yaw, indexing="ij"))
+        # Las 81 traslaciones repiten los mismos ángulos. Evaluar trigonometría
+        # una vez por orientación conserva las candidatas y el orden original.
+        self._yaw_offsets, self._yaw_indices = np.unique(self.dyaw, return_inverse=True)
         # Prior gaussiano centrado en la odometría: penaliza alejarse de ella.
         self.log_prior = (-(self.dx ** 2 + self.dy ** 2) / (2 * c.prior_xy ** 2)
                           - self.dyaw ** 2 / (2 * c.prior_yaw ** 2))
@@ -71,6 +77,13 @@ class ScanMatchProposal:
         if not patch.any():
             return self.odometry.propose(pose, odometry_delta, scan, grid, rng)
         distance = np.minimum(distance_transform_edt(~patch) * resolution, sensor.likelihood_max_dist)
+        # Todas las candidatas consultan el mismo campo. Evaluar la mezcla y su
+        # logaritmo por celda evita repetir exp/log por cada candidata y haz.
+        log_probability = np.log(sensor.z_hit * np.exp(-distance ** 2 / (2 * c.sigma ** 2))
+                                 + sensor.z_rand / max_range)
+        log_outside = math.log(sensor.z_hit * math.exp(-sensor.likelihood_max_dist ** 2 /
+                                                       (2 * c.sigma ** 2))
+                               + sensor.z_rand / max_range)
 
         # Puntos donde termina cada rayo para cada pose candidata, todo vectorizado:
         # arreglos de forma (candidatas, rayos).
@@ -78,23 +91,18 @@ class ScanMatchProposal:
         mount = scan.sensor_pose
         sensor_x = guess.x + self.dx + np.cos(yaw) * mount.x - np.sin(yaw) * mount.y
         sensor_y = guess.y + self.dy + np.sin(yaw) * mount.x + np.cos(yaw) * mount.y
-        beam = yaw[:, None] + mount.yaw + angles[None, :]
-        cols = np.floor((sensor_x[:, None] + ranges * np.cos(beam) - grid.config.origin_x)
-                        / resolution).astype(int) - col0
-        rows = np.floor((sensor_y[:, None] + ranges * np.sin(beam) - grid.config.origin_y)
-                        / resolution).astype(int) - row0
-        inside = (cols >= 0) & (cols < patch.shape[1]) & (rows >= 0) & (rows < patch.shape[0])
-        # d = distancia de cada punto a la pared conocida más cercana.
-        d = np.full(cols.shape, sensor.likelihood_max_dist)
-        d[inside] = distance[rows[inside], cols[inside]]
+        beam = (guess.yaw + self._yaw_offsets)[:, None] + mount.yaw + angles[None, :]
+        beam_x, beam_y = ranges * np.cos(beam), ranges * np.sin(beam)
+        scores = lookup_scores(sensor_x, sensor_y, beam_x, beam_y, self._yaw_indices,
+                               grid.config.origin_x, grid.config.origin_y, resolution,
+                               col0, row0, log_probability, log_outside)
 
         # Misma mezcla que el campo de verosimilitud. El término uniforme hace que
         # el puntaje sature para los puntos lejos de toda pared conocida (zonas
         # recién vistas), así no arrastran la pose. Los rayos vecinos están
         # correlacionados, entonces el promedio se escala como si solo
         # `effective_beams` rayos fueran independientes.
-        probability = sensor.z_hit * np.exp(-d ** 2 / (2 * c.sigma ** 2)) + sensor.z_rand / max_range
-        score = c.effective_beams * np.log(probability).mean(axis=1) + self.log_prior
+        score = c.effective_beams * scores.mean(axis=1) + self.log_prior
         # Mejor candidata, más un ruido chico para mantener diversidad entre partículas.
         best = int(np.argmax(score))
         noise = rng.normal(size=3)

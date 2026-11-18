@@ -123,3 +123,27 @@ Implementación propia en `slam/slam/core/scan_match.py`. Usa SciPy para la tran
 | `scan_match.min_occupied_cells` | `200` | Antes de ese umbral usa odometría. |
 
 `sensor.no_return_is_free` tiene default Python `false`; `cafe.yaml` lo activa. Los perfiles `parcial_bag.yaml` y `parcial_bag_tuned.yaml` conservan la propuesta odométrica; cambiar solamente `enabled` no reproduce su mayor cantidad de partículas ni su ruido. Ver [revisión y pruebas](revision_20261116.md).
+
+## Diagnóstico del adaptador y aceleración opcional
+
+En el worktree de profiling del 18/11, `/slam/status` y el JSON de exportación
+agregan `adapter`: mensajes recibidos, descartes por causa, extremos temporales
+de odometría, edad del scan en espera y median/P95/máximo de núcleo, publicación
+y callback completo sobre las últimas 512 integraciones. Los contadores de
+recepción pertenecen a callbacks: no detectan por sí mismos pérdida previa en
+DDS. El resumen de tiempos no incluye scans omitidos ni llamadas sin datos.
+
+Las causas de descarte distinguen mensaje inválido, timestamp no creciente,
+overflow de cola, scan anterior a toda la historia de odometría, timeout sin
+odometría, timeout esperando odometría futura, timeout TF y entrada inválida
+del núcleo. Un scan anterior a la muestra odométrica más antigua se descarta
+sin esperar: el buffer acepta muestras crecientes y nunca podrá interpolarlo.
+Los scans que todavía pueden recibir una muestra futura siguen esperando
+`tf_wait_timeout` y nunca se extrapolan. **No se aumentaron defaults de colas,
+timeouts ni hiperparámetros** para esconder descartes.
+
+Numba es un acelerador opcional de bucles propios, no un algoritmo externo.
+`SLAM_DISABLE_NUMBA=1` fuerza la ruta NumPy. Ver dependencias y caché en
+[guia_ejecucion.md](guia_ejecucion.md) y
+[el informe de profiling](perfilado_20261118.md). La API y los YAML del núcleo
+conservan sus campos y valores anteriores.

@@ -25,6 +25,7 @@ from .scan_match import ScanMatchProposal
 from .sensor import LaserSensorModel, prepare_scan
 from .state_machine import SlamState, StateMachine
 from .types import Scan
+from .acceleration import warmup
 
 
 @dataclass
@@ -83,6 +84,8 @@ class FastSLAM:
     """
 
     def __init__(self, config=None, proposal=None, measurement_model=None):
+        # El costo JIT ocurre antes de suscribir sensores, también sin matcher.
+        warmup()
         self.config = config or SlamConfig()
         # Propuesta: de dónde sale la nueva pose de cada partícula (scan matching u odometría).
         self.proposal = proposal or (
