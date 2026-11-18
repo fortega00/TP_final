@@ -1,0 +1,76 @@
+{
+  "input": "/worktree/slam/artifacts/profile_20261118/results/cafe_inputs.npz",
+  "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+  "initialize_and_jit_warmup_seconds": 0.09803856300004554,
+  "proposal_backend": "numba",
+  "input_scans": 3092,
+  "wall_seconds": 103.6981339429999,
+  "cpu_seconds": 103.678748477,
+  "runtime": {
+    "python": "3.10.12",
+    "numpy": "1.21.5",
+    "source": "/worktree/slam/slam/__init__.py"
+  },
+  "cpu_fraction": 0.9998130586803948,
+  "max_rss_kib": 192960,
+  "integrated_update_seconds": {
+    "count": 1458,
+    "total": 103.49065402199585,
+    "median": 0.07006397150007615,
+    "p95": 0.09153019134994336,
+    "max": 0.13586052400023618,
+    "fraction_over_90ms": 0.06172839506172839,
+    "fraction_over_137ms": 0.0
+  },
+  "stages_seconds": {
+    "_predict": {
+      "count": 1458,
+      "total": 88.8002545399936,
+      "median": 0.060482741499981785,
+      "p95": 0.08029893049974816,
+      "max": 0.11826137100024425
+    },
+    "_weigh": {
+      "count": 1458,
+      "total": 5.2489583239998865,
+      "median": 0.003432548500086341,
+      "p95": 0.004876062950029327,
+      "max": 0.02277855600004841
+    },
+    "_update_maps": {
+      "count": 1458,
+      "total": 8.58590320000394,
+      "median": 0.006090127499874143,
+      "p95": 0.00811046599990277,
+      "max": 0.011895300000105635
+    },
+    "_update_estimate": {
+      "count": 1458,
+      "total": 0.28348952399664995,
+      "median": 0.00017610400004741678,
+      "p95": 0.00026363614988440527,
+      "max": 0.0010028060000877304
+    },
+    "_resample_if_needed": {
+      "count": 1458,
+      "total": 0.45736235799540736,
+      "median": 1.27180001072702e-05,
+      "p95": 0.0018518287001825227,
+      "max": 0.005695468000340043
+    }
+  },
+  "diagnostics": {
+    "state": "RUNNING",
+    "processed_scans": 1458,
+    "skipped_motion": 1634,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 241,
+    "ess": 9.126227286481667,
+    "update_seconds": 0.08268241699988721,
+    "clipped_rays": 22056,
+    "out_of_bounds_particles": 0
+  },
+  "cprofile_enabled": false,
+  "map_sha256": "fa93962ca5307af5cacdfdee2b10f2faeb87563edf3543e988ce977f24800452"
+}

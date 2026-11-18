@@ -9,6 +9,7 @@ import cProfile
 import hashlib
 import json
 import math
+import platform
 from pathlib import Path
 import resource
 import time
@@ -59,7 +60,7 @@ def main():
             return result
         setattr(model, name, measured)
     mount = Pose2D(*data["laser"])
-    odom_path, truth_path, processing_times = [], [], []
+    odom_path, truth_path, processing_times, trace = [], [], [], []
     anchor = truth_anchor = None
     cfg = config.filter
     initial = Pose2D(cfg.initial_x, cfg.initial_y, cfg.initial_yaw)
@@ -77,7 +78,10 @@ def main():
         pose = Pose2D(*odom)
         start = time.perf_counter()
         if model.process(scan, pose):
-            processing_times.append(time.perf_counter() - start)
+            elapsed = time.perf_counter() - start
+            processing_times.append(elapsed)
+            trace.append([meta[0], elapsed, model.diagnostics['ess'] / cfg.particles,
+                          model.diagnostics['resamples']])
             anchor = initial.compose(pose.inverse()) if anchor is None else anchor
             relative = anchor.compose(pose)
             odom_path.append([meta[0], relative.x, relative.y, relative.yaw])
@@ -101,6 +105,8 @@ def main():
     model.save_map(args.output / "map")
     np.savez_compressed(args.output / "grid.npz", observed=model.best_particle.grid.observed,
                         log_odds=model.best_particle.grid.log_odds)
+    np.savez_compressed(args.output / "updates.npz", values=np.asarray(trace),
+                        columns=np.array(['stamp', 'core_seconds', 'ess_ratio', 'resamples']))
     metadata = {"scan_stamp": model.last_stamp, "diagnostics": model.diagnostics}
     (args.output / "map.json").write_text(json.dumps(metadata, indent=2) + "\n")
     samples = {"mode": "simulation" if truth_path else "bag", "success": True,
@@ -114,11 +120,16 @@ def main():
               "initialize_and_jit_warmup_seconds": initialize_seconds,
               "proposal_backend": getattr(model.proposal, "acceleration_backend", "baseline_numpy"),
               "input_scans": count, "wall_seconds": wall, "cpu_seconds": cpu,
+              "runtime": {"python": platform.python_version(), "numpy": np.__version__,
+                          "source": str(Path(__import__('slam').__file__).resolve())},
               "cpu_fraction": cpu / wall, "max_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
               "integrated_update_seconds": statistics(processing_times),
               "stages_seconds": {k: statistics(v) for k, v in stage_times.items()},
               "diagnostics": model.diagnostics, "cprofile_enabled": bool(profiler),
               "map_sha256": hashlib.sha256((args.output / "map.pgm").read_bytes()).hexdigest()}
+    report['integrated_update_seconds'].update(
+        fraction_over_90ms=float(np.mean(np.asarray(processing_times) > .090)),
+        fraction_over_137ms=float(np.mean(np.asarray(processing_times) > .137)))
     (args.output / "timing.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report), flush=True)
 

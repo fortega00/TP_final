@@ -1,0 +1,582 @@
+{
+  "schema_version": 2,
+  "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+  "common_truth_samples": 3090,
+  "same_integrated_timestamps": true,
+  "inflation_radius_m": 0.22,
+  "baseline_vs_optimized8_equal": {
+    "observed": true,
+    "log_odds": true,
+    "ancestral_trajectory": true,
+    "pgm": true
+  },
+  "experiments": [
+    {
+      "id": "A",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 32.0,
+          "origin_x": -8.0,
+          "origin_y": -16.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.25,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.1,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": true
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 8,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.05,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.01,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      },
+      "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "seed": 7,
+      "metrics": {
+        "case": "A",
+        "particles": 8,
+        "prior_xy": 0.05,
+        "sample_xy": 0.01,
+        "backend": "baseline_numpy",
+        "rmse_cm": 15.309700460742185,
+        "yaw_rmse_deg": 0.8618445874519584,
+        "endpoints_10cm_percent": 92.43255601280292,
+        "endpoint_median_cm": 2.637905077164193,
+        "endpoint_p95_cm": 13.347815059215717,
+        "connected_percent": 100.0,
+        "occupied_precision_percent": 93.05173706573356,
+        "wall_recall_percent": 90.08845999195817,
+        "observed_coverage_percent": 99.5622021099984,
+        "median_ms": 94.03402800012373,
+        "p95_ms": 125.33660239989786,
+        "max_ms": 160.6977139999799,
+        "over_90ms_percent": 57.54458161865569,
+        "over_137ms_percent": 0.6858710562414266,
+        "ess_ratio_mean": 0.6797012747102433,
+        "ess_ratio_min": 0.13105399960874448,
+        "resamples": 215,
+        "integrations": 1458,
+        "replay_seconds": 136.4959683840002,
+        "jit_and_init_seconds": 0.0034297590000278433,
+        "peak_rss_mib": 84.2421875
+      },
+      "human_observations": [],
+      "decision": "investigar",
+      "decision_reason": "Pending human visual evaluation",
+      "ancestral_trajectory_evaluation": {
+        "position_rmse_m": 0.15309700460742184,
+        "position_p95_m": 0.271006452057181,
+        "yaw_rmse_deg": 0.8618445874519584,
+        "initial_truth_anchor": [
+          8.168208007565402e-12,
+          -4.77389880641441e-22,
+          2.532366188392479e-22
+        ],
+        "alignment": "Known initial GT pose only; no fitted rigid transform"
+      },
+      "timing_scope": "Full FastSLAM.process; excludes ROS and JIT initialization"
+    },
+    {
+      "id": "B",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 32.0,
+          "origin_x": -8.0,
+          "origin_y": -16.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.25,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.1,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": true
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 8,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.05,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.01,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      },
+      "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "seed": 7,
+      "metrics": {
+        "case": "B",
+        "particles": 8,
+        "prior_xy": 0.05,
+        "sample_xy": 0.01,
+        "backend": "numba",
+        "rmse_cm": 15.309700460742185,
+        "yaw_rmse_deg": 0.8618445874519584,
+        "endpoints_10cm_percent": 92.43255601280292,
+        "endpoint_median_cm": 2.637905077164193,
+        "endpoint_p95_cm": 13.347815059215717,
+        "connected_percent": 100.0,
+        "occupied_precision_percent": 93.05173706573356,
+        "wall_recall_percent": 90.08845999195817,
+        "observed_coverage_percent": 99.5622021099984,
+        "median_ms": 35.804583500066656,
+        "p95_ms": 41.617820800183836,
+        "max_ms": 50.64021599991975,
+        "over_90ms_percent": 0.0,
+        "over_137ms_percent": 0.0,
+        "ess_ratio_mean": 0.6797012747102433,
+        "ess_ratio_min": 0.13105399960874448,
+        "resamples": 215,
+        "integrations": 1458,
+        "replay_seconds": 51.83146739599988,
+        "jit_and_init_seconds": 1.7141337429998202,
+        "peak_rss_mib": 196.36328125
+      },
+      "human_observations": [],
+      "decision": "investigar",
+      "decision_reason": "Pending human visual evaluation",
+      "ancestral_trajectory_evaluation": {
+        "position_rmse_m": 0.15309700460742184,
+        "position_p95_m": 0.271006452057181,
+        "yaw_rmse_deg": 0.8618445874519584,
+        "initial_truth_anchor": [
+          8.168208007565402e-12,
+          -4.77389880641441e-22,
+          2.532366188392479e-22
+        ],
+        "alignment": "Known initial GT pose only; no fitted rigid transform"
+      },
+      "timing_scope": "Full FastSLAM.process; excludes ROS and JIT initialization"
+    },
+    {
+      "id": "C",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 32.0,
+          "origin_x": -8.0,
+          "origin_y": -16.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.25,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.1,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": true
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 16,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.05,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.01,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      },
+      "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "seed": 7,
+      "metrics": {
+        "case": "C",
+        "particles": 16,
+        "prior_xy": 0.05,
+        "sample_xy": 0.01,
+        "backend": "numba",
+        "rmse_cm": 9.678571883873753,
+        "yaw_rmse_deg": 0.5157895839352489,
+        "endpoints_10cm_percent": 94.54503886602652,
+        "endpoint_median_cm": 2.5499602977036853,
+        "endpoint_p95_cm": 10.584454687912782,
+        "connected_percent": 100.0,
+        "occupied_precision_percent": 94.33100483610963,
+        "wall_recall_percent": 90.69159630076398,
+        "observed_coverage_percent": 99.51935950302577,
+        "median_ms": 70.06397150007615,
+        "p95_ms": 91.53019134994337,
+        "max_ms": 135.86052400023618,
+        "over_90ms_percent": 6.172839506172839,
+        "over_137ms_percent": 0.0,
+        "ess_ratio_mean": 0.6645911588282832,
+        "ess_ratio_min": 0.07689903579294606,
+        "resamples": 241,
+        "integrations": 1458,
+        "replay_seconds": 103.6981339429999,
+        "jit_and_init_seconds": 0.09803856300004554,
+        "peak_rss_mib": 188.4375
+      },
+      "human_observations": [],
+      "decision": "investigar",
+      "decision_reason": "Pending human visual evaluation",
+      "ancestral_trajectory_evaluation": {
+        "position_rmse_m": 0.09678571883873753,
+        "position_p95_m": 0.19918822898308822,
+        "yaw_rmse_deg": 0.5157895839352489,
+        "initial_truth_anchor": [
+          8.168208007565402e-12,
+          -4.77389880641441e-22,
+          2.532366188392479e-22
+        ],
+        "alignment": "Known initial GT pose only; no fitted rigid transform"
+      },
+      "timing_scope": "Full FastSLAM.process; excludes ROS and JIT initialization"
+    },
+    {
+      "id": "D",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 32.0,
+          "origin_x": -8.0,
+          "origin_y": -16.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.25,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.1,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": true
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 16,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.025,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.01,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      },
+      "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "seed": 7,
+      "metrics": {
+        "case": "D",
+        "particles": 16,
+        "prior_xy": 0.025,
+        "sample_xy": 0.01,
+        "backend": "numba",
+        "rmse_cm": 6.124460974194457,
+        "yaw_rmse_deg": 0.4826388257420339,
+        "endpoints_10cm_percent": 98.28989483310471,
+        "endpoint_median_cm": 2.472065103617556,
+        "endpoint_p95_cm": 7.420298502957492,
+        "connected_percent": 100.0,
+        "occupied_precision_percent": 98.49624060150376,
+        "wall_recall_percent": 97.0044229995979,
+        "observed_coverage_percent": 99.54881379531945,
+        "median_ms": 69.74440800013326,
+        "p95_ms": 79.71337710002899,
+        "max_ms": 102.96319300005052,
+        "over_90ms_percent": 0.7544581618655692,
+        "over_137ms_percent": 0.0,
+        "ess_ratio_mean": 0.6618908976794377,
+        "ess_ratio_min": 0.06950439728703402,
+        "resamples": 239,
+        "integrations": 1458,
+        "replay_seconds": 99.99528933800002,
+        "jit_and_init_seconds": 0.09930374800023856,
+        "peak_rss_mib": 197.88671875
+      },
+      "human_observations": [],
+      "decision": "investigar",
+      "decision_reason": "Pending human visual evaluation",
+      "ancestral_trajectory_evaluation": {
+        "position_rmse_m": 0.06124460974194457,
+        "position_p95_m": 0.13905839161452554,
+        "yaw_rmse_deg": 0.4826388257420339,
+        "initial_truth_anchor": [
+          8.168208007565402e-12,
+          -4.77389880641441e-22,
+          2.532366188392479e-22
+        ],
+        "alignment": "Known initial GT pose only; no fitted rigid transform"
+      },
+      "timing_scope": "Full FastSLAM.process; excludes ROS and JIT initialization"
+    },
+    {
+      "id": "E",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 16.0,
+          "height": 32.0,
+          "origin_x": -8.0,
+          "origin_y": -16.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.7,
+          "p_free": 0.35,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.03,
+          "min_range": 0.25,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.1,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": true
+        },
+        "motion": {
+          "alpha1": 0.0001,
+          "alpha2": 1e-05,
+          "alpha3": 0.0001,
+          "alpha4": 0.0001
+        },
+        "filter": {
+          "particles": 16,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.05,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.005,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      },
+      "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "seed": 7,
+      "metrics": {
+        "case": "E",
+        "particles": 16,
+        "prior_xy": 0.05,
+        "sample_xy": 0.005,
+        "backend": "numba",
+        "rmse_cm": 9.075429776026978,
+        "yaw_rmse_deg": 0.49534028868481383,
+        "endpoints_10cm_percent": 96.83356195701874,
+        "endpoint_median_cm": 2.475775032397137,
+        "endpoint_p95_cm": 8.131556596501222,
+        "connected_percent": 100.0,
+        "occupied_precision_percent": 97.90772532188842,
+        "wall_recall_percent": 93.80780056292723,
+        "observed_coverage_percent": 99.53007015476891,
+        "median_ms": 68.52206799999294,
+        "p95_ms": 79.48990770014461,
+        "max_ms": 110.14374600017618,
+        "over_90ms_percent": 0.3429355281207133,
+        "over_137ms_percent": 0.0,
+        "ess_ratio_mean": 0.6788024556819249,
+        "ess_ratio_min": 0.07029181107608269,
+        "resamples": 212,
+        "integrations": 1458,
+        "replay_seconds": 98.83929474000024,
+        "jit_and_init_seconds": 0.09611129399991114,
+        "peak_rss_mib": 196.49609375
+      },
+      "human_observations": [],
+      "decision": "investigar",
+      "decision_reason": "Pending human visual evaluation",
+      "ancestral_trajectory_evaluation": {
+        "position_rmse_m": 0.09075429776026978,
+        "position_p95_m": 0.1479388606768518,
+        "yaw_rmse_deg": 0.49534028868481383,
+        "initial_truth_anchor": [
+          8.168208007565402e-12,
+          -4.77389880641441e-22,
+          2.532366188392479e-22
+        ],
+        "alignment": "Known initial GT pose only; no fitted rigid transform"
+      },
+      "timing_scope": "Full FastSLAM.process; excludes ROS and JIT initialization"
+    }
+  ],
+  "limits": [
+    "Single seed 7; not a robustness study",
+    "Core replay only; ROS queue, drops and full callback not measured",
+    "SDF boxes approximate visual meshes; endpoints are in-sample",
+    "Ancestral trajectory selected at end, interpolated on common timestamps"
+  ],
+  "next_step": "STOP: human map review; no next cycle or merge authorized automatically"
+}

@@ -345,6 +345,8 @@ consultas del scan matcher, distancias del likelihood y escritura de la grilla.
 La [comparación manual de Café](comparacion_cafe_manual.md) permite al usuario
 seleccionar original u optimizado sin sustituir el paquete instalado y ensayar
 ocho/dieciséis partículas y cada hiperparámetro por separado.
+El [ciclo colaborativo Café 01](ciclo_hitl_cafe_01.md) documenta los cinco replays
+de núcleo aprobados, las métricas v2 y el punto de revisión visual humana.
 Si Numba no está instalado o `SLAM_DISABLE_NUMBA=1`, usa NumPy. No cambia el
 modelo ni los parámetros del sensor. La ruta compilada usa `fastmath=false` y
 calienta sus firmas antes de recibir sensores; el primer arranque puede tardar

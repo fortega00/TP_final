@@ -1,0 +1,15 @@
+{
+  "scan_stamp": 624.0,
+  "diagnostics": {
+    "state": "RUNNING",
+    "processed_scans": 1458,
+    "skipped_motion": 1634,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 239,
+    "ess": 12.416006684630128,
+    "update_seconds": 0.08226577000004909,
+    "clipped_rays": 22024,
+    "out_of_bounds_particles": 0
+  }
+}

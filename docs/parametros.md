@@ -5,6 +5,9 @@ Los perfiles experimentales `config/cafe_compare_*.yaml` y la matriz de
 cantidad de partículas, `scan_match.prior_xy` y `scan_match.sample_xy`.
 Son propuestas para ejecutar por el usuario; no resultados validados ni nuevos
 defaults. `cafe.yaml` conserva sus valores originales.
+En el [ciclo Café 01](ciclo_hitl_cafe_01.md) se evalúan con semilla 7. El radio
+de inflación de evaluación es 0,22 m (robot 0,17 + margen 0,05); no se modifica
+el mapa exportado ni se mezclan sus conectividades con las históricas de 0,27 m.
 
 ## 6. Hiperparámetros del filtro
 
