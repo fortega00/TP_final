@@ -163,3 +163,22 @@ Numba es un acelerador opcional de bucles propios, no un algoritmo externo.
 [guia_ejecucion.md](guia_ejecucion.md) y
 [el informe de profiling](perfilado_20261118.md). La API y los YAML del núcleo
 conservan sus campos y valores anteriores.
+
+El entorno administrado del contenedor se prepara desde el host con
+`./slam/scripts/sync_container.sh --with-numba`. No agrega parámetros YAML ni
+cambia hiperparámetros; activa Numba para los cuatro modos del launcher.
+
+| Variable o ruta | Valor del entorno administrado | Uso |
+| --- | --- | --- |
+| `VIRTUAL_ENV` | `/home/alumno/rosmaster_ws/.venv` | Python 3.10 con acceso a paquetes del sistema. |
+| `PYTHONPATH` | Anteponer `.venv/lib/python3.10/site-packages` | También los ejecutables ROS con shebang de sistema ven Numba. |
+| `NUMBA_CACHE_DIR` | `/home/alumno/rosmaster_ws/.cache/numba` | Caché persistente mientras exista el contenedor. |
+| `SLAM_DISABLE_NUMBA` | Ausente con `tp-env on`; `1` con `tp-env numpy` | Selección del backend al importar el núcleo. |
+| `NUMBA_DISABLE_JIT` | Ausente con `tp-env on` | Permitir compilación JIT; se restaura al salir. |
+| Versiones instaladas | pip 24.0, Numba 0.57.1, llvmlite 0.40.1 | Ruedas descargadas en el host e instaladas sólo en el venv. |
+
+`SLAM_CONTAINER` y `SLAM_CONTAINER_WS` permiten cambiar el contenedor y workspace
+en ambos scripts del host. `tp-env off` restaura las variables previas a la
+activación; ROS/overlay quedan cargados. Los procesos ya iniciados conservan su
+backend hasta relanzarlos. `tp-env status` informa el intérprete y backend sin
+inicializar nodos.

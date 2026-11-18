@@ -6,13 +6,15 @@ SLAM_SOURCE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 SLAM_CONTAINER="${SLAM_CONTAINER:-yahboom_rosmaster}"
 SLAM_CONTAINER_WS="${SLAM_CONTAINER_WS:-/home/alumno/rosmaster_ws}"
 SLAM_BUILD=1
+SLAM_WITH_NUMBA=0
 
 usage() {
   cat <<'EOF'
-Usage: ./scripts/sync_container.sh [--sync-only]
+Usage: ./slam/scripts/sync_container.sh [--sync-only] [--with-numba]
 
 Copy slam and nav into the running PRA_00 container and build only those packages.
 --sync-only copies sources without building.
+--with-numba also creates/updates the isolated Python environment with Numba.
 Override SLAM_CONTAINER and SLAM_CONTAINER_WS if needed.
 Afterwards enter with ~/PRA_00/container.sh enter and source install/setup.bash.
 EOF
@@ -21,6 +23,7 @@ EOF
 while (($#)); do
   case "$1" in
     --sync-only) SLAM_BUILD=0; shift ;;
+    --with-numba) SLAM_WITH_NUMBA=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) usage >&2; exit 2 ;;
   esac
@@ -65,6 +68,10 @@ if ((SLAM_BUILD)); then
     ros2 pkg executables slam
     ros2 pkg executables nav
   '
+fi
+
+if ((SLAM_WITH_NUMBA)); then
+  "$SLAM_SOURCE/scripts/container_env.sh" setup
 fi
 
 echo "Ready. Inside the container, source ~/rosmaster_ws/install/setup.bash"

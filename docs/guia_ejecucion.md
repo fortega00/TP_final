@@ -54,6 +54,71 @@ cd ~/TP_final
 
 El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/slam` y construye `slam` y `nav` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
 
+### Entorno virtual y Numba en el contenedor habitual
+
+Para sincronizar, construir y preparar Numba en una sola operación, **en el host**:
+
+```bash
+cd ~/TP_final
+./slam/scripts/sync_container.sh --with-numba
+./slam/scripts/container_env.sh status
+~/PRA_00/container.sh enter
+```
+
+Si los paquetes ya están sincronizados, basta con
+`./slam/scripts/container_env.sh setup`. La preparación se puede repetir:
+reutiliza el entorno administrado y no duplica la entrada en `.bashrc`.
+Requiere el contenedor existente encendido, Python 3.10 y pip en el host, la misma
+arquitectura en host/contenedor y acceso del host al índice de paquetes. Descarga
+ruedas binarias de pip 24.0, Numba 0.57.1 y llvmlite 0.40.1; las instala sin red
+dentro de `~/rosmaster_ws/.venv`. No requiere pip global ni `ensurepip` en el
+contenedor y no modifica la imagen Docker.
+
+El entorno usa [`venv --system-site-packages`](https://docs.python.org/3.10/library/venv.html)
+para reutilizar NumPy, SciPy, PyYAML y las dependencias de ROS del sistema. Las
+restricciones de NumPy/Numba son las de
+[`requirements-acceleration-humble.txt`](../slam/requirements-acceleration-humble.txt)
+y la [tabla oficial de compatibilidad](https://numba.readthedocs.io/en/stable/user/installing.html#version-support-information).
+Si faltan dependencias base compatibles, la instalación falla sin sustituirlas
+en el Python global.
+
+Las terminales nuevas abiertas con el helper habitual activan el entorno
+automáticamente. También se puede usar `./slam/scripts/container_env.sh enter`
+en el host: delega la entrada al helper de `PRA_00`, que conserva la gestión de X11.
+En una terminal que ya estaba abierta, cargarlo una vez:
+
+```bash
+source ~/rosmaster_ws/.tp_env/scripts/tp_env.bash
+```
+
+**Dentro del contenedor**:
+
+```bash
+tp-env status          # Python, versiones, backend y caché; no arranca nodos
+tp-env off             # Salir del venv y restaurar sus variables anteriores
+tp-env on              # Cargar ROS/overlay y activar Numba
+tp-env numpy           # Mantener el venv y forzar NumPy en próximos procesos
+tp-env on              # Volver a Numba en próximos procesos
+python3 -m pip list     # Consultar paquetes visibles del entorno
+```
+
+`tp-env on` debe preceder a cualquier comando `ros2 launch` de esta guía; la
+activación automática lo hace en las terminales nuevas. Funciona con los cuatro
+modos del launcher. Los cambios afectan procesos futuros: detener y relanzar
+un SLAM existente para cambiar su backend. Usar `tp-env off` para salir en lugar
+de `deactivate`, porque también restaura `PYTHONPATH` y las variables de Numba.
+Al activar se cargan ROS y el overlay; al salir permanecen disponibles.
+
+Los ejecutables creados por colcon usan `/usr/bin/python3`. Por eso el helper
+añade el `site-packages` del venv a `PYTHONPATH`, además de activar su Python:
+también los nodos lanzados por ROS encuentran Numba. La caché JIT se guarda en
+`~/rosmaster_ws/.cache/numba`. El archivo `COLCON_IGNORE` evita que colcon explore
+el venv. La preparación sólo importa dependencias: no ejecuta nodos, replays,
+RViz ni Gazebo. Tanto el entorno como la caché están dentro del contenedor y se
+pierden si se elimina; pueden recrearse con `setup`.
+
+### Abrir una sesión y ejecutar
+
 Después entrar como siempre:
 
 ```bash
@@ -345,25 +410,19 @@ selecciona 16 partículas, `prior_xy=0.025`, `sample_xy=0.01` y conserva el rest
 del sensor/movimiento. No se traslada al robot real. La evidencia es una semilla
 y replay del núcleo; faltan robustez y ROS1×.
 
-La resincronización usa `./slam/scripts/sync_container.sh` en el host. El script
-no instala Numba. Para disponer del backend medido, dentro del contenedor
-Humble/Python3.10 con NumPy1.21.5 del sistema, sin reemplazar ese NumPy:
+Para disponer del backend medido, usar el entorno administrado de la sección 2.
+En el host:
 
 ```bash
-python3 -m pip install --no-deps --target "$HOME/rosmaster_ws/numba_site" \
-  numba==0.57.1 llvmlite==0.40.1
-export PYTHONPATH="$HOME/rosmaster_ws/numba_site${PYTHONPATH:+:$PYTHONPATH}"
-export NUMBA_CACHE_DIR="$HOME/rosmaster_ws/numba_cache"
-unset SLAM_DISABLE_NUMBA
-python3 -c 'from slam.core.acceleration import BACKEND; print(BACKEND)'
+./slam/scripts/sync_container.sh --with-numba
+./slam/scripts/container_env.sh status
 ```
 
-Después de cargar ROS/overlay, fijar esas variables en cada terminal que vaya a
-lanzar SLAM. La comprobación debe imprimir `numba`. El camino NumPy conserva la
+El estado debe imprimir `SLAM backend: numba`. El camino NumPy conserva la
 configuración D pero no el costo medido con JIT; no afirmar tiempo real por esa
-equivalencia. Estos comandos quedan para ejecución del usuario.
+equivalencia.
 
-El worktree de profiling agrega kernels propios compilables con Numba para
+La implementación incorporada desde el worktree de profiling agrega kernels propios compilables con Numba para
 consultas del scan matcher, distancias del likelihood y escritura de la grilla.
 La [comparación manual de Café](comparacion_cafe_manual.md) permite al usuario
 seleccionar original u optimizado sin sustituir el paquete instalado y ensayar
@@ -379,17 +438,17 @@ si los fuentes están montados read-only.
 La combinación evaluada en ROS2 Humble/Python3.10 fue NumPy1.21.5,
 Numba0.57.1 y llvmlite0.40.1. El archivo
 `slam/requirements-acceleration-humble.txt` conserva esas restricciones. No
-instalarlo sobre el Python global del host: usar un entorno dedicado compatible
-con las dependencias ROS del sistema. Para ejecutar el camino NumPy de control,
-antes del launch:
+instalarlo sobre el Python global del host. Para ejecutar el camino NumPy de
+control, dentro del contenedor y antes del launch:
 
 ```bash
-export SLAM_DISABLE_NUMBA=1
+tp-env numpy
 ```
 
-Al quitar esa variable, el import selecciona Numba si está disponible. El
-sincronizador no instala dependencias ni copia este archivo opcional. El núcleo
-sigue ejecutándose sin Numba con los requirements habituales. Los métodos de
+`tp-env on` vuelve a habilitar Numba. También se puede fijar
+`SLAM_DISABLE_NUMBA=1` manualmente. El sincronizador sólo instala este entorno
+cuando recibe `--with-numba`; una sincronización habitual conserva el entorno
+existente. El núcleo sigue ejecutándose sin Numba con los requirements habituales. Los métodos de
 profiling y la condición de integración están en
 [perfilado_20261118.md](perfilado_20261118.md).
 
