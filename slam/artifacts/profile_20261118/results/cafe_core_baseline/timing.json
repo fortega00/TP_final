@@ -1,0 +1,69 @@
+{
+  "input": "/tmp/profile_results/cafe_inputs.npz",
+  "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+  "initialize_and_jit_warmup_seconds": 0.003287620999799401,
+  "proposal_backend": "baseline_numpy",
+  "input_scans": 3092,
+  "wall_seconds": 124.56641431099979,
+  "cpu_seconds": 124.551047567,
+  "cpu_fraction": 0.9998766381445209,
+  "max_rss_kib": 93272,
+  "integrated_update_seconds": {
+    "count": 1458,
+    "total": 124.37393739100753,
+    "median": 0.09053110399963771,
+    "p95": 0.11281390505037052,
+    "max": 0.13208736600063276
+  },
+  "stages_seconds": {
+    "_predict": {
+      "count": 1458,
+      "total": 98.63917862399376,
+      "median": 0.0697644109995963,
+      "p95": 0.09976805449973654,
+      "max": 0.11280496699964715
+    },
+    "_weigh": {
+      "count": 1458,
+      "total": 5.482896077000078,
+      "median": 0.0038595715000155906,
+      "p95": 0.004482657099788412,
+      "max": 0.006697277000057511
+    },
+    "_update_maps": {
+      "count": 1458,
+      "total": 19.729340284985483,
+      "median": 0.014019097499840427,
+      "p95": 0.018326664750020427,
+      "max": 0.02490513300017483
+    },
+    "_update_estimate": {
+      "count": 1458,
+      "total": 0.2249818059945028,
+      "median": 0.00015316700000767014,
+      "p95": 0.0001677484999618173,
+      "max": 0.0004038600000058068
+    },
+    "_resample_if_needed": {
+      "count": 1458,
+      "total": 0.18712555800357222,
+      "median": 1.1171499863849021e-05,
+      "p95": 0.000867276349708845,
+      "max": 0.002122165000400855
+    }
+  },
+  "diagnostics": {
+    "state": "RUNNING",
+    "processed_scans": 1458,
+    "skipped_motion": 1634,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 215,
+    "ess": 5.266750903368518,
+    "update_seconds": 0.08532060800007457,
+    "clipped_rays": 22069,
+    "out_of_bounds_particles": 0
+  },
+  "cprofile_enabled": false,
+  "map_sha256": "f70762139ae406143264adf390b4e9027ff9d07bbd4cd280769aa66003fb9700"
+}

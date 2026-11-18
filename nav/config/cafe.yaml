@@ -57,7 +57,9 @@ follower:
   goal_tolerance_xy: 0.08
   goal_tolerance_yaw: 0.05
 navigator:
-  stop_distance: 0.25
+  # El láser está 0,043 m adelante: con min_range=0,25, un retorno frontal
+  # válido queda a más de 0,293 m del centro. Frenar antes de esa zona ciega.
+  stop_distance: 0.40
   stop_half_width: 0.20
   blocked_timeout: 15.0
   retry_period: 2.0

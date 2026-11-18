@@ -82,6 +82,12 @@ python nav/scripts/sim_live_check.py --goal 3.1 -2.4 -1.5
 
 Publica un `/initialpose` corrido 36 cm, manda el objetivo e imprime el error real al llegar.
 
+### Parada de seguridad por perfil
+
+`navigator.stop_distance` se mide desde el centro de la base. Café usa **0,40 m** y `sensor.min_range=0.25` m: con el láser adelantado 0,043 m, el retorno frontal debe poder activar la parada antes de entrar en el alcance descartado por el chasis. El perfil real usa 0,25 m y mínimo de 0,12 m; falta verificar su huella física. Ambos usan semiancho de 0,20 m. La parada actúa al avanzar y no espera la confirmación de la capa de obstáculos.
+
+En Café, elegir objetivos con espacio delante del robot; los objetivos muy próximos a una pared pueden terminar en `BLOCKED`. La parada conserva una zona ciega bajo el mínimo del sensor: comenzar con el frente despejado. Ver [decisión 008](decisiones/008-obstaculos-no-mapeados.md#corrección-del-perfil-café-en-la-revisión-del-pr-4). La corrección del perfil se verificó con tests; todavía no se repitió en ROS/Gazebo.
+
 ## Qué mirar
 
 | Tópico | Contenido |

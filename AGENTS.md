@@ -1,6 +1,6 @@
 # Contexto e instrucciones del TP Final
 
-Actualizado: 10 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
+Actualizado: 18 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 
 ## Organización y consignas
 
@@ -19,7 +19,11 @@ Actualizado: 10 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 - Mantener `docs/guia_ejecucion.md` y `docs/parametros.md` con comandos para los cuatro modos e hiperparámetros completos con defaults reproducibles. Actualizar este archivo al cambiar interfaces, decisiones, comandos o validaciones.
 - Repositorio creado a pedido del usuario: **https://github.com/fortega00/TP_final**, privado, rama `main`, remoto `origin`. Mantener esa visibilidad salvo pedido expreso de publicación pública.
 - Distinguir evidencia sintética de pruebas físicas. No afirmar calidad del aula o del bag real sin ejecutarlos.
+- El usuario ejecuta personalmente las pruebas y observa RViz/Gazebo. No lanzar pruebas, replay ni simuladores por cuenta propia; ayudar con comandos y analizar sus resultados cuando lo pida. Solo si el usuario lo pide explicitamente entonces se pueden ejecutar pruebas en RViz/Gazebo/Ros etc.
 
+- El usuario ejecuta las próximas comparaciones de Café en RViz/Gazebo. Preparación del 18/11: perfiles `cafe_compare_8`, `cafe_compare_16`, `cafe_compare_16_prior` y `cafe_compare_16_sample`, todos completos y sin cambiar `cafe.yaml`. Matriz, selección de revisiones por PYTHONPATH y captura en `docs/comparacion_cafe_manual.md`. No se autoriza lanzar estas pruebas durante la preparación; no fusionar la rama salvo mejora demostrada del mapa.
+- Autorización posterior explícita: implementar y ejecutar el ciclo colaborativo Café 01, cinco replays del núcleo con semilla 7 y análisis v2 (inflación 0,22 m, extrínseca del NPZ, GT común y series de tiempo/ESS). Detenerse al presentar mapas para evaluación humana; no ejecutar ROS1×, simulaciones ni otros ciclos automáticamente. Fuentes/resultados en esta rama experimental; no fusionar por CPU. Procedimiento en `docs/ciclo_hitl_cafe_01.md`.
+- Cierre original Café 01, anterior a la selección de D documentada abajo: cinco casos completos, 1458 integraciones cada uno y cinco tests analíticos de métricas aprobados. A/B originales/optimizados con ocho partículas idénticos bit a bit; 136,50→51,83 s. RMSE GT común A/B 15,31 cm; C16 9,68 cm; D16 prior_xy=0,025: 6,12 cm y P95 núcleo 79,7 ms; E16 sample_xy=0,005: 9,08 cm. D mejora métricas, E tiene posible discontinuidad en puerta: no elegir finalistas hasta inspección humana. Evidencia íntegra en `slam/artifacts/hitl_cafe_01/`. Detenerse aquí; sin merge, nuevas semillas, ROS ni nuevo ciclo.
 ## Implementación
 
 Un paquete ROS 2 por etapa. La etapa A es el paquete `ament_python` **`slam`**, en la carpeta `slam/`. Adentro, `slam/slam/core/` tiene los algoritmos y no importa ROS, `slam/slam/ros/` tiene los nodos y `slam/slam/toy/` el mundo sintético. Las etapas B y C van en `nav/` y `mission/` con la misma separación `core/` y `ros/`, y pueden importar de `slam.core`. Las rutas de la tabla son relativas a `slam/`.
@@ -77,7 +81,7 @@ Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/d
 - Conservar movimiento lateral y marcha atrás. `alpha` parametriza varianzas del incremento SE(2).
 - Interpolar odometría al timestamp del primer haz y usar extrínseca `base → laser`; no sustituir TF faltante por identidad ni usar TF reciente para ponderar una lectura pasada.
 - Acumular movimiento desde el último scan integrado incluso con omisiones/pausa. Saltos de reloj hacia atrás requieren reset.
-- Propuesta actual odométrica, **sin scan matching ni FastSLAM 2.0**. Una propuesta diferente debe devolver corrección de importancia `log(p/q)`.
+- La propuesta distribuida usa scan matching propio opcional. La interfaz admite corrección `log(p/q)`, pero `ScanMatchProposal` devuelve cero: es una aproximación documentada en 002 y un hallazgo pendiente de la revisión del 16/11, no FastSLAM 2.0 exacto. La propuesta odométrica sigue disponible.
 
 ### Defaults ajustados con el toy
 
@@ -165,6 +169,54 @@ Exportación `<output_path>.pgm`, `.yaml`, `.json`: libre p<0,25, ocupado según
 
 ## Límites y próximos pasos
 
-Sin deskew, scan matching, fusión profundidad/RGB/IMU, relocalización global, optimización retrospectiva, mapas dinámicos/3D ni navegación B/C. Revisitar puede seleccionar una hipótesis superviviente; no reconstruye trayectorias eliminadas ni reajusta poses pasadas. Memoria densa O(N·área/resolución²), más trayectorias crecientes.
+Sin deskew, fusión profundidad/RGB/IMU, relocalización global robusta, optimización retrospectiva ni mapas dinámicos/3D. Scan matching aproximado implementado; navegación B parcial y C pendiente. Revisitar puede seleccionar una hipótesis superviviente; no reconstruye trayectorias eliminadas ni reajusta poses pasadas. Memoria densa O(N·área/resolución²), más trayectorias crecientes.
 
 Antes de B/C registrar sesiones físicas y verificar puertas, paredes, cobertura y huella. El mapa toy no certifica la geometría del laboratorio. Consultar `docs/entrega_a.md` para fundamentos y respuestas.
+
+## Revisión del 16/11/2026
+
+- Comparación `18a7784..1c14cf2`: 14 commits de Iván; HEAD confirmado igual a `origin/main` mediante consulta remota. Resumen, hallazgos y recetas actualizadas en `docs/revision_20261116.md`. No se modificaron algoritmos durante la revisión.
+- Desde la raíz del repo el sincronizador es `./slam/scripts/sync_container.sh`; copia y construye `slam` y `nav`. Los scripts de experimentos están en `slam/scripts/` y no se copian al contenedor con el sincronizador. Las rutas de scripts/artifacts de secciones históricas deben interpretarse respecto de `slam/`.
+- SciPy es una nueva dependencia declarada y necesaria aun con matcher desactivado por los imports actuales. La imagen Humble disponible incluye SciPy 1.8.0.
+- Defaults Python y `slam/config/default.yaml` difieren: Python conserva 24 partículas, matcher false, espesor 0,03 y sigma 0,10; YAML usa 8, true, 0,08 y 0,15. Cargar perfiles completos para reproducir. No declarar defaults idénticos hasta corregirlo.
+- Host aislado: 37 tests A y 28 tests B aprobados. Toy default semilla 7: RMSE 2,915 cm, precisión a una celda 0,8361, recall 1, conectividad 100 %. No reemplaza la evidencia anterior de otra configuración.
+- Hallazgo B: sin LIDAR pero con odometría, la pose publicada mantiene timestamps recientes y el navegador no controla edad del scan/corrección. Corregir y verificar antes de navegación física. Evasión de obstáculos nuevos sigue pendiente.
+- Evidencia de revisión en `slam/artifacts/review_20261116/`; incluye fallos y resultados de las corridas. El validador ROS original aprobó toy y bag sintético por tópico, pero falló bag por TF (114 de 118 integraciones). Repetición a 2× también falló bajo carga; una variante a 0,5× aprobó con 118 integraciones, servicios/reset y PGM idéntico a toy/bag tópico. No generalizar aprobación del validador original.
+- Se conservaron los resultados originales del 10/11 y no se arrancó ni modificó el contenedor habitual desde la revisión (al inicio estaba detenido; al cierre se observó activo por una acción externa). Las pruebas nuevas se ejecutan en un contenedor temporal separado.
+
+- Bag nuevo con scan matching: 857 integraciones, 331 omitidos, cero descartes, cola final cero, separación inicio–fin 0,705 m, consistencia a 10 cm 95,03 %, conectividad 42/43. Replay del núcleo y ROS exportan PGM idéntico. Sin GT; no certifica A.
+- Café Fortress ideal nuevo: 1438 integraciones, cero descartes tras reset, RMSE 16,330 cm contra Gazebo frente a 2,063 cm anterior; cobertura observada aproximada 99,837 %, conectividad 69/72. Regresión del perfil nuevo en ideal. Terminó por límite de 600 s, 31/32 waypoints; no afirmar recorrido completo ni error de cierre. La receta futura usa 660 s (no ejecutada en esta revisión).
+- B en mapa propio del mismo bag: 839 actualizaciones, ráfaga de tres iteraciones, RMSE contra SLAM 8,1 cm tras ajuste rígido; coherencia interna, no exactitud. Ambos nodos arrancan; cierre limpio con SIGINT al launcher, interrupciones en destroy_node con SIGINT al grupo entero.
+
+## Café manual del 18/11/2026
+
+- Ejecutado por el usuario con teleop, perfil ideal y `cafe.yaml` actual. Exportación y análisis estático persistidos en `slam/artifacts/cafe_teleop_20261118/`; no se repitieron pruebas ni se cambiaron algoritmos/perfiles.
+- Mapa visualmente coherente: 961 integraciones, 55 descartes del adaptador, ESS final 6,178/8. Concordancia de ocupados con cajas SDF aproximadas: 94,95 % a dos celdas (10 cm), 98,20 % a tres (15 cm). Puerta inferior 1,15 m frente a 1,09 m nominales. No certificar cobertura total por esta referencia ni RMSE de pose: no se guardaron trayectorias/bag de esta corrida.
+- Usuario reportó subir consignas de teleop hasta 0,52 m/s y 1,04 rad/s; no son velocidades medidas ni un máximo sostenido validado. Última actualización 0,162 s, sin distribución temporal. Revisar sincronización antes de retocar el núcleo; no extrapolar velocidades de Fortress ideal al LIDAR físico sin deskew. Detalle, límites y propuestas sin aplicar en el README de la corrida.
+
+## Worktree de profiling del 18/11/2026
+
+- Selección posterior del usuario tras Café 01: «Excelente, usemos D entonces». Se adopta D como perfil de trabajo de Café junto con las optimizaciones: `cafe.yaml` usa 16 partículas, `prior_xy=0.025`, `sample_xy=0.01`; default y perfiles físicos permanecen separados. La incorporación al árbol principal se apoya en la mejora medida y esa selección humana. No se autoriza otro ciclo ni pruebas ROS/físicas; faltan semillas adicionales y ROS1×. Registro humano en `slam/artifacts/hitl_cafe_01/report/comparison.json` y ejecución Numba en la guía.
+
+- El usuario autorizó explícitamente al agente paralelo a ejecutar ROS2/perfilado, siempre en worktree y sin fusionar salvo mejora de estimación del mapa. Trabajo aislado en `perf/slam-profile-20261118`, `/tmp/tp-final-slam-profile-20261118`, contenedor propio sin red; no se modificó el árbol principal ni el contenedor habitual. Código `cb806b6`, sin merge ni push.
+- Numba opcional compila bucles propios de matcher, modelo inverso y likelihood; NumPy permanece disponible. Se conserva contenido/frecuencia de trayectorias con una caché de mensajes. Diagnóstico por causa de descarte y descarte inmediato de scans anteriores a todo el historial odométrico; sin cambiar defaults de colas/timeouts/hiperparámetros. Detalles y requisitos en `docs/perfilado_20261118.md`.
+- Café y bag16/11 completos en el núcleo: grilla cruda, trayectoria y PGM idénticos; aceleración 2,60×/2,16×. En ROS Café4×: descartes 512→31 de arranque, RMSE GT común15,64→15,31 cm; precision/recall geométricos SDF bajan ligeramente. **Conclusión histórica del profiling previo al ciclo 01:** la optimización sola no había demostrado mejora del mapa; la adopción posterior de D se documenta arriba. No hubo par ROS1× ni prueba física nueva. Evidencia en `slam/artifacts/profile_20261118/`; NPZ conservados; el bag crudo no reapareció al reconstruir el worktree temporal.
+
+## Entorno virtual del contenedor, 18/11/2026
+
+- A pedido del usuario se preparó Numba en el contenedor habitual, sin lanzar nodos, replays, RViz ni Gazebo. `./slam/scripts/sync_container.sh --with-numba` sincroniza/construye `slam` y `nav` y ejecuta la preparación; `./slam/scripts/container_env.sh setup|enter|status` gestiona el entorno por separado.
+- Entorno `/home/alumno/rosmaster_ws/.venv`, Python 3.10 con `--system-site-packages` y `COLCON_IGNORE`. Numba 0.57.1, llvmlite 0.40.1 y pip 24.0 se instalan con ruedas descargadas en el host, sin pip global ni ensurepip en el contenedor. NumPy 1.21.5, SciPy 1.8.0 y PyYAML 5.4.1 siguen siendo los del sistema. No se modifica la imagen ni el helper de PRA_00.
+- `.bashrc` carga `~/rosmaster_ws/.tp_env/scripts/tp_env.bash`; las terminales nuevas activan ROS, overlay y venv. En terminales existentes, hacer `source` de ese archivo. `tp-env on|off|numpy|status` permite activar, salir restaurando variables, forzar NumPy y consultar versiones/backend. `on` antepone el site-packages del venv a `PYTHONPATH` para los nodos con shebang `/usr/bin/python3`; caché en `~/rosmaster_ws/.cache/numba`. Cambiar backend requiere relanzar procesos existentes.
+- Construcción de ambos paquetes e imports de Numba/llvmlite/rclpy aprobados; estado `SLAM backend: numba`. Se verificaron activación automática en Bash interactivo, backend NumPy con `tp-env numpy`, backend Numba desde `/usr/bin/python3` y retorno al Python del sistema con `tp-env off`. Esto verifica instalación, no una nueva corrida ni tiempos de ejecución. El entorno/caché no están montados en el host y se pierden al eliminar el contenedor. Detalles en `docs/guia_ejecucion.md` y `docs/parametros.md`.
+
+## Revisión de PR del 18/11/2026
+
+- PR #3 de Iván: integración solo por movimiento y detección `LOST` por residuo. Al combinar con main se migraron también los cuatro `cafe_compare_*.yaml` para quitar `update.max_interval`; se documentó la migración de YAML externos. Una prueba de carga de todos los perfiles instalados detectó los cuatro fallos antes de corregirlos. Las evidencias históricas conservan su código/configuración originales; no son una validación nueva del perfil D con esta compuerta.
+- Revisión sin nodos ROS, replays, RViz, Gazebo ni robot. PR #4 queda sin merge por la interacción entre `sensor.min_range=0.25` y `navigator.stop_distance=0.25` en Café: con la extrínseca registrada `(0.043, 0, pi)`, un retorno frontal a 0.20 m del láser (0.243 m del centro) no activa la parada.
+- Validación del resultado de PR #3 + main: suite A, 53 tests (46 aprobados y 7 omitidos por falta de ROS/Numba); suite B, 29 aprobados. La combinación de PR #4 + main pasó 36 tests B, pero no cubrían el perfil Café con su extrínseca y el umbral de parada reducido.
+
+## Corrección y aprobación del PR #4, 18/11/2026
+
+- A pedido del usuario se corrigió el perfil de navegación Café: `nav/config/cafe.yaml` restaura `navigator.stop_distance=0.40`, conservando mínimo de 0,25 m y extrínseca registrada `(0.043, 0, pi)`. La parada actúa antes de la zona descartada; los retornos dentro del mínimo siguen sin aportar detección. El perfil real/default conserva parada 0,25 m y mínimo 0,12 m, pendiente de huella física. La mayor parada de Café conserva la limitación de objetivos cercanos a paredes.
+- Cuatro regresiones usan el perfil Café y su extrínseca; los casos de parada fallaban antes de la corrección. Se documentan parámetros y límites en las guías de ejecución/B, parámetros y decisiones 008/009. Validación sin ROS, RViz, Gazebo, replays ni robot; no se actualizó el contenedor habitual.
+- Resultado de la combinación con main: suite A, 53 tests (46 aprobados y 7 omitidos por dependencias ROS/Numba); suite B, 40 aprobados, incluidos los cuatro casos Café. `git diff --check` limpio.

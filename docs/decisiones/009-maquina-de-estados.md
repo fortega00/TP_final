@@ -61,7 +61,7 @@ Elegí A.
 
 Dos diferencias con el diseño original:
 
-- Los obstáculos nuevos no se agregan en `BLOCKED` sino todo el tiempo, en una capa aparte ([008](008-obstaculos-no-mapeados.md)). Si uno tapa el camino, el robot pasa directo a `PLANNING`. `BLOCKED` queda para dos casos: no hay camino por obstáculos nuevos, o la parada de seguridad ve algo en un rectángulo de 25 cm de largo por 40 cm de ancho delante del robot. La parada solo aplica al avanzar, no a los giros en el lugar.
+- Los obstáculos nuevos no se agregan en `BLOCKED` sino todo el tiempo, en una capa aparte ([008](008-obstaculos-no-mapeados.md)). Si uno tapa el camino, el robot pasa directo a `PLANNING`. `BLOCKED` queda para dos casos: no hay camino por obstáculos nuevos, o la parada de seguridad ve algo en un rectángulo delante del robot, de 40 cm de ancho y largo `navigator.stop_distance` desde el centro: 40 cm en Café, 25 cm en el perfil real. Café conserva mayor distancia por el filtro del chasis y la extrínseca del láser ([008](008-obstaculos-no-mapeados.md#corrección-del-perfil-café-en-la-revisión-del-pr-4)). La parada solo aplica al avanzar, no a los giros en el lugar.
 - La ráfaga inicial la hace el nodo de localización. El navegador mira el estado que ese nodo publica: `LOCALIZING` mientras dice `NOT_CONVERGED` y `WAIT_INITIAL_POSE` mientras espera un click o se perdió.
 
 Registro de una corrida en el simulador con dos objetivos seguidos:

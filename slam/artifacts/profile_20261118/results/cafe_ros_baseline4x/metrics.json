@@ -1,0 +1,143 @@
+{
+  "mode": "simulation",
+  "run_completed": true,
+  "has_ground_truth": true,
+  "poses": {
+    "odom": {
+      "samples": 1273,
+      "duration_s": 617.5999999999999,
+      "length_m": 101.72007305713224,
+      "end_to_start_distance_m": 0.05258473800358312,
+      "end_to_start_yaw_deg": -178.06229982080686,
+      "last_pose": [
+        0.05255466919482249,
+        0.0017780373247641723,
+        -3.107773405546389
+      ],
+      "position_error_m": {
+        "mean": 0.0002306470859880459,
+        "median": 4.049803654236541e-06,
+        "p95": 0.000759251857824531,
+        "max": 0.017042748079064883
+      },
+      "position_rmse_m": 0.0012531365579743954,
+      "yaw_rmse_deg": 0.08444685946088022,
+      "final_position_error_m": 9.553829309219297e-06
+    },
+    "truth": {
+      "samples": 1273,
+      "duration_s": 617.5999999999999,
+      "length_m": 101.72005332424115,
+      "end_to_start_distance_m": 0.05257579219666902,
+      "end_to_start_yaw_deg": -178.0622766337605,
+      "last_pose": [
+        0.05254561500354393,
+        0.0017810864680472933,
+        -3.1077730008560858
+      ]
+    },
+    "slam": {
+      "samples": 1273,
+      "duration_s": 617.5999999999999,
+      "length_m": 108.51788096761686,
+      "end_to_start_distance_m": 0.1146366300779153,
+      "end_to_start_yaw_deg": -177.8000324259145,
+      "last_pose": [
+        -0.0665825071375,
+        0.09331841564721059,
+        -3.103195975984889
+      ],
+      "position_error_m": {
+        "mean": 0.3129039948687447,
+        "median": 0.362944492996673,
+        "p95": 0.4590320455251787,
+        "max": 0.5117101371152472
+      },
+      "position_rmse_m": 0.33754078732281084,
+      "yaw_rmse_deg": 1.620259519808989,
+      "final_position_error_m": 0.15023512278460713
+    }
+  },
+  "status": {
+    "state": "PAUSED",
+    "processed_scans": 1273,
+    "skipped_motion": 1302,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 241,
+    "ess": 4.100217662810157,
+    "update_seconds": 0.08861525500014977,
+    "clipped_rays": 21931,
+    "out_of_bounds_particles": 0,
+    "adapter_error": "",
+    "waiting_for": "",
+    "dropped_scans": 548,
+    "queued_scans": 0
+  },
+  "map": {
+    "resolution_m": 0.05,
+    "width": 320,
+    "height": 640,
+    "occupied_cells": 3938,
+    "free_cells": 110983,
+    "unknown_cells": 89879,
+    "known_area_m2": 287.30250000000007
+  },
+  "wall_seconds": 195.63120138900013,
+  "in_sample_consistency": {
+    "label": "in_sample_endpoint_to_exported_obstacle_distance",
+    "samples": 38190,
+    "distance_cap_m": 0.6,
+    "distance_m": {
+      "mean": 0.06193758911086941,
+      "median": 0.030277680839186652,
+      "p95": 0.2215279779570492,
+      "max": 0.6
+    },
+    "fraction_within_10cm": 0.8501178318931657,
+    "warning": "Uses the same measurements that built the map; not independent accuracy."
+  },
+  "export_snapshot": {
+    "scan_stamp": 623.8,
+    "captured_path_stamp": 623.8,
+    "gap_s": 0.0,
+    "diagnostics": {
+      "state": "PAUSED",
+      "processed_scans": 1273,
+      "skipped_motion": 1302,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 241,
+      "ess": 4.100217662810157,
+      "update_seconds": 0.08861525500014977,
+      "clipped_rays": 21931,
+      "out_of_bounds_particles": 0
+    }
+  },
+  "navigation_check": {
+    "robot_radius_plus_margin_m": 0.27,
+    "sampled_visited_poses": 64,
+    "connected_visited_fraction": 0.984375,
+    "unknown_is_blocked": true,
+    "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+  },
+  "sampled_update_wall_seconds": {
+    "mean": 0.0995597028510416,
+    "median": 0.10088922249997267,
+    "p95": 0.1299302905499644,
+    "max": 0.15158037099990906
+  },
+  "timing_sampling": "Latest filter update sampled by 1 Hz wall-time status messages.",
+  "approximate_sdf_reference": {
+    "method": "Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.",
+    "assumption": "Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.",
+    "tolerance_m": 0.15,
+    "robot_radius_plus_margin_m": 0.27,
+    "reachable_free_area_m2": 178.42250000000004,
+    "reachable_free_coverage": 0.9974218498227522,
+    "reachable_observed_coverage": 0.9988650534545811,
+    "occupied_precision": 0.834941594718131,
+    "reachable_wall_surface_recall": 0.8148774302620456,
+    "free_on_reference_obstacle_cells": 2813
+  }
+}

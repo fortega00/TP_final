@@ -1,0 +1,76 @@
+{
+  "input": "/worktree/slam/artifacts/profile_20261118/results/cafe_inputs.npz",
+  "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+  "initialize_and_jit_warmup_seconds": 0.0034297590000278433,
+  "proposal_backend": "baseline_numpy",
+  "input_scans": 3092,
+  "wall_seconds": 136.4959683840002,
+  "cpu_seconds": 136.467799724,
+  "runtime": {
+    "python": "3.10.12",
+    "numpy": "1.21.5",
+    "source": "/tmp/hitl_baseline/slam/__init__.py"
+  },
+  "cpu_fraction": 0.9997936300952057,
+  "max_rss_kib": 86264,
+  "integrated_update_seconds": {
+    "count": 1458,
+    "total": 136.2837755009914,
+    "median": 0.09403402800012373,
+    "p95": 0.12533660239989786,
+    "max": 0.1606977139999799,
+    "fraction_over_90ms": 0.5754458161865569,
+    "fraction_over_137ms": 0.006858710562414266
+  },
+  "stages_seconds": {
+    "_predict": {
+      "count": 1458,
+      "total": 108.61267786699182,
+      "median": 0.07349507599974459,
+      "p95": 0.1102259925499311,
+      "max": 0.14116571300019132
+    },
+    "_weigh": {
+      "count": 1458,
+      "total": 5.985556838998946,
+      "median": 0.004124122999883184,
+      "p95": 0.005245683649968668,
+      "max": 0.008351013000265084
+    },
+    "_update_maps": {
+      "count": 1458,
+      "total": 20.9666760699929,
+      "median": 0.014979907000224557,
+      "p95": 0.01940594579973549,
+      "max": 0.02638207300014983
+    },
+    "_update_estimate": {
+      "count": 1458,
+      "total": 0.2623484140076471,
+      "median": 0.00016494900000907364,
+      "p95": 0.000243402950059135,
+      "max": 0.0009237799999937124
+    },
+    "_resample_if_needed": {
+      "count": 1458,
+      "total": 0.3342932370037488,
+      "median": 1.2075000086042564e-05,
+      "p95": 0.001969309400101337,
+      "max": 0.0029572910002571007
+    }
+  },
+  "diagnostics": {
+    "state": "RUNNING",
+    "processed_scans": 1458,
+    "skipped_motion": 1634,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 215,
+    "ess": 5.266750903368518,
+    "update_seconds": 0.11265988300010576,
+    "clipped_rays": 22069,
+    "out_of_bounds_particles": 0
+  },
+  "cprofile_enabled": false,
+  "map_sha256": "f70762139ae406143264adf390b4e9027ff9d07bbd4cd280769aa66003fb9700"
+}

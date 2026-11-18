@@ -1,0 +1,26 @@
+[
+  {
+    "comparison": "A/B",
+    "hypothesis": "Acceleration preserves the estimator while reducing runtime",
+    "result": "Bitwise equality confirmed; runtime reduced 2.63x",
+    "human_review": "pending"
+  },
+  {
+    "comparison": "B/C",
+    "hypothesis": "Additional particles improve quality",
+    "result": "Improved pose and endpoint metrics; doubled core cost",
+    "human_review": "pending"
+  },
+  {
+    "comparison": "C/D",
+    "hypothesis": "Stronger translation prior preserves ideal odometry",
+    "result": "Best combined numerical result in this cycle; not robustly validated",
+    "human_review": "pending"
+  },
+  {
+    "comparison": "C/E",
+    "hypothesis": "Less proposal noise improves map sharpness",
+    "result": "Better global metrics; possible lower doorway wall discontinuity needs human review",
+    "human_review": "pending"
+  }
+]

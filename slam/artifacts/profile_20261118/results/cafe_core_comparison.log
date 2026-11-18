@@ -1,0 +1,251 @@
+{
+  "baseline": "/tmp/profile_results/cafe_core_baseline",
+  "candidate": "/tmp/profile_results/cafe_core_candidate",
+  "identical_configuration": true,
+  "map_pgm_equal": true,
+  "map_sha256": {
+    "baseline": "f70762139ae406143264adf390b4e9027ff9d07bbd4cd280769aa66003fb9700",
+    "candidate": "f70762139ae406143264adf390b4e9027ff9d07bbd4cd280769aa66003fb9700"
+  },
+  "diagnostics": {
+    "baseline": {
+      "state": "RUNNING",
+      "processed_scans": 1458,
+      "skipped_motion": 1634,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 215,
+      "ess": 5.266750903368518,
+      "update_seconds": 0.08532060800007457,
+      "clipped_rays": 22069,
+      "out_of_bounds_particles": 0
+    },
+    "candidate": {
+      "state": "RUNNING",
+      "processed_scans": 1458,
+      "skipped_motion": 1634,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 215,
+      "ess": 5.266750903368518,
+      "update_seconds": 0.03942840099989553,
+      "clipped_rays": 22069,
+      "out_of_bounds_particles": 0
+    }
+  },
+  "raw_grid_equal": {
+    "observed": true,
+    "log_odds": true
+  },
+  "ancestral_trajectory_equal": true,
+  "timing": {
+    "baseline": {
+      "input": "/tmp/profile_results/cafe_inputs.npz",
+      "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "initialize_and_jit_warmup_seconds": 0.003287620999799401,
+      "proposal_backend": "baseline_numpy",
+      "input_scans": 3092,
+      "wall_seconds": 124.56641431099979,
+      "cpu_seconds": 124.551047567,
+      "cpu_fraction": 0.9998766381445209,
+      "max_rss_kib": 93272,
+      "integrated_update_seconds": {
+        "count": 1458,
+        "total": 124.37393739100753,
+        "median": 0.09053110399963771,
+        "p95": 0.11281390505037052,
+        "max": 0.13208736600063276
+      },
+      "stages_seconds": {
+        "_predict": {
+          "count": 1458,
+          "total": 98.63917862399376,
+          "median": 0.0697644109995963,
+          "p95": 0.09976805449973654,
+          "max": 0.11280496699964715
+        },
+        "_weigh": {
+          "count": 1458,
+          "total": 5.482896077000078,
+          "median": 0.0038595715000155906,
+          "p95": 0.004482657099788412,
+          "max": 0.006697277000057511
+        },
+        "_update_maps": {
+          "count": 1458,
+          "total": 19.729340284985483,
+          "median": 0.014019097499840427,
+          "p95": 0.018326664750020427,
+          "max": 0.02490513300017483
+        },
+        "_update_estimate": {
+          "count": 1458,
+          "total": 0.2249818059945028,
+          "median": 0.00015316700000767014,
+          "p95": 0.0001677484999618173,
+          "max": 0.0004038600000058068
+        },
+        "_resample_if_needed": {
+          "count": 1458,
+          "total": 0.18712555800357222,
+          "median": 1.1171499863849021e-05,
+          "p95": 0.000867276349708845,
+          "max": 0.002122165000400855
+        }
+      },
+      "diagnostics": {
+        "state": "RUNNING",
+        "processed_scans": 1458,
+        "skipped_motion": 1634,
+        "rejected_stamp": 0,
+        "invalid_scans": 0,
+        "resamples": 215,
+        "ess": 5.266750903368518,
+        "update_seconds": 0.08532060800007457,
+        "clipped_rays": 22069,
+        "out_of_bounds_particles": 0
+      },
+      "cprofile_enabled": false,
+      "map_sha256": "f70762139ae406143264adf390b4e9027ff9d07bbd4cd280769aa66003fb9700"
+    },
+    "candidate": {
+      "input": "/tmp/profile_results/cafe_inputs.npz",
+      "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "initialize_and_jit_warmup_seconds": 0.0966095720004887,
+      "proposal_backend": "numba",
+      "input_scans": 3092,
+      "wall_seconds": 47.89460786700056,
+      "cpu_seconds": 47.888628454,
+      "cpu_fraction": 0.9998751547769811,
+      "max_rss_kib": 187556,
+      "integrated_update_seconds": {
+        "count": 1458,
+        "total": 47.7207318359915,
+        "median": 0.03345242549994509,
+        "p95": 0.03841003704956165,
+        "max": 0.054696359999979904
+      },
+      "stages_seconds": {
+        "_predict": {
+          "count": 1458,
+          "total": 40.811207986002046,
+          "median": 0.028863409500445414,
+          "p95": 0.03334095775035166,
+          "max": 0.037793452000187244
+        },
+        "_weigh": {
+          "count": 1458,
+          "total": 2.38374857499457,
+          "median": 0.0016505515000062587,
+          "p95": 0.001756771150030545,
+          "max": 0.01934616000016831
+        },
+        "_update_maps": {
+          "count": 1458,
+          "total": 4.04287092301729,
+          "median": 0.0029403485000329965,
+          "p95": 0.003745223649684703,
+          "max": 0.007938554999782355
+        },
+        "_update_estimate": {
+          "count": 1458,
+          "total": 0.21598688402355037,
+          "median": 0.00014718849979544757,
+          "p95": 0.00016684364941284,
+          "max": 0.00029128299956937553
+        },
+        "_resample_if_needed": {
+          "count": 1458,
+          "total": 0.16602126900215808,
+          "median": 1.1386000096536009e-05,
+          "p95": 0.0006723570503709196,
+          "max": 0.002112555000167049
+        }
+      },
+      "diagnostics": {
+        "state": "RUNNING",
+        "processed_scans": 1458,
+        "skipped_motion": 1634,
+        "rejected_stamp": 0,
+        "invalid_scans": 0,
+        "resamples": 215,
+        "ess": 5.266750903368518,
+        "update_seconds": 0.03942840099989553,
+        "clipped_rays": 22069,
+        "out_of_bounds_particles": 0
+      },
+      "cprofile_enabled": false,
+      "map_sha256": "f70762139ae406143264adf390b4e9027ff9d07bbd4cd280769aa66003fb9700"
+    }
+  },
+  "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+  "common_truth_samples": 3090,
+  "quality_on_same_truth_timestamps": {
+    "baseline": {
+      "position_rmse_m": 0.15309700460742184,
+      "position_p95_m": 0.271006452057181,
+      "yaw_rmse_deg": 0.8618445874519584,
+      "initial_truth_anchor": [
+        8.168208007565402e-12,
+        -4.77389880641441e-22,
+        2.532366188392479e-22
+      ],
+      "alignment": "Known initial GT pose only; no fitted rigid transform"
+    },
+    "candidate": {
+      "position_rmse_m": 0.15309700460742184,
+      "position_p95_m": 0.271006452057181,
+      "yaw_rmse_deg": 0.8618445874519584,
+      "initial_truth_anchor": [
+        8.168208007565402e-12,
+        -4.77389880641441e-22,
+        2.532366188392479e-22
+      ],
+      "alignment": "Known initial GT pose only; no fitted rigid transform"
+    }
+  },
+  "map_quality_approximate": {
+    "baseline": {
+      "geometry": {
+        "method": "Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.",
+        "assumption": "Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.",
+        "tolerance_m": 0.15,
+        "robot_radius_plus_margin_m": 0.27,
+        "reachable_free_area_m2": 178.42250000000004,
+        "reachable_free_coverage": 0.9984166795107119,
+        "reachable_observed_coverage": 0.9987949950258516,
+        "occupied_precision": 0.9305173706573356,
+        "reachable_wall_surface_recall": 0.8903916596224288,
+        "free_on_reference_obstacle_cells": 1803
+      },
+      "connectivity": {
+        "robot_radius_plus_margin_m": 0.27,
+        "sampled_visited_poses": 73,
+        "connected_visited_fraction": 1.0,
+        "unknown_is_blocked": true,
+        "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+      }
+    },
+    "candidate": {
+      "geometry": {
+        "method": "Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.",
+        "assumption": "Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.",
+        "tolerance_m": 0.15,
+        "robot_radius_plus_margin_m": 0.27,
+        "reachable_free_area_m2": 178.42250000000004,
+        "reachable_free_coverage": 0.9984166795107119,
+        "reachable_observed_coverage": 0.9987949950258516,
+        "occupied_precision": 0.9305173706573356,
+        "reachable_wall_surface_recall": 0.8903916596224288,
+        "free_on_reference_obstacle_cells": 1803
+      },
+      "connectivity": {
+        "robot_radius_plus_margin_m": 0.27,
+        "sampled_visited_poses": 73,
+        "connected_visited_fraction": 1.0,
+        "unknown_is_blocked": true,
+        "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+      }
+    }
+  }
+}

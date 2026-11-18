@@ -2,17 +2,21 @@
 
 Todos los comandos se corren desde la carpeta `slam/` del repositorio, que es el paquete ROS. Los parámetros están en [parametros.md](parametros.md) y el alcance de lo validado en [validacion.md](validacion.md).
 
+La [revisión del 16/11/2026](revision_20261116.md) compara los cambios de Iván e incluye recetas específicas para el bag del Parcial y Café Fortress.
+
+Desde la corrección de deriva con el robot quieto ([012](decisiones/012-integracion-con-el-robot-quieto.md)), el SLAM integra solo por desplazamiento o giro. Antes de usar un YAML externo o archivado, quitar `update.max_interval`: el cargador lo rechaza. Los perfiles instalados, incluidos `cafe_compare_*.yaml`, ya están migrados. Resincronizar y construir antes de lanzar la versión nueva.
+
 ## 1. Prueba reproducible sin ROS
 
-Desde la raíz del proyecto:
+Desde `~/TP_final/slam`:
 
 ```bash
-python3 -m pip install numpy PyYAML
+python3 -m pip install -r requirements.txt
 python3 -m slam.toy.cli toy --output artifacts/toy --seed 7 --check
 python3 -m unittest discover -s tests -v
 ```
 
-En una instalación Ubuntu con paquetes del sistema se pueden obtener las dependencias con `sudo apt install python3-numpy python3-yaml`. El ejemplo usa un entorno de oficina de 9 × 7 m, con una partición interior, una puerta y una trayectoria cerrada que recorre ambos lados. Simula ruido de rango, odometría imperfecta y una referencia geométrica independiente de las partículas. Los scans son instantáneos: el paso de traslación de 0,28 m y el período sintético de 0,25 s definen el muestreo del benchmark; no constituyen un ensayo físico de barrido a 1,12 m/s.
+En una instalación Ubuntu con paquetes del sistema se pueden obtener las dependencias con `sudo apt install python3-numpy python3-scipy python3-yaml`. El ejemplo usa un entorno de oficina de 9 × 7 m, con una partición interior, una puerta y una trayectoria cerrada que recorre ambos lados. Simula ruido de rango, odometría imperfecta y una referencia geométrica independiente de las partículas. Los scans son instantáneos: el paso de traslación de 0,28 m y el período sintético de 0,25 s definen el muestreo del benchmark; no constituyen un ensayo físico de barrido a 1,12 m/s.
 
 La salida en `artifacts/toy` contiene:
 
@@ -47,10 +51,75 @@ El contenedor `yahboom_rosmaster` que se abre con `~/PRA_00/container.sh enter` 
 
 ```bash
 cd ~/TP_final
-./scripts/sync_container.sh
+./slam/scripts/sync_container.sh
 ```
 
-El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/slam` y construye únicamente `slam` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
+El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/slam` y construye `slam` y `nav` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
+
+### Entorno virtual y Numba en el contenedor habitual
+
+Para sincronizar, construir y preparar Numba en una sola operación, **en el host**:
+
+```bash
+cd ~/TP_final
+./slam/scripts/sync_container.sh --with-numba
+./slam/scripts/container_env.sh status
+~/PRA_00/container.sh enter
+```
+
+Si los paquetes ya están sincronizados, basta con
+`./slam/scripts/container_env.sh setup`. La preparación se puede repetir:
+reutiliza el entorno administrado y no duplica la entrada en `.bashrc`.
+Requiere el contenedor existente encendido, Python 3.10 y pip en el host, la misma
+arquitectura en host/contenedor y acceso del host al índice de paquetes. Descarga
+ruedas binarias de pip 24.0, Numba 0.57.1 y llvmlite 0.40.1; las instala sin red
+dentro de `~/rosmaster_ws/.venv`. No requiere pip global ni `ensurepip` en el
+contenedor y no modifica la imagen Docker.
+
+El entorno usa [`venv --system-site-packages`](https://docs.python.org/3.10/library/venv.html)
+para reutilizar NumPy, SciPy, PyYAML y las dependencias de ROS del sistema. Las
+restricciones de NumPy/Numba son las de
+[`requirements-acceleration-humble.txt`](../slam/requirements-acceleration-humble.txt)
+y la [tabla oficial de compatibilidad](https://numba.readthedocs.io/en/stable/user/installing.html#version-support-information).
+Si faltan dependencias base compatibles, la instalación falla sin sustituirlas
+en el Python global.
+
+Las terminales nuevas abiertas con el helper habitual activan el entorno
+automáticamente. También se puede usar `./slam/scripts/container_env.sh enter`
+en el host: delega la entrada al helper de `PRA_00`, que conserva la gestión de X11.
+En una terminal que ya estaba abierta, cargarlo una vez:
+
+```bash
+source ~/rosmaster_ws/.tp_env/scripts/tp_env.bash
+```
+
+**Dentro del contenedor**:
+
+```bash
+tp-env status          # Python, versiones, backend y caché; no arranca nodos
+tp-env off             # Salir del venv y restaurar sus variables anteriores
+tp-env on              # Cargar ROS/overlay y activar Numba
+tp-env numpy           # Mantener el venv y forzar NumPy en próximos procesos
+tp-env on              # Volver a Numba en próximos procesos
+python3 -m pip list     # Consultar paquetes visibles del entorno
+```
+
+`tp-env on` debe preceder a cualquier comando `ros2 launch` de esta guía; la
+activación automática lo hace en las terminales nuevas. Funciona con los cuatro
+modos del launcher. Los cambios afectan procesos futuros: detener y relanzar
+un SLAM existente para cambiar su backend. Usar `tp-env off` para salir en lugar
+de `deactivate`, porque también restaura `PYTHONPATH` y las variables de Numba.
+Al activar se cargan ROS y el overlay; al salir permanecen disponibles.
+
+Los ejecutables creados por colcon usan `/usr/bin/python3`. Por eso el helper
+añade el `site-packages` del venv a `PYTHONPATH`, además de activar su Python:
+también los nodos lanzados por ROS encuentran Numba. La caché JIT se guarda en
+`~/rosmaster_ws/.cache/numba`. El archivo `COLCON_IGNORE` evita que colcon explore
+el venv. La preparación sólo importa dependencias: no ejecuta nodos, replays,
+RViz ni Gazebo. Tanto el entorno como la caché están dentro del contenedor y se
+pierden si se elimina; pueden recrearse con `setup`.
+
+### Abrir una sesión y ejecutar
 
 Después entrar como siempre:
 
@@ -83,18 +152,18 @@ ros2 launch slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/a
 
 No ejecutar ambos launchers simultáneamente: comparten tópicos, reloj y TF. En simulación se conduce el robot con el teleop del RosMaster para explorar el mundo, como se detalla en la sección 4.
 
-La copia del paquete no es un montaje de los fuentes. Tras editar código, YAML o launchfiles en `~/TP_final`, detener el launcher y volver a ejecutar `./scripts/sync_container.sh` en el host. Cargar otra vez `~/rosmaster_ws/install/setup.bash` antes de relanzar. Si sólo se quiere actualizar la copia sin construir todavía:
+La copia del paquete no es un montaje de los fuentes. Tras editar código, YAML o launchfiles en `~/TP_final`, detener el launcher y volver a ejecutar `./slam/scripts/sync_container.sh` en el host. Cargar otra vez `~/rosmaster_ws/install/setup.bash` antes de relanzar. Si sólo se quiere actualizar la copia sin construir todavía:
 
 ```bash
 cd ~/TP_final
-./scripts/sync_container.sh --sync-only
+./slam/scripts/sync_container.sh --sync-only
 ```
 
 En ese caso, antes de ejecutar ROS completar la construcción dentro del contenedor:
 
 ```bash
 cd ~/rosmaster_ws
-colcon build --symlink-install --packages-select slam
+colcon build --symlink-install --packages-select slam nav
 source install/setup.bash
 ```
 
@@ -107,15 +176,16 @@ source /opt/ros/humble/setup.bash
 sudo apt install python3-colcon-common-extensions python3-rosdep python3-numpy python3-yaml ros-humble-rviz2 ros-humble-rosbag2
 ```
 
-El repositorio es un paquete `ament_python`. Puede colocarse o enlazarse en `src` de un workspace. Por ejemplo, estando en su raíz:
+El repositorio contiene dos paquetes `ament_python`, `slam/` y `nav/`. Pueden enlazarse en `src` de un workspace. Por ejemplo, estando en su raíz:
 
 ```bash
 TP_SLAM_SOURCE="$(pwd)"
 mkdir -p ~/slam_ws/src
 ln -s "$TP_SLAM_SOURCE" ~/slam_ws/src/slam
+ln -s "$TP_SLAM_SOURCE/../nav" ~/slam_ws/src/nav
 cd ~/slam_ws
 rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install --packages-select slam
+colcon build --symlink-install --packages-select slam nav
 source install/setup.bash
 ```
 
@@ -207,9 +277,9 @@ Las referencias se alinean **una sola vez**, en el primer scan integrado: `T_map
 
 Iniciar la fuente de ground truth antes del mapeo y mantener el robot quieto al arrancar. Si faltan muestras que encierren `t0`, la línea verde queda vacía y se avisa; no se extrapola ni se inventa ground truth. En bag/real queda vacía por defecto. Las tres trayectorias se borran con `/slam/reset`; las referencias guardan como máximo `max_path_poses` (5000) y el buffer de ground truth usa `odom_history_seconds` (30 s). Pausar mapeo también pausa el muestreo de referencias.
 
-Para instalar cambios ejecutar `./scripts/sync_container.sh` en el host. Luego cargar `source ~/rosmaster_ws/install/setup.bash` dentro del contenedor y reiniciar el launcher con la misma receta (toy o café/simulation) que se estaba usando. Guardar antes con `/slam/save_map` si se desea conservar el mapa actual. Para abrir sólo la nueva configuración sin reiniciar el mapeador: **File → Open Config** y elegir `~/rosmaster_ws/install/slam/share/slam/rviz/slam.rviz`; las nuevas referencias requieren reiniciar también el nodo SLAM.
+Para instalar cambios ejecutar `./slam/scripts/sync_container.sh` en el host. Luego cargar `source ~/rosmaster_ws/install/setup.bash` dentro del contenedor y reiniciar el launcher con la misma receta (toy o café/simulation) que se estaba usando. Guardar antes con `/slam/save_map` si se desea conservar el mapa actual. Para abrir sólo la nueva configuración sin reiniciar el mapeador: **File → Open Config** y elegir `~/rosmaster_ws/install/slam/share/slam/rviz/slam.rviz`; las nuevas referencias requieren reiniciar también el nodo SLAM.
 
-Mover la cámara no conduce al robot. La conducción sigue siendo por teleop externo; seleccionar objetivos de navegación en RViz corresponde a la Parte B, todavía no implementada.
+Mover la cámara no conduce al robot. En A se usa teleop externo. La navegación por objetivos está implementada parcialmente en el paquete `nav`; ver [guia_etapa_b.md](guia_etapa_b.md).
 
 Validación del 10/11/2026: 31 pruebas del núcleo aprobadas en host y Humble; el toy verificó las 118 poses de ambas referencias contra su fuente analítica y el borrado al resetear. RViz cargó los nuevos plugins en una pantalla Xvfb y dominio ROS separado, sin errores; no se reinició la sesión gráfica activa. Toy y bag sintético con odometría por tópico y por TF integraron 118 scans cada uno, borraron las referencias al resetear y exportaron PGM idénticos. Evidencia ROS de esta ampliación en `artifacts/ros_reference_paths/`. Una consulta de 8 s al `/ground_truth/odom` del contenedor habitual no recibió muestras en ese momento; la comparación completa sobre un recorrido de Gazebo sigue pendiente.
 
@@ -251,7 +321,7 @@ Detener con Ctrl+C cualquier launcher toy o simulación anterior. Para disponer 
 
 ```bash
 cd ~/TP_final
-./scripts/sync_container.sh
+./slam/scripts/sync_container.sh
 ~/PRA_00/container.sh enter
 ```
 
@@ -267,7 +337,7 @@ ros2 launch slam slam.launch.py mode:=simulation world:="$CAFE_SHARE/worlds/cafe
 
 Los modelos locales `custom_cafe` y `custom_cafe_table` se referencian con `model://`; por eso se agregan sus rutas de recursos preservando los valores existentes. Se verificó que el mundo y sus modelos están instalados en el contenedor, sin ejecutar todavía este mundo.
 
-`config/cafe.yaml` usa la propuesta con scan matching y 8 partículas (ver `docs/decisiones/002-propuesta-con-scan-matching.md`), amplía la grilla a **16 × 32 m**, con origen `(-8,-16)` y resolución de 5 cm, y fija `sensor.min_range=0.25` para descartar retornos del propio chasis medidos a 0,14–0,20 m en Gazebo. El café se extiende aproximadamente de y=-13,6 a y=12,4 m considerando piso y paredes: la grilla toy de y=-8 a y=8 lo truncaría. El SLAM crea un mapa nuevo; no carga el mapa grabado de `custom_map`.
+`config/cafe.yaml` usa el caso D con scan matching, 16 partículas y `prior_xy=0.025` (ver `docs/decisiones/002-propuesta-con-scan-matching.md`), amplía la grilla a **16 × 32 m**, con origen `(-8,-16)` y resolución de 5 cm, y fija `sensor.min_range=0.25` para descartar retornos del propio chasis medidos a 0,14–0,20 m en Gazebo. El café se extiende aproximadamente de y=-13,6 a y=12,4 m considerando piso y paredes: la grilla toy de y=-8 a y=8 lo truncaría. El SLAM crea un mapa nuevo; no carga el mapa grabado de `custom_map`.
 
 No ejecutar a la vez `ros2 launch custom_map cafe.launch.py`: ese launcher inicia su propio map server y una transformación fija `map → odom`, que entrarían en conflicto con las salidas de SLAM. Una vez abierto Gazebo, explorar con el teleop del RosMaster y guardar con `/slam/save_map` como en la sección 5. La salida `cafe.pgm/.yaml/.json` queda dentro de `~/rosmaster_ws/maps` en el contenedor.
 
@@ -335,6 +405,55 @@ El diagnóstico informa scans integrados, omitidos por movimiento, rechazados po
 
 ## 8. Problemas frecuentes
 
+### Perfil Café D y aceleración numérica opcional
+
+El usuario eligió D como perfil de trabajo de Café el 18/11/2026: `cafe.yaml`
+selecciona 16 partículas, `prior_xy=0.025`, `sample_xy=0.01` y conserva el resto
+del sensor/movimiento. No se traslada al robot real. La evidencia es una semilla
+y replay del núcleo; faltan robustez y ROS1×.
+
+Para disponer del backend medido, usar el entorno administrado de la sección 2.
+En el host:
+
+```bash
+./slam/scripts/sync_container.sh --with-numba
+./slam/scripts/container_env.sh status
+```
+
+El estado debe imprimir `SLAM backend: numba`. El camino NumPy conserva la
+configuración D pero no el costo medido con JIT; no afirmar tiempo real por esa
+equivalencia.
+
+La implementación incorporada desde el worktree de profiling agrega kernels propios compilables con Numba para
+consultas del scan matcher, distancias del likelihood y escritura de la grilla.
+La [comparación manual de Café](comparacion_cafe_manual.md) permite al usuario
+seleccionar original u optimizado sin sustituir el paquete instalado y ensayar
+ocho/dieciséis partículas y cada hiperparámetro por separado.
+El [ciclo colaborativo Café 01](ciclo_hitl_cafe_01.md) documenta los cinco replays
+de núcleo aprobados, las métricas v2 y el punto de revisión visual humana.
+Si Numba no está instalado o `SLAM_DISABLE_NUMBA=1`, usa NumPy. No cambia el
+modelo ni los parámetros del sensor. La ruta compilada usa `fastmath=false` y
+calienta sus firmas antes de recibir sensores; el primer arranque puede tardar
+más por la compilación. `NUMBA_CACHE_DIR` puede seleccionar una carpeta writable
+si los fuentes están montados read-only.
+
+La combinación evaluada en ROS2 Humble/Python3.10 fue NumPy1.21.5,
+Numba0.57.1 y llvmlite0.40.1. El archivo
+`slam/requirements-acceleration-humble.txt` conserva esas restricciones. No
+instalarlo sobre el Python global del host. Para ejecutar el camino NumPy de
+control, dentro del contenedor y antes del launch:
+
+```bash
+tp-env numpy
+```
+
+`tp-env on` vuelve a habilitar Numba. También se puede fijar
+`SLAM_DISABLE_NUMBA=1` manualmente. El sincronizador sólo instala este entorno
+cuando recibe `--with-numba`; una sincronización habitual conserva el entorno
+existente. El núcleo sigue ejecutándose sin Numba con los requirements habituales. Los métodos de
+profiling y la condición de integración están en
+[perfilado_20261118.md](perfilado_20261118.md).
+
 | Síntoma | Comprobación concreta |
 | --- | --- |
 | Espera indefinida sin mapa | Confirmar scans válidos, odometría temporalmente compatible y extrínseca base-láser. |
@@ -346,3 +465,7 @@ El diagnóstico informa scans integrados, omitidos por movimiento, rechazados po
 | Mapa truncado | Ampliar `map.width/height` y ajustar origen; el mapa tiene extensión fija. |
 | Retraso creciente con el bag | Reducir `bag_rate`, haces o partículas; medir tiempo por scan. |
 | Se perdió la hipótesis correcta | Reiniciar y repetir con mejor odometría/recorrido o mayor diversidad; esta versión no hace optimización global retrospectiva. |
+
+## Navegación B después del merge de los PR
+
+La navegación usa perfiles propios en `nav/config/`, separados de los del SLAM. En Café, `navigator.stop_distance=0.40` m conserva una franja frontal detectable con `sensor.min_range=0.25` m y la extrínseca del láser; no copiar los 0,25 m del perfil real a Café. Resincronizar y construir ambos paquetes antes de ejecutar la versión nueva. Los comandos y las limitaciones para objetivos cerca de paredes están en la [guía de B](guia_etapa_b.md#parada-de-seguridad-por-perfil). La validación de esta corrección fue unitaria; no se lanzaron ROS, RViz, Gazebo ni replays.

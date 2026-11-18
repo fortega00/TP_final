@@ -352,6 +352,49 @@ class ObstacleTests(Base):
         self.assertLess(math.hypot(pose.x - goal.x, pose.y - goal.y), self.config.follower.goal_tolerance_xy)
 
 
+class CafeSafetyTests(Base):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.cafe = NavConfig.load_yaml(Path(__file__).resolve().parents[1] / "config" / "cafe.yaml")
+        # Extrínseca del Café registrada en hitl_cafe_01/report/D_analysis.log.
+        cls.mount = Pose2D(0.043, 0.0, math.pi)
+
+    def scan(self, distance, angle=-math.pi):
+        return Scan(np.array([distance]), angle, 0.01, 0.1, 8.0, 0.0, self.mount)
+
+    def test_cafe_stops_before_front_returns_enter_the_chassis_filter(self):
+        # 0,26 m del láser son 0,303 m del centro. Debe frenar mientras el
+        # retorno todavía supera min_range, antes de entrar en la zona ciega.
+        for distance in (0.26, 0.30, 0.35):
+            with self.subTest(distance=distance):
+                self.assertTrue(safety_stop(self.scan(distance), self.cafe))
+
+    def test_cafe_still_rejects_chassis_and_invalid_returns(self):
+        for distance in (0.14, 0.18, 0.20, 0.25, 0.0, -1.0, np.nan, np.inf):
+            with self.subTest(distance=distance):
+                self.assertFalse(safety_stop(self.scan(distance), self.cafe))
+
+    def test_cafe_only_stops_for_returns_inside_the_front_rectangle(self):
+        # Fuera por delante, por detrás y por el costado, respectivamente.
+        for distance, angle in ((0.50, -math.pi), (0.30, 0.0), (0.30, -math.pi / 2)):
+            with self.subTest(distance=distance, angle=angle):
+                self.assertFalse(safety_stop(self.scan(distance, angle), self.cafe))
+
+    def test_cafe_stops_without_waiting_for_obstacle_confirmation(self):
+        nav = Navigator(Costmap(self.grid, self.cafe.planner), self.cafe)
+        pose = Pose2D(-2.0, -1.0, 0.0)
+        nav.update(0.0, pose, "LOCALIZED", False)
+        nav.set_goal(Pose2D(-1.0, -1.0, 0.0), 0.0)
+        nav.update(0.1, pose, "LOCALIZED", False)
+        nav.update(0.2, pose, "LOCALIZED", False)
+        self.assertEqual(nav.state, State.FOLLOWING)
+        self.assertFalse(nav.obstacles.cells().any())
+        command = nav.update(0.3, pose, "LOCALIZED", safety_stop(self.scan(0.26), self.cafe))
+        self.assertEqual(command, (0.0, 0.0))
+        self.assertEqual(nav.state, State.BLOCKED)
+
+
 class FollowerTests(Base):
     def test_straight_path_ahead_gives_no_turn(self):
         follower = PurePursuit([(0.0, 0.0), (1.0, 0.0), (2.0, 0.0)], self.config.follower)

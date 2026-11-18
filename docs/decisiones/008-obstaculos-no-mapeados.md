@@ -112,9 +112,19 @@ El rectángulo de la parada llegaba a 40 cm del centro del robot, y el planifica
 |---|---|---|---|---|
 | 0,40 m (antes) | 81 % | 83 % | 81 % | 0 |
 | 0,30 m | 93 % | 89 % | 90 % | 0 |
-| **0,25 m (actual)** | 96 % | 95 % | 94 % | 0 |
+| 0,25 m (ensayo; perfil real) | 96 % | 95 % | 94 % | 0 |
 
 Decidido el 2026-11-18: `stop_distance` 0,25 m. La alternativa era que la parada ignore los impactos que son paredes del mapa: más código, y depende de que la pose esté bien. Con 0,25 m quedan unos 8 cm delante del chasis (radio 0,17 m), y a 0,2 m/s el robot avanza 3 cm entre dos scans. En Gazebo, las cinco corridas de la tabla de arriba dieron lo mismo con 0,25 m, sin choques, pero ninguna llegó a activar la parada: el cambio solo está medido en el simulador sin ROS. Falta confirmar el largo real del robot, que se mide en la visita 1: si el frente sobresale más de 0,20 m del centro, hay que subirlo.
+
+## Corrección del perfil Café en la revisión del PR #4
+
+El 18/11 se restauró `navigator.stop_distance=0.40` solo en `nav/config/cafe.yaml`. El perfil Café descarta retornos de hasta `sensor.min_range=0.25` m del láser por el propio chasis. Con la extrínseca registrada en `slam/artifacts/hitl_cafe_01/report/D_analysis.log`, `(0.043, 0, pi)`, un retorno justo enfrente válido queda a más de 0,293 m del centro. La parada de 0,25 m no tenía ningún margen detectable en esa dirección.
+
+Con 0,40 m, retornos frontales de 0,26 a 0,35 m del láser (0,303 a 0,393 m del centro) disparan la parada en el mismo ciclo de control, aun sin obstáculos confirmados en la capa. Se mantiene el rechazo del chasis: un retorno de 0,20 m sigue descartándose. La corrección permite frenar **antes** de entrar en esa zona ciega; no recupera información dentro de ella. No avanzar con un obstáculo que ya esté dentro del alcance descartado al iniciar.
+
+La contrapartida es la limitación anterior para objetivos muy próximos a una pared. Los porcentajes de llegada de la tabla corresponden a los ensayos previos de Iván sobre el mapa del aula: no certifican el resultado del perfil Café corregido. Mantener 0,25 m en Café requeriría separar y calibrar la máscara del chasis respecto de la parada; esa alternativa queda pendiente. `nav/config/real.yaml` y el default Python conservan 0,25 m, con `sensor.min_range=0.12` y pendiente de medir la huella real.
+
+Se agregaron cuatro regresiones con el YAML Café instalado y su extrínseca: parada frontal antes del alcance descartado, conservación del rechazo de chasis/lecturas inválidas, exclusión de retornos fuera del rectángulo y comando cero sin esperar las tres observaciones de la capa. Los casos de parada fallaban antes del cambio. Esta comprobación es unitaria, sin nuevas corridas ROS, replays, Gazebo ni robot.
 
 ## Sin probar
 

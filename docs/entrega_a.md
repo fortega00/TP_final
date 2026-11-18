@@ -1,12 +1,14 @@
 # Informe de la entrega A
 
+Este informe conserva los resultados históricos de la implementación odométrica. El estado posterior, el scan matching incorporado por Iván y las pruebas nuevas están en [la revisión del 16/11/2026](revision_20261116.md); sus métricas no deben atribuirse a las corridas originales.
+
 ## Método elegido y alcance
 
 Se implementó un filtro Rao–Blackwellizado de partículas, siguiendo la arquitectura FastSLAM, con una grilla de ocupación independiente por partícula. La pose es planar, `x,y,yaw`; cada mapa almacena log-odds y una máscara de celdas observadas. Las entradas son incrementos de odometría y mediciones del LIDAR. Este diseño permite representar incertidumbre de pose y utilizar directamente un mapa de ocupación en la planificación de la parte B.
 
 El fundamento es la separación entre hipótesis de trayectoria y mapa condicionado a cada trayectoria. El [FastSLAM original](https://robots.stanford.edu/papers/montemerlo.fastslam-tr.html) propone esa factorización con landmarks; aquí se aplica la representación de grillas usada en [RBPF para mapeo](https://www.ipb.uni-bonn.de/wp-content/papercite-data/pdf/grisetti07tro.pdf). El modelo inverso, la forma logarítmica de la evidencia y los modelos probabilísticos de movimiento y medición se inspiran en *[Probabilistic Robotics](https://mitpress.mit.edu/9780262201629/probabilistic-robotics/)*, de Thrun, Burgard y Fox.
 
-La implementación de los algoritmos es propia. NumPy realiza operaciones numéricas y ROS proporciona mensajes, TF y herramientas; no se utiliza una biblioteca que resuelva SLAM. No se extraen landmarks ni se ejecuta un EKF por celda. Tampoco se implementa la propuesta informada por scan matching de FastSLAM 2.0: la propuesta actual viene de odometría.
+La implementación de los algoritmos es propia. NumPy realiza operaciones numéricas y ROS proporciona mensajes, TF y herramientas; no se utiliza una biblioteca que resuelva SLAM. No se extraen landmarks ni se ejecuta un EKF por celda. La versión evaluada originalmente usa propuesta odométrica. La versión actual agrega scan matching propio con corrección de importancia aproximada (cero), no FastSLAM 2.0 exacto; SciPy aporta la transformada de distancia.
 
 El paquete se organiza en módulos y una máquina de estados. El núcleo no depende de ROS y se prueba con un mundo sintético. El adaptador ROS permite usar las mismas operaciones en simulación, reproducción de un bag y ejecución con sensores reales. Las instrucciones están en [guia_ejecucion.md](guia_ejecucion.md) y el diseño en [architecture.md](architecture.md).
 

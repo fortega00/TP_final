@@ -9,7 +9,7 @@ El algoritmo está en slam/core/filter.py. Este nodo hace cuatro cosas:
    transformación `map -> odom`;
 4. ofrece servicios para guardar, pausar, reanudar y reiniciar.
 """
-from collections import deque
+from collections import Counter, deque
 import json
 import math
 from pathlib import Path
@@ -110,6 +110,7 @@ class SlamNode(Node):
         self.status_pub = self.create_publisher(String, '/slam/status', persistent)
         self.path = PathMsg()
         self.path.header.frame_id = self.options['map_frame']
+        self._path_message_cache = {}
         self.references = ReferencePaths(self, persistent, pose_message, seconds,
                                          yaw_from_quaternion)
         # Cola de scans que esperan su odometría o su TF.
@@ -121,6 +122,9 @@ class SlamNode(Node):
         self.last_correction_stamp = -math.inf
         self.last_map_publish = -math.inf
         self.dropped_scans = 0
+        self.drop_reasons = Counter()
+        self.received_scans = self.received_odometry = 0
+        self.callback_seconds = {key: deque(maxlen=512) for key in ("core", "publication", "drain")}
         self.adapter_error = ''
         self.last_wait_reason = ''
         # La cola de DDS tiene que aguantar una actualización lenta del mapa. El
@@ -155,6 +159,7 @@ class SlamNode(Node):
 
     def on_odom(self, message):
         """Guarda cada odometría en el buffer, expresada como pose de `base_frame`."""
+        self.received_odometry += 1
         if self.adapter_error:
             return
         try:
@@ -184,20 +189,26 @@ class SlamNode(Node):
 
     def on_scan(self, message):
         """Encola el scan. No se procesa acá para no bloquear la recepción de mensajes."""
+        self.received_scans += 1
         stamp = seconds(message.header.stamp)
         if not message.header.frame_id or not message.ranges:
-            self.dropped_scans += 1
+            self.drop_scan('invalid_message')
             return
         if self.last_scan_received is not None and stamp <= self.last_scan_received:
             if stamp < self.last_scan_received - 0.5:
                 self.adapter_error = 'Scan time moved backwards; call /slam/reset before a new run'
-            self.dropped_scans += 1
+            self.drop_scan('non_monotonic_stamp')
             return
         self.last_scan_received = stamp
         if len(self.pending) >= self.options['scan_queue_size']:
             self.pending.popleft()
-            self.dropped_scans += 1
+            self.drop_scan('queue_overflow')
         self.pending.append((message, time.monotonic()))
+
+    def drop_scan(self, reason):
+        """Contabiliza cada descarte por causa, sin depender del log con throttle."""
+        self.dropped_scans += 1
+        self.drop_reasons[reason] += 1
 
     def drain(self):
         """Procesa un scan de la cola: busca su odometría y su extrínseca y llama al filtro.
@@ -217,7 +228,19 @@ class SlamNode(Node):
         # Un scan por tick: el nodo sigue atendiendo TF y servicios entre scans.
         if not self.pending:
             return
+        drain_started = time.perf_counter()
         message, received = self.pending[0]
+        scan_stamp = seconds(message.header.stamp)
+        if (self.options['odom_source'] == 'topic' and self.odometry.samples
+                and scan_stamp < self.odometry.samples[0][0] - 1e-8):
+            # append acepta solo tiempos crecientes: una muestra anterior que ya
+            # falta nunca llegará. Esperar su timeout bloquea scans posteriores
+            # válidos y puede llenar la cola. No se extrapola ni se inventa pose.
+            self.pending.popleft()
+            self.drop_scan('odometry_before_history')
+            self.last_wait_reason = 'Scan precedes available odometry history'
+            return
+        waiting_kind = 'tf_timeout'
         try:
             # Extrínseca: dónde está el lidar respecto de la base, en el instante del scan.
             sensor = self.lookup(self.options['base_frame'], message.header.frame_id,
@@ -228,12 +251,14 @@ class SlamNode(Node):
             else:
                 odom = self.odometry.at(seconds(message.header.stamp))
                 if odom is None:
+                    waiting_kind = ('odometry_empty_timeout' if not self.odometry.samples
+                                    else 'odometry_future_timeout')
                     raise ValueError('No odometry samples bracketing scan timestamp')
         except (TransformException, ValueError) as exc:
             self.last_wait_reason = str(exc)
             if time.monotonic() - received > self.options['tf_wait_timeout']:
                 self.pending.popleft()
-                self.dropped_scans += 1
+                self.drop_scan(waiting_kind)
                 self.get_logger().warning(f'Discarding scan: {exc}', throttle_duration_sec=5.0)
             return
         self.pending.popleft()
@@ -241,14 +266,21 @@ class SlamNode(Node):
         try:
             scan = Scan(np.asarray(message.ranges), message.angle_min, message.angle_increment,
                         message.range_min, message.range_max, seconds(message.header.stamp), sensor)
-            if not self.core.process(scan, odom):
+            core_started = time.perf_counter()
+            integrated = self.core.process(scan, odom)
+            core_seconds = time.perf_counter() - core_started
+            if not integrated:
                 return
+            self.callback_seconds['core'].append(core_seconds)
             self.last_integrated_message = message
             self.last_odom_at_scan = odom
+            publication_started = time.perf_counter()
             self.references.observe(message.header.stamp, odom)
             self.publish_update(message)
+            self.callback_seconds['publication'].append(time.perf_counter() - publication_started)
+            self.callback_seconds['drain'].append(time.perf_counter() - drain_started)
         except ValueError as exc:
-            self.dropped_scans += 1
+            self.drop_scan('invalid_core_input')
             if self.core.state.name == 'ERROR':
                 self.adapter_error = str(exc) + '; call /slam/reset after correcting configuration'
             self.get_logger().warning(f'Invalid scan: {exc}', throttle_duration_sec=5.0)
@@ -298,13 +330,23 @@ class SlamNode(Node):
         self.particles_pub.publish(cloud)
         self.path.header.stamp = stamp
         self.path.poses = []
+        next_cache = {}
         for timestamp, historical_pose in best.trajectory[-self.options['max_path_poses']:]:
-            point = PoseStamped()
-            point.header.frame_id = self.options['map_frame']
-            nanos = int(round(timestamp * 1e9))
-            point.header.stamp.sec, point.header.stamp.nanosec = divmod(nanos, 1_000_000_000)
-            point.pose = pose_message(historical_pose)
+            # Pose2D es inmutable. Los puntos del mismo prefijo ancestral no
+            # cambian, incluso si se selecciona otra partícula descendiente.
+            # Reutilizar el mensaje evita reconstruir O(trayectoria) objetos
+            # Python por scan sin cambiar contenido ni frecuencia publicados.
+            key = (timestamp, historical_pose)
+            point = self._path_message_cache.get(key)
+            if point is None:
+                point = PoseStamped()
+                point.header.frame_id = self.options['map_frame']
+                nanos = int(round(timestamp * 1e9))
+                point.header.stamp.sec, point.header.stamp.nanosec = divmod(nanos, 1_000_000_000)
+                point.pose = pose_message(historical_pose)
+            next_cache[key] = point
             self.path.poses.append(point)
+        self._path_message_cache = next_cache
         self.path_pub.publish(self.path)
         now = seconds(stamp)
         if now - self.last_map_publish >= self.options['publish_period']:
@@ -341,10 +383,26 @@ class SlamNode(Node):
         status = dict(self.core.diagnostics)
         status.update(state='ERROR' if self.adapter_error else self.core.state.name,
                       adapter_error=self.adapter_error, waiting_for=self.last_wait_reason,
-                      dropped_scans=self.dropped_scans, queued_scans=len(self.pending))
+                      dropped_scans=self.dropped_scans, queued_scans=len(self.pending),
+                      adapter=self.adapter_diagnostics())
         message = String()
         message.data = json.dumps(status, allow_nan=False)
         self.status_pub.publish(message)
+
+    def adapter_diagnostics(self):
+        """Resume recepción y tiempos de las últimas 512 integraciones completas."""
+        timing = {}
+        for key, values in self.callback_seconds.items():
+            if values:
+                data = np.asarray(values)
+                timing[key] = {'samples': len(values), 'median': float(np.median(data)),
+                               'p95': float(np.percentile(data, 95)), 'max': float(data.max())}
+        return {'received_scans': self.received_scans, 'received_odometry': self.received_odometry,
+                'drop_reasons': dict(self.drop_reasons), 'callback_seconds': timing,
+                'oldest_pending_wall_age_seconds': (time.monotonic() - self.pending[0][1]
+                                                    if self.pending else 0.0),
+                'odometry_time_bounds': ([self.odometry.samples[0][0], self.odometry.samples[-1][0]]
+                                         if self.odometry.samples else None)}
 
     def save(self):
         """Guarda el mapa (PGM + YAML) y un JSON con la configuración y los diagnósticos."""
@@ -355,7 +413,8 @@ class SlamNode(Node):
         metadata = {'config': self.config.to_dict(), 'ros': self.options,
                     'diagnostics': self.core.diagnostics,
                     'scan_stamp': seconds(self.last_integrated_message.header.stamp),
-                    'dropped_scans': self.dropped_scans}
+                    'dropped_scans': self.dropped_scans,
+                    'adapter': self.adapter_diagnostics()}
         paths[1].with_suffix('.json').write_text(json.dumps(metadata, indent=2) + '\n')
         if rclpy.ok():
             self.publish_map(self.last_integrated_message.header.stamp)
@@ -399,6 +458,7 @@ class SlamNode(Node):
         self.odometry.clear()
         self.pending.clear()
         self.path.poses.clear()
+        self._path_message_cache.clear()
         self.path_pub.publish(self.path)
         self.last_scan_received = self.last_integrated_message = self.last_odom_at_scan = None
         self.references.reset()
@@ -406,6 +466,10 @@ class SlamNode(Node):
         self.last_correction_stamp = -math.inf
         self.last_map_publish = -math.inf
         self.dropped_scans = 0
+        self.drop_reasons.clear()
+        self.received_scans = self.received_odometry = 0
+        for values in self.callback_seconds.values():
+            values.clear()
         self.adapter_error = self.last_wait_reason = ''
         self.publish_map(self.get_clock().now().to_msg())
         self.publish_status()

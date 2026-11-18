@@ -1,0 +1,69 @@
+{
+  "input": "/tmp/profile_results/physical_mapa2.npz",
+  "input_sha256": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+  "initialize_and_jit_warmup_seconds": 0.0096159760005321,
+  "proposal_backend": "baseline_numpy",
+  "input_scans": 3613,
+  "wall_seconds": 107.32720016699932,
+  "cpu_seconds": 107.320069403,
+  "cpu_fraction": 0.9999335605141267,
+  "max_rss_kib": 129732,
+  "integrated_update_seconds": {
+    "count": 963,
+    "total": 107.11894059400129,
+    "median": 0.11080946600031893,
+    "p95": 0.12388141539959178,
+    "max": 0.15475671300009708
+  },
+  "stages_seconds": {
+    "_predict": {
+      "count": 963,
+      "total": 89.28258172298956,
+      "median": 0.09237521199975163,
+      "p95": 0.10472395100050562,
+      "max": 0.12931319200015423
+    },
+    "_weigh": {
+      "count": 963,
+      "total": 6.048031023002295,
+      "median": 0.006235875999664131,
+      "p95": 0.006599660600568313,
+      "max": 0.011270732999946631
+    },
+    "_update_maps": {
+      "count": 963,
+      "total": 10.981722332001482,
+      "median": 0.011726703000022098,
+      "p95": 0.012893165999958,
+      "max": 0.020166535000498698
+    },
+    "_update_estimate": {
+      "count": 963,
+      "total": 0.4244655489737852,
+      "median": 0.00042807099998753984,
+      "p95": 0.0005102595000607835,
+      "max": 0.0011154179992445279
+    },
+    "_resample_if_needed": {
+      "count": 963,
+      "total": 0.31438717600849486,
+      "median": 1.191100000141887e-05,
+      "p95": 0.002659033199324767,
+      "max": 0.009707659999548923
+    }
+  },
+  "diagnostics": {
+    "state": "RUNNING",
+    "processed_scans": 963,
+    "skipped_motion": 2650,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 106,
+    "ess": 4.836672586122319,
+    "update_seconds": 0.10553026800062071,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0
+  },
+  "cprofile_enabled": false,
+  "map_sha256": "46acdb175a51659725efbfebe097638eba4e43ad99d5dc7b82c65e1e1fba4edb"
+}
