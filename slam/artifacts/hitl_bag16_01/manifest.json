@@ -1,0 +1,453 @@
+{
+  "authorization": "User requested same evaluation on 16/11 bag while personally testing Cafe D, explicitly in a separate worktree.",
+  "base_commit": "dd2b3023d775042077229bd3acc96b74c255fffe",
+  "branch": "exp/rosbag-20261116-cycle01",
+  "worktree": "/tmp/tp-final-bag-20261116-cycle01",
+  "baseline_commit": "b9d82a14f8a2801e7f648037daa3f7741b6389af",
+  "baseline_core_unchanged_since_16nov": true,
+  "candidate_commit": "dd2b302",
+  "seed": 7,
+  "case_order": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+  ],
+  "execution": "Sequential single low-priority core process; no ROS publisher/player/simulator",
+  "container": "tp-final-profile-20261118",
+  "container_source": "Copied from experiment worktree to /tmp/bag16_source",
+  "main_worktree_modified_by_experiment": false,
+  "habitual_container_modified": false,
+  "ros_live_validation": false,
+  "timing_limitations": [
+    "Shared host with possible user Gazebo/ROS load",
+    "nice 15",
+    "OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1",
+    "Not an isolated hardware benchmark or measurement of live ROS queues/drops"
+  ],
+  "input": {
+    "bag": "sesiones/20261116/bags/bag_mapa2",
+    "db3_sha256": "2205ae73f26184edc5fc55d3e110a3944e1153f10738569b03bc62d9484342c6",
+    "metadata_sha256": "25807e81cbb2042b51b243fe21509dbd1ee11855c3be1dc83c45d5af914f3835",
+    "npz_sha256": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "bag_scans": 3614,
+    "interpolable_scans": 3613,
+    "excluded_without_odometry_bracket": 1,
+    "laser": [
+      0.0435,
+      5.26e-05,
+      3.141592653589793
+    ],
+    "no_ground_truth": true
+  },
+  "historical_map": {
+    "source": "sesiones/20261116/mapa/intento3",
+    "pgm_sha256": "0d5c25d66aa0372f5694ceda343fc18b7704be90d458e8f927e09462c6c5aeb4",
+    "saved_scan_stamp": 1794855669.285052,
+    "used_as_filter_input": false,
+    "not_ground_truth": true,
+    "same_last_integrated_stamp_as_all_replays": true
+  },
+  "profiles": {
+    "bag16_compare_16.yaml": {
+      "sha256": "5b4af04a0683c054cde6e63545e0a337fb1bf54ecb69c393e37ca8e04475e075",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 48.0,
+          "height": 40.0,
+          "origin_x": -16.0,
+          "origin_y": -20.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.75,
+          "p_free": 0.4,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.08,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": false
+        },
+        "motion": {
+          "alpha1": 0.003,
+          "alpha2": 0.0003,
+          "alpha3": 0.003,
+          "alpha4": 0.003
+        },
+        "filter": {
+          "particles": 16,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.05,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.01,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      }
+    },
+    "bag16_compare_16_prior.yaml": {
+      "sha256": "19d393a394e49c1b4c392be469a184371bd51e6d122d8fa780e5d376634f268f",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 48.0,
+          "height": 40.0,
+          "origin_x": -16.0,
+          "origin_y": -20.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.75,
+          "p_free": 0.4,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.08,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": false
+        },
+        "motion": {
+          "alpha1": 0.003,
+          "alpha2": 0.0003,
+          "alpha3": 0.003,
+          "alpha4": 0.003
+        },
+        "filter": {
+          "particles": 16,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.025,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.01,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      }
+    },
+    "bag16_compare_16_sample.yaml": {
+      "sha256": "38fd1795d0ea89c678190b7e7d99378e7eb194d3f2675a2c67a346d35ada6d96",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 48.0,
+          "height": 40.0,
+          "origin_x": -16.0,
+          "origin_y": -20.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.75,
+          "p_free": 0.4,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.08,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": false
+        },
+        "motion": {
+          "alpha1": 0.003,
+          "alpha2": 0.0003,
+          "alpha3": 0.003,
+          "alpha4": 0.003
+        },
+        "filter": {
+          "particles": 16,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.05,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.005,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      }
+    },
+    "bag16_compare_8.yaml": {
+      "sha256": "c52ad66d084b663620928eabc68c049dd4d95211b0b32e5c1e6ccca0c417fda8",
+      "configuration": {
+        "map": {
+          "resolution": 0.05,
+          "width": 48.0,
+          "height": 40.0,
+          "origin_x": -16.0,
+          "origin_y": -20.0,
+          "prior": 0.5
+        },
+        "sensor": {
+          "p_hit": 0.75,
+          "p_free": 0.4,
+          "log_odds_min": -4.0,
+          "log_odds_max": 4.0,
+          "hit_thickness": 0.08,
+          "min_range": 0.12,
+          "max_range": 8.0,
+          "max_beams": 180,
+          "likelihood_beams": 60,
+          "sigma_hit": 0.15,
+          "z_hit": 0.95,
+          "z_rand": 0.05,
+          "likelihood_max_dist": 0.6,
+          "likelihood_temperature": 1.0,
+          "occupied_threshold": 0.65,
+          "no_return_is_free": false
+        },
+        "motion": {
+          "alpha1": 0.003,
+          "alpha2": 0.0003,
+          "alpha3": 0.003,
+          "alpha4": 0.003
+        },
+        "filter": {
+          "particles": 8,
+          "seed": 7,
+          "resample_ess_ratio": 0.5,
+          "initial_x": 0.0,
+          "initial_y": 0.0,
+          "initial_yaw": 0.0,
+          "initial_std_xy": 0.0,
+          "initial_std_yaw": 0.0
+        },
+        "update": {
+          "min_translation": 0.08,
+          "min_rotation": 0.06,
+          "max_interval": 1.0
+        },
+        "scan_match": {
+          "enabled": true,
+          "window_xy": 0.1,
+          "step_xy": 0.025,
+          "window_yaw": 0.06,
+          "step_yaw": 0.01,
+          "sigma": 0.05,
+          "prior_xy": 0.05,
+          "prior_yaw": 0.03,
+          "sample_xy": 0.01,
+          "sample_yaw": 0.005,
+          "beams": 180,
+          "effective_beams": 20.0,
+          "min_occupied_cells": 200
+        }
+      }
+    }
+  },
+  "source_sha256": {
+    "source/analyze_bag_cycle_origin_only.py": "234e5ca09d4ff5c81816505a47b903d452af376e5e492e0bbed0fc4761b8eb21",
+    "source/analyze_bag_cycle.py": "4bc62a35d393cf0b1394c9016e46f4c5990ce3a1428023a00c3570f4f503b2ef",
+    "source/profile_replay.py": "8919e68c634567de3c7e0482359cfb5becf57db3cb0da5d5f2c1c848db163a41",
+    "source/experiment_metrics.py": "63fab8b735996868a437873e6a25a45f2d8012494e84882a47ce404311ccacf8",
+    "source/run_hitl_bag16_01.sh": "e6542e015b8cd80a721afa7d1f6390dcaa82bdc00ea7e1150efc72af5c4dd6da",
+    "source/test_bag_cycle_metrics.py": "6f57ba3676e4f8095f056d1c46e9da1fa9cbfad7f67374c2719d8a864dc8b179",
+    "source/bag_to_npz.py": "5e4c701c01b9e0c350a95ca74c3a190ceddb237a1cfc9b5c9c009cb4a7d96195",
+    "source/analyze_bag_cycle_executed.py": "f4d8c0a16a42302670b164324569e9e03cb604a0fbca0b14c3cc9a92c1ca4766",
+    "source/test_experiment_metrics.py": "738ab0cc4332d51ac8e028bddad89c43b01996b2f859cff7b3459a5f715f38c2"
+  },
+  "tests": {
+    "existing_analytical_metrics": 5,
+    "new_analytical_metrics": 3,
+    "all_passed": true,
+    "total_unique_tests": 8
+  },
+  "human_review": {
+    "status": "pending",
+    "no_profile_adopted": true,
+    "no_merge": true
+  },
+  "environment": {
+    "python": "3.10.12",
+    "numpy": "1.21.5",
+    "scipy": "1.8.0",
+    "numba": "0.57.1",
+    "llvmlite": "0.40.1"
+  },
+  "image_id": "sha256:b5ffcc839fcf6772822f1f1d14a11033ad87632f8f3724dcf8836662645890d8",
+  "network": "none",
+  "executed_source_verified": true,
+  "all_cases_completed": true,
+  "isolated_container_stopped": true,
+  "analysis_refinement": {
+    "reason": "The initial origin is free at its center but its inflated footprint is blocked in every map. Preserve strict origin result and add one common interior seed; distinguish unsafe footprints from disconnected admissible checkpoints.",
+    "original_origin_only_report": "origin_only_comparison.json",
+    "core_replays_repeated": false
+  },
+  "artifacts_sha256": {
+    "A/config.yaml": "af35a0eea456ad0deaafaa0c645007fded033390839d8c2dab88121309cd3556",
+    "A/grid.npz": "3a3907e07be7b33b5474cd6323af27d259221f83d8311879b7ef0d3cad318718",
+    "A/map.json": "660579058808088ef0a67fc611b48e829fcc1476c5d81cbe0b1a3148de3cc1b5",
+    "A/map.pgm": "46acdb175a51659725efbfebe097638eba4e43ad99d5dc7b82c65e1e1fba4edb",
+    "A/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "A/metrics.json": "c374247490615eeefc77a4cc1d87a16b9dbdad16283734eacfc75ef6c46cf0b6",
+    "A/samples.json": "78d02091d2ffab844646c16826a5730daff60d4323fb367a6c7386b6430486b4",
+    "A/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "A/timing.json": "e3888922cdd0a557a558aff9408ee6d4f1ff119d3dc237808a6f9c28441be832",
+    "A/updates.npz": "aaf6ae6cb799c38f7f558041f8aa7db3c7cad1ecc567ed579b22216e5123a515",
+    "A.log": "84b33503635d5095704825b9c82ad02e4c51e68e3cb884e1774f405a7af9cf50",
+    "B/config.yaml": "af35a0eea456ad0deaafaa0c645007fded033390839d8c2dab88121309cd3556",
+    "B/grid.npz": "3a3907e07be7b33b5474cd6323af27d259221f83d8311879b7ef0d3cad318718",
+    "B/map.json": "c6a4fa03e583496fc8573e07578e242c89c1f529065a689d6a7ec6bf7770bf66",
+    "B/map.pgm": "46acdb175a51659725efbfebe097638eba4e43ad99d5dc7b82c65e1e1fba4edb",
+    "B/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "B/metrics.json": "e6e51e2a3322942e58120f113f98e6a575ad702a958bc98ba57294ed6c21455c",
+    "B/samples.json": "7ea45317369cad5493088a309d14275b2a522c1734b04e05af8824a577ec1733",
+    "B/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "B/timing.json": "725b7ef561e480319e2f1ae7cc7cb5da11028381ad4b817abc91d62261bc21b6",
+    "B/updates.npz": "fbf818571c8c71a9ff834f95b7bff63c8a3568dfd35b744fb071a3248128b0db",
+    "B.log": "a449593578f6176d85da0990683a75bf29a462e0a68f085d7981c80bb3f114bb",
+    "C/config.yaml": "05ef8ae2476aee72aeea954c85b38303f13fe7157b6317df4542a5924857a577",
+    "C/grid.npz": "c50bf1fd0fc305158fd335088f6c6f4315147a39c5e43cb047d251fcaf9ef6b2",
+    "C/map.json": "e141add71af4b243d2cccdcab08020e47f531f8598cb798aef1db8e21c61f0eb",
+    "C/map.pgm": "c45ff65cd1b83f761ddb2fd20af7e7d88787116f3af986bd048c5944872dc5e0",
+    "C/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "C/metrics.json": "28ccbef9f30c89dc6ba31dea70e78fa3080d452a5b6722fdac2b95e9a48781d0",
+    "C/samples.json": "953714d1ba22df63f40c1fe4daf2acaa7cdc21f61f8e743fc717c0be6065a5e5",
+    "C/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "C/timing.json": "51284a14aa878e76d441ebf2aeddbfee3c83850a02ef9efacb3ad7c85a3349fc",
+    "C/updates.npz": "13adfdfe1469d78564938bc2bb47c8d5c3c79c14f70a7d30c4eb404c7c078dd2",
+    "C.log": "547789b799ec28a1e94727a434f8609b313ea9e53cbe2cbe0bb5991a001e6d7f",
+    "D/config.yaml": "24c9b87e86cb5b4c87276720857fd0180ae520bc454adf6a7ab6a5791de5d640",
+    "D/grid.npz": "699de18227b9c88cabf52f12eca2099670a9589c6f73385cc4175cf6dd7de42d",
+    "D/map.json": "1c9fe943a6cfb7d3198e2f07412ab1d02def90f3071a03e684780d883f84d99e",
+    "D/map.pgm": "2e0ec3dd75fa19d06913be384055869214481f716e39cad579a8e0b09faa96af",
+    "D/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "D/metrics.json": "662ccaa2e2d3a472cb4b4582a611cb55e773efca6e18ccbde654ab2b1f8c4eac",
+    "D/samples.json": "9939e3065e8b8b79450549eaea4d03e2259833219ec06dcea6b6cdb4c6d4cc6f",
+    "D/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "D/timing.json": "61c8b0b3382531b4f6d47d07b3bd00b06202b54042d0f73f093ee2f8688b7ed8",
+    "D/updates.npz": "f69d56bf7610027d926f693746c345e6387c7c00f178bdfed369336feaf49f0e",
+    "D.log": "b818202e9585d836f481fc61ee69de897fb7cf2b26cd38412cda97597eccdf73",
+    "E/config.yaml": "3cdfb68889f907e36a797ac94aa65cab11b3445cd82090198314cc2e5f517920",
+    "E/grid.npz": "a1e619841a48552870bc0d2b30130e1785fe5c2d59dde7ecf7134236b0adea3b",
+    "E/map.json": "01eb4b0f693b178f1242a5dc4593b0457ca6ee5c512732560dfb68c42020d3ea",
+    "E/map.pgm": "7cdaf785e70ce63f88f8bcb7f664fb41363b9909de88b53fe8e5eab99f51e60f",
+    "E/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "E/metrics.json": "d42dd28943ec47e9415063aa6bb9c7bca298283ab1a5bfbb0e39c1eac8fddd63",
+    "E/samples.json": "9c51323c53e585d6b89e49fef14e99f2cb9bca7930064980bff03dc74107e764",
+    "E/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "E/timing.json": "d1cac387ae3029dfa7e9c473f2f97aa6649019c78191851733e2c8c6db6f7c74",
+    "E/updates.npz": "9cb8dc8de3e4fee1aee1a7232c017b58c5fbb89510b1c76e14ce075eb98a0caf",
+    "E.log": "d4154fe6d522f5f42ef557ff08355ae5b1cfa8db174057ab29a53a6e6521b9aa",
+    "H/aula.json": "38fab2471de4b697ba536358301c7af9ab312de65c8ba443ac8c9259c0235700",
+    "H/aula.pgm": "0d5c25d66aa0372f5694ceda343fc18b7704be90d458e8f927e09462c6c5aeb4",
+    "H/aula.yaml": "70b8b0ff1599de3cb6cd587798e44fdeb5cd5b1341fbc77f5fdc6734893cdb42",
+    "H/status.log": "4211fb32074429bee6abb7f2123ddec579c94059f3753e9f05540729db3eb4d6",
+    "additional_tests.log": "aea963d4bdd1d5785bd0aeeaa8381120f52e936133c380843d4daef7cc81c50a",
+    "analysis.log": "46599cad418864d2ade12a4569693c0aa85d1c6c5e3cb7f14fac62e8ac7af5b2",
+    "analysis_origin_only.log": "7cb6e14151a715fa845719291d05a8c8325461eb15a24b8f24d96c49fb141324",
+    "environment.json": "616b4637010d35bb84474979530dbdd3244362941b62e7b6c3ae0b5f811d8ca3",
+    "extraction.log": "52223de7e0356e6ed60bd500ac0c859fbf14f965c51781cb5bf5f3403e2cb912",
+    "host_context.json": "d7e80b7a8733c5bde8e642d60d3bffcbea2137fca4d9100e062a44087eba55f1",
+    "hypotheses.json": "24d3b37512f497dbd260c7498cf0dad1d453ddac52a10bbbba37ab3006f414d3",
+    "input/bag_mapa2.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "origin_only_comparison.json": "474d6a0043b9032052cf7ec4be107b2c6db6f3454bff502e42ea5166f9945b9b",
+    "report/README.md": "4e2b8d688a0378e0bba318fede684ed0f35a52e8ef70e02920df55d4883dd3bb",
+    "report/checkpoints.npz": "d509c2f0b3d6db6a3a6714098c07817cd8bfdcc9a4ccb4a5844c37c280fad446",
+    "report/comparison.csv": "8fcd590f3bbe4474e5944b9215f9c39721ab2b9870456c24973e56569913c99e",
+    "report/comparison.json": "6bce790a9e70eaf644680e0360e89f8cd55e16a338709d214b16c5ae06068efd",
+    "report/details.png": "40ef6d100300964f16bdc3be16c7555e7548d08b4e0de4e032c86d380f28f3da",
+    "report/maps.png": "ca94e92f68e7b6cdebd4aa17d16c02d70bc4f79e92c3431589b368409b0dcf58",
+    "report/maps_and_paths.png": "d7f871cfe4b30091254cfba31f935268a0bd937fda0fde8b72f2d53712da4344",
+    "report/navigation.png": "1f80111852be14ed59a63d7c22912ea79996f3aec2fef1367745b6ce6fd76fdc",
+    "report/regions.json": "915428372c57ff83b1982cc198001db9393a58921dd9769f97cbe0c3a905474b",
+    "report/timing_and_ess.png": "3a95f0da3706aa010ee6cad00ab00280449a77af8dd3646934609f263f8051c8",
+    "run.log": "95ab923b38d1dd13190131108d55ae61ea39b32858d0eb2cf4471f3000a0bef1",
+    "source/analyze_bag_cycle.py": "4bc62a35d393cf0b1394c9016e46f4c5990ce3a1428023a00c3570f4f503b2ef",
+    "source/analyze_bag_cycle_executed.py": "f4d8c0a16a42302670b164324569e9e03cb604a0fbca0b14c3cc9a92c1ca4766",
+    "source/analyze_bag_cycle_origin_only.py": "234e5ca09d4ff5c81816505a47b903d452af376e5e492e0bbed0fc4761b8eb21",
+    "source/bag_to_npz.py": "5e4c701c01b9e0c350a95ca74c3a190ceddb237a1cfc9b5c9c009cb4a7d96195",
+    "source/experiment_metrics.py": "63fab8b735996868a437873e6a25a45f2d8012494e84882a47ce404311ccacf8",
+    "source/profile_replay.py": "8919e68c634567de3c7e0482359cfb5becf57db3cb0da5d5f2c1c848db163a41",
+    "source/run_hitl_bag16_01.sh": "e6542e015b8cd80a721afa7d1f6390dcaa82bdc00ea7e1150efc72af5c4dd6da",
+    "source/test_bag_cycle_metrics.py": "6f57ba3676e4f8095f056d1c46e9da1fa9cbfad7f67374c2719d8a864dc8b179",
+    "source/test_experiment_metrics.py": "738ab0cc4332d51ac8e028bddad89c43b01996b2f859cff7b3459a5f715f38c2",
+    "tests.log": "91422ca3606009e80a0001545dc019ba7540daff0699a3f4dafaa61e76b896c7"
+  },
+  "csv_line_endings": "Canonicalized to LF before final archival to prevent Git normalization from invalidating SHA256. Maintained script emits LF; executed script preserved separately. No numerical changes or replay reruns."
+}

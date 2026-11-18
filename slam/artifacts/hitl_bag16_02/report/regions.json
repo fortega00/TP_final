@@ -1,0 +1,29 @@
+[
+  [
+    "Pared superior y puerta",
+    [
+      -10,
+      1,
+      5.4,
+      8.2
+    ]
+  ],
+  [
+    "Mesas y pasillos centrales",
+    [
+      -9,
+      -1,
+      -0.5,
+      5.6
+    ]
+  ],
+  [
+    "Pared inferior y esquinas",
+    [
+      -12,
+      1,
+      -4,
+      -1.5
+    ]
+  ]
+]

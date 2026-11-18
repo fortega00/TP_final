@@ -1,0 +1,76 @@
+{
+  "input": "/tmp/hitl_bag16_02/input/bag_mapa2.npz",
+  "input_sha256": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+  "initialize_and_jit_warmup_seconds": 0.12353250399974058,
+  "proposal_backend": "numba",
+  "input_scans": 3613,
+  "wall_seconds": 158.94012619299974,
+  "cpu_seconds": 158.864924758,
+  "runtime": {
+    "python": "3.10.12",
+    "numpy": "1.21.5",
+    "source": "/tmp/bag16_source/slam/slam/__init__.py"
+  },
+  "cpu_fraction": 0.9995268568309275,
+  "max_rss_kib": 344888,
+  "integrated_update_seconds": {
+    "count": 963,
+    "total": 158.71376207098183,
+    "median": 0.16437931300060882,
+    "p95": 0.18868148459969233,
+    "max": 0.25038021199907234,
+    "fraction_over_90ms": 0.9989615784008308,
+    "fraction_over_137ms": 0.9906542056074766
+  },
+  "stages_seconds": {
+    "_predict": {
+      "count": 963,
+      "total": 138.2115632619625,
+      "median": 0.14370217699979548,
+      "p95": 0.16428049680052936,
+      "max": 0.22544770700005756
+    },
+    "_weigh": {
+      "count": 963,
+      "total": 10.89127636098965,
+      "median": 0.010942929000520962,
+      "p95": 0.013733847000912647,
+      "max": 0.027118142999825068
+    },
+    "_update_maps": {
+      "count": 963,
+      "total": 7.356702420995134,
+      "median": 0.007704036999712116,
+      "p95": 0.009116213200286438,
+      "max": 0.025164814998788643
+    },
+    "_update_estimate": {
+      "count": 963,
+      "total": 0.5102705140125181,
+      "median": 0.0004998099993827054,
+      "p95": 0.0006684845993731869,
+      "max": 0.0013852920001227176
+    },
+    "_resample_if_needed": {
+      "count": 963,
+      "total": 1.6706845739954588,
+      "median": 1.5204999726847745e-05,
+      "p95": 0.010044442099933801,
+      "max": 0.037687325000661076
+    }
+  },
+  "diagnostics": {
+    "state": "RUNNING",
+    "processed_scans": 963,
+    "skipped_motion": 2650,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 161,
+    "ess": 14.549017608030503,
+    "update_seconds": 0.15362991800066084,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0
+  },
+  "cprofile_enabled": false,
+  "map_sha256": "fbfcefb6f8be3b47a57bfd8414abb26d04958c5229d63865d3f04a521ab18b60"
+}
