@@ -1,6 +1,6 @@
 # Contexto e instrucciones del TP Final
 
-Actualizado: 16 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
+Actualizado: 18 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 
 ## Organización y consignas
 
@@ -19,6 +19,7 @@ Actualizado: 16 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 - Mantener `docs/guia_ejecucion.md` y `docs/parametros.md` con comandos para los cuatro modos e hiperparámetros completos con defaults reproducibles. Actualizar este archivo al cambiar interfaces, decisiones, comandos o validaciones.
 - Repositorio creado a pedido del usuario: **https://github.com/fortega00/TP_final**, privado, rama `main`, remoto `origin`. Mantener esa visibilidad salvo pedido expreso de publicación pública.
 - Distinguir evidencia sintética de pruebas físicas. No afirmar calidad del aula o del bag real sin ejecutarlos.
+- El usuario ejecuta personalmente las pruebas y observa RViz/Gazebo. No lanzar pruebas, replay ni simuladores por cuenta propia; ayudar con comandos y analizar sus resultados cuando lo pida. Solo si el usuario lo pide explicitamente entonces se pueden ejecutar pruebas en RViz/Gazebo/Ros etc.
 
 ## Implementación
 
@@ -183,3 +184,9 @@ Antes de B/C registrar sesiones físicas y verificar puertas, paredes, cobertura
 - Bag nuevo con scan matching: 857 integraciones, 331 omitidos, cero descartes, cola final cero, separación inicio–fin 0,705 m, consistencia a 10 cm 95,03 %, conectividad 42/43. Replay del núcleo y ROS exportan PGM idéntico. Sin GT; no certifica A.
 - Café Fortress ideal nuevo: 1438 integraciones, cero descartes tras reset, RMSE 16,330 cm contra Gazebo frente a 2,063 cm anterior; cobertura observada aproximada 99,837 %, conectividad 69/72. Regresión del perfil nuevo en ideal. Terminó por límite de 600 s, 31/32 waypoints; no afirmar recorrido completo ni error de cierre. La receta futura usa 660 s (no ejecutada en esta revisión).
 - B en mapa propio del mismo bag: 839 actualizaciones, ráfaga de tres iteraciones, RMSE contra SLAM 8,1 cm tras ajuste rígido; coherencia interna, no exactitud. Ambos nodos arrancan; cierre limpio con SIGINT al launcher, interrupciones en destroy_node con SIGINT al grupo entero.
+
+## Café manual del 18/11/2026
+
+- Ejecutado por el usuario con teleop, perfil ideal y `cafe.yaml` actual. Exportación y análisis estático persistidos en `slam/artifacts/cafe_teleop_20261118/`; no se repitieron pruebas ni se cambiaron algoritmos/perfiles.
+- Mapa visualmente coherente: 961 integraciones, 55 descartes del adaptador, ESS final 6,178/8. Concordancia de ocupados con cajas SDF aproximadas: 94,95 % a dos celdas (10 cm), 98,20 % a tres (15 cm). Puerta inferior 1,15 m frente a 1,09 m nominales. No certificar cobertura total por esta referencia ni RMSE de pose: no se guardaron trayectorias/bag de esta corrida.
+- Usuario reportó subir consignas de teleop hasta 0,52 m/s y 1,04 rad/s; no son velocidades medidas ni un máximo sostenido validado. Última actualización 0,162 s, sin distribución temporal. Revisar sincronización antes de retocar el núcleo; no extrapolar velocidades de Fortress ideal al LIDAR físico sin deskew. Detalle, límites y propuestas sin aplicar en el README de la corrida.
