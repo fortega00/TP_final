@@ -55,7 +55,13 @@ def main():
         with np.load(args.baseline/'grid.npz') as left, np.load(args.candidate/'grid.npz') as right:
             report['raw_grid_equal'] = {key: bool(np.array_equal(left[key], right[key]))
                                         for key in ('observed', 'log_odds')}
+            report['raw_grid_bytes_equal'] = {key: bool(left[key].dtype == right[key].dtype and
+                                                       left[key].tobytes() == right[key].tobytes())
+                                              for key in ('observed', 'log_odds')}
         report['ancestral_trajectory_equal'] = runs['baseline']['paths']['slam'] == runs['candidate']['paths']['slam']
+        report['ancestral_trajectory_bytes_equal'] = (
+            np.asarray(runs['baseline']['paths']['slam'], dtype=np.float64).tobytes() ==
+            np.asarray(runs['candidate']['paths']['slam'], dtype=np.float64).tobytes())
     report['timing'] = {}
     for key, path in [('baseline', args.baseline), ('candidate', args.candidate)]:
         if (path/'timing.json').exists():

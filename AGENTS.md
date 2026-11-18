@@ -1,6 +1,6 @@
 # Contexto e instrucciones del TP Final
 
-Actualizado: 16 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
+Actualizado: 18 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 
 ## Organización y consignas
 
@@ -183,3 +183,9 @@ Antes de B/C registrar sesiones físicas y verificar puertas, paredes, cobertura
 - Bag nuevo con scan matching: 857 integraciones, 331 omitidos, cero descartes, cola final cero, separación inicio–fin 0,705 m, consistencia a 10 cm 95,03 %, conectividad 42/43. Replay del núcleo y ROS exportan PGM idéntico. Sin GT; no certifica A.
 - Café Fortress ideal nuevo: 1438 integraciones, cero descartes tras reset, RMSE 16,330 cm contra Gazebo frente a 2,063 cm anterior; cobertura observada aproximada 99,837 %, conectividad 69/72. Regresión del perfil nuevo en ideal. Terminó por límite de 600 s, 31/32 waypoints; no afirmar recorrido completo ni error de cierre. La receta futura usa 660 s (no ejecutada en esta revisión).
 - B en mapa propio del mismo bag: 839 actualizaciones, ráfaga de tres iteraciones, RMSE contra SLAM 8,1 cm tras ajuste rígido; coherencia interna, no exactitud. Ambos nodos arrancan; cierre limpio con SIGINT al launcher, interrupciones en destroy_node con SIGINT al grupo entero.
+
+## Worktree de profiling del 18/11/2026
+
+- El usuario autorizó explícitamente al agente paralelo a ejecutar ROS2/perfilado, siempre en worktree y sin fusionar salvo mejora de estimación del mapa. Trabajo aislado en `perf/slam-profile-20261118`, `/tmp/tp-final-slam-profile-20261118`, contenedor propio sin red; no se modificó el árbol principal ni el contenedor habitual. Código `cb806b6`, sin merge ni push.
+- Numba opcional compila bucles propios de matcher, modelo inverso y likelihood; NumPy permanece disponible. Se conserva contenido/frecuencia de trayectorias con una caché de mensajes. Diagnóstico por causa de descarte y descarte inmediato de scans anteriores a todo el historial odométrico; sin cambiar defaults de colas/timeouts/hiperparámetros. Detalles y requisitos en `docs/perfilado_20261118.md`.
+- Café y bag16/11 completos en el núcleo: grilla cruda, trayectoria y PGM idénticos; aceleración 2,60×/2,16×. En ROS Café4×: descartes 512→31 de arranque, RMSE GT común15,64→15,31 cm; precision/recall geométricos SDF bajan ligeramente. **Condición estricta de mejora del mapa todavía no demostrada: mantener el worktree aislado.** No hubo par ROS1× ni prueba física nueva. Evidencia en `slam/artifacts/profile_20261118/`; bag crudo preservado localmente, no versionado.

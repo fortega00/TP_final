@@ -1,0 +1,167 @@
+{
+  "evaluation_kind": "Static analysis of an existing manual run; no estimator replay",
+  "map_sha256": "12bd5cfd3bfccae897ef7a9aa878095718be483c256c9eeb4bc75961d4c1b417",
+  "reference": {
+    "kind": "Approximate SDF collision boxes at z=0.19 m; GPU LiDAR uses visual meshes",
+    "alignment": "Original spawn/map coordinates, no fitted transform",
+    "files_sha256": {
+      "worlds/cafe.world": "7dfc0f25430966dae924711adc7b66b4887f79a7c8e6739319f32e0e4d90c31a",
+      "models/custom_cafe/model.sdf": "b3ce4022e1116bcc2e3064077be5eccb91c58ce87063cf255d48e53c44ca0827",
+      "models/custom_cafe_table/model.sdf": "b114e1cba2fe6528605e1ac2fadd098dcb0d42a155d4ef4623439a1af108ad54"
+    },
+    "coverage_warning": "Reachable floor includes the outdoor strip below the open lower door"
+  },
+  "resolution_m": 0.05,
+  "areas_m2": {
+    "free": 208.16000000000005,
+    "occupied": 9.860000000000001,
+    "known": 218.02000000000004,
+    "approx_reachable_floor": 178.42250000000004
+  },
+  "coverage": {
+    "approx_reachable_floor_observed": 0.9089800893945551,
+    "approx_reachable_floor_free": 0.9085737505079237,
+    "approx_indoor_non_obstacle_observed": 0.9213344671621005,
+    "approx_indoor_non_obstacle_free": 0.9055964309042285
+  },
+  "geometry": {
+    "0.05": {
+      "tolerance_m": 0.05,
+      "occupied_precision_approx": 0.8706896551724138,
+      "reachable_wall_surface_recall_approx": 0.7447168216398986
+    },
+    "0.1": {
+      "tolerance_m": 0.1,
+      "occupied_precision_approx": 0.9495436105476673,
+      "reachable_wall_surface_recall_approx": 0.8864468864468864
+    },
+    "0.15": {
+      "tolerance_m": 0.15,
+      "occupied_precision_approx": 0.9819979716024341,
+      "reachable_wall_surface_recall_approx": 0.9489997182304875
+    }
+  },
+  "diagnostics": {
+    "state": "PAUSED",
+    "processed_scans": 961,
+    "skipped_motion": 1548,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 169,
+    "ess": 6.178049683211576,
+    "update_seconds": 0.16195604099993943,
+    "clipped_rays": 154,
+    "out_of_bounds_particles": 0
+  },
+  "dropped_scans": 55,
+  "last_scan_stamp": 512.0,
+  "unavailable": [
+    "Pose RMSE and trajectory",
+    "Actual speed and angular velocity",
+    "Latency distribution and final queue length",
+    "Per-scan acquisition time"
+  ],
+  "user_reported_teleop_limits": {
+    "source": "Teleop terminal output supplied by the user after the manual run",
+    "units": [
+      "m/s",
+      "rad/s"
+    ],
+    "reported_speed_and_turn_sequence": [
+      [
+        0.15,
+        0.3
+      ],
+      [
+        0.17,
+        0.33
+      ],
+      [
+        0.18,
+        0.36
+      ],
+      [
+        0.2,
+        0.4
+      ],
+      [
+        0.22,
+        0.44
+      ],
+      [
+        0.24,
+        0.48
+      ],
+      [
+        0.27,
+        0.53
+      ],
+      [
+        0.29,
+        0.58
+      ],
+      [
+        0.32,
+        0.64
+      ],
+      [
+        0.35,
+        0.71
+      ],
+      [
+        0.39,
+        0.78
+      ],
+      [
+        0.43,
+        0.86
+      ],
+      [
+        0.47,
+        0.94
+      ],
+      [
+        0.52,
+        1.04
+      ]
+    ],
+    "warning": "Teleop setpoints; no timestamps, measured velocities or time spent at each limit"
+  },
+  "long_wall_fits": {
+    "left": {
+      "cells": 960,
+      "angle_from_vertical_deg": 0.003042958141566022,
+      "mean_offset_from_sdf_m": 0.05895833333333375,
+      "p95_absolute_residual_to_fitted_line_m": 0.1039779700689873
+    },
+    "right": {
+      "cells": 888,
+      "angle_from_vertical_deg": -0.6189842990301854,
+      "mean_offset_from_sdf_m": 0.06850225225225293,
+      "p95_absolute_residual_to_fitted_line_m": 0.1455934962154115
+    }
+  },
+  "connectivity": {
+    "occupied_inflation_unknown_blocked_at_center": {
+      "radius_plus_margin_m": 0.27,
+      "free_area_connected_to_spawn_m2": 178.73250000000004,
+      "fraction_of_candidate_navigable_cells_connected": 0.9996085065924694,
+      "warning": "Static connectivity only; no controller or arbitrary-goal validation"
+    },
+    "occupied_and_unknown_inflation": {
+      "radius_plus_margin_m": 0.27,
+      "free_area_connected_to_spawn_m2": 165.09250000000003,
+      "fraction_of_candidate_navigable_cells_connected": 0.9998788704671058,
+      "warning": "Static connectivity only; no controller or arbitrary-goal validation"
+    }
+  },
+  "lower_door": {
+    "approx_nominal_width_m": 1.09,
+    "mapped_obstacle_gap_m": 1.1500000000000001,
+    "band_y_m": [
+      -11.08,
+      -10.88
+    ],
+    "nominal_center_x_m": -3.61
+  }
+}

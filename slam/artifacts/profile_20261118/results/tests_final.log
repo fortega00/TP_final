@@ -1,0 +1,61 @@
+test_grid_jit_is_bitwise_equal_with_overlaps_invalid_returns_and_clipping (test_acceleration.AccelerationTests) ... ok
+test_likelihood_matches_numpy_with_boundary_and_outside_endpoints (test_acceleration.AccelerationTests) ... ok
+test_lookup_matches_numpy_for_random_queries (test_acceleration.AccelerationTests) ... ok
+test_lookup_preserves_boundary_and_outside_cells (test_acceleration.AccelerationTests) ... ok
+test_config_roundtrip_and_unknown_parameters_fail (test_core.ExportAndConfigTests) ... ok
+test_export_flips_y_and_preserves_unknown (test_core.ExportAndConfigTests) ... ok
+test_accumulated_motion_does_not_disappear_on_skipped_scans (test_core.FilterTests) ... ok
+test_custom_proposal_importance_correction_is_applied (test_core.FilterTests) ... ok
+test_diagnostics_are_json_serializable (test_core.FilterTests) ... ok
+test_duplicate_and_backward_timestamps_are_rejected (test_core.FilterTests) ... ok
+test_likelihood_prefers_pose_aligned_with_existing_wall (test_core.FilterTests) ... ok
+test_log_weights_do_not_underflow (test_core.FilterTests) ... ok
+test_measurement_scores_old_maps_then_updates_and_resampling_clones (test_core.FilterTests) ... ok
+test_outside_all_particles_enters_error_until_reset (test_core.FilterTests) ... ok
+test_particle_yaw_statistics_are_circular (test_core.FilterTests) ... ok
+test_pause_resume_accumulates_odometry_and_reset_restarts_seed (test_core.FilterTests) ... ok
+test_seed_reset_reproduces_the_same_noisy_posterior (test_core.FilterTests) ... ok
+test_systematic_resampling_uses_posterior_and_is_deterministic (test_core.FilterTests) ... ok
+test_se2_composition_inverse_and_relative_lateral_reverse (test_core.GeometryTests) ... ok
+test_clone_is_independent (test_core.GridTests) ... ok
+test_hits_at_clipped_endpoints_do_not_make_boundary_walls (test_core.GridTests) ... ok
+test_logodds_prior_subtraction_and_saturation (test_core.GridTests) ... ok
+test_maximum_range_and_configured_truncation_are_not_hits (test_core.GridTests) ... ok
+test_nan_negative_inf_zero_invalid_and_positive_inf_no_obstacle (test_core.GridTests) ... ok
+test_no_return_flag_must_be_boolean (test_core.GridTests) ... ok
+test_oversampled_duplicate_beams_count_once_per_scan (test_core.GridTests) ... ok
+test_sensor_offset_and_yaw_are_applied (test_core.GridTests) ... ok
+test_unknown_is_not_prior_probability (test_core.GridTests) ... ok
+test_old_duplicate_and_invalid_poses_do_not_modify_history (test_odometry.OdometryTests) ... ok
+test_shortest_angle_and_no_extrapolation (test_odometry.OdometryTests) ... ok
+test_future_timeout_has_a_specific_counter (test_ros_transport.TransportTests) ... ok
+test_overflow_and_invalid_messages_have_distinct_counters (test_ros_transport.TransportTests) ... ok
+test_path_cache_preserves_content_when_the_selected_ancestry_changes (test_ros_transport.TransportTests) ... ERROR
+test_scan_before_earliest_odometry_does_not_block_valid_successors (test_ros_transport.TransportTests) ... ok
+test_scan_waits_for_a_future_sample_instead_of_extrapolating (test_ros_transport.TransportTests) ... ok
+test_corrects_a_wrong_odometry_increment (test_scan_match.ScanMatchTests) ... ok
+test_empty_map_uses_the_odometry_increment (test_scan_match.ScanMatchTests) ... ok
+test_filter_selects_the_proposal_from_config (test_scan_match.ScanMatchTests) ... ok
+test_invalid_settings_are_rejected (test_scan_match.ScanMatchTests) ... ok
+test_keeps_a_correct_odometry_increment (test_scan_match.ScanMatchTests) ... ok
+test_analytic_raycast_sees_doorway_and_wall (test_toy.ToyTests) ... ok
+test_ground_truth_is_perfect_and_door_stays_connected (test_toy.ToyTests) ... ok
+test_noise_streams_reproducible_and_separate (test_toy.ToyTests) ... ok
+test_route_is_closed_collision_free_and_respects_step (test_toy.ToyTests) ... ok
+test_saved_artifact_preserves_unknown_thresholds_and_row_order (test_toy.ToyTests) ... ok
+test_unknown_space_does_not_become_navigable (test_toy.ToyTests) ... ok
+
+======================================================================
+ERROR: test_path_cache_preserves_content_when_the_selected_ancestry_changes (test_ros_transport.TransportTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/worktree/slam/tests/test_ros_transport.py", line 86, in test_path_cache_preserves_content_when_the_selected_ancestry_changes
+    SlamNode.publish_update(fake, message)
+  File "/worktree/slam/slam/ros/ros_node.py", line 312, in publish_update
+    self.broadcast(self.options['map_frame'], self.options['odom_frame'], self.map_to_odom, stamp)
+KeyError: 'odom_frame'
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.289s
+
+FAILED (errors=1)

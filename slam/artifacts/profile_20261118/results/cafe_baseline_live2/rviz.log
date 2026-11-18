@@ -1,0 +1,8 @@
+QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-alumno'
+[INFO] [1795012491.859761552] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1795012491.859831325] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+[INFO] [1795012491.903015239] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1795012516.009625050] [rviz2]: Trying to create a map of size 320 x 640 using 1 swatches
+[ERROR] [1795012516.011582406] [rviz2]: Vertex Program:rviz/glsl120/indexed_8bit_image.vert Fragment Program:rviz/glsl120/indexed_8bit_image.frag GLSL link result : 
+active samplers with a different type refer to the same texture image unit
+[INFO] [1795013232.040252531] [rclcpp]: signal_handler(SIGINT/SIGTERM)

@@ -1,0 +1,69 @@
+{
+  "input": "/tmp/profile_results/physical_mapa2.npz",
+  "input_sha256": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+  "initialize_and_jit_warmup_seconds": 0.1646964459996525,
+  "proposal_backend": "numba",
+  "input_scans": 200,
+  "wall_seconds": 2.1425694659992587,
+  "cpu_seconds": 2.140100739,
+  "cpu_fraction": 0.9988477727147543,
+  "max_rss_kib": 218660,
+  "integrated_update_seconds": {
+    "count": 26,
+    "total": 2.1105637809987456,
+    "median": 0.08125064549994931,
+    "p95": 0.09652833749964884,
+    "max": 0.09904573099993286
+  },
+  "stages_seconds": {
+    "_predict": {
+      "count": 26,
+      "total": 1.7687602339992736,
+      "median": 0.06832473249960458,
+      "p95": 0.08379460949981876,
+      "max": 0.08615126600034273
+    },
+    "_weigh": {
+      "count": 26,
+      "total": 0.17289681199963525,
+      "median": 0.006722350499785534,
+      "p95": 0.008980509500361222,
+      "max": 0.009372217999953136
+    },
+    "_update_maps": {
+      "count": 26,
+      "total": 0.1310321089995341,
+      "median": 0.005107463499825826,
+      "p95": 0.006087251749931966,
+      "max": 0.006559469999956491
+    },
+    "_update_estimate": {
+      "count": 26,
+      "total": 0.018174638998971204,
+      "median": 0.0006698709994452656,
+      "p95": 0.0007976652498200565,
+      "max": 0.0014416849999179249
+    },
+    "_resample_if_needed": {
+      "count": 26,
+      "total": 0.015266751001945522,
+      "median": 3.7352999697759515e-05,
+      "p95": 5.066200014880451e-05,
+      "max": 0.014338009000312013
+    }
+  },
+  "diagnostics": {
+    "state": "RUNNING",
+    "processed_scans": 26,
+    "skipped_motion": 174,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 1,
+    "ess": 5.487830547484136,
+    "update_seconds": 0.09310707399981766,
+    "clipped_rays": 0,
+    "out_of_bounds_particles": 0
+  },
+  "cprofile_enabled": true,
+  "map_sha256": "190dba267d508524ea0bd0d312d7aedcf9dd79568ef3fefcce2f5a16d0636afc"
+}

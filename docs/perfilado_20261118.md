@@ -106,6 +106,70 @@ un overflow previo a disponer de odometría. Es evidencia exploratoria; la
 repetición y las métricas geométricas determinan si se cumple la condición de
 integración. Más velocidad con mapa idéntico en el núcleo no basta por sí sola.
 
+## Cierre: condición de fusión todavía no demostrada
+
+La repetición limpia y secuencial ya finalizó. **No se recomienda fusionar este
+worktree bajo la condición estricta del usuario.** La aceleración y recuperación
+de scans están demostradas; la mejora geométrica del mapa no es uniforme.
+
+| Medida | Baseline | Candidato |
+| --- | ---: | ---: |
+| Café núcleo, tiempo de replay | 124,57 s | 47,89 s |
+| Café núcleo, mediana / P95 por integración | 90,53 / 112,81 ms | 33,45 / 38,41 ms |
+| Café núcleo, grilla cruda / trayectoria / PGM | Referencia | Idénticos bit a bit |
+| Bag físico núcleo, tiempo | 107,33 s | 49,66 s |
+| Bag físico, grilla cruda / trayectoria / PGM | Referencia | Idénticos bit a bit |
+| ROS Café4×, scans integrados | 1293 | 1458 |
+| ROS Café4×, descartes | 512 | 31 de arranque |
+| ROS Café4×, RMSE posición sobre GT común | 15,637 cm | 15,310 cm |
+| ROS Café4×, RMSE yaw sobre GT común | 1,277° | 0,862° |
+| ROS Café4×, precision ocupados SDF a 15 cm | 93,222 % | 93,052 % |
+| ROS Café4×, recall superficies SDF a 15 cm | 89,152 % | 89,039 % |
+| ROS Café4×, cobertura observada aproximada | 99,861 % | 99,879 % |
+| ROS Café4×, cobertura libre aproximada | 99,821 % | 99,842 % |
+| ROS Café4×, celdas libres sobre obstáculos SDF | 1930 | 1803 |
+| ROS Café4×, CPU del nodo | 184,81 s | 137,52 s |
+| ROS Café4×, RSS máximo muestreado | 102,11 MiB | 191,52 MiB |
+
+El GT común usa todos los timestamps de scans dentro de ambas trayectorias,
+con la transformación conocida de la pose inicial, sin ajuste a posteriori. En
+los replays del núcleo el RMSE común es exactamente igual: 15,310 cm en ambos.
+La mejora bajo carga ROS procede de conservar mediciones, no de cambiar el
+estimador matemático. El candidato recupera el resultado completo del núcleo.
+
+La conectividad de poses visitadas fue 100 % en ambos mapas, pero se muestrearon
+65/73 puntos respectivamente por diferir las integraciones: ese dato no es una
+comparación sobre el mismo conjunto de puntos y no se usa como prueba adicional
+de mejora. La comparación de SDF es aproximada, y su precision/recall disminuyen
+ligeramente. Por tanto, no convertir una mejora de CPU, descartes o RMSE pequeño
+en una certificación de mapa superior. El primer par exploratorio fue menos
+favorable al baseline y no reproduce la magnitud de mejora en la repetición.
+
+El perfil de publicación antes/después de la caché (últimas 512 integraciones,
+ambos candidatos con los mismos datos completos) pasó de mediana/P95
+44,31/69,43 ms a 19,31/41,19 ms. El callback completo pasó de 87,92/116,23 ms a
+63,23/85,25 ms. Se conserva el contenido/frecuencia de los mensajes, y ambos
+candidatos producen el mismo PGM. No es una medición de navegación física.
+
+**No se ejecutó un par ROS1× baseline/candidato**, ni una nueva sesión física.
+Los resultados de 4× prueban capacidad frente a carga artificial del transporte;
+no certifican velocidad del robot ni una mejora en el caso habitual a 1×.
+
+Evidencia persistida en
+[slam/artifacts/profile_20261118](../slam/artifacts/profile_20261118/README.md),
+con hashes, configuraciones, grillas, trayectorias, perfiles, logs e inputs NPZ.
+El bag crudo Café de 86 MiB se conserva localmente en el worktree y está excluido
+del commit por la regla `*.db3` del repositorio. No eliminar el worktree si se
+quiere repetir exactamente la carga ROS. El código está en `cb806b6`; el commit
+de cierre solo agrega evidencia y documentación. No se hizo merge ni push.
+
+Validaciones: 46 tests de A con Numba, 28 de B con y sin Numba, y 45 tests A del
+camino NumPy anterior a añadir el test de caché (dos casos JIT omitidos).
+Smoke ROS toy: 118 integraciones, cero descartes, servicios y reset aprobados,
+cierre limpio; ese smoke precede la caché, que se verificó con test de cambio de
+ancestralidad y los dos replays Café posteriores. Los replays completos baseline
+y candidato cierran sus tres procesos con código cero.
+
 ## Reproducción
 
 Los scripts nuevos son:
