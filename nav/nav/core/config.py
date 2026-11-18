@@ -33,6 +33,9 @@ class LocalizationConfig:
     # convergida (docs/decisiones/004).
     unexplained_distance: float = 0.20
     lost_fraction: float = 0.25
+    # Umbral más estricto para la ráfaga del click: ahí un falso encaje corrido a lo
+    # largo de un pasillo deja 21 a 25 % sin explicar y una pose buena menos de 11 %.
+    click_lost_fraction: float = 0.15
     # Ráfaga inicial con el robot quieto, después de cada /initialpose.
     burst_max_iterations: int = 30
     # La ráfaga termina cuando una iteración más mueve la estimación menos que esto.
@@ -87,7 +90,7 @@ class NavigatorConfig:
     """Máquina de estados y parada de seguridad."""
     # Parada de seguridad: frena si el lidar ve algo dentro de un rectángulo delante
     # del robot, de este largo (desde el centro) y este semiancho.
-    stop_distance: float = 0.40
+    stop_distance: float = 0.25
     stop_half_width: float = 0.20
     # Tiempos máximos, en segundos, parado por obstáculo o sin localización.
     blocked_timeout: float = 15.0
@@ -144,8 +147,8 @@ class NavConfig:
             raise ValueError("Motion gate and burst jitter must be nonnegative")
         if min(c.converged_std_xy, c.converged_std_yaw) <= 0:
             raise ValueError("Convergence thresholds must be positive")
-        if c.unexplained_distance <= 0 or not 0 < c.lost_fraction < 1:
-            raise ValueError("Require unexplained_distance > 0 and 0 < lost_fraction < 1")
+        if c.unexplained_distance <= 0 or not 0 < c.click_lost_fraction <= c.lost_fraction < 1:
+            raise ValueError("Require unexplained_distance > 0 and 0 < click_lost_fraction <= lost_fraction < 1")
         if not 0 < c.injection_alpha_slow < c.injection_alpha_fast <= 1:
             raise ValueError("Require 0 < injection_alpha_slow < injection_alpha_fast <= 1")
         if not 0 < c.injection_max_fraction <= 1:

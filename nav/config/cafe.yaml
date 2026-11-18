@@ -27,6 +27,7 @@ localization:
   converged_std_yaw: 0.10
   unexplained_distance: 0.20
   lost_fraction: 0.25
+  click_lost_fraction: 0.15
   burst_max_iterations: 30
   burst_stable_xy: 0.01
   burst_stable_yaw: 0.01
@@ -56,7 +57,7 @@ follower:
   goal_tolerance_xy: 0.08
   goal_tolerance_yaw: 0.05
 navigator:
-  stop_distance: 0.40
+  stop_distance: 0.25
   stop_half_width: 0.20
   blocked_timeout: 15.0
   retry_period: 2.0

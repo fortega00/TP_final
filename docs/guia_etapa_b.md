@@ -90,7 +90,7 @@ Publica un `/initialpose` corrido 36 cm, manda el objetivo e imprime el error re
 | `/nav/particles` | Nube de partículas |
 | `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score`, `unexplained_fraction` |
 
-`LOST` aparece cuando `unexplained_fraction` (fracción de los puntos del scan a más de 20 cm de toda pared del mapa) supera 0,25: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
+`LOST` aparece cuando `unexplained_fraction` (fracción de los puntos del scan a más de 20 cm de toda pared del mapa) supera 0,25: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo. Justo después del click el límite es 0,15: si lo supera, el log dice `Click rejected` y el nodo queda en `LOST` hasta el próximo click ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
 
 | `/nav/plan` | Camino planificado |
 | `/nav/state` | JSON: estado de la máquina, si la parada de seguridad está activa y los últimos eventos |

@@ -104,17 +104,17 @@ Sin choques. La primera tanda, con la detección de perdido anterior, terminó e
 
 Una celda que el lidar ya vio libre muchas veces tarda más de 3 scans en marcarse: en Gazebo, de 0,6 a 1,6 s. Probé no acumular evidencia de libre (marca siempre en 3 scans) y lo descarté: en el simulador del aula subió las replanificaciones (máximo 92 contra 33) y los fracasos lejos del objetivo (10 contra 7).
 
-## Punto abierto: la parada de seguridad frena contra paredes del mapa
+## La parada de seguridad frenaba contra paredes del mapa
 
-El rectángulo de la parada llega a 40 cm del centro del robot, y el planificador acepta objetivos y pasos a 22 cm de una pared. Un objetivo cerca de una pared, de frente, no se puede alcanzar: el robot frena, espera 15 s y abandona. Antes no se veía porque las pruebas sin lidar no activaban la parada.
+El rectángulo de la parada llegaba a 40 cm del centro del robot, y el planificador acepta objetivos y pasos a 22 cm de una pared. Un objetivo cerca de una pared, de frente, no se podía alcanzar: el robot frena, espera 15 s y abandona. Antes no se veía porque las pruebas sin lidar no activaban la parada.
 
 | `navigator.stop_distance` | Llega sin obstáculo | Con caja | Con obstáculo grande | Choques |
 |---|---|---|---|---|
-| 0,40 m (actual) | 81 % | 83 % | 81 % | 0 |
+| 0,40 m (antes) | 81 % | 83 % | 81 % | 0 |
 | 0,30 m | 93 % | 89 % | 90 % | 0 |
-| 0,25 m | 96 % | 95 % | 94 % | 0 |
+| **0,25 m (actual)** | 96 % | 95 % | 94 % | 0 |
 
-Opciones: bajar `stop_distance` (un número), o que la parada ignore los impactos que son paredes del mapa (más código, depende de la pose). Falta el largo real del robot, que se mide en la visita 1, para saber cuánto margen queda delante del chasis. Sin decidir.
+Decidido el 2026-11-18: `stop_distance` 0,25 m. La alternativa era que la parada ignore los impactos que son paredes del mapa: más código, y depende de que la pose esté bien. Con 0,25 m quedan unos 8 cm delante del chasis (radio 0,17 m), y a 0,2 m/s el robot avanza 3 cm entre dos scans. En Gazebo, las cinco corridas de la tabla de arriba dieron lo mismo con 0,25 m, sin choques, pero ninguna llegó a activar la parada: el cambio solo está medido en el simulador sin ROS. Falta confirmar el largo real del robot, que se mide en la visita 1: si el frente sobresale más de 0,20 m del centro, hay que subirlo.
 
 ## Sin probar
 

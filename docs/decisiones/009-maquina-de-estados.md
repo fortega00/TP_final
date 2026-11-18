@@ -61,7 +61,7 @@ Elegí A.
 
 Dos diferencias con el diseño original:
 
-- Los obstáculos nuevos no se agregan en `BLOCKED` sino todo el tiempo, en una capa aparte ([008](008-obstaculos-no-mapeados.md)). Si uno tapa el camino, el robot pasa directo a `PLANNING`. `BLOCKED` queda para dos casos: no hay camino por obstáculos nuevos, o la parada de seguridad ve algo en un rectángulo de 40 cm por 40 cm delante del robot. La parada solo aplica al avanzar, no a los giros en el lugar.
+- Los obstáculos nuevos no se agregan en `BLOCKED` sino todo el tiempo, en una capa aparte ([008](008-obstaculos-no-mapeados.md)). Si uno tapa el camino, el robot pasa directo a `PLANNING`. `BLOCKED` queda para dos casos: no hay camino por obstáculos nuevos, o la parada de seguridad ve algo en un rectángulo de 25 cm de largo por 40 cm de ancho delante del robot. La parada solo aplica al avanzar, no a los giros en el lugar.
 - La ráfaga inicial la hace el nodo de localización. El navegador mira el estado que ese nodo publica: `LOCALIZING` mientras dice `NOT_CONVERGED` y `WAIT_INITIAL_POSE` mientras espera un click o se perdió.
 
 Registro de una corrida en el simulador con dos objetivos seguidos:
@@ -82,7 +82,7 @@ Los demás casos (objetivo antes de ubicarse, objetivo nuevo en marcha, `/initia
 
 ## Punto abierto
 
-La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). Resuelto el 2026-11-17: el nodo de localización informa `LOST` cuando más del 25 % del scan cae lejos de las paredes del mapa ([004](004-localizacion-en-mapa-conocido.md#detección-de-perdido)), y con eso la máquina frena y espera un `/initialpose` nuevo.
+La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). Resuelto el 2026-11-17: el nodo de localización informa `LOST` cuando más del 25 % del scan cae lejos de las paredes del mapa, o más del 15 % justo después del click ([004](004-localizacion-en-mapa-conocido.md#detección-de-perdido)), y con eso la máquina frena y espera un `/initialpose` nuevo.
 
 ## Datos
 

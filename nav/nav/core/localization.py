@@ -299,14 +299,20 @@ class MonteCarloLocalization:
         c = self.config.localization
         return self.std_xy < c.converged_std_xy and self.std_yaw < c.converged_std_yaw
 
-    def lost(self, scan: Scan) -> bool:
+    def lost(self, scan: Scan, after_click: bool = False) -> bool:
         """La pose estimada no explica el scan: el robot está en otro lado.
 
         Hace falta además de `converged`: la nube se puede cerrar en una pose
         equivocada. Deja la fracción medida en `diagnostics["unexplained_fraction"]`.
+
+        Justo después del click (`after_click`) el umbral es más estricto. En
+        marcha tiene que tolerar una caja cerca, que deja hasta 21 % del scan sin
+        explicar. En el click el robot está quieto en un lugar elegido, sin
+        obstáculos nuevos pegados, y ahí conviene detectar el falso encaje.
         """
+        c = self.config.localization
         self.diagnostics["unexplained_fraction"] = self.unexplained_fraction(scan)
-        return self.diagnostics["unexplained_fraction"] > self.config.localization.lost_fraction
+        return self.diagnostics["unexplained_fraction"] > (c.click_lost_fraction if after_click else c.lost_fraction)
 
     def unexplained_fraction(self, scan: Scan) -> float:
         """Fracción de los puntos del scan que cae lejos de toda pared del mapa.
