@@ -1,0 +1,2 @@
+/tmp/hitl_bag16_01/input/bag_mapa2.npz: 3613 scans of 1080 rays, 1 dropped without odometry, 475 s, odometry path 56.8 m, laser frame laser_link at (0.043, 0.000) m, yaw 180 deg from base_footprint
+SHA256: 50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc

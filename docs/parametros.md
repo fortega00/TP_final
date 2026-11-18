@@ -16,6 +16,11 @@ En el [ciclo Café 01](ciclo_hitl_cafe_01.md) se evalúan con semilla 7. El radi
 de inflación de evaluación es 0,22 m (robot 0,17 + margen 0,05); no se modifica
 el mapa exportado ni se mezclan sus conectividades con las históricas de 0,27 m.
 
+Los perfiles `config/bag16_compare_*.yaml` son experimentales y conservan el
+sensor/grilla físicos de `parcial_bag_scan_match.yaml`. El [ciclo bag16 01](ciclo_hitl_bag16_01.md)
+compara 8/16 partículas, prior 0,05/0,025 y sample 0,01/0,005 sobre `bag_mapa2`.
+No sustituyen el perfil físico de uso; requieren revisión humana del mapa.
+
 ## 6. Hiperparámetros del filtro
 
 Crear una copia de `config/default.yaml` y pasar su ruta absoluta con `config_file:=/ruta/a/config.yaml`. Es un YAML del núcleo con grupos `map`, `sensor`, `motion`, `filter`, `update` y `scan_match` (opcional, ver `docs/decisiones/002-propuesta-con-scan-matching.md`), compartido por CLI y ROS. Los campos desconocidos se rechazan para evitar que un error de escritura deje un parámetro sin aplicar. Ejemplo de una configuración parcial válida:

@@ -101,3 +101,16 @@ No se conservaron bag ni trayectorias en la exportación: no se conoce velocidad
 efectiva ni tiempo a cada consigna y no se puede medir RMSE contra Gazebo.
 No se cambiaron hiperparámetros. Los próximos ensayos los ejecuta el usuario;
 las propuestas de sincronización y ajuste están separadas de lo ya medido.
+
+## Ciclo colaborativo sobre el aula del 16/11, ejecutado el 18/11
+
+Cinco replays del núcleo autorizados en worktree separado sobre `bag_mapa2`,
+semilla 7 y referencia visual histórica `intento3`. [Método, tabla y límites](ciclo_hitl_bag16_01.md).
+Optimizar conserva exactamente la estimación de ocho partículas. La variante
+E (16 partículas, `sample_xy=0.005`) mejora modestamente la consistencia de
+extremos y de scans reservados; D no reproduce la gran mejora de Café. No se
+demuestra todavía superioridad geométrica global sobre el mapa histórico.
+La carga del host cambió durante las corridas, por lo que no se certifica
+tiempo real. El origen no admite inflación de 22 cm en ningún mapa; desde un
+punto interior común todos los checkpoints admisibles están conectados.
+Revisión humana pendiente; no se adopta un perfil físico ni se fusiona la rama.
