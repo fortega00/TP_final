@@ -55,6 +55,8 @@ ros2 launch slam slam.launch.py mode:=toy
 
 ## Documentación
 
+- [Revisión del 16/11 y pruebas del bag/Café](docs/revision_20261116.md): comparación con el estado anterior, hallazgos y comandos actualizados.
+
 - [Guía de ejecución](docs/guia_ejecucion.md): instalación y launch para cada modo de la etapa A.
 - [Guía de la etapa B](docs/guia_etapa_b.md): cómo correr la localización y la navegación, y cómo analizar un bag.
 - [Parámetros](docs/parametros.md): qué hace cada uno y cómo ajustarlos.

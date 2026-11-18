@@ -4,7 +4,7 @@
 
 El sistema estima una pose planar del RosMaster y un mapa de ocupación a partir del LIDAR y la odometría. Conserva una grilla independiente para cada hipótesis de trayectoria. Esta es la adaptación a grillas de la arquitectura FastSLAM/Rao–Blackwellized particle filter (RBPF). El FastSLAM original utiliza distribuciones de landmarks; aquí se reemplaza esa representación por probabilidades de ocupación condicionales a la trayectoria. Referencias: [FastSLAM original](https://robots.stanford.edu/papers/montemerlo.fastslam-tr.html) y [RBPF con grillas de Grisetti, Stachniss y Burgard](https://www.ipb.uni-bonn.de/wp-content/papercite-data/pdf/grisetti07tro.pdf).
 
-El núcleo es Python/NumPy, sin imports de ROS. El adaptador ROS convierte mensajes y TF en tipos del dominio. Los mismos algoritmos se ejecutan con sensores sintéticos, Gazebo, bags o el robot físico; cambia la fuente de datos y su reloj.
+El núcleo es Python/NumPy/SciPy, sin imports de ROS. El adaptador ROS convierte mensajes y TF en tipos del dominio. Los mismos algoritmos se ejecutan con sensores sintéticos, Gazebo, bags o el robot físico; cambia la fuente de datos y su reloj.
 
 ```mermaid
 flowchart LR
@@ -77,7 +77,7 @@ El tamaño de celda controla tanto el detalle como el costo. Duplicar la resoluc
 
 ## Likelihood, pesos y remuestreo
 
-La ponderación utiliza la cercanía de los extremos de retorno a obstáculos del mapa previo. Se combina una componente de impacto con una componente uniforme; la distancia máxima y la temperatura de likelihood limitan penalizaciones extremas y la sobreconfianza de haces correlacionados. Es una aproximación práctica del modelo directo de medición, distinta del modelo inverso que escribe el mapa. La propuesta actual usa odometría; no incorpora scan matching ni una propuesta FastSLAM 2.0.
+La ponderación utiliza la cercanía de los extremos de retorno a obstáculos del mapa previo. Se combina una componente de impacto con una componente uniforme; la distancia máxima y la temperatura de likelihood limitan penalizaciones extremas y la sobreconfianza de haces correlacionados. Es una aproximación práctica del modelo directo de medición, distinta del modelo inverso que escribe el mapa. Los perfiles actuales activan una propuesta con scan matching propio; los YAML sin ese grupo conservan la odométrica. La nueva propuesta devuelve corrección de importancia cero: es una aproximación, no FastSLAM 2.0 exacto. Ver [002](decisiones/002-propuesta-con-scan-matching.md) y [la revisión del 16/11](revision_20261116.md).
 
 ```text
 w_t(i) ∝ w_(t-1)(i) · p(z_t | x_t(i), m_(t-1)(i))
@@ -121,7 +121,7 @@ Las transformaciones se consultan al tiempo de adquisición del scan. El mensaje
 
 ## Extensiones previstas
 
-- **Scan matching:** introducir una propuesta informada por el scan y el mapa previo. Si cambia la distribución de propuesta, también debe cambiar el cociente de importancia; desplazar partículas y conservar la ecuación de pesos actual no implementa FastSLAM 2.0 correctamente.
+- **Scan matching exacto:** completar la corrección de importancia de la propuesta informada por el scan y el mapa previo ya implementada. Si cambia la distribución de propuesta, también debe cambiar el cociente de importancia; desplazar partículas y conservar la ecuación de pesos actual no implementa FastSLAM 2.0 correctamente.
 - **Fusión sensorial:** generar observaciones con extrínsecas y timestamps propios, con modelos de likelihood e inversos específicos. Una imagen RGB no es un sensor de rango sin una estimación de profundidad; proyectar profundidad exige filtrar suelo, techo y alturas relevantes.
 - **Odometría/IMU:** mejorar la fuente de `odom → base_link` con un estimador externo, evitando contar dos veces la misma evidencia en pesos independientes.
 - **Mapas más grandes:** sustituir copias densas por tiles o copy-on-write, manteniendo la independencia lógica entre partículas.

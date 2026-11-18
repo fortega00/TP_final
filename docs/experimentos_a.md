@@ -79,3 +79,25 @@ El mapa recupera la estructura principal y varios obstáculos interiores. La dis
 - [Mapa PGM/YAML](../slam/artifacts/entrega_a_20261110/rosbag_tuned/map.yaml) y [métricas](../slam/artifacts/entrega_a_20261110/rosbag_tuned/metrics.json)
 
 Ambas sesiones terminaron con códigos de salida cero para Xvfb, launcher y RViz. Se ejecutaron en dominios independientes sobre el mismo host, por lo que sus tiempos incluyen carga concurrente. Una medición durante la ejecución registró máximos residentes de aproximadamente 121 MiB para el nodo de café y 1021 MiB para el del bag. Las 31 pruebas unitarias del núcleo siguieron aprobando. Los scripts de evaluación usan sólo bibliotecas generales y ROS, sin bibliotecas de SLAM.
+
+## Café manual del 18/11/2026
+
+El usuario condujo con teleop en Fortress ideal, guardó y cerró el launcher.
+La evaluación posterior analiza únicamente esa exportación; no se ejecutaron
+nuevas pruebas. Evidencia y límites en
+[el informe de la corrida](../slam/artifacts/cafe_teleop_20261118/README.md), con
+[comparación visual](../slam/artifacts/cafe_teleop_20261118/map_comparison.png).
+
+El mapa es visualmente coherente: 961 scans integrados y puerta inferior abierta
+(1,15 m frente a 1,09 m nominales SDF). El 94,95 % de ocupados está dentro de
+dos celdas de la referencia aproximada (10 cm), y el 98,20 % dentro de tres
+(15 cm). No hubo ajuste rígido de coordenadas. La referencia de colisiones puede
+diferir de las mallas visuales y no certifica cobertura total. Hubo 55 descartes
+del adaptador; los avisos por falta de odometría aparecen al inicio y a mitad
+de sesión. La última actualización duró 0,162 s; no es un promedio ni P95.
+
+El usuario aportó consignas de teleop crecientes hasta 0,52 m/s y 1,04 rad/s.
+No se conservaron bag ni trayectorias en la exportación: no se conoce velocidad
+efectiva ni tiempo a cada consigna y no se puede medir RMSE contra Gazebo.
+No se cambiaron hiperparámetros. Los próximos ensayos los ejecuta el usuario;
+las propuestas de sincronización y ajuste están separadas de lo ya medido.

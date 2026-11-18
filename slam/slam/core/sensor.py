@@ -12,6 +12,7 @@ import numpy as np
 from .config import SensorConfig
 from .geometry import Pose2D
 from .types import Scan
+from .acceleration import nearest_squared
 
 if TYPE_CHECKING:
     from .grid import OccupancyGrid
@@ -96,6 +97,13 @@ class LaserSensorModel:
             mask = (xx * xx + yy * yy) * resolution ** 2 <= cfg.likelihood_max_dist ** 2
             self._offset_cache[key] = (xx[mask], yy[mask])
         dx, dy = self._offset_cache[key]
+        if nearest_squared is not None:
+            nearest2 = nearest_squared(occupied, cols, rows, x, y, dx, dy,
+                                       grid.config.origin_x, grid.config.origin_y,
+                                       resolution, cfg.likelihood_max_dist ** 2)
+            probabilities = (cfg.z_hit * np.exp(-nearest2 / (2 * cfg.sigma_hit ** 2))
+                             + cfg.z_rand / min(scan.range_max, cfg.max_range))
+            return float(cfg.likelihood_temperature * np.log(probabilities).sum())
         neighbor_cols = cols[:, None] + dx
         neighbor_rows = rows[:, None] + dy
         valid = ((neighbor_cols >= 0) & (neighbor_cols < grid.width) &

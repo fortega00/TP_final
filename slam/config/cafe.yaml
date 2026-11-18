@@ -32,7 +32,8 @@ motion:
   alpha3: 0.0001
   alpha4: 0.0001
 filter:
-  particles: 8
+  # Caso D elegido por el usuario; evaluado en Cafe con semilla 7.
+  particles: 16
   seed: 7
   resample_ess_ratio: 0.5
   initial_x: 0.0
@@ -51,7 +52,7 @@ scan_match:
   window_yaw: 0.06
   step_yaw: 0.01
   sigma: 0.05
-  prior_xy: 0.05
+  prior_xy: 0.025
   prior_yaw: 0.03
   sample_xy: 0.01
   sample_yaw: 0.005

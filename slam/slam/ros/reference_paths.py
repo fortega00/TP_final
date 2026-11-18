@@ -50,7 +50,8 @@ class ReferencePaths:
         point.pose = self.pose_message(pose)
         path.header.stamp = stamp
         path.poses.append(point)
-        path.poses = path.poses[-self.limit:]
+        if len(path.poses) > self.limit:
+            del path.poses[:-self.limit]
         publisher.publish(path)
 
     def observe(self, stamp, odom):

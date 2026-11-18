@@ -1,0 +1,11 @@
+[INFO] [launch]: All log files can be found below /home/alumno/.ros/log/2026-11-18-14-53-02-843196-078f10fe11df-1368
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [slam_node-1]: process started with pid [1380]
+[INFO] [toy_node-2]: process started with pid [1382]
+[slam_node-1] [INFO] [1795013583.629618737] [slam]: FastSLAM 8 particles; topic odometry; scan=/scan
+[toy_node-2] [INFO] [1795013596.519864106] [toy_simulator]: Toy complete. Save with /slam/save_map or Ctrl+C.
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [toy_node-2]: sending signal 'SIGINT' to process[toy_node-2]
+[INFO] [slam_node-1]: sending signal 'SIGINT' to process[slam_node-1]
+[INFO] [toy_node-2]: process has finished cleanly [pid 1382]
+[INFO] [slam_node-1]: process has finished cleanly [pid 1380]

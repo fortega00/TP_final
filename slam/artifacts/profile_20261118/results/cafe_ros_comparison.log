@@ -1,0 +1,148 @@
+{
+  "baseline": "/tmp/profile_results/cafe_ros_baseline4x_repeat",
+  "candidate": "/tmp/profile_results/cafe_ros_candidate4x_cached",
+  "identical_configuration": true,
+  "map_pgm_equal": false,
+  "map_sha256": {
+    "baseline": "11aaf94668d3e91d8024e42024f4da530cd3e4ab90a575d0a46acb5e49527d56",
+    "candidate": "f70762139ae406143264adf390b4e9027ff9d07bbd4cd280769aa66003fb9700"
+  },
+  "diagnostics": {
+    "baseline": {
+      "state": "PAUSED",
+      "processed_scans": 1293,
+      "skipped_motion": 1318,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 204,
+      "ess": 5.6706409577596055,
+      "update_seconds": 0.08960507699976006,
+      "clipped_rays": 22069,
+      "out_of_bounds_particles": 0,
+      "adapter_error": "",
+      "waiting_for": "",
+      "dropped_scans": 512,
+      "queued_scans": 0
+    },
+    "candidate": {
+      "state": "PAUSED",
+      "processed_scans": 1458,
+      "skipped_motion": 1634,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 215,
+      "ess": 5.266750903367897,
+      "update_seconds": 0.04327207799997268,
+      "clipped_rays": 22069,
+      "out_of_bounds_particles": 0,
+      "adapter_error": "",
+      "waiting_for": "",
+      "dropped_scans": 31,
+      "queued_scans": 0,
+      "adapter": {
+        "received_scans": 3123,
+        "received_odometry": 18186,
+        "drop_reasons": {
+          "queue_overflow": 1,
+          "odometry_before_history": 30
+        },
+        "callback_seconds": {
+          "core": {
+            "samples": 512,
+            "median": 0.041610175499954494,
+            "p95": 0.045615877150385134,
+            "max": 0.0538645529995847
+          },
+          "publication": {
+            "samples": 512,
+            "median": 0.019314260499868396,
+            "p95": 0.041194762849499966,
+            "max": 0.05420752100053505
+          },
+          "drain": {
+            "samples": 512,
+            "median": 0.06323229700046795,
+            "p95": 0.08525023155007147,
+            "max": 0.10836761599966849
+          }
+        },
+        "oldest_pending_wall_age_seconds": 0.0,
+        "odometry_time_bounds": [
+          594.413,
+          624.435
+        ]
+      }
+    }
+  },
+  "timing": {},
+  "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+  "common_truth_samples": 3090,
+  "quality_on_same_truth_timestamps": {
+    "baseline": {
+      "position_rmse_m": 0.15636733289621443,
+      "position_p95_m": 0.27182133994932917,
+      "yaw_rmse_deg": 1.2770841243231832,
+      "initial_truth_anchor": [
+        8.168208007565402e-12,
+        -4.77389880641441e-22,
+        2.532366188392479e-22
+      ],
+      "alignment": "Known initial GT pose only; no fitted rigid transform"
+    },
+    "candidate": {
+      "position_rmse_m": 0.15309700460741954,
+      "position_p95_m": 0.271006452057179,
+      "yaw_rmse_deg": 0.861844587451952,
+      "initial_truth_anchor": [
+        8.168208007565402e-12,
+        -4.77389880641441e-22,
+        2.532366188392479e-22
+      ],
+      "alignment": "Known initial GT pose only; no fitted rigid transform"
+    }
+  },
+  "map_quality_approximate": {
+    "baseline": {
+      "geometry": {
+        "method": "Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.",
+        "assumption": "Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.",
+        "tolerance_m": 0.15,
+        "robot_radius_plus_margin_m": 0.27,
+        "reachable_free_area_m2": 178.42250000000004,
+        "reachable_free_coverage": 0.9982065042245233,
+        "reachable_observed_coverage": 0.9986128431111547,
+        "occupied_precision": 0.9322162985529322,
+        "reachable_wall_surface_recall": 0.8915187376725838,
+        "free_on_reference_obstacle_cells": 1930
+      },
+      "connectivity": {
+        "robot_radius_plus_margin_m": 0.27,
+        "sampled_visited_poses": 65,
+        "connected_visited_fraction": 1.0,
+        "unknown_is_blocked": true,
+        "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+      }
+    },
+    "candidate": {
+      "geometry": {
+        "method": "Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.",
+        "assumption": "Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.",
+        "tolerance_m": 0.15,
+        "robot_radius_plus_margin_m": 0.27,
+        "reachable_free_area_m2": 178.42250000000004,
+        "reachable_free_coverage": 0.9984166795107119,
+        "reachable_observed_coverage": 0.9987949950258516,
+        "occupied_precision": 0.9305173706573356,
+        "reachable_wall_surface_recall": 0.8903916596224288,
+        "free_on_reference_obstacle_cells": 1803
+      },
+      "connectivity": {
+        "robot_radius_plus_margin_m": 0.27,
+        "sampled_visited_poses": 73,
+        "connected_visited_fraction": 1.0,
+        "unknown_is_blocked": true,
+        "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+      }
+    }
+  }
+}

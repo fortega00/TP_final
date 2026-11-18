@@ -1,0 +1,134 @@
+{
+  "mode": "simulation",
+  "run_completed": true,
+  "has_ground_truth": true,
+  "poses": {
+    "slam": {
+      "samples": 1458,
+      "duration_s": 617.8,
+      "length_m": 110.6315139917397,
+      "end_to_start_distance_m": 0.10453958782251391,
+      "end_to_start_yaw_deg": -177.70137266948163,
+      "last_pose": [
+        0.09602659634680283,
+        0.04132091741659775,
+        -3.10147403839592
+      ],
+      "position_error_m": {
+        "mean": 0.12688129003480939,
+        "median": 0.09177463302251081,
+        "p95": 0.27443870479966614,
+        "max": 0.3130390731235922
+      },
+      "position_rmse_m": 0.1594053566426698,
+      "yaw_rmse_deg": 0.8495722053693322,
+      "final_position_error_m": 0.05877068971870907
+    },
+    "odom": {
+      "samples": 1458,
+      "duration_s": 617.8,
+      "length_m": 101.72012630076088,
+      "end_to_start_distance_m": 0.05258473800358312,
+      "end_to_start_yaw_deg": -178.06229982080686,
+      "last_pose": [
+        0.05255466919482249,
+        0.0017780373247641723,
+        -3.107773405546389
+      ],
+      "position_error_m": {
+        "mean": 1.676707522252465e-05,
+        "median": 4.5176281613678035e-06,
+        "p95": 0.00010605957074681886,
+        "max": 0.00013491943444587313
+      },
+      "position_rmse_m": 3.514952256290058e-05,
+      "yaw_rmse_deg": 0.0014874482106991178,
+      "final_position_error_m": 9.553829309219297e-06
+    },
+    "truth": {
+      "samples": 1458,
+      "duration_s": 617.8,
+      "length_m": 101.72010981314043,
+      "end_to_start_distance_m": 0.05257579219666902,
+      "end_to_start_yaw_deg": -178.0622766337605,
+      "last_pose": [
+        0.05254561500354393,
+        0.0017810864680472933,
+        -3.1077730008560858
+      ]
+    }
+  },
+  "status": {
+    "state": "RUNNING",
+    "processed_scans": 1458,
+    "skipped_motion": 1634,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 215,
+    "ess": 5.266750903368518,
+    "update_seconds": 0.08532060800007457,
+    "clipped_rays": 22069,
+    "out_of_bounds_particles": 0
+  },
+  "map": {
+    "resolution_m": 0.05,
+    "width": 320,
+    "height": 640,
+    "occupied_cells": 4001,
+    "free_cells": 110613,
+    "unknown_cells": 90186,
+    "known_area_m2": 286.5350000000001
+  },
+  "wall_seconds": 124.56641431099979,
+  "in_sample_consistency": {
+    "label": "in_sample_endpoint_to_exported_obstacle_distance",
+    "samples": 43740,
+    "distance_cap_m": 0.6,
+    "distance_m": {
+      "mean": 0.04301788384510006,
+      "median": 0.02637905077164271,
+      "p95": 0.13347815059215715,
+      "max": 0.6
+    },
+    "fraction_within_10cm": 0.9243255601280292,
+    "warning": "Uses the same measurements that built the map; not independent accuracy."
+  },
+  "export_snapshot": {
+    "scan_stamp": 624.0,
+    "captured_path_stamp": 624.0,
+    "gap_s": 0.0,
+    "diagnostics": {
+      "state": "RUNNING",
+      "processed_scans": 1458,
+      "skipped_motion": 1634,
+      "rejected_stamp": 0,
+      "invalid_scans": 0,
+      "resamples": 215,
+      "ess": 5.266750903368518,
+      "update_seconds": 0.08532060800007457,
+      "clipped_rays": 22069,
+      "out_of_bounds_particles": 0
+    }
+  },
+  "navigation_check": {
+    "robot_radius_plus_margin_m": 0.27,
+    "sampled_visited_poses": 73,
+    "connected_visited_fraction": 1.0,
+    "unknown_is_blocked": true,
+    "scope": "Connectivity of sampled visited poses; not safety for arbitrary goals."
+  },
+  "sampled_update_wall_seconds": null,
+  "timing_sampling": "Latest filter update sampled by 1 Hz wall-time status messages.",
+  "approximate_sdf_reference": {
+    "method": "Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.",
+    "assumption": "Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.",
+    "tolerance_m": 0.15,
+    "robot_radius_plus_margin_m": 0.27,
+    "reachable_free_area_m2": 178.42250000000004,
+    "reachable_free_coverage": 0.9984166795107119,
+    "reachable_observed_coverage": 0.9987949950258516,
+    "occupied_precision": 0.9305173706573356,
+    "reachable_wall_surface_recall": 0.8903916596224288,
+    "free_on_reference_obstacle_cells": 1803
+  }
+}
