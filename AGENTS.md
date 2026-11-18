@@ -1,6 +1,6 @@
 # Contexto e instrucciones del TP Final
 
-Actualizado: 10 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
+Actualizado: 16 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 
 ## Organización y consignas
 
@@ -77,7 +77,7 @@ Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/d
 - Conservar movimiento lateral y marcha atrás. `alpha` parametriza varianzas del incremento SE(2).
 - Interpolar odometría al timestamp del primer haz y usar extrínseca `base → laser`; no sustituir TF faltante por identidad ni usar TF reciente para ponderar una lectura pasada.
 - Acumular movimiento desde el último scan integrado incluso con omisiones/pausa. Saltos de reloj hacia atrás requieren reset.
-- Propuesta actual odométrica, **sin scan matching ni FastSLAM 2.0**. Una propuesta diferente debe devolver corrección de importancia `log(p/q)`.
+- La propuesta distribuida usa scan matching propio opcional. La interfaz admite corrección `log(p/q)`, pero `ScanMatchProposal` devuelve cero: es una aproximación documentada en 002 y un hallazgo pendiente de la revisión del 16/11, no FastSLAM 2.0 exacto. La propuesta odométrica sigue disponible.
 
 ### Defaults ajustados con el toy
 
@@ -165,6 +165,21 @@ Exportación `<output_path>.pgm`, `.yaml`, `.json`: libre p<0,25, ocupado según
 
 ## Límites y próximos pasos
 
-Sin deskew, scan matching, fusión profundidad/RGB/IMU, relocalización global, optimización retrospectiva, mapas dinámicos/3D ni navegación B/C. Revisitar puede seleccionar una hipótesis superviviente; no reconstruye trayectorias eliminadas ni reajusta poses pasadas. Memoria densa O(N·área/resolución²), más trayectorias crecientes.
+Sin deskew, fusión profundidad/RGB/IMU, relocalización global robusta, optimización retrospectiva ni mapas dinámicos/3D. Scan matching aproximado implementado; navegación B parcial y C pendiente. Revisitar puede seleccionar una hipótesis superviviente; no reconstruye trayectorias eliminadas ni reajusta poses pasadas. Memoria densa O(N·área/resolución²), más trayectorias crecientes.
 
 Antes de B/C registrar sesiones físicas y verificar puertas, paredes, cobertura y huella. El mapa toy no certifica la geometría del laboratorio. Consultar `docs/entrega_a.md` para fundamentos y respuestas.
+
+## Revisión del 16/11/2026
+
+- Comparación `18a7784..1c14cf2`: 14 commits de Iván; HEAD confirmado igual a `origin/main` mediante consulta remota. Resumen, hallazgos y recetas actualizadas en `docs/revision_20261116.md`. No se modificaron algoritmos durante la revisión.
+- Desde la raíz del repo el sincronizador es `./slam/scripts/sync_container.sh`; copia y construye `slam` y `nav`. Los scripts de experimentos están en `slam/scripts/` y no se copian al contenedor con el sincronizador. Las rutas de scripts/artifacts de secciones históricas deben interpretarse respecto de `slam/`.
+- SciPy es una nueva dependencia declarada y necesaria aun con matcher desactivado por los imports actuales. La imagen Humble disponible incluye SciPy 1.8.0.
+- Defaults Python y `slam/config/default.yaml` difieren: Python conserva 24 partículas, matcher false, espesor 0,03 y sigma 0,10; YAML usa 8, true, 0,08 y 0,15. Cargar perfiles completos para reproducir. No declarar defaults idénticos hasta corregirlo.
+- Host aislado: 37 tests A y 28 tests B aprobados. Toy default semilla 7: RMSE 2,915 cm, precisión a una celda 0,8361, recall 1, conectividad 100 %. No reemplaza la evidencia anterior de otra configuración.
+- Hallazgo B: sin LIDAR pero con odometría, la pose publicada mantiene timestamps recientes y el navegador no controla edad del scan/corrección. Corregir y verificar antes de navegación física. Evasión de obstáculos nuevos sigue pendiente.
+- Evidencia de revisión en `slam/artifacts/review_20261116/`; incluye fallos y resultados de las corridas. El validador ROS original aprobó toy y bag sintético por tópico, pero falló bag por TF (114 de 118 integraciones). Repetición a 2× también falló bajo carga; una variante a 0,5× aprobó con 118 integraciones, servicios/reset y PGM idéntico a toy/bag tópico. No generalizar aprobación del validador original.
+- Se conservaron los resultados originales del 10/11 y no se arrancó ni modificó el contenedor habitual desde la revisión (al inicio estaba detenido; al cierre se observó activo por una acción externa). Las pruebas nuevas se ejecutan en un contenedor temporal separado.
+
+- Bag nuevo con scan matching: 857 integraciones, 331 omitidos, cero descartes, cola final cero, separación inicio–fin 0,705 m, consistencia a 10 cm 95,03 %, conectividad 42/43. Replay del núcleo y ROS exportan PGM idéntico. Sin GT; no certifica A.
+- Café Fortress ideal nuevo: 1438 integraciones, cero descartes tras reset, RMSE 16,330 cm contra Gazebo frente a 2,063 cm anterior; cobertura observada aproximada 99,837 %, conectividad 69/72. Regresión del perfil nuevo en ideal. Terminó por límite de 600 s, 31/32 waypoints; no afirmar recorrido completo ni error de cierre. La receta futura usa 660 s (no ejecutada en esta revisión).
+- B en mapa propio del mismo bag: 839 actualizaciones, ráfaga de tres iteraciones, RMSE contra SLAM 8,1 cm tras ajuste rígido; coherencia interna, no exactitud. Ambos nodos arrancan; cierre limpio con SIGINT al launcher, interrupciones en destroy_node con SIGINT al grupo entero.

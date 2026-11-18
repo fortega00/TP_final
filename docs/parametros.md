@@ -19,9 +19,9 @@ filter:
   seed: 7
 ```
 
-Los campos omitidos toman los valores de las tablas. Son un punto de partida para el toy, no una calibración del robot real.
+Las tablas siguientes describen los defaults de las clases Python. **Actualmente no coinciden con `slam/config/default.yaml`**: la clase usa 24 partículas, scan matching desactivado, espesor 0,03 m y sigma 0,10 m; ese YAML selecciona 8 partículas, scan matching activado, espesor 0,08 m y sigma 0,15 m. Para reproducir el perfil distribuido, cargar explícitamente ese YAML. Los campos omitidos toman los valores de las tablas. Son un punto de partida para el toy, no una calibración del robot real.
 
-Los valores finales se eligieron después de comparar alternativas en el toy. La corrida base de semilla 7 obtuvo precision de obstáculos de 0,9032, recall de 1,0 —con tolerancia de una celda de 5 cm— y RMSE de posición de 2,46 cm. El detalle, las variantes que fallaron y las limitaciones están en [el informe](entrega_a.md) y en `artifacts/tuning`. La odometría de ese toy ya es precisa: su RMSE fue 2,01 cm, menor que el de SLAM; no se presenta como una mejora general de localización.
+Los valores históricos anteriores al scan matching se eligieron después de comparar alternativas en el toy. La corrida base de semilla 7 obtuvo precision de obstáculos de 0,9032, recall de 1,0 —con tolerancia de una celda de 5 cm— y RMSE de posición de 2,46 cm. El detalle, las variantes que fallaron y las limitaciones están en [el informe](entrega_a.md) y en `artifacts/tuning`. La odometría de ese toy ya es precisa: su RMSE fue 2,01 cm, menor que el de SLAM; no se presenta como una mejora general de localización.
 
 ### Geometría y prior
 
@@ -101,3 +101,25 @@ Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para
 6. Guardar parámetros, bag/trayectoria, mapa y métricas de cada corrida. Comparar precisión/recall de paredes con tolerancia métrica, error de trayectoria cuando exista ground truth, ancho de puertas y conectividad después de inflar por el robot.
 
 Para B, comprobar caminos sobre celdas conocidas libres e inflar obstáculos por la huella y un margen. Las métricas de conectividad del toy hacen una comprobación conservadora con disco; no sustituyen el planificador ni certifican cualquier ruta del entorno real. La zona desconocida no debe convertirse en libre para conseguir que una ruta exista.
+
+## Propuesta con scan matching
+
+Implementación propia en `slam/slam/core/scan_match.py`. Usa SciPy para la transformada de distancia. La propuesta busca el máximo local y añade ruido; devuelve corrección de importancia cero. Es una aproximación, no una implementación exacta de FastSLAM 2.0.
+
+| Campo | Default Python | Efecto |
+| --- | ---: | --- |
+| `scan_match.enabled` | `false` | Los YAML default/café/parcial_bag_scan_match lo activan. |
+| `scan_match.window_xy` | `0.10` | Media ventana de traslación, m. |
+| `scan_match.step_xy` | `0.025` | Paso de traslación, m. |
+| `scan_match.window_yaw` | `0.06` | Media ventana angular, rad. |
+| `scan_match.step_yaw` | `0.01` | Paso angular, rad. |
+| `scan_match.sigma` | `0.05` | Escala espacial del puntaje, m. |
+| `scan_match.prior_xy` | `0.05` | Desvío del prior de traslación, m. |
+| `scan_match.prior_yaw` | `0.03` | Desvío del prior angular, rad. |
+| `scan_match.sample_xy` | `0.01` | Ruido de muestreo por eje, m. |
+| `scan_match.sample_yaw` | `0.005` | Ruido angular, rad. |
+| `scan_match.beams` | `180` | Máximo de haces para la búsqueda. |
+| `scan_match.effective_beams` | `20.0` | Escala del promedio de log-verosimilitudes. |
+| `scan_match.min_occupied_cells` | `200` | Antes de ese umbral usa odometría. |
+
+`sensor.no_return_is_free` tiene default Python `false`; `cafe.yaml` lo activa. Los perfiles `parcial_bag.yaml` y `parcial_bag_tuned.yaml` conservan la propuesta odométrica; cambiar solamente `enabled` no reproduce su mayor cantidad de partículas ni su ruido. Ver [revisión y pruebas](revision_20261116.md).

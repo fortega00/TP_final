@@ -2,17 +2,19 @@
 
 Todos los comandos se corren desde la carpeta `slam/` del repositorio, que es el paquete ROS. Los parámetros están en [parametros.md](parametros.md) y el alcance de lo validado en [validacion.md](validacion.md).
 
+La [revisión del 16/11/2026](revision_20261116.md) compara los cambios de Iván e incluye recetas específicas para el bag del Parcial y Café Fortress.
+
 ## 1. Prueba reproducible sin ROS
 
-Desde la raíz del proyecto:
+Desde `~/TP_final/slam`:
 
 ```bash
-python3 -m pip install numpy PyYAML
+python3 -m pip install -r requirements.txt
 python3 -m slam.toy.cli toy --output artifacts/toy --seed 7 --check
 python3 -m unittest discover -s tests -v
 ```
 
-En una instalación Ubuntu con paquetes del sistema se pueden obtener las dependencias con `sudo apt install python3-numpy python3-yaml`. El ejemplo usa un entorno de oficina de 9 × 7 m, con una partición interior, una puerta y una trayectoria cerrada que recorre ambos lados. Simula ruido de rango, odometría imperfecta y una referencia geométrica independiente de las partículas. Los scans son instantáneos: el paso de traslación de 0,28 m y el período sintético de 0,25 s definen el muestreo del benchmark; no constituyen un ensayo físico de barrido a 1,12 m/s.
+En una instalación Ubuntu con paquetes del sistema se pueden obtener las dependencias con `sudo apt install python3-numpy python3-scipy python3-yaml`. El ejemplo usa un entorno de oficina de 9 × 7 m, con una partición interior, una puerta y una trayectoria cerrada que recorre ambos lados. Simula ruido de rango, odometría imperfecta y una referencia geométrica independiente de las partículas. Los scans son instantáneos: el paso de traslación de 0,28 m y el período sintético de 0,25 s definen el muestreo del benchmark; no constituyen un ensayo físico de barrido a 1,12 m/s.
 
 La salida en `artifacts/toy` contiene:
 
@@ -47,10 +49,10 @@ El contenedor `yahboom_rosmaster` que se abre con `~/PRA_00/container.sh enter` 
 
 ```bash
 cd ~/TP_final
-./scripts/sync_container.sh
+./slam/scripts/sync_container.sh
 ```
 
-El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/slam` y construye únicamente `slam` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
+El script copia los archivos del paquete a `/home/alumno/rosmaster_ws/src/slam` y construye `slam` y `nav` con colcon. Conserva los otros paquetes y el contenedor existente. El 10 de noviembre de 2026 se verificó la construcción en este contenedor habitual: colcon terminó correctamente, ROS encontró el paquete en `/home/alumno/rosmaster_ws/install/slam` y enumeró sus cuatro ejecutables. La apertura de nodos, RViz y Gazebo desde esta sesión interactiva queda a cargo del usuario; esta comprobación no los lanzó.
 
 Después entrar como siempre:
 
@@ -83,18 +85,18 @@ ros2 launch slam slam.launch.py mode:=simulation rviz:=true output_path:=/home/a
 
 No ejecutar ambos launchers simultáneamente: comparten tópicos, reloj y TF. En simulación se conduce el robot con el teleop del RosMaster para explorar el mundo, como se detalla en la sección 4.
 
-La copia del paquete no es un montaje de los fuentes. Tras editar código, YAML o launchfiles en `~/TP_final`, detener el launcher y volver a ejecutar `./scripts/sync_container.sh` en el host. Cargar otra vez `~/rosmaster_ws/install/setup.bash` antes de relanzar. Si sólo se quiere actualizar la copia sin construir todavía:
+La copia del paquete no es un montaje de los fuentes. Tras editar código, YAML o launchfiles en `~/TP_final`, detener el launcher y volver a ejecutar `./slam/scripts/sync_container.sh` en el host. Cargar otra vez `~/rosmaster_ws/install/setup.bash` antes de relanzar. Si sólo se quiere actualizar la copia sin construir todavía:
 
 ```bash
 cd ~/TP_final
-./scripts/sync_container.sh --sync-only
+./slam/scripts/sync_container.sh --sync-only
 ```
 
 En ese caso, antes de ejecutar ROS completar la construcción dentro del contenedor:
 
 ```bash
 cd ~/rosmaster_ws
-colcon build --symlink-install --packages-select slam
+colcon build --symlink-install --packages-select slam nav
 source install/setup.bash
 ```
 
@@ -107,15 +109,16 @@ source /opt/ros/humble/setup.bash
 sudo apt install python3-colcon-common-extensions python3-rosdep python3-numpy python3-yaml ros-humble-rviz2 ros-humble-rosbag2
 ```
 
-El repositorio es un paquete `ament_python`. Puede colocarse o enlazarse en `src` de un workspace. Por ejemplo, estando en su raíz:
+El repositorio contiene dos paquetes `ament_python`, `slam/` y `nav/`. Pueden enlazarse en `src` de un workspace. Por ejemplo, estando en su raíz:
 
 ```bash
 TP_SLAM_SOURCE="$(pwd)"
 mkdir -p ~/slam_ws/src
 ln -s "$TP_SLAM_SOURCE" ~/slam_ws/src/slam
+ln -s "$TP_SLAM_SOURCE/../nav" ~/slam_ws/src/nav
 cd ~/slam_ws
 rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install --packages-select slam
+colcon build --symlink-install --packages-select slam nav
 source install/setup.bash
 ```
 
@@ -207,9 +210,9 @@ Las referencias se alinean **una sola vez**, en el primer scan integrado: `T_map
 
 Iniciar la fuente de ground truth antes del mapeo y mantener el robot quieto al arrancar. Si faltan muestras que encierren `t0`, la línea verde queda vacía y se avisa; no se extrapola ni se inventa ground truth. En bag/real queda vacía por defecto. Las tres trayectorias se borran con `/slam/reset`; las referencias guardan como máximo `max_path_poses` (5000) y el buffer de ground truth usa `odom_history_seconds` (30 s). Pausar mapeo también pausa el muestreo de referencias.
 
-Para instalar cambios ejecutar `./scripts/sync_container.sh` en el host. Luego cargar `source ~/rosmaster_ws/install/setup.bash` dentro del contenedor y reiniciar el launcher con la misma receta (toy o café/simulation) que se estaba usando. Guardar antes con `/slam/save_map` si se desea conservar el mapa actual. Para abrir sólo la nueva configuración sin reiniciar el mapeador: **File → Open Config** y elegir `~/rosmaster_ws/install/slam/share/slam/rviz/slam.rviz`; las nuevas referencias requieren reiniciar también el nodo SLAM.
+Para instalar cambios ejecutar `./slam/scripts/sync_container.sh` en el host. Luego cargar `source ~/rosmaster_ws/install/setup.bash` dentro del contenedor y reiniciar el launcher con la misma receta (toy o café/simulation) que se estaba usando. Guardar antes con `/slam/save_map` si se desea conservar el mapa actual. Para abrir sólo la nueva configuración sin reiniciar el mapeador: **File → Open Config** y elegir `~/rosmaster_ws/install/slam/share/slam/rviz/slam.rviz`; las nuevas referencias requieren reiniciar también el nodo SLAM.
 
-Mover la cámara no conduce al robot. La conducción sigue siendo por teleop externo; seleccionar objetivos de navegación en RViz corresponde a la Parte B, todavía no implementada.
+Mover la cámara no conduce al robot. En A se usa teleop externo. La navegación por objetivos está implementada parcialmente en el paquete `nav`; ver [guia_etapa_b.md](guia_etapa_b.md).
 
 Validación del 10/11/2026: 31 pruebas del núcleo aprobadas en host y Humble; el toy verificó las 118 poses de ambas referencias contra su fuente analítica y el borrado al resetear. RViz cargó los nuevos plugins en una pantalla Xvfb y dominio ROS separado, sin errores; no se reinició la sesión gráfica activa. Toy y bag sintético con odometría por tópico y por TF integraron 118 scans cada uno, borraron las referencias al resetear y exportaron PGM idénticos. Evidencia ROS de esta ampliación en `artifacts/ros_reference_paths/`. Una consulta de 8 s al `/ground_truth/odom` del contenedor habitual no recibió muestras en ese momento; la comparación completa sobre un recorrido de Gazebo sigue pendiente.
 
@@ -251,7 +254,7 @@ Detener con Ctrl+C cualquier launcher toy o simulación anterior. Para disponer 
 
 ```bash
 cd ~/TP_final
-./scripts/sync_container.sh
+./slam/scripts/sync_container.sh
 ~/PRA_00/container.sh enter
 ```
 
