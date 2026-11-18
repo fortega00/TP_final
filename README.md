@@ -4,8 +4,8 @@ Trabajo final de Principios de la Robótica Autónoma (I-402), con un Yahboom Ro
 
 | Etapa | Qué pide | Carpeta | Estado |
 |---|---|---|---|
-| A | Construir el mapa y estimar la pose (SLAM) | `slam/` | Implementada, falta la sesión con el robot real |
-| B | Localizarse en el mapa, planificar y navegar | `nav/` | Localización y navegación a un objetivo probadas en el simulador. Falta la evasión de obstáculos y la sesión con el robot real |
+| A | Construir el mapa y estimar la pose (SLAM) | `slam/` | Implementada. Mapa del aula hecho con el robot real el 16/11, sin medidas con cinta |
+| B | Localizarse en el mapa, planificar y navegar | `nav/` | Localización y navegación a un objetivo probadas en el simulador. Falta la evasión de obstáculos y correrla en el robot real |
 | C | Explorar y buscar conos rojos con la cámara | `mission/` | Sin empezar |
 
 ## Organización
@@ -60,7 +60,7 @@ ros2 launch slam slam.launch.py mode:=toy
 - [Parámetros](docs/parametros.md): qué hace cada uno y cómo ajustarlos.
 - [Arquitectura](docs/architecture.md): módulos, máquina de estados y puntos de extensión.
 - [Decisiones](docs/decisiones/): alternativas y datos de cada decisión de diseño.
-- [Plan para el robot real](docs/robot_real_checklist.md): pasos en orden para la sesión con el RosMaster físico, con el motivo de cada uno.
+- [Guía de laboratorio](docs/robot_real_checklist.md): qué hacer en cada una de las dos visitas que quedan, en orden y con el motivo de cada paso.
 - [macOS](docs/macos.md): cómo correr el núcleo y el nodo ROS en Mac.
 - [Informe de la etapa A](docs/entrega_a.md) y [experimentos](docs/experimentos_a.md).
 - [Validación](docs/validacion.md): qué está probado y qué no.

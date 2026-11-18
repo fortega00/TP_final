@@ -25,6 +25,7 @@ localization:
   min_rotation: 0.06
   converged_std_xy: 0.10
   converged_std_yaw: 0.10
+  lost_residual: 0.10
   burst_max_iterations: 30
   burst_stable_xy: 0.01
   burst_stable_yaw: 0.01

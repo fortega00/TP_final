@@ -50,7 +50,7 @@ Comentarios y docstrings en español; identificadores, mensajes de error y commi
 | `../docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
 | `../docs/guia_ejecucion.md`, `../docs/parametros.md`, `../docs/architecture.md`, `../docs/entrega_a.md` | Ejecución, parámetros, arquitectura e informe con diez respuestas. |
 
-Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `012`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3_corregido`, sin medidas con cinta). Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
+Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `012`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3_corregido`, sin medidas con cinta). El nodo de localización informa `LOST` si el residuo del scan supera `localization.lost_residual` (10 cm, decisión 004). Quedan dos visitas al laboratorio como máximo, repartidas en `docs/robot_real_checklist.md`. Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
 
 | Ruta | Responsabilidad |
 | --- | --- |

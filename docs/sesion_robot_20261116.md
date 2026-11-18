@@ -169,14 +169,7 @@ Lo que corrige a esta bitácora:
 - **El 62 % de `bag_mapa2` y el 80 % de `bag_mapa` es el robot quieto.**
 - `bag_mapa` tiene un hueco de 22 s sin scans en t = 430 s, con el robot quieto. `bag_mapa2` perdió unos 5 scans.
 
-Para la próxima sesión:
-
-- Manejar a 0,15 m/s de verdad y girar despacio. Mirar la velocidad que imprime el teleop.
-- Arrancar a 0,5 m o más de cualquier pared, sobre una cruz marcada, mirando hacia la sala.
-- Hacer las medidas con cinta de los pasos 3, 4 y 6.
-- Dejar el robot quieto unos minutos con el SLAM en vivo para confirmar la corrección de [012](decisiones/012-integracion-con-el-robot-quieto.md).
-- Arrancar la navegación a 0,5 m o más de cualquier pared y sin nada a menos de 40 cm por delante.
-- En el paso 9, sumar un click con 90° de error y mirar los puntos rojos del lidar contra las paredes.
+Lo que cambia para la próxima visita (velocidad, lugar de partida, medidas con cinta, prueba de robot quieto) está en la [guía de laboratorio](robot_real_checklist.md).
 
 ## Pruebas offline del 17/11
 
@@ -192,7 +185,7 @@ Hechas con los bags y el mapa `intento3_corregido`, sin el robot. Los scripts es
 | Hasta 1,5 m de error, o hasta 45°, o 1 m en cada eje más 45° | 60 | Igual que el click correcto. La ráfaga inicial lo resuelve con el robot quieto |
 | 90° de error | 6 | 3 no se recuperan y terminan a 8 m. Las otras 3 se recuperan cuando el robot empieza a moverse |
 
-En las corridas perdidas el filtro no avisa: la ráfaga dice que convergió y la nube queda cerrada (3 cm). Lo que las delata es el residuo del scan contra el mapa: 20 a 34 cm perdido contra 1 cm ubicado. Es la medición que faltaba en [004](decisiones/004-localizacion-en-mapa-conocido.md). Usar el residuo para pasar a `LOST` es una decisión abierta.
+En las corridas perdidas el filtro no avisa: la ráfaga dice que convergió y la nube queda cerrada (3 cm). Lo que las delata es el residuo del scan contra el mapa: 20 a 34 cm perdido contra 1 cm ubicado. Es la medición que faltaba en [004](decisiones/004-localizacion-en-mapa-conocido.md). Desde el 17/11 el nodo informa `LOST` cuando el residuo supera 10 cm.
 
 **Planificador.** Sobre la zona transitable de 70,6 m²: 200 pares de puntos al azar, todos con camino, largo mediano 1,24 veces la línea recta, distancia mínima a un obstáculo 0,22 m. Mediana de 43 ms por plan, con la máquina ocupada. 50 objetivos en celdas libres pegadas a una pared: los 50 rechazados.
 
@@ -202,21 +195,4 @@ En las corridas perdidas el filtro no avisa: la ráfaga dice que convergió y la
 
 ## Pendiente
 
-- Paso 3: medir con cinta la altura del lidar, el ancho del robot y la base de una silla.
-- Paso 4: marcar las cruces y medir su distancia a dos paredes.
-- Paso 6: medir dos o tres paredes o puertas y compararlas con `intento3_corregido`.
-- Pasos 7 y 8: recorridos sobre las cruces, con y sin sillas movidas.
-- Paso 9: localización en vivo. Cerrar el SLAM antes.
-- Paso 10: ir a un objetivo.
-
-Comandos de los pasos 9 y 10 con los nombres de este robot:
-
-```bash
-cd $TP/nav
-ros2 launch nav nav.launch.py map_file:=$TP/sesiones/20261116/mapa/intento3_corregido/map.yaml \
-  config_file:=$PWD/config/real.yaml base_frame:=base_footprint odom_topic:=/odom navigate:=false
-```
-
-Sin `navigate:=false` para el paso 10. Ninguno de los dos se probó todavía en el robot.
-
-- Analizar offline `bag_mapa` y `bag_mapa2` con los comandos de [Analizar un bag](guia_etapa_b.md#analizar-un-bag).
+Todo lo que quedó sin hacer está repartido en las dos visitas de la [guía de laboratorio](robot_real_checklist.md): medidas con cinta, mapa manejando lento, localización en vivo, ir a un objetivo y los recorridos sobre las cruces. Nada de la etapa B corrió todavía en el robot.
