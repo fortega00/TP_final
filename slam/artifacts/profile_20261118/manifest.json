@@ -1,0 +1,76 @@
+{
+  "base_commit": "b9d82a14f8a2801e7f648037daa3f7741b6389af",
+  "code_commit": "cb806b6",
+  "branch": "perf/slam-profile-20261118",
+  "worktree": "/tmp/tp-final-slam-profile-20261118",
+  "image_id": "sha256:b5ffcc839fcf6772822f1f1d14a11033ad87632f8f3724dcf8836662645890d8",
+  "environment": {
+    "python": "3.10.12",
+    "numpy": "1.21.5",
+    "scipy": "1.8.0",
+    "yaml": "5.4.1",
+    "numba": "0.57.1",
+    "llvmlite": "0.40.1"
+  },
+  "source_read_only": true,
+  "original_container_modified": false,
+  "original_worktree_modified": false,
+  "datasets": {
+    "results/cafe_inputs.npz": {
+      "sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767",
+      "bytes": 10282253
+    },
+    "results/physical_mapa2.npz": {
+      "sha256": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+      "bytes": 3078981
+    },
+    "results/cafe_input2/cafe_input2_0.db3": {
+      "sha256": "3879d1c26026d885e460ac24b98075148e36f303065a7e0023765e6840fa6668",
+      "bytes": 89329664
+    },
+    "results/cafe_input2/metadata.yaml": {
+      "sha256": "2670de45643006b117bf1838ba39bd77fa797aceae1e402347ab903b8f851c03",
+      "bytes": 3372
+    }
+  },
+  "unit_tests": {
+    "slam_numba": 46,
+    "nav_numba": 28,
+    "slam_numpy": 45,
+    "slam_numpy_skips": 2,
+    "nav_numpy": 28
+  },
+  "merge_condition": "Not yet demonstrated: CPU and transport improve; geometric metrics are mixed and intrinsic estimates are identical",
+  "no_merge_performed": true,
+  "limitations": [
+    "No retrospective per-drop explanation of the 55 original drops without their bag/history",
+    "ROS quality comparisons at 4x computational replay rate; no paired ROS1x evaluation",
+    "SDF occupancy is approximate; the GPU sensor sees visual meshes",
+    "First exploratory baseline briefly overlapped another agent toy smoke test; use clean repeat",
+    "Physical bag has no ground truth; core results preserved bitwise",
+    "No changed hyperparameters and no new live physical-robot run"
+  ],
+  "runtime_cleanup": "Agent-owned container stopped after results were copied; no estimator or simulator remains active",
+  "final_quality_comparison": {
+    "common_gt_position_rmse_m": [
+      0.15636733289621443,
+      0.15309700460741954
+    ],
+    "common_gt_yaw_rmse_deg": [
+      1.2770841243231832,
+      0.861844587451952
+    ],
+    "sdf_precision": [
+      0.9322162985529322,
+      0.9305173706573356
+    ],
+    "sdf_recall": [
+      0.8915187376725838,
+      0.8903916596224288
+    ],
+    "dropped_scans": [
+      512,
+      31
+    ]
+  }
+}

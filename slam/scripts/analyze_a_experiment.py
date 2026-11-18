@@ -177,7 +177,19 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('--cafe-package', type=Path)
     parser.add_argument('--reference-map', type=Path, help='Prior map for qualitative comparison, never ground truth')
+    parser.add_argument('--compare', nargs='+', type=Path)
+    parser.add_argument('--input-npz', type=Path)
+    parser.add_argument('--inflation-radius', type=float, default=.27)
+    parser.add_argument('--report-dir', type=Path)
     args = parser.parse_args()
+    if args.inflation_radius < 0:
+        parser.error('inflation-radius must be nonnegative')
+    if args.compare:
+        if args.input_npz is None or args.report_dir is None or args.cafe_package is None:
+            parser.error('Cafe comparison requires input-npz, report-dir and cafe-package')
+        from experiment_metrics import compare_cycle
+        compare_cycle(args)
+        return
     output = args.output
     samples = json.loads((output / 'samples.json').read_text())
     metadata = yaml.safe_load((output / 'map.yaml').read_text())
@@ -192,7 +204,7 @@ def main():
                       'occupied_cells': int(occupied.sum()), 'free_cells': int(free.sum()),
                       'unknown_cells': int((~known).sum()), 'known_area_m2': float(known.sum()*resolution**2)},
               'wall_seconds': samples.get('wall_seconds'),
-              'in_sample_consistency': endpoint_consistency(output, samples, occupied, metadata)}
+              'in_sample_consistency': endpoint_consistency(output, samples, occupied, metadata) if args.input_npz is None else None}
     export_info = output / 'map.json'
     if export_info.exists():
         export = json.loads(export_info.read_text())
@@ -201,22 +213,36 @@ def main():
             'scan_stamp': export['scan_stamp'], 'captured_path_stamp': captured_stamp,
             'gap_s': export['scan_stamp']-captured_stamp,
             'diagnostics': export['diagnostics']}
-    navigable = free & ~dilate(occupied, math.ceil(.27/resolution))
+    from experiment_metrics import navigable_cells, aligned_truth
+    if args.input_npz is not None:
+        from experiment_metrics import endpoint_consistency as measured_endpoints
+        result['in_sample_consistency'] = measured_endpoints(samples, occupied, metadata, args.input_npz)
+        result['evaluation_schema_version'] = 2
+    navigable = navigable_cells(free, resolution, args.inflation_radius)
     origin = np.asarray(metadata['origin'][:2])
     start_xy = np.floor((np.array([0., 0.])-origin)/resolution).astype(int)
     component = connected(navigable, (start_xy[1], start_xy[0]))
     check_path = np.asarray(samples['paths'].get('truth') or samples['paths'].get('slam', []))
+    if args.input_npz is not None:
+        with np.load(args.input_npz) as archive:
+            data = {key: archive[key] for key in archive.files}
+        if 'truth' in data:
+            stamps = data['metadata'][::20, 0]
+            path = np.asarray(samples['paths']['slam'])
+            stamps = stamps[(stamps >= path[0, 0]) & (stamps <= path[-1, 0])]
+            check_path = np.column_stack((stamps, aligned_truth(samples, data, stamps)))
     if len(check_path):
-        points = check_path[::20, 1:3]
+        points = check_path[:, 1:3] if args.input_npz is not None and 'truth' in data else check_path[::20, 1:3]
         cells = np.floor((points-origin)/resolution).astype(int)
         inside = ((cells[:, 0] >= 0) & (cells[:, 0] < image.shape[1]) &
                   (cells[:, 1] >= 0) & (cells[:, 1] < image.shape[0]))
         success = np.zeros(len(cells), bool)
         success[inside] = component[cells[inside, 1], cells[inside, 0]]
         result['navigation_check'] = {
-            'robot_radius_plus_margin_m': .27, 'sampled_visited_poses': len(cells),
+            'robot_radius_plus_margin_m': args.inflation_radius, 'sampled_visited_poses': len(cells),
             'connected_visited_fraction': float(success.mean()),
-            'unknown_is_blocked': True,
+            'unknown_is_blocked': True, 'unknown_and_exterior_inflated': True,
+            'checkpoints': 'Fixed input GT every 20 scans' if args.input_npz is not None and 'truth' in data else 'Per-run path subsampling',
             'scope': 'Connectivity of sampled visited poses; not safety for arbitrary goals.'}
     updates = [r['update_seconds'] for r in samples.get('status_history', []) if r.get('processed_scans', 0)]
     result['sampled_update_wall_seconds'] = stats(updates)
@@ -237,7 +263,7 @@ def main():
     if args.cafe_package:
         config = samples['configuration']['map']
         reference, floor, boxes = cafe_reference(args.cafe_package, config, *image.shape)
-        safe = floor & ~dilate(reference, math.ceil(.27/resolution))
+        safe = navigable_cells(floor & ~reference, resolution, args.inflation_radius)
         start = (int((0-config['origin_y'])/resolution), int((0-config['origin_x'])/resolution))
         reachable = connected(safe, start)
         tolerance = math.ceil(.15/resolution)
@@ -245,7 +271,7 @@ def main():
         result['approximate_sdf_reference'] = {
             'method': 'Collision boxes at world z=0.19m; visual mesh LiDAR may disagree.',
             'assumption': 'Map origin coincides with Gazebo spawn (0,0,0); initial robot stationary.',
-            'tolerance_m': .15, 'robot_radius_plus_margin_m': .27,
+            'tolerance_m': .15, 'robot_radius_plus_margin_m': args.inflation_radius,
             'reachable_free_area_m2': float(reachable.sum()*resolution**2),
             'reachable_free_coverage': float((free & reachable).sum()/max(1, reachable.sum())),
             'reachable_observed_coverage': float((known & reachable).sum()/max(1, reachable.sum())),

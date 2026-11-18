@@ -1,0 +1,9 @@
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1795014080.527699639] [rosbag2_storage]: Opened database '/tmp/profile_results/cafe_input2/cafe_input2_0.db3' for READ_ONLY.
+[INFO] [1795014080.527762385] [rosbag2_player]: Set rate to 4
+[INFO] [1795014080.531282864] [rosbag2_player]: Overriding QoS profile for topic /tf_static
+[INFO] [1795014080.534532368] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1795014080.534558740] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1795014080.534565276] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1795014080.534571056] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1795014080.534576076] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1795014080.534879583] [rosbag2_storage]: Opened database '/tmp/profile_results/cafe_input2/cafe_input2_0.db3' for READ_ONLY.

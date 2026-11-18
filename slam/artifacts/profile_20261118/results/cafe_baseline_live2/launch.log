@@ -1,0 +1,236 @@
+[INFO] [launch]: All log files can be found below /home/alumno/.ros/log/2026-11-18-14-34-51-882729-078f10fe11df-323
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [rosmaster_gazebo_motion_profile]: Using 'ideal' wheel-contact profile from /home/alumno/rosmaster_ws/install/yahboom_rosmaster_gazebo/share/yahboom_rosmaster_gazebo/config/motion_profiles.yaml
+[INFO] [slam_node-1]: process started with pid [360]
+[INFO] [ruby-2]: process started with pid [362]
+[ruby-2] [1;32m[Msg] [0m[1;32mIgnition Gazebo Server v[0m[1;32m6.18.0[0m[1;32m[0m
+[ruby-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ruby-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ruby-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ruby-2] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[ruby-2] [1;32m[Msg] [0m[1;32mLoading SDF world file[[0m[1;32m/custom_map/worlds/cafe.world[0m[1;32m].[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing entity system service on [[0m[1;32m/[0m[1;32mentity/system/add[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [Physics.cc:804] [0m[1;36mLoaded [[0m[1;36mignition::physics::dartsim::Plugin[0m[1;36m] from library [[0m[1;36m/usr/lib/x86_64-linux-gnu/ign-physics-5/engine-plugins/libignition-physics-dartsim-plugin.so[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Physics[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mCreate service on [[0m[1;32m/world/default/create[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mRemove service on [[0m[1;32m/world/default/remove[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPose service on [[0m[1;32m/world/default/set_pose[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPose service on [[0m[1;32m/world/default/set_pose_vector[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mLight configuration service on [[0m[1;32m/world/default/light_config[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPhysics service on [[0m[1;32m/world/default/set_physics[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mSphericalCoordinates service on [[0m[1;32m/world/default/set_spherical_coordinates[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mEnable collision service on [[0m[1;32m/world/default/enable_collision[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mDisable collision service on [[0m[1;32m/world/default/disable_collision[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mMaterial service on [[0m[1;32m/world/default/visual_config[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mMaterial service on [[0m[1;32m/world/default/wheel_slip[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::UserCommands[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::SceneBroadcaster[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Contact[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:506] [0m[1;36mConfiguring Sensors system[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:431] [0m[1;36mSensorsPrivate::Run[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Sensors[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:411] [0m[1;36mSensorsPrivate::RenderThread started[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:258] [0m[1;36mWaiting for init[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Imu[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mLoaded level [[0m[1;32m3[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing world controls on [[0m[1;32m/world/default[0m[1;32m/control], [[0m[1;32m/world/default[0m[1;32m/control/state] and [[0m[1;32m/world/default[0m[1;32m/playback/control][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing GUI information on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mgui/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mWorld [[0m[1;32mdefault[0m[1;32m] initialized with [[0m[1;32m1ms[0m[1;32m] physics profile.[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing world SDF generation service on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mgenerate_world_sdf[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing world names on [[0m[1;32m/gazebo/worlds[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mResource path add service on [[0m[1;32m/gazebo/resource_paths/add[0m[1;32m].[0m[1;32m[0m
+[slam_node-1] [INFO] [1795012492.498760882] [slam]: FastSLAM 8 particles; topic odometry; scan=/scan
+[INFO] [robot_state_publisher-3]: process started with pid [389]
+[robot_state_publisher-3] [INFO] [1795012494.497757406] [robot_state_publisher]: got segment back_left_wheel_link
+[robot_state_publisher-3] [INFO] [1795012494.497845547] [robot_state_publisher]: got segment back_right_wheel_link
+[robot_state_publisher-3] [INFO] [1795012494.497851890] [robot_state_publisher]: got segment base_footprint
+[robot_state_publisher-3] [INFO] [1795012494.497856056] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-3] [INFO] [1795012494.497859616] [robot_state_publisher]: got segment cam_1_color_frame
+[robot_state_publisher-3] [INFO] [1795012494.497863256] [robot_state_publisher]: got segment cam_1_color_optical_frame
+[robot_state_publisher-3] [INFO] [1795012494.497866800] [robot_state_publisher]: got segment cam_1_depth_frame
+[robot_state_publisher-3] [INFO] [1795012494.497870254] [robot_state_publisher]: got segment cam_1_depth_optical_frame
+[robot_state_publisher-3] [INFO] [1795012494.497873562] [robot_state_publisher]: got segment cam_1_infra1_frame
+[robot_state_publisher-3] [INFO] [1795012494.497877061] [robot_state_publisher]: got segment cam_1_infra1_optical_frame
+[robot_state_publisher-3] [INFO] [1795012494.497880307] [robot_state_publisher]: got segment cam_1_infra2_frame
+[robot_state_publisher-3] [INFO] [1795012494.497883543] [robot_state_publisher]: got segment cam_1_infra2_optical_frame
+[robot_state_publisher-3] [INFO] [1795012494.497886921] [robot_state_publisher]: got segment cam_1_link
+[robot_state_publisher-3] [INFO] [1795012494.497890218] [robot_state_publisher]: got segment front_left_wheel_link
+[robot_state_publisher-3] [INFO] [1795012494.497893600] [robot_state_publisher]: got segment front_right_wheel_link
+[robot_state_publisher-3] [INFO] [1795012494.497896838] [robot_state_publisher]: got segment imu_link
+[robot_state_publisher-3] [INFO] [1795012494.497900138] [robot_state_publisher]: got segment laser_frame
+[INFO] [create-4]: process started with pid [407]
+[create-4] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[create-4] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[create-4] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[create-4] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[create-4] [INFO] [1795012495.418357514] [ros_gz_sim]: Requesting list of world names.
+[create-4] [INFO] [1795012495.621117789] [ros_gz_sim]: Requested creation of entity.
+[create-4] [INFO] [1795012495.621193122] [ros_gz_sim]: OK creation of entity.
+[ruby-2] [INFO] [1795012495.709835513] [GazeboSimROS2ControlPlugin]: robot_param_node is robot_state_publisher
+[ruby-2] [INFO] [1795012495.709861293] [GazeboSimROS2ControlPlugin]: robot_param_node is robot_description
+[ruby-2] [INFO] [1795012495.729186415] [gz_ros2_control]: connected to service!! robot_state_publisher asking for robot_description
+[ruby-2] [INFO] [1795012495.729654235] [gz_ros2_control]: Received URDF from param server
+[INFO] [create-4]: process has finished cleanly [pid 407]
+[ruby-2] [INFO] [1795012495.734168027] [gz_ros2_control]: The position_proportional_gain has been set to: 0.1
+[ruby-2] [INFO] [1795012495.734245048] [gz_ros2_control]: Loading joint: front_left_wheel_joint
+[ruby-2] [INFO] [1795012495.734257234] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1795012495.734265037] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1795012495.734271929] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1795012495.734278618] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1795012495.734294061] [gz_ros2_control]: Loading joint: front_right_wheel_joint
+[ruby-2] [INFO] [1795012495.734301238] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1795012495.734306752] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1795012495.734313259] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1795012495.734319339] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1795012495.734334958] [gz_ros2_control]: Loading joint: back_left_wheel_joint
+[ruby-2] [INFO] [1795012495.734342544] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1795012495.734348714] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1795012495.734355252] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1795012495.734360669] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1795012495.734377780] [gz_ros2_control]: Loading joint: back_right_wheel_joint
+[ruby-2] [INFO] [1795012495.734384891] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1795012495.734390504] [gz_ros2_control]: 		 position
+[ruby-2] [INFO] [1795012495.734396997] [gz_ros2_control]: 		 velocity
+[ruby-2] [INFO] [1795012495.734402923] [gz_ros2_control]: 	Command:
+[ruby-2] [INFO] [1795012495.734494002] [gz_ros2_control]: Loading sensor: imu_sensor
+[ruby-2] [INFO] [1795012495.734505879] [gz_ros2_control]: 	State:
+[ruby-2] [INFO] [1795012495.734518376] [gz_ros2_control]: 		 orientation.x
+[ruby-2] [INFO] [1795012495.734536738] [gz_ros2_control]: 		 orientation.y
+[ruby-2] [INFO] [1795012495.734544046] [gz_ros2_control]: 		 orientation.z
+[ruby-2] [INFO] [1795012495.734550734] [gz_ros2_control]: 		 orientation.w
+[ruby-2] [INFO] [1795012495.734557224] [gz_ros2_control]: 		 angular_velocity.x
+[ruby-2] [INFO] [1795012495.734563619] [gz_ros2_control]: 		 angular_velocity.y
+[ruby-2] [INFO] [1795012495.734569845] [gz_ros2_control]: 		 angular_velocity.z
+[ruby-2] [INFO] [1795012495.734575909] [gz_ros2_control]: 		 linear_acceleration.x
+[ruby-2] [INFO] [1795012495.734581985] [gz_ros2_control]: 		 linear_acceleration.y
+[ruby-2] [INFO] [1795012495.734593582] [gz_ros2_control]: 		 linear_acceleration.z
+[ruby-2] [INFO] [1795012495.734648260] [resource_manager]: Initialize hardware 'RobotSystem' 
+[ruby-2] [INFO] [1795012495.734713235] [resource_manager]: Successful initialization of hardware 'RobotSystem'
+[ruby-2] [INFO] [1795012495.734759955] [resource_manager]: 'configure' hardware 'RobotSystem' 
+[ruby-2] [INFO] [1795012495.734766253] [gz_ros2_control]: System Successfully configured!
+[ruby-2] [INFO] [1795012495.734781328] [resource_manager]: Successful 'configure' of hardware 'RobotSystem'
+[ruby-2] [INFO] [1795012495.734790189] [resource_manager]: 'activate' hardware 'RobotSystem' 
+[ruby-2] [INFO] [1795012495.734799165] [resource_manager]: Successful 'activate' of hardware 'RobotSystem'
+[ruby-2] [INFO] [1795012495.734806310] [gz_ros2_control]: Loading controller_manager
+[ruby-2] [1;32m[Msg] [0m[1;32mResource path get service on [[0m[1;32m/gazebo/resource_paths/get[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mResource path resolve service on [[0m[1;32m/gazebo/resource_paths/resolve[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mResource paths published on [[0m[1;32m/gazebo/resource_paths[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServer control service on [[0m[1;32m/server_control[0m[1;32m].[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mFound no publishers on /stats, adding root stats topic[0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mFound no publishers on /clock, adding root clock topic[0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:501] [0m[1;36mCreating PostUpdate worker threads: [0m[1;36m5[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m0[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m1[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m2[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m3[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing scene information on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mscene/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing graph information on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mscene/graph[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing full state on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mstate[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mServing full state (async) on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mstate_async[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing scene information on [[0m[1;32m/world/default/scene/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing entity deletions on [[0m[1;32m/world/default/scene/deletion[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing state changes on [[0m[1;32m/world/default/state[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing pose messages on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mpose/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mPublishing dynamic pose messages on [[0m[1;32m/world/default[0m[1;32m/[0m[1;32mdynamic_pose/info[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz_ros2_control::GazeboSimROS2ControlPlugin[0m[1;36m] for entity [[0m[1;36m89[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mMecanumDrive subscribing to twist messages on [[0m[1;32m/model/rosmaster_x3/cmd_vel[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mignition::gazebo::systems::MecanumDrive[0m[1;36m] for entity [[0m[1;36m89[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mOdometryPublisher publishing odometry on [[0m[1;32m/model/rosmaster_x3/ground_truth[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mOdometryPublisher publishing odometry with covariance on [[0m[1;32m/model/rosmaster_x3/ground_truth_with_covariance[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mOdometryPublisher publishing Pose_V (TF) on [[0m[1;32m/model/rosmaster_x3/ground_truth_pose[0m[1;32m][0m[1;32m[0m
+[ruby-2] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mignition::gazebo::systems::OdometryPublisher[0m[1;36m] for entity [[0m[1;36m89[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [UserCommands.cc:1303] [0m[1;36mCreated entity [[0m[1;36m89[0m[1;36m] named [[0m[1;36mrosmaster_x3[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:610] [0m[1;36mInitialization needed[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:270] [0m[1;36mInitializing render context[0m[1;36m[0m
+[ruby-2] [1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
+[ruby-2] [WARN] [1795012495.762481660] [gz_ros2_control]:  Desired controller update period (0.0333333 s) is slower than the gazebo simulation period (0.001 s).
+[ruby-2] [INFO] [1795012495.762934319] [gz_ros2_control]: IMU imu_sensor has a topic name: imu/data
+[INFO] [parameter_bridge-5]: process started with pid [496]
+[INFO] [image_bridge-6]: process started with pid [498]
+[INFO] [cmd_vel_watchdog.py-7]: process started with pid [500]
+[INFO] [calculated_odometry.py-8]: process started with pid [502]
+[INFO] [ground_truth_tf.py-9]: process started with pid [504]
+[parameter_bridge-5] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-5] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-5] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[parameter_bridge-5] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[image_bridge-6] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[image_bridge-6] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[image_bridge-6] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[image_bridge-6] Couldn't find a preferred IP via the getifaddrs() call; I'm assuming that your IP address is 127.0.0.1.  This should work for local processes, but will almost certainly not work if you have remote processes.Report to the disc-zmq development team to seek a fix.
+[cmd_vel_watchdog.py-7] [INFO] [1795012497.482489600] [cmd_vel_watchdog]: Relaying /cmd_vel to /cmd_vel_gz with 0.50s watchdog timeout
+[calculated_odometry.py-8] [INFO] [1795012497.575171816] [cmd_vel_odometry]: Publishing pure cmd_vel odometry on /calc_odom as odom -> calc_base with 0.5s watchdog
+[ground_truth_tf.py-9] [INFO] [1795012497.593932318] [ground_truth_tf]: Broadcasting odom -> ground_truth_base from /ground_truth/odom
+[parameter_bridge-5] [INFO] [1795012498.118762751] [ros_gz_bridge]: Creating ROS->GZ Bridge: [cmd_vel_gz (geometry_msgs/msg/Twist) -> /model/rosmaster_x3/cmd_vel (gz.msgs.Twist)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1795012498.121323975] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/cam_1/camera_info (gz.msgs.CameraInfo) -> cam_1/color/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1795012498.125224766] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/cam_1/camera_info (gz.msgs.CameraInfo) -> cam_1/depth/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1795012498.126654919] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/cam_1/points (gz.msgs.PointCloudPacked) -> cam_1/depth/color/points (sensor_msgs/msg/PointCloud2)] (Lazy 1)
+[parameter_bridge-5] [INFO] [1795012498.128537982] [ros_gz_bridge]: Creating GZ->ROS Bridge: [scan (gz.msgs.LaserScan) -> scan (sensor_msgs/msg/LaserScan)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1795012498.130124834] [ros_gz_bridge]: Creating GZ->ROS Bridge: [imu/data (gz.msgs.IMU) -> imu/data (sensor_msgs/msg/Imu)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1795012498.131030815] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1795012498.132062625] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/model/rosmaster_x3/ground_truth (gz.msgs.Odometry) -> ground_truth/odom (nav_msgs/msg/Odometry)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1795012498.134867290] [ros_gz_bridge]: Passing message from ROS geometry_msgs/msg/Twist to Gazebo gz.msgs.Twist (showing msg only once per type)
+[ruby-2] [1;36m[Dbg] [ImuSensor.cc:148] [0m[1;36mIMU data for [[0m[1;36mrosmaster_x3::base_footprint::imu_sensor[0m[1;36m] advertised on [[0m[1;36mimu/data[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36m[Dbg] [SimulationRunner.cc:528] Exiting postupdate worker thread ([0m[1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36m[Dbg] [SimulationRunner.cc:528] Exiting postupdate worker thread ([0m[1;36m1[0m[1;36m1[0m[1;36m0[0m[1;36mExiting postupdate worker thread ([0m[1;36m3[0m[1;36m)[0m[1;36m)[0m[1;36m0[0m[1;36m[0m
+[ruby-2] [1;36mExiting postupdate worker thread ()[0m[1;36m2[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:501] [0m[1;36mCreating PostUpdate worker threads: [0m[1;36m8[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m0[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m1[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m2[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m3[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m4[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m5[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m6[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RenderUtil.cc:2591] [0m[1;36mCreate scene [[0m[1;36mscene[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:610] [Dbg] [Sensors.cc:284] [0m[1;36m[Dbg] [Sensors.cc:610] [0m[1;36mInitialization needed[0m[1;36m[0m
+[ruby-2] [1;36mRendering Thread initialized[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RgbdCameraSensor.cc:219] [0m[1;36mRGB images for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1[0m[1;36m/image][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RgbdCameraSensor.cc:233] [0m[1;36mDepth images for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1[0m[1;36m/depth_image][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [RgbdCameraSensor.cc:247] [0m[1;36mPoints for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1[0m[1;36m/points][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [CameraSensor.cc:705] [0m[1;36mCamera info for [[0m[1;36mrosmaster_x3::base_footprint::cam_1[0m[1;36m] advertised on [[0m[1;36mcam_1/camera_info[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Lidar.cc:138] [0m[1;36mLaser scans for [[0m[1;36mrosmaster_x3::base_footprint::lidar_sensor[0m[1;36m] advertised on [[0m[1;36mscan[0m[1;36m][0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [GpuLidarSensor.cc:163] [0m[1;36mLidar points for [[0m[1;36mrosmaster_x3::base_footprint::lidar_sensor[0m[1;36m] advertised on [[0m[1;36mscan/points[0m[1;36m][0m[1;36m[0m
+[INFO] [ros2-10]: process started with pid [601]
+[INFO] [python3-11]: process started with pid [603]
+[python3-11] [INFO] [1795012504.556548419] [wheel_state_odometry]: Publishing wheel-state odometry from /joint_states to /odom
+[ruby-2] [INFO] [1795012505.704869252] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2-10] [INFO] [1795012505.747432583] [spawner_joint_state_broadcaster]: [94mLoaded [1mjoint_state_broadcaster[0m
+[ruby-2] [INFO] [1795012505.829123530] [controller_manager]: Configuring controller 'joint_state_broadcaster'
+[ruby-2] [INFO] [1795012505.829315554] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2-10] [INFO] [1795012505.918081992] [spawner_joint_state_broadcaster]: [92mConfigured and activated [1mjoint_state_broadcaster[0m
+[INFO] [ros2-10]: process has finished cleanly [pid 601]
+[slam_node-1] [WARN] [1795012509.423931711] [slam]: Discarding scan: No odometry samples bracketing scan timestamp
+[slam_node-1] [WARN] [1795012514.473839517] [slam]: Discarding scan: No odometry samples bracketing scan timestamp
+[slam_node-1] [WARN] [1795012528.572968748] [slam]: Discarding scan: No odometry samples bracketing scan timestamp
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [rosmaster_gazebo_shutdown]: Gazebo acknowledged the clean stop request
+[INFO] [rosmaster_gazebo_shutdown]: Gazebo completed its clean stop before signal fallback
+[INFO] [python3-11]: sending signal 'SIGINT' to process[python3-11]
+[INFO] [ruby-2]: process has finished cleanly [pid 362]
+[INFO] [ground_truth_tf.py-9]: sending signal 'SIGINT' to process[ground_truth_tf.py-9]
+[INFO] [calculated_odometry.py-8]: sending signal 'SIGINT' to process[calculated_odometry.py-8]
+[INFO] [cmd_vel_watchdog.py-7]: sending signal 'SIGINT' to process[cmd_vel_watchdog.py-7]
+[INFO] [image_bridge-6]: sending signal 'SIGINT' to process[image_bridge-6]
+[INFO] [parameter_bridge-5]: sending signal 'SIGINT' to process[parameter_bridge-5]
+[INFO] [robot_state_publisher-3]: sending signal 'SIGINT' to process[robot_state_publisher-3]
+[INFO] [slam_node-1]: sending signal 'SIGINT' to process[slam_node-1]
+[ruby-2] [1;36m[Dbg] [Sensors.cc:439] [0m[1;36mSensorsPrivate::Stop[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:425] [0m[1;36mSensorsPrivate::RenderThread stopped[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [gz.cc:410] [0m[1;36mShutting down ign-gazebo-server[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m[Dbg] [SimulationRunner.cc:528] 1[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m[Dbg] [SimulationRunner.cc:528] 1[0m[1;36m[Dbg] [SimulationRunner.cc:528] 1[0m[1;36m5[0m[1;36m)Exiting postupdate worker thread ([0m[1;36m)[0m[1;36m)Exiting postupdate worker thread (Exiting postupdate worker thread ([0m[1;36mExiting postupdate worker thread ([0m[1;36m6[0m[1;36m)[0m[1;36m)[0m[1;36mExiting postupdate worker thread (3[0m[1;36mExiting postupdate worker thread (3[0m[1;36m)[0m[1;36mExiting postupdate worker thread (3[0m[1;36m)[0m[1;36m)[0m[1;36m4[0m[1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[0m
+[ruby-2] [1;36m)[0m[1;36m[0m
+[ruby-2] [1;36m[0m
+[ruby-2] [1;36mExiting postupdate worker thread (3[0m[1;36m[0m
+[ruby-2] [1;36m[Dbg] [Sensors.cc:439] [0m[1;36mSensorsPrivate::Stop[0m[1;36m[0m
+[image_bridge-6] [INFO] [1795013232.794184296] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[parameter_bridge-5] [INFO] [1795013232.795584658] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[robot_state_publisher-3] [INFO] [1795013232.799039093] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [parameter_bridge-5]: process has finished cleanly [pid 496]
+[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 389]
+[INFO] [image_bridge-6]: process has finished cleanly [pid 498]
+[INFO] [python3-11]: process has finished cleanly [pid 603]
+[INFO] [ground_truth_tf.py-9]: process has finished cleanly [pid 504]
+[INFO] [cmd_vel_watchdog.py-7]: process has finished cleanly [pid 500]
+[INFO] [calculated_odometry.py-8]: process has finished cleanly [pid 502]
+[INFO] [slam_node-1]: process has finished cleanly [pid 360]

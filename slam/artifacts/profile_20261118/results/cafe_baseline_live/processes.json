@@ -1,0 +1,16 @@
+[
+  {
+    "name": "xvfb",
+    "pid": 226,
+    "command": [
+      "Xvfb",
+      ":121",
+      "-screen",
+      "0",
+      "1440x1080x24",
+      "-ac",
+      "-nolisten",
+      "tcp"
+    ]
+  }
+]

@@ -14,6 +14,7 @@ from .config import MapConfig, SensorConfig
 from .geometry import Pose2D
 from .types import Scan
 from .sensor import prepare_scan
+from .acceleration import integrate_scan
 
 
 class OccupancyGrid:
@@ -81,6 +82,18 @@ class OccupancyGrid:
         # que varios rayos sobre la misma celda no multipliquen la confianza.
         step = self.config.resolution / 2
         steps = np.arange(0.0, float(ranges.max()) + half + step, step)
+        if integrate_scan is not None:
+            offsets = np.unique(np.append(np.linspace(-half, half,
+                                 max(2, int(math.ceil(2 * half / step)) + 1)), 0.0))
+            self.clipped_rays += int(integrate_scan(
+                self.log_odds.ravel(), self.observed.ravel(), sensor_pose.x, sensor_pose.y,
+                ranges, hits, cosines, sines, steps, offsets, half,
+                self.config.origin_x, self.config.origin_y, self.config.resolution,
+                self.width, self.height,
+                math.log(config.p_free / (1 - config.p_free)) - self.prior_log_odds,
+                math.log(config.p_hit / (1 - config.p_hit)) - self.prior_log_odds,
+                config.log_odds_min, config.log_odds_max))
+            return
         positions = np.broadcast_to(steps, (len(ranges), len(steps)))
         # Libre hasta el impacto menos medio espesor. Un rayo sin impacto libera todo el tramo.
         free_mask = positions < (ranges - np.where(hits, half, 0))[:, None]

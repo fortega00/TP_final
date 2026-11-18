@@ -1,0 +1,11 @@
+{
+  "source": "Teleop terminal output supplied by the user after the manual run",
+  "units": ["m/s", "rad/s"],
+  "reported_speed_and_turn_sequence": [
+    [0.15, 0.30], [0.17, 0.33], [0.18, 0.36], [0.20, 0.40],
+    [0.22, 0.44], [0.24, 0.48], [0.27, 0.53], [0.29, 0.58],
+    [0.32, 0.64], [0.35, 0.71], [0.39, 0.78], [0.43, 0.86],
+    [0.47, 0.94], [0.52, 1.04]
+  ],
+  "warning": "Teleop setpoints; no timestamps, measured velocities or time spent at each limit"
+}

@@ -1,0 +1,98 @@
+{
+  "config": {
+    "map": {
+      "resolution": 0.05,
+      "width": 16.0,
+      "height": 32.0,
+      "origin_x": -8.0,
+      "origin_y": -16.0,
+      "prior": 0.5
+    },
+    "sensor": {
+      "p_hit": 0.7,
+      "p_free": 0.35,
+      "log_odds_min": -4.0,
+      "log_odds_max": 4.0,
+      "hit_thickness": 0.03,
+      "min_range": 0.25,
+      "max_range": 8.0,
+      "max_beams": 180,
+      "likelihood_beams": 60,
+      "sigma_hit": 0.1,
+      "z_hit": 0.95,
+      "z_rand": 0.05,
+      "likelihood_max_dist": 0.6,
+      "likelihood_temperature": 1.0,
+      "occupied_threshold": 0.65,
+      "no_return_is_free": true
+    },
+    "motion": {
+      "alpha1": 0.0001,
+      "alpha2": 1e-05,
+      "alpha3": 0.0001,
+      "alpha4": 0.0001
+    },
+    "filter": {
+      "particles": 8,
+      "seed": 7,
+      "resample_ess_ratio": 0.5,
+      "initial_x": 0.0,
+      "initial_y": 0.0,
+      "initial_yaw": 0.0,
+      "initial_std_xy": 0.0,
+      "initial_std_yaw": 0.0
+    },
+    "update": {
+      "min_translation": 0.08,
+      "min_rotation": 0.06,
+      "max_interval": 1.0
+    },
+    "scan_match": {
+      "enabled": true,
+      "window_xy": 0.1,
+      "step_xy": 0.025,
+      "window_yaw": 0.06,
+      "step_yaw": 0.01,
+      "sigma": 0.05,
+      "prior_xy": 0.05,
+      "prior_yaw": 0.03,
+      "sample_xy": 0.01,
+      "sample_yaw": 0.005,
+      "beams": 180,
+      "effective_beams": 20.0,
+      "min_occupied_cells": 200
+    }
+  },
+  "ros": {
+    "config_file": "/worktree/slam/config/cafe.yaml",
+    "scan_topic": "/scan",
+    "odom_topic": "/odom",
+    "odom_source": "topic",
+    "map_frame": "map",
+    "odom_frame": "odom",
+    "base_frame": "base_footprint",
+    "output_path": "/tmp/profile_results/cafe_ros_baseline4x/map",
+    "publish_odom_tf": false,
+    "publish_period": 1.0,
+    "tf_wait_timeout": 2.0,
+    "odom_history_seconds": 30.0,
+    "scan_queue_size": 30,
+    "max_path_poses": 20000,
+    "mode": "simulation",
+    "ground_truth_topic": "/ground_truth/odom"
+  },
+  "diagnostics": {
+    "state": "PAUSED",
+    "processed_scans": 1273,
+    "skipped_motion": 1302,
+    "rejected_stamp": 0,
+    "invalid_scans": 0,
+    "resamples": 241,
+    "ess": 4.100217662810157,
+    "update_seconds": 0.08861525500014977,
+    "clipped_rays": 21931,
+    "out_of_bounds_particles": 0
+  },
+  "scan_stamp": 623.8,
+  "dropped_scans": 548
+}

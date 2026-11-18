@@ -1,5 +1,21 @@
 # Parámetros del SLAM y cómo ajustarlos
 
+Perfil de trabajo Café adoptado por el usuario el 18/11/2026: caso D del
+[ciclo 01](ciclo_hitl_cafe_01.md), `filter.particles: 16`,
+`scan_match.prior_xy: 0.025`, `scan_match.sample_xy: 0.01` en `config/cafe.yaml`.
+La selección no cambia `default.yaml` ni los perfiles del robot/bag real.
+Todavía faltan múltiples semillas y validación ROS1×. Para reproducir los
+tiempos medidos usar el backend Numba con las versiones de la guía.
+
+Los perfiles experimentales `config/cafe_compare_*.yaml` y la matriz de
+[comparación manual](comparacion_cafe_manual.md) separan implementación,
+cantidad de partículas, `scan_match.prior_xy` y `scan_match.sample_xy`.
+Son controles experimentales conservados para comparación. `cafe.yaml` adopta
+el caso D; los perfiles de comparación mantienen los valores de cada corrida.
+En el [ciclo Café 01](ciclo_hitl_cafe_01.md) se evalúan con semilla 7. El radio
+de inflación de evaluación es 0,22 m (robot 0,17 + margen 0,05); no se modifica
+el mapa exportado ni se mezclan sus conectividades con las históricas de 0,27 m.
+
 ## 6. Hiperparámetros del filtro
 
 Crear una copia de `config/default.yaml` y pasar su ruta absoluta con `config_file:=/ruta/a/config.yaml`. Es un YAML del núcleo con grupos `map`, `sensor`, `motion`, `filter`, `update` y `scan_match` (opcional, ver `docs/decisiones/002-propuesta-con-scan-matching.md`), compartido por CLI y ROS. Los campos desconocidos se rechazan para evitar que un error de escritura deje un parámetro sin aplicar. Ejemplo de una configuración parcial válida:
@@ -123,3 +139,27 @@ Implementación propia en `slam/slam/core/scan_match.py`. Usa SciPy para la tran
 | `scan_match.min_occupied_cells` | `200` | Antes de ese umbral usa odometría. |
 
 `sensor.no_return_is_free` tiene default Python `false`; `cafe.yaml` lo activa. Los perfiles `parcial_bag.yaml` y `parcial_bag_tuned.yaml` conservan la propuesta odométrica; cambiar solamente `enabled` no reproduce su mayor cantidad de partículas ni su ruido. Ver [revisión y pruebas](revision_20261116.md).
+
+## Diagnóstico del adaptador y aceleración opcional
+
+En el worktree de profiling del 18/11, `/slam/status` y el JSON de exportación
+agregan `adapter`: mensajes recibidos, descartes por causa, extremos temporales
+de odometría, edad del scan en espera y median/P95/máximo de núcleo, publicación
+y callback completo sobre las últimas 512 integraciones. Los contadores de
+recepción pertenecen a callbacks: no detectan por sí mismos pérdida previa en
+DDS. El resumen de tiempos no incluye scans omitidos ni llamadas sin datos.
+
+Las causas de descarte distinguen mensaje inválido, timestamp no creciente,
+overflow de cola, scan anterior a toda la historia de odometría, timeout sin
+odometría, timeout esperando odometría futura, timeout TF y entrada inválida
+del núcleo. Un scan anterior a la muestra odométrica más antigua se descarta
+sin esperar: el buffer acepta muestras crecientes y nunca podrá interpolarlo.
+Los scans que todavía pueden recibir una muestra futura siguen esperando
+`tf_wait_timeout` y nunca se extrapolan. **No se aumentaron defaults de colas,
+timeouts ni hiperparámetros** para esconder descartes.
+
+Numba es un acelerador opcional de bucles propios, no un algoritmo externo.
+`SLAM_DISABLE_NUMBA=1` fuerza la ruta NumPy. Ver dependencias y caché en
+[guia_ejecucion.md](guia_ejecucion.md) y
+[el informe de profiling](perfilado_20261118.md). La API y los YAML del núcleo
+conservan sus campos y valores anteriores.

@@ -1,0 +1,17 @@
+{"input_scan": 0, "processed": 1, "wall_s": 0.01}
+{"input_scan": 200, "processed": 89, "wall_s": 5.74}
+{"input_scan": 400, "processed": 192, "wall_s": 12.47}
+{"input_scan": 600, "processed": 297, "wall_s": 19.13}
+{"input_scan": 800, "processed": 419, "wall_s": 25.76}
+{"input_scan": 1000, "processed": 520, "wall_s": 31.46}
+{"input_scan": 1200, "processed": 611, "wall_s": 37.31}
+{"input_scan": 1400, "processed": 698, "wall_s": 43.29}
+{"input_scan": 1600, "processed": 786, "wall_s": 49.7}
+{"input_scan": 1800, "processed": 874, "wall_s": 56.41}
+{"input_scan": 2000, "processed": 954, "wall_s": 61.97}
+{"input_scan": 2200, "processed": 1056, "wall_s": 68.96}
+{"input_scan": 2400, "processed": 1151, "wall_s": 75.84}
+{"input_scan": 2600, "processed": 1248, "wall_s": 82.84}
+{"input_scan": 2800, "processed": 1338, "wall_s": 89.49}
+{"input_scan": 3000, "processed": 1425, "wall_s": 96.28}
+{"input": "/worktree/slam/artifacts/profile_20261118/results/cafe_inputs.npz", "input_sha256": "5d8fa9eb3c14cd036a82d2087f20271218450195c5aeedf2d705288470ccb767", "initialize_and_jit_warmup_seconds": 0.09611129399991114, "proposal_backend": "numba", "input_scans": 3092, "wall_seconds": 98.83929474000024, "cpu_seconds": 98.826876555, "runtime": {"python": "3.10.12", "numpy": "1.21.5", "source": "/worktree/slam/slam/__init__.py"}, "cpu_fraction": 0.9998743598380289, "max_rss_kib": 201212, "integrated_update_seconds": {"count": 1458, "total": 98.64471257900504, "median": 0.06852206799999294, "p95": 0.07948990770014461, "max": 0.11014374600017618, "fraction_over_90ms": 0.003429355281207133, "fraction_over_137ms": 0.0}, "stages_seconds": {"_predict": {"count": 1458, "total": 84.6133831900047, "median": 0.05919149150008707, "p95": 0.06907823344963618, "max": 0.10182700600034877}, "_weigh": {"count": 1458, "total": 4.951685569993515, "median": 0.0033876395000334014, "p95": 0.003912017099833065, "max": 0.0060647010000138835}, "_update_maps": {"count": 1458, "total": 8.319698679982594, "median": 0.0060411404999740625, "p95": 0.007790257799911159, "max": 0.009987753000132216}, "_update_estimate": {"count": 1458, "total": 0.265027516002192, "median": 0.00017500250010016316, "p95": 0.0002264918997980203, "max": 0.000361599999905593}, "_resample_if_needed": {"count": 1458, "total": 0.38462189899701116, "median": 1.2445500260582776e-05, "p95": 0.0016189158001452594, "max": 0.005103734999920562}}, "diagnostics": {"state": "RUNNING", "processed_scans": 1458, "skipped_motion": 1634, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 212, "ess": 13.923355535312995, "update_seconds": 0.08218238000017664, "clipped_rays": 21939, "out_of_bounds_particles": 0}, "cprofile_enabled": false, "map_sha256": "4206bdf5f3b186cd4465a5be5accc9f1f94287ef4bef6fee0a4fa124dca4b911"}
