@@ -1,4 +1,10 @@
-# Café HITL 01 — revisión humana pendiente
+# Café HITL 01 — D elegido por el usuario
+
+**Selección del 18/11/2026:** el usuario indicó «Excelente, usemos D entonces».
+D se adopta como perfil de trabajo para Café con el código optimizado.
+La elección no autoriza nuevos experimentos ni certifica el robot real.
+Los comentarios de revisión pendiente que siguen describen el cierre previo
+a esta selección; las métricas medidas permanecen intactas.
 
 | Caso | N | RMSE cm | Endpoints ≤10 cm % | P95 extremo cm | Conectados % | Núcleo med/P95 ms | >137 ms % | RSS MiB |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|

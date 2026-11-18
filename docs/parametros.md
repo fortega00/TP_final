@@ -1,10 +1,17 @@
 # Parámetros del SLAM y cómo ajustarlos
 
+Perfil de trabajo Café adoptado por el usuario el 18/11/2026: caso D del
+[ciclo 01](ciclo_hitl_cafe_01.md), `filter.particles: 16`,
+`scan_match.prior_xy: 0.025`, `scan_match.sample_xy: 0.01` en `config/cafe.yaml`.
+La selección no cambia `default.yaml` ni los perfiles del robot/bag real.
+Todavía faltan múltiples semillas y validación ROS1×. Para reproducir los
+tiempos medidos usar el backend Numba con las versiones de la guía.
+
 Los perfiles experimentales `config/cafe_compare_*.yaml` y la matriz de
 [comparación manual](comparacion_cafe_manual.md) separan implementación,
 cantidad de partículas, `scan_match.prior_xy` y `scan_match.sample_xy`.
-Son propuestas para ejecutar por el usuario; no resultados validados ni nuevos
-defaults. `cafe.yaml` conserva sus valores originales.
+Son controles experimentales conservados para comparación. `cafe.yaml` adopta
+el caso D; los perfiles de comparación mantienen los valores de cada corrida.
 En el [ciclo Café 01](ciclo_hitl_cafe_01.md) se evalúan con semilla 7. El radio
 de inflación de evaluación es 0,22 m (robot 0,17 + margen 0,05); no se modifica
 el mapa exportado ni se mezclan sus conectividades con las históricas de 0,27 m.

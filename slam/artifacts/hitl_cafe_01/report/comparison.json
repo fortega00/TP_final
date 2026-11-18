@@ -443,9 +443,11 @@
         "jit_and_init_seconds": 0.09930374800023856,
         "peak_rss_mib": 197.88671875
       },
-      "human_observations": [],
-      "decision": "investigar",
-      "decision_reason": "Pending human visual evaluation",
+      "human_observations": [
+        "Excelente, usemos D entonces"
+      ],
+      "decision": "conservar",
+      "decision_reason": "User selected D as Cafe working profile; not physically calibrated",
       "ancestral_trajectory_evaluation": {
         "position_rmse_m": 0.06124460974194457,
         "position_p95_m": 0.13905839161452554,
@@ -578,5 +580,11 @@
     "SDF boxes approximate visual meshes; endpoints are in-sample",
     "Ancestral trajectory selected at end, interpolated on common timestamps"
   ],
-  "next_step": "STOP: human map review; no next cycle or merge authorized automatically"
+  "next_step": "D adopted for Cafe; further cycles and ROS validation need explicit approval",
+  "human_selection": {
+    "date": "2026-11-18",
+    "quote": "Excelente, usemos D entonces",
+    "case": "D",
+    "scope": "Cafe working profile; robustness and ROS1x pending"
+  }
 }

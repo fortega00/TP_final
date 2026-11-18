@@ -270,7 +270,7 @@ ros2 launch slam slam.launch.py mode:=simulation world:="$CAFE_SHARE/worlds/cafe
 
 Los modelos locales `custom_cafe` y `custom_cafe_table` se referencian con `model://`; por eso se agregan sus rutas de recursos preservando los valores existentes. Se verificó que el mundo y sus modelos están instalados en el contenedor, sin ejecutar todavía este mundo.
 
-`config/cafe.yaml` usa la propuesta con scan matching y 8 partículas (ver `docs/decisiones/002-propuesta-con-scan-matching.md`), amplía la grilla a **16 × 32 m**, con origen `(-8,-16)` y resolución de 5 cm, y fija `sensor.min_range=0.25` para descartar retornos del propio chasis medidos a 0,14–0,20 m en Gazebo. El café se extiende aproximadamente de y=-13,6 a y=12,4 m considerando piso y paredes: la grilla toy de y=-8 a y=8 lo truncaría. El SLAM crea un mapa nuevo; no carga el mapa grabado de `custom_map`.
+`config/cafe.yaml` usa el caso D con scan matching, 16 partículas y `prior_xy=0.025` (ver `docs/decisiones/002-propuesta-con-scan-matching.md`), amplía la grilla a **16 × 32 m**, con origen `(-8,-16)` y resolución de 5 cm, y fija `sensor.min_range=0.25` para descartar retornos del propio chasis medidos a 0,14–0,20 m en Gazebo. El café se extiende aproximadamente de y=-13,6 a y=12,4 m considerando piso y paredes: la grilla toy de y=-8 a y=8 lo truncaría. El SLAM crea un mapa nuevo; no carga el mapa grabado de `custom_map`.
 
 No ejecutar a la vez `ros2 launch custom_map cafe.launch.py`: ese launcher inicia su propio map server y una transformación fija `map → odom`, que entrarían en conflicto con las salidas de SLAM. Una vez abierto Gazebo, explorar con el teleop del RosMaster y guardar con `/slam/save_map` como en la sección 5. La salida `cafe.pgm/.yaml/.json` queda dentro de `~/rosmaster_ws/maps` en el contenedor.
 
@@ -338,7 +338,30 @@ El diagnóstico informa scans integrados, omitidos por movimiento, rechazados po
 
 ## 8. Problemas frecuentes
 
-### Aceleración numérica opcional
+### Perfil Café D y aceleración numérica opcional
+
+El usuario eligió D como perfil de trabajo de Café el 18/11/2026: `cafe.yaml`
+selecciona 16 partículas, `prior_xy=0.025`, `sample_xy=0.01` y conserva el resto
+del sensor/movimiento. No se traslada al robot real. La evidencia es una semilla
+y replay del núcleo; faltan robustez y ROS1×.
+
+La resincronización usa `./slam/scripts/sync_container.sh` en el host. El script
+no instala Numba. Para disponer del backend medido, dentro del contenedor
+Humble/Python3.10 con NumPy1.21.5 del sistema, sin reemplazar ese NumPy:
+
+```bash
+python3 -m pip install --no-deps --target "$HOME/rosmaster_ws/numba_site" \
+  numba==0.57.1 llvmlite==0.40.1
+export PYTHONPATH="$HOME/rosmaster_ws/numba_site${PYTHONPATH:+:$PYTHONPATH}"
+export NUMBA_CACHE_DIR="$HOME/rosmaster_ws/numba_cache"
+unset SLAM_DISABLE_NUMBA
+python3 -c 'from slam.core.acceleration import BACKEND; print(BACKEND)'
+```
+
+Después de cargar ROS/overlay, fijar esas variables en cada terminal que vaya a
+lanzar SLAM. La comprobación debe imprimir `numba`. El camino NumPy conserva la
+configuración D pero no el costo medido con JIT; no afirmar tiempo real por esa
+equivalencia. Estos comandos quedan para ejecución del usuario.
 
 El worktree de profiling agrega kernels propios compilables con Numba para
 consultas del scan matcher, distancias del likelihood y escritura de la grilla.

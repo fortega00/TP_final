@@ -1,5 +1,12 @@
 # Ciclo colaborativo Café 01 — 18/11/2026
 
+**Selección posterior del usuario:** «Excelente, usemos D entonces». Se adopta D
+como perfil de trabajo de Café: 16 partículas, `prior_xy=0.025`,
+`sample_xy=0.01`, con la implementación optimizada. Esto habilita incorporar la
+rama al árbol principal bajo la condición original de mejora de mapa y selección
+humana. No convierte una semilla en validación robusta ni autoriza otro ciclo,
+ROS1× o pruebas físicas. Los archivos A–E conservan su evidencia original.
+
 El usuario aprobó implementar y ejecutar el plan de cinco casos. Esta autorización
 incluye únicamente el replay del núcleo, sus chequeos analíticos y análisis de
 resultados. No incluye nuevas simulaciones, ROS1×, pruebas físicas ni ciclos
