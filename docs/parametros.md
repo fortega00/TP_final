@@ -183,3 +183,7 @@ en ambos scripts del host. `tp-env off` restaura las variables previas a la
 activación; ROS/overlay quedan cargados. Los procesos ya iniciados conservan su
 backend hasta relanzarlos. `tp-env status` informa el intérprete y backend sin
 inicializar nodos.
+
+## Parada de seguridad de la etapa B
+
+Estos parámetros pertenecen a `nav/config/*.yaml`, no al SLAM. `navigator.stop_distance` se mide desde el centro de la base: Café usa **0,40 m**, frente a **0,25 m** en el perfil real y el default Python. `navigator.stop_half_width=0.20` m en ambos. Café descarta rangos de hasta `sensor.min_range=0.25` m del láser; con montaje `(0.043, 0, pi)`, los retornos justo enfrente válidos empiezan después de 0,293 m del centro. Con parada a 0,25 m no podían activarla. El alcance mínimo real/default es 0,12 m. No bajar el mínimo Café sin separar el rechazo del chasis. La mayor parada mantiene la limitación de objetivos muy próximos a paredes; detalle y evidencia en [008](decisiones/008-obstaculos-no-mapeados.md#corrección-del-perfil-café-en-la-revisión-del-pr-4). No constituye calibración física ni una nueva validación en Gazebo.

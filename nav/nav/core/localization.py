@@ -63,7 +63,7 @@ class MonteCarloLocalization:
         self.poses = None
         self.diagnostics = {"processed_scans": 0, "skipped_motion": 0, "invalid_scans": 0,
                             "resamples": 0, "injected_particles": 0, "burst_iterations": 0,
-                            "ess": 0.0, "scan_score": 0.0, "scan_residual": 0.0,
+                            "ess": 0.0, "scan_score": 0.0, "unexplained_fraction": 0.0,
                             "update_seconds": 0.0}
 
     # ----- Inicialización -----
@@ -299,14 +299,31 @@ class MonteCarloLocalization:
         c = self.config.localization
         return self.std_xy < c.converged_std_xy and self.std_yaw < c.converged_std_yaw
 
-    def lost(self, scan: Scan) -> bool:
+    def lost(self, scan: Scan, after_click: bool = False) -> bool:
         """La pose estimada no explica el scan: el robot está en otro lado.
 
         Hace falta además de `converged`: la nube se puede cerrar en una pose
-        equivocada. Deja el residuo medido en `diagnostics["scan_residual"]`.
+        equivocada. Deja la fracción medida en `diagnostics["unexplained_fraction"]`.
+
+        Justo después del click (`after_click`) el umbral es más estricto. En
+        marcha tiene que tolerar una caja cerca, que deja hasta 21 % del scan sin
+        explicar. En el click el robot está quieto en un lugar elegido, sin
+        obstáculos nuevos pegados, y ahí conviene detectar el falso encaje.
         """
-        self.diagnostics["scan_residual"] = self.scan_residual(scan)
-        return self.diagnostics["scan_residual"] > self.config.localization.lost_residual
+        c = self.config.localization
+        self.diagnostics["unexplained_fraction"] = self.unexplained_fraction(scan)
+        return self.diagnostics["unexplained_fraction"] > (c.click_lost_fraction if after_click else c.lost_fraction)
+
+    def unexplained_fraction(self, scan: Scan) -> float:
+        """Fracción de los puntos del scan que cae lejos de toda pared del mapa.
+
+        Con la pose correcta casi todos los puntos caen sobre paredes, salvo los
+        de obstáculos que no están en el mapa. Con una pose equivocada, una parte
+        grande del scan queda sin explicar. Es una fracción y no la distancia
+        media para que un obstáculo cercano, que tapa pocos rayos pero queda muy
+        lejos de las paredes, no alcance para declarar perdido.
+        """
+        return float((self._wall_distances(scan) > self.config.localization.unexplained_distance).mean())
 
     def scan_residual(self, scan: Scan) -> float:
         """Distancia media de los extremos del scan a la pared más cercana del mapa.
@@ -316,9 +333,15 @@ class MonteCarloLocalization:
         Cada distancia se satura en `likelihood_max_dist` para que un obstáculo
         que no está en el mapa no domine el promedio.
         """
+        return float(np.minimum(self._wall_distances(scan), self.config.sensor.likelihood_max_dist).mean())
+
+    def _wall_distances(self, scan: Scan) -> np.ndarray:
+        """Distancia de cada extremo del scan a la pared más cercana, desde la pose estimada.
+
+        Un punto fuera del mapa cuenta como infinitamente lejos.
+        """
         self._require_initialized()
-        sensor = self.config.sensor
-        ranges, angles, hits = prepare_scan(scan, sensor)
+        ranges, angles, hits = prepare_scan(scan, self.config.sensor)
         if not hits.any():
             raise ValueError("The scan has no valid returns")
         sensor_pose = self._estimate.compose(scan.sensor_pose)
@@ -326,9 +349,9 @@ class MonteCarloLocalization:
         cols, rows = self.grid.world_to_grid(sensor_pose.x + ranges[hits] * np.cos(beam),
                                              sensor_pose.y + ranges[hits] * np.sin(beam))
         inside = (cols >= 0) & (cols < self.grid.width) & (rows >= 0) & (rows < self.grid.height)
-        d = np.full(cols.shape, sensor.likelihood_max_dist)
-        d[inside] = np.minimum(self.distance[rows[inside], cols[inside]], sensor.likelihood_max_dist)
-        return float(d.mean())
+        d = np.full(cols.shape, np.inf)
+        d[inside] = self.distance[rows[inside], cols[inside]]
+        return d
 
     def _require_initialized(self):
         if self.poses is None:

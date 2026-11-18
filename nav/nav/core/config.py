@@ -28,9 +28,14 @@ class LocalizationConfig:
     # La nube se considera convergida por debajo de estos desvíos (m, rad).
     converged_std_xy: float = 0.10
     converged_std_yaw: float = 0.10
-    # Perdido: el residuo del scan contra el mapa supera esto (m). Una nube cerrada
-    # en una pose equivocada pasa por convergida (docs/decisiones/004).
-    lost_residual: float = 0.10
+    # Perdido: más de esta fracción del scan cae lejos de toda pared del mapa, a más
+    # de unexplained_distance (m). Una nube cerrada en una pose equivocada pasa por
+    # convergida (docs/decisiones/004).
+    unexplained_distance: float = 0.20
+    lost_fraction: float = 0.25
+    # Umbral más estricto para la ráfaga del click: ahí un falso encaje corrido a lo
+    # largo de un pasillo deja 21 a 25 % sin explicar y una pose buena menos de 11 %.
+    click_lost_fraction: float = 0.15
     # Ráfaga inicial con el robot quieto, después de cada /initialpose.
     burst_max_iterations: int = 30
     # La ráfaga termina cuando una iteración más mueve la estimación menos que esto.
@@ -85,13 +90,26 @@ class NavigatorConfig:
     """Máquina de estados y parada de seguridad."""
     # Parada de seguridad: frena si el lidar ve algo dentro de un rectángulo delante
     # del robot, de este largo (desde el centro) y este semiancho.
-    stop_distance: float = 0.40
+    stop_distance: float = 0.25
     stop_half_width: float = 0.20
     # Tiempos máximos, en segundos, parado por obstáculo o sin localización.
     blocked_timeout: float = 15.0
+    # Parado por un obstáculo, cada cuánto se vuelve a planificar.
+    retry_period: float = 2.0
     lost_timeout: float = 10.0
     # Si la pose no se actualiza en este tiempo, el robot frena.
     pose_timeout: float = 1.0
+
+
+@dataclass(frozen=True)
+class ObstacleConfig:
+    """Obstáculos que no están en el mapa (docs/decisiones/008)."""
+    # El lidar solo agrega y libera obstáculos hasta esta distancia del robot (m).
+    max_range: float = 3.0
+    # Un impacto a menos de esto de una pared del mapa es esa pared, no un obstáculo nuevo (m).
+    wall_distance: float = 0.20
+    # Scans que tienen que ver una celda ocupada para que cuente como obstáculo.
+    hits_to_mark: int = 3
 
 
 @dataclass(frozen=True)
@@ -103,6 +121,7 @@ class NavConfig:
     planner: PlannerConfig = field(default_factory=PlannerConfig)
     follower: FollowerConfig = field(default_factory=FollowerConfig)
     navigator: NavigatorConfig = field(default_factory=NavigatorConfig)
+    obstacles: ObstacleConfig = field(default_factory=ObstacleConfig)
 
     def __post_init__(self):
         # SlamConfig valida los tres grupos compartidos con sus propias reglas.
@@ -128,21 +147,24 @@ class NavConfig:
             raise ValueError("Motion gate and burst jitter must be nonnegative")
         if min(c.converged_std_xy, c.converged_std_yaw) <= 0:
             raise ValueError("Convergence thresholds must be positive")
-        if c.lost_residual <= 0:
-            raise ValueError("localization.lost_residual must be positive")
+        if c.unexplained_distance <= 0 or not 0 < c.click_lost_fraction <= c.lost_fraction < 1:
+            raise ValueError("Require unexplained_distance > 0 and 0 < click_lost_fraction <= lost_fraction < 1")
         if not 0 < c.injection_alpha_slow < c.injection_alpha_fast <= 1:
             raise ValueError("Require 0 < injection_alpha_slow < injection_alpha_fast <= 1")
         if not 0 < c.injection_max_fraction <= 1:
             raise ValueError("localization.injection_max_fraction must be in (0, 1]")
         for name, group, may_be_zero in (("planner", self.planner, ("safety_margin", "clearance_weight")),
                                          ("follower", self.follower, ()),
-                                         ("navigator", self.navigator, ())):
+                                         ("navigator", self.navigator, ()),
+                                         ("obstacles", self.obstacles, ())):
             for f in fields(group):
                 value = getattr(group, f.name)
                 if not isinstance(value, (float, int)) or isinstance(value, bool) or not math.isfinite(value):
                     raise ValueError(f"{name}.{f.name} must be a finite number")
                 if value < 0 or (value == 0 and f.name not in may_be_zero):
                     raise ValueError(f"{name}.{f.name} must be positive")
+        if not isinstance(self.obstacles.hits_to_mark, int):
+            raise ValueError("obstacles.hits_to_mark must be an integer")
         if self.follower.align_done >= self.follower.align_start:
             raise ValueError("follower.align_done must be smaller than follower.align_start")
         if self.follower.min_linear > self.follower.max_linear:
@@ -159,7 +181,7 @@ class NavConfig:
         groups = {"sensor": SensorConfig, "motion": MotionConfig,
                   "scan_match": ScanMatchConfig, "localization": LocalizationConfig,
                   "planner": PlannerConfig, "follower": FollowerConfig,
-                  "navigator": NavigatorConfig}
+                  "navigator": NavigatorConfig, "obstacles": ObstacleConfig}
         unknown = set(data) - set(groups)
         if unknown:
             raise ValueError(f"Unknown configuration groups: {sorted(unknown)}")

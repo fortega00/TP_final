@@ -16,7 +16,7 @@ Todos los comandos van desde la carpeta `nav/`.
 | Launch | `launch/nav.launch.py` | Lanza los dos nodos y RViz |
 | Parámetros | `config/cafe.yaml` (simulador), `config/real.yaml` (robot) | Todos los valores, con comentarios |
 
-Falta la evasión de obstáculos no mapeados ([008](decisiones/008-obstaculos-no-mapeados.md)). Hoy, si algo aparece delante, el robot frena y espera hasta 15 s a que se despeje.
+Obstáculos que no están en el mapa ([008](decisiones/008-obstaculos-no-mapeados.md)): el lidar los anota en una capa aparte (`nav/core/obstacles.py`). Si uno tapa el camino, el robot frena y planifica de nuevo. Si no hay paso, espera hasta 15 s y abandona el objetivo.
 
 ## Sin ROS
 
@@ -82,15 +82,21 @@ python nav/scripts/sim_live_check.py --goal 3.1 -2.4 -1.5
 
 Publica un `/initialpose` corrido 36 cm, manda el objetivo e imprime el error real al llegar.
 
+### Parada de seguridad por perfil
+
+`navigator.stop_distance` se mide desde el centro de la base. Café usa **0,40 m** y `sensor.min_range=0.25` m: con el láser adelantado 0,043 m, el retorno frontal debe poder activar la parada antes de entrar en el alcance descartado por el chasis. El perfil real usa 0,25 m y mínimo de 0,12 m; falta verificar su huella física. Ambos usan semiancho de 0,20 m. La parada actúa al avanzar y no espera la confirmación de la capa de obstáculos.
+
+En Café, elegir objetivos con espacio delante del robot; los objetivos muy próximos a una pared pueden terminar en `BLOCKED`. La parada conserva una zona ciega bajo el mínimo del sensor: comenzar con el frente despejado. Ver [decisión 008](decisiones/008-obstaculos-no-mapeados.md#corrección-del-perfil-café-en-la-revisión-del-pr-4). La corrección del perfil se verificó con tests; todavía no se repitió en ROS/Gazebo.
+
 ## Qué mirar
 
 | Tópico | Contenido |
 |---|---|
 | `/nav/pose` | Pose del robot en el mapa |
 | `/nav/particles` | Nube de partículas |
-| `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score`, `scan_residual` |
+| `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score`, `unexplained_fraction` |
 
-`LOST` aparece cuando `scan_residual` (distancia media del scan a las paredes del mapa, en metros) supera 0,10: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
+`LOST` aparece cuando `unexplained_fraction` (fracción de los puntos del scan a más de 20 cm de toda pared del mapa) supera 0,25: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo. Justo después del click el límite es 0,15: si lo supera, el log dice `Click rejected` y el nodo queda en `LOST` hasta el próximo click ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
 
 | `/nav/plan` | Camino planificado |
 | `/nav/state` | JSON: estado de la máquina, si la parada de seguridad está activa y los últimos eventos |

@@ -28,10 +28,13 @@ class PlanningError(Exception):
 
 
 class Costmap:
-    def __init__(self, grid: OccupancyGrid, config: PlannerConfig):
+    def __init__(self, grid: OccupancyGrid, config: PlannerConfig, extra_obstacles=None):
+        """`extra_obstacles`: máscara de celdas ocupadas que no están en el mapa."""
         self.grid = grid
         self.config = config
         obstacle = ~free_cells(grid)
+        if extra_obstacles is not None:
+            obstacle = obstacle | extra_obstacles
         # Distancia de cada celda al obstáculo más cercano, en metros.
         self.clearance = distance_transform_edt(~obstacle) * grid.config.resolution
         inflation = config.robot_radius + config.safety_margin

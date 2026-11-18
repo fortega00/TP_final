@@ -185,7 +185,7 @@ Hechas con los bags y el mapa `intento3_corregido`, sin el robot. Los scripts es
 | Hasta 1,5 m de error, o hasta 45°, o 1 m en cada eje más 45° | 60 | Igual que el click correcto. La ráfaga inicial lo resuelve con el robot quieto |
 | 90° de error | 6 | 3 no se recuperan y terminan a 8 m. Las otras 3 se recuperan cuando el robot empieza a moverse |
 
-En las corridas perdidas el filtro no avisa: la ráfaga dice que convergió y la nube queda cerrada (3 cm). Lo que las delata es el residuo del scan contra el mapa: 20 a 34 cm perdido contra 1 cm ubicado. Es la medición que faltaba en [004](decisiones/004-localizacion-en-mapa-conocido.md). Desde el 17/11 el nodo informa `LOST` cuando el residuo supera 10 cm.
+En las corridas perdidas el filtro no avisa: la ráfaga dice que convergió y la nube queda cerrada (3 cm). Lo que las delata es el residuo del scan contra el mapa: 20 a 34 cm perdido contra 1 cm ubicado. Es la medición que faltaba en [004](decisiones/004-localizacion-en-mapa-conocido.md). Desde el 17/11 el nodo informa `LOST` con una señal parecida, la fracción del scan lejos de las paredes ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
 
 **Planificador.** Sobre la zona transitable de 70,6 m²: 200 pares de puntos al azar, todos con camino, largo mediano 1,24 veces la línea recta, distancia mínima a un obstáculo 0,22 m. Mediana de 43 ms por plan, con la máquina ocupada. 50 objetivos en celdas libres pegadas a una pared: los 50 rechazados.
 

@@ -465,3 +465,7 @@ profiling y la condición de integración están en
 | Mapa truncado | Ampliar `map.width/height` y ajustar origen; el mapa tiene extensión fija. |
 | Retraso creciente con el bag | Reducir `bag_rate`, haces o partículas; medir tiempo por scan. |
 | Se perdió la hipótesis correcta | Reiniciar y repetir con mejor odometría/recorrido o mayor diversidad; esta versión no hace optimización global retrospectiva. |
+
+## Navegación B después del merge de los PR
+
+La navegación usa perfiles propios en `nav/config/`, separados de los del SLAM. En Café, `navigator.stop_distance=0.40` m conserva una franja frontal detectable con `sensor.min_range=0.25` m y la extrínseca del láser; no copiar los 0,25 m del perfil real a Café. Resincronizar y construir ambos paquetes antes de ejecutar la versión nueva. Los comandos y las limitaciones para objetivos cerca de paredes están en la [guía de B](guia_etapa_b.md#parada-de-seguridad-por-perfil). La validación de esta corrección fue unitaria; no se lanzaron ROS, RViz, Gazebo ni replays.

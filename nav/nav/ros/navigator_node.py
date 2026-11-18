@@ -2,14 +2,13 @@
 
 Entradas: `/nav/pose` y `/nav/localization_status` (del nodo de localización),
 `/goal_pose` (2D Goal Pose de RViz), `/initialpose` (para saber que el usuario
-corrigió la pose) y `/scan` (parada de seguridad).
+corrigió la pose) y `/scan` (parada de seguridad y obstáculos que no están en el mapa).
 Salidas: `/cmd_vel`, `/nav/plan` y `/nav/state` (JSON).
 
 Solo publica velocidades mientras está llevando al robot a un objetivo. Parado
 no publica nada, así no pisa al teleop.
 """
 import json
-import math
 
 import numpy as np
 import rclpy
@@ -23,10 +22,11 @@ from std_msgs.msg import String
 from tf2_ros import Buffer, TransformException, TransformListener
 
 from slam.core.geometry import Pose2D
+from slam.core.types import Scan
 
 from ..core.config import NavConfig
 from ..core.map import load_map
-from ..core.navigator import Navigator, State
+from ..core.navigator import Navigator, State, safety_stop
 from ..core.planner import Costmap
 from .localization_node import pose_message, seconds, yaw_from_quaternion
 
@@ -101,7 +101,7 @@ class NavigatorNode(Node):
         self.core.on_reinitialized(self.now())
 
     def on_scan(self, message):
-        """Parada de seguridad: hay algo dentro del rectángulo delante del robot."""
+        """Parada de seguridad y obstáculos que no están en el mapa."""
         if self.laser_mount is None:
             try:
                 transform = self.tf_buffer.lookup_transform(
@@ -111,15 +111,16 @@ class NavigatorNode(Node):
             t = transform.transform
             self.laser_mount = Pose2D(t.translation.x, t.translation.y,
                                       yaw_from_quaternion(t.rotation))
-        ranges = np.asarray(message.ranges)
-        angles = message.angle_min + np.arange(len(ranges)) * message.angle_increment
-        # Lecturas más cortas que min_range son el propio chasis.
-        valid = np.isfinite(ranges) & (ranges > max(message.range_min, self.config.sensor.min_range))
-        beam = angles[valid] + self.laser_mount.yaw
-        x = self.laser_mount.x + ranges[valid] * np.cos(beam)
-        y = self.laser_mount.y + ranges[valid] * np.sin(beam)
-        c = self.config.navigator
-        self.blocked = bool(np.any((x > 0) & (x < c.stop_distance) & (np.abs(y) < c.stop_half_width)))
+        if not message.ranges:
+            return
+        scan = Scan(np.asarray(message.ranges), message.angle_min, message.angle_increment,
+                    message.range_min, message.range_max, seconds(message.header.stamp),
+                    self.laser_mount)
+        self.blocked = safety_stop(scan, self.config)
+        # Los obstáculos se anotan solo con una pose confiable y reciente.
+        if (self.localization == 'LOCALIZED' and self.pose_stamp is not None
+                and self.now() - self.pose_stamp <= self.config.navigator.pose_timeout):
+            self.core.observe(self.pose, scan)
 
     # ----- Lazo de control -----
 

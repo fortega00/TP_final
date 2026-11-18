@@ -9,11 +9,13 @@ import unittest
 import numpy as np
 
 from slam.core.geometry import Pose2D, wrap_angle
+from slam.core.types import Scan
 
 from nav.core.config import NavConfig, NavigatorConfig, PlannerConfig
 from nav.core.follower import PurePursuit
-from nav.core.map import load_map
-from nav.core.navigator import Navigator, State
+from nav.core.map import load_map, occupied_cells
+from nav.core.navigator import Navigator, State, safety_stop
+from nav.core.obstacles import ObstacleLayer
 from nav.core.planner import Costmap, PlanningError, plan
 
 RESOLUTION = 0.05
@@ -240,6 +242,157 @@ class NavigatorTests(Base):
         self.assertEqual(nav.state, State.PLANNING)
         pose, _ = simulate(nav, pose, 110.0, start=t)
         self.assertLess(math.hypot(pose.x - goal.x, pose.y - goal.y), 0.08)
+
+
+def lidar(grid, pose, discs, stamp, beams=180, max_range=8.0):
+    """Scan que mediría un lidar en `pose`: paredes del mapa más discos (x, y, radio)."""
+    angles = np.arange(beams) * (2 * math.pi / beams)
+    steps = np.arange(0.05, max_range, RESOLUTION / 2)
+    x = pose.x + steps * np.cos(pose.yaw + angles)[:, None]
+    y = pose.y + steps * np.sin(pose.yaw + angles)[:, None]
+    cols, rows = grid.world_to_grid(x, y)
+    inside = (cols >= 0) & (cols < grid.width) & (rows >= 0) & (rows < grid.height)
+    hit = ~inside
+    hit[inside] = occupied_cells(grid)[rows[inside], cols[inside]]
+    for cx, cy, radius in discs:
+        hit |= np.hypot(x - cx, y - cy) < radius
+    ranges = np.where(hit.any(axis=1), steps[hit.argmax(axis=1)], np.inf)
+    return Scan(ranges, 0.0, 2 * math.pi / beams, 0.1, max_range, stamp)
+
+
+class ObstacleTests(Base):
+    """Obstáculos que no están en el mapa: el robot solo los conoce por el lidar."""
+
+    def drive(self, nav, pose, seconds, discs, dt=0.05):
+        """Robot ideal con lidar. `discs(t)` da los obstáculos presentes en cada instante.
+
+        Devuelve la pose final y la menor distancia entre el centro del robot y
+        el borde de un obstáculo.
+        """
+        closest, t = math.inf, 0.0
+        for step in range(int(seconds / dt)):
+            present = discs(t)
+            scan = lidar(self.grid, pose, present, t)
+            if step % 3 == 0:                      # el lidar real da unos 7 scans por segundo
+                nav.observe(pose, scan)
+            v, w = nav.update(t, pose, "LOCALIZED", safety_stop(scan, self.config))
+            pose = Pose2D(pose.x + v * math.cos(pose.yaw) * dt, pose.y + v * math.sin(pose.yaw) * dt,
+                          wrap_angle(pose.yaw + w * dt))
+            t += dt
+            for cx, cy, radius in present:
+                closest = min(closest, math.hypot(pose.x - cx, pose.y - cy) - radius)
+        return pose, closest
+
+    def start(self, start, goal, **navigator):
+        config = replace(self.config, navigator=replace(NavigatorConfig(), **navigator))
+        nav = Navigator(self.costmap, config)
+        nav.update(0.0, start, "LOCALIZED", False)
+        nav.set_goal(goal, 0.0)
+        return nav
+
+    def test_walls_seen_with_a_pose_error_are_not_new_obstacles(self):
+        # La pose estimada tiene 10 cm y 2 grados de error: las paredes caen corridas.
+        truth = Pose2D(-2.0, 0.0, 0.3)
+        estimate = Pose2D(-1.9, 0.05, 0.3 + math.radians(2))
+        layer = ObstacleLayer(self.grid, self.config.sensor, self.config.obstacles)
+        for i in range(10):
+            layer.observe(estimate, lidar(self.grid, truth, [], float(i)))
+        self.assertFalse(layer.cells().any())
+        # Con una caja a 1 m, sí aparece, y aparece donde la ve la pose estimada.
+        for i in range(10):
+            layer.observe(estimate, lidar(self.grid, truth, [(-1.0, 0.0, 0.15)], 10.0 + i))
+        rows, cols = np.nonzero(layer.cells())
+        self.assertGreater(len(rows), 0)
+        x, y = self.costmap.point(rows, cols)
+        self.assertLess(np.hypot(x + 1.0, y).max(), 0.15 + 0.20)
+
+    def test_a_new_initial_pose_forgets_the_obstacles(self):
+        nav = Navigator(self.costmap, self.config)
+        pose = Pose2D(-2.0, 0.0, 0.0)
+        for i in range(10):
+            nav.observe(pose, lidar(self.grid, pose, [(-1.0, 0.0, 0.15)], float(i)))
+        self.assertTrue(nav.obstacles.cells().any())
+        nav.on_reinitialized(10.0)
+        self.assertFalse(nav.obstacles.cells().any())
+
+    def test_obstacle_on_the_path_is_avoided(self):
+        # Una caja de 30 cm en medio del camino recto, con lugar para rodearla.
+        start, goal = Pose2D(-3.5, -1.0, 0.0), Pose2D(-0.6, -1.0, 0.0)
+        nav = self.start(start, goal)
+        pose, closest = self.drive(nav, start, 120.0, lambda t: [(-2.0, -1.0, 0.15)])
+        self.assertEqual(nav.state, State.IDLE)
+        self.assertLess(math.hypot(pose.x - goal.x, pose.y - goal.y), self.config.follower.goal_tolerance_xy)
+        self.assertGreater(closest, self.config.planner.robot_radius)
+        self.assertTrue(any("goal reached" in text for _, text in nav.events))
+
+    def test_without_obstacles_the_walls_do_not_block_the_path(self):
+        start, goal = Pose2D(-2.0, -1.0, 0.0), Pose2D(2.0, -1.0, 0.0)
+        nav = self.start(start, goal)
+        self.drive(nav, start, 120.0, lambda t: [])
+        self.assertEqual(nav.state, State.IDLE)
+        self.assertEqual(sum("path blocked" in text for _, text in nav.events), 0)
+        self.assertTrue(any("goal reached" in text for _, text in nav.events))
+
+    def test_obstacle_that_closes_the_only_door_drops_the_goal(self):
+        start, goal = Pose2D(-2.0, 1.5, 0.0), Pose2D(2.0, 1.5, 0.0)
+        nav = self.start(start, goal, blocked_timeout=10.0)
+        pose, closest = self.drive(nav, start, 60.0, lambda t: [(0.0, 1.5, 0.5)])
+        self.assertEqual(nav.state, State.IDLE)
+        self.assertIsNone(nav.goal)
+        self.assertLess(pose.x, 0.0)
+        self.assertGreater(closest, self.config.planner.robot_radius)
+        self.assertTrue(any("did not clear" in text for _, text in nav.events))
+
+    def test_obstacle_that_leaves_is_forgotten(self):
+        # La puerta está tapada los primeros 20 segundos y después se despeja.
+        start, goal = Pose2D(-2.0, 1.5, 0.0), Pose2D(2.0, 1.5, 0.0)
+        nav = self.start(start, goal, blocked_timeout=60.0)
+        pose, _ = self.drive(nav, start, 150.0, lambda t: [(0.0, 1.5, 0.5)] if t < 20.0 else [])
+        self.assertEqual(nav.state, State.IDLE)
+        self.assertLess(math.hypot(pose.x - goal.x, pose.y - goal.y), self.config.follower.goal_tolerance_xy)
+
+
+class CafeSafetyTests(Base):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.cafe = NavConfig.load_yaml(Path(__file__).resolve().parents[1] / "config" / "cafe.yaml")
+        # Extrínseca del Café registrada en hitl_cafe_01/report/D_analysis.log.
+        cls.mount = Pose2D(0.043, 0.0, math.pi)
+
+    def scan(self, distance, angle=-math.pi):
+        return Scan(np.array([distance]), angle, 0.01, 0.1, 8.0, 0.0, self.mount)
+
+    def test_cafe_stops_before_front_returns_enter_the_chassis_filter(self):
+        # 0,26 m del láser son 0,303 m del centro. Debe frenar mientras el
+        # retorno todavía supera min_range, antes de entrar en la zona ciega.
+        for distance in (0.26, 0.30, 0.35):
+            with self.subTest(distance=distance):
+                self.assertTrue(safety_stop(self.scan(distance), self.cafe))
+
+    def test_cafe_still_rejects_chassis_and_invalid_returns(self):
+        for distance in (0.14, 0.18, 0.20, 0.25, 0.0, -1.0, np.nan, np.inf):
+            with self.subTest(distance=distance):
+                self.assertFalse(safety_stop(self.scan(distance), self.cafe))
+
+    def test_cafe_only_stops_for_returns_inside_the_front_rectangle(self):
+        # Fuera por delante, por detrás y por el costado, respectivamente.
+        for distance, angle in ((0.50, -math.pi), (0.30, 0.0), (0.30, -math.pi / 2)):
+            with self.subTest(distance=distance, angle=angle):
+                self.assertFalse(safety_stop(self.scan(distance, angle), self.cafe))
+
+    def test_cafe_stops_without_waiting_for_obstacle_confirmation(self):
+        nav = Navigator(Costmap(self.grid, self.cafe.planner), self.cafe)
+        pose = Pose2D(-2.0, -1.0, 0.0)
+        nav.update(0.0, pose, "LOCALIZED", False)
+        nav.set_goal(Pose2D(-1.0, -1.0, 0.0), 0.0)
+        nav.update(0.1, pose, "LOCALIZED", False)
+        nav.update(0.2, pose, "LOCALIZED", False)
+        self.assertEqual(nav.state, State.FOLLOWING)
+        self.assertFalse(nav.obstacles.cells().any())
+        command = nav.update(0.3, pose, "LOCALIZED", safety_stop(self.scan(0.26), self.cafe))
+        self.assertEqual(command, (0.0, 0.0))
+        self.assertEqual(nav.state, State.BLOCKED)
 
 
 class FollowerTests(Base):

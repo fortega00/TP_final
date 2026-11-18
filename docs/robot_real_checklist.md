@@ -4,10 +4,10 @@ Quedan **dos visitas como máximo** para terminar el TP. Esta guía reparte todo
 
 | Visita | Objetivo | Tiene que estar listo antes de ir |
 |---|---|---|
-| 1 | Cerrar las etapas A y B en el robot y traer imágenes para la etapa C | [PR 3](https://github.com/fortega00/TP_final/pull/3) en `main`. Evasión de obstáculos ([008](decisiones/008-obstaculos-no-mapeados.md)) probada en el simulador |
+| 1 | Cerrar las etapas A y B en el robot y traer imágenes para la etapa C | [PR 3](https://github.com/fortega00/TP_final/pull/3) en `main`. Evasión de obstáculos ([008](decisiones/008-obstaculos-no-mapeados.md)) en `main` |
 | 2 | Misión de la etapa C con video, y repetir lo que haya fallado en la visita 1 | Detector de conos probado con las imágenes de la visita 1. Exploración probada en el simulador |
 
-Si la evasión de obstáculos no llega a la visita 1, su prueba pasa a la visita 2. Nada más se puede correr: lo que no salga en la visita 2 queda sin medir.
+Lo que no salga en la visita 2 queda sin medir.
 
 ## Tres reglas
 
@@ -114,14 +114,17 @@ ros2 launch nav nav.launch.py map_file:=/tmp/slam/aula.yaml config_file:=$PWD/co
 ros2 topic echo /nav/localization_status > /tmp/slam/loc_status.log     # en otra terminal
 ```
 
-1. Marcar la pose con **2D Pose Estimate**. La nube azul se cierra sobre el robot y los puntos rojos del lidar caen sobre las paredes del mapa.
+1. Con el robot en un lugar despejado, sin nada nuevo a menos de 50 cm, marcar la pose con **2D Pose Estimate**. La nube azul se cierra sobre el robot y los puntos rojos del lidar caen sobre las paredes del mapa.
 2. Manejar con teleop y mirar que la pose siga al robot.
-3. Repetir el click con errores a propósito y anotar `state` y `scan_residual` de cada uno:
+3. Repetir el click con errores a propósito y anotar `state` y `unexplained_fraction` de cada uno:
 
 | Click | Resultado esperado (medido offline) |
 |---|---|
-| 30 cm, 1 m o 45° de error | `LOCALIZED`, `scan_residual` de 1 a 5 cm |
-| 90° de error | `LOST` la mitad de las veces, `scan_residual` mayor que 10 cm. El nodo pide un click nuevo |
+| 30 cm, 1 m o 45° de error | `LOCALIZED`, `unexplained_fraction` menor que 0,07 |
+| 90° de error | La mitad de las veces se corrige sola. La otra mitad: `LOST`, `unexplained_fraction` mayor que 0,30 y `Click rejected` en el log |
+| 2 m de error a lo largo de un pasillo | `LOCALIZED` en la pose real, o `LOST` con `Click rejected` |
+
+Un click se rechaza si `unexplained_fraction` supera 0,15. Después de un rechazo hay que marcar la pose de nuevo.
 
 Si `update_seconds` llega a 0,1 s, bajar `localization.particles` de 1000 a 300 en `config/real.yaml`.
 
@@ -129,7 +132,7 @@ Listo cuando: los clicks con poco error quedan `LOCALIZED` y un click malo nunca
 
 ### 5. Ir a un objetivo (etapa B)
 
-Robot a **0,5 m o más de cualquier pared** y sin nada a menos de 40 cm por delante. Mismo launch sin `navigate:=false`, con el bag grabando y `ros2 topic echo /nav/state > /tmp/slam/nav_state.log`.
+Robot a **0,5 m o más de cualquier pared** y sin nada a menos de 25 cm por delante. Mismo launch sin `navigate:=false`, con el bag grabando y `ros2 topic echo /nav/state > /tmp/slam/nav_state.log`.
 
 1. Marcar la pose y verificar que quedó `LOCALIZED`.
 2. Primer objetivo cerca, a 1 o 2 m en línea recta, con **2D Goal Pose**. El robot gira hacia el camino naranja, avanza y al llegar gira al ángulo pedido.
@@ -143,9 +146,11 @@ Listo cuando: llega a tres cruces sin tocar nada. En el simulador llegó a 13 a 
 
 ### 6. Obstáculo no mapeado (etapa B)
 
-Solo si la evasión ([008](decisiones/008-obstaculos-no-mapeados.md)) está implementada. Poner una caja en medio de un camino ya recorrido y mandar el mismo objetivo. Repetir con la caja en un pasillo angosto.
+Poner una caja en medio de un camino ya recorrido y mandar el mismo objetivo. Repetir con la caja en un pasillo angosto.
 
-Listo cuando: el robot rodea la caja y llega. Sin la evasión, lo esperado es que frene, espere 15 s y abandone el objetivo.
+En `/nav/state` aparece el evento `path blocked by an unmapped obstacle, replanning` y el camino naranja cambia. Probar también cerrando el único paso: frena, espera 15 s y abandona el objetivo ([008](decisiones/008-obstaculos-no-mapeados.md)).
+
+Listo cuando: el robot rodea la caja sin tocarla y llega. Medir con la cinta la distancia mínima a la que pasó.
 
 ### 7. Recorrido sobre las cruces y sillas movidas
 

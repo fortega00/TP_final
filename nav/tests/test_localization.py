@@ -198,6 +198,18 @@ class LocalizationTests(unittest.TestCase):
         self.assertTrue(mcl.converged)
         self.assertTrue(mcl.lost(scan))
 
+    def test_right_after_the_click_the_lost_check_is_stricter(self):
+        # Justo después del click no debería haber obstáculos nuevos pegados al
+        # robot, así que se tolera menos scan sin explicar que en marcha.
+        truth = Pose2D(-1.0, -0.5, 0.4)
+        scan = room_scan(truth)
+        mcl = self.filter(lost_fraction=0.99, click_lost_fraction=0.15)
+        mcl.initialize(Pose2D(truth.x, truth.y, truth.yaw + math.pi / 2), 0.001, 0.001)
+        self.assertFalse(mcl.lost(scan))
+        self.assertTrue(mcl.lost(scan, after_click=True))
+        mcl.initialize(truth, 0.001, 0.001)
+        self.assertFalse(mcl.lost(scan, after_click=True))
+
     def test_process_requires_an_initial_pose(self):
         with self.assertRaises(RuntimeError):
             self.filter().process(room_scan(Pose2D()), Pose2D())
