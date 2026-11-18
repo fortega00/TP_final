@@ -1,0 +1,24 @@
+{
+  "runtime": {
+    "python": "3.10.12",
+    "numpy": "1.21.5",
+    "scipy": "1.8.0",
+    "numba": "0.57.1",
+    "llvmlite": "0.40.1"
+  },
+  "core_sha256": {
+    "geometry.py": "eb68115834c3de76d61e8cf0ab40325f0bfd5c6da41a417930dd016a43e2e0b3",
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sensor.py": "4631f6f8e9eaa7a50f78b54bfedd336bd72c532de27ec0f6dabc9ad4fcb7693e",
+    "config.py": "d057cb29bef41f32d50cb069b99b5f3d56c6e01b6193c8128ee06d5a260ace4f",
+    "acceleration.py": "5966c171a1e54ad37a921611821ea1c1823f0701bb7b8b421285bd8ac404c250",
+    "motion.py": "359775566a374d8f0a89e1ebb8a1fc14966363bf40ede4ca6ce14bdc575924ea",
+    "state_machine.py": "3ca55103c184619bf8d474cc045164cc3e09cbfc92f50acd7b61fac9a8822d89",
+    "types.py": "4d66efc9147a80fb81296656543a9653b64f0d262ea8ef264b0ba12030aba36b",
+    "scan_match.py": "3e676ae9ebb15f7f56d33db729ba3e2a6be93976e90a200380986612c49c8a25",
+    "io.py": "dbc25c89f0c33f1dccde22630ffab9ba0a209103d5ac5090fefe565edb4089a3",
+    "odometry.py": "21c7936c03832b1e67b74ae0a2cde24f192df7aef97db036e3bf44bda9ecc49a",
+    "grid.py": "f9e055e8ea32f271693209bb0cca955965007efde49edcd751f355db1056948c",
+    "filter.py": "5333c0de77547dd878c8e15cebd8a81d137373a5206158104fe4b0023279a55c"
+  }
+}

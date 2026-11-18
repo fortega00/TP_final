@@ -1,0 +1,42 @@
+{
+  "conclusion": "No improvement in integrated or withheld endpoint consistency from 24 particles in this seed; E16 remains the strongest measured consistency/cost reference, pending human geometric review.",
+  "hypotheses": [
+    {
+      "comparison": "Previous E vs fresh E16",
+      "result": "Exactly identical raw grids, trajectory and PGM; new P95 122.25 ms instead of 404.25 ms. This tests reproducibility and the importance of comparable host load."
+    },
+    {
+      "comparison": "C16 vs F24",
+      "result": "Particles alone did not improve endpoint consistency; reserved tail grew. All seeds are still untested."
+    },
+    {
+      "comparison": "D16 vs D24",
+      "result": "Substantial endpoint regression despite shorter start-end separation and more admissible checkpoints. Those proxies must not independently select a map."
+    },
+    {
+      "comparison": "E16 vs E24",
+      "result": "Integrated endpoints 95.90 to 95.32 percent, withheld 94.71 to 92.86 percent; p95 cost 122.25 to 201.25 ms. No improvement observed in this seed."
+    }
+  ],
+  "geometry": [
+    "Room contour and three table rows remain visible in all maps.",
+    "D24 can look straighter at overview scale, but table edges and residuals disagree; human inspection is required.",
+    "Subtle wall thickness/continuity changes remain; same frame orientation is preserved without treating global rotations as ground-truth errors."
+  ],
+  "navigation": "Same checkpoints and frozen seed83 as cycle01. All admissible common checkpoints remain in one component. E16/F24/D24/E24 admit 88/84/104/86 of 181 respectively; origin footprint is blocked for all. Counts are conditional on estimated baseline positions and map deformation, not GT or validated coverage.",
+  "trajectory": "Start-end separation E16/F24/D24/E24: 21.33/21.14/17.33/21.82 cm. D24 has the smallest separation and worst endpoints. No absolute error or verified closure error is claimed.",
+  "timing": "Current cycle load was lower and more stable than cycle01. N24 core median 164-166 ms and p95 186-201 ms, over 137 ms on 93.25-99.07 percent of integrations. This misses the per-update budget but does not measure live ROS queue/drop behavior; movement gating skips many scans.",
+  "stability": "No invalid scans, rejected stamps, clipped rays or out-of-bounds particles. Mean ESS/N E16 .704, F24 .695, D24 .680, E24 .702; no evidence here that more particles alone improves map quality.",
+  "method_limitations": [
+    "Seed 7 only; changing particle count changes random draw streams and the selected hypothesis.",
+    "Scan-match proposal is approximate with log(p/q)=0; particle count alone does not guarantee monotone quality.",
+    "Withheld scans are correlated with the fitted trajectory; no independent physical accuracy or GT."
+  ],
+  "human_review_required": "Inspect D24 versus E16 and historical H, especially table edges and top/bottom walls, before selecting finalists or new cycles.",
+  "decisions": {
+    "E16": "investigar",
+    "F24": "investigar",
+    "D24": "investigar",
+    "E24": "investigar"
+  }
+}

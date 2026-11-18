@@ -101,7 +101,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('root', type=Path)
     parser.add_argument('--history', type=Path, required=True)
+    parser.add_argument('--cases', nargs='+', default=list('ABCDE'))
+    parser.add_argument('--plot-cases', nargs='+', default=['H', 'B', 'C', 'D', 'E'])
+    parser.add_argument('--interior-seed-index', type=int)
+    parser.add_argument('--reused-cases', nargs='*', default=[])
+    parser.add_argument('--title', default='Bag 16/11 — ciclo 01, revisión humana pendiente')
+    parser.add_argument('--repeat-check', nargs=2, metavar=('CASE', 'PREVIOUS_FOLDER'))
     args = parser.parse_args()
+    if len(set(args.cases)) != len(args.cases) or not {'A', 'B'}.issubset(args.cases) or 'H' in args.cases:
+        parser.error('Cases must be unique, include baseline A and parity control B, and exclude historical H')
     root, report = args.root, args.root / 'report'
     report.mkdir(exist_ok=False)
     source = root / 'input/bag_mapa2.npz'
@@ -110,7 +118,7 @@ def main():
         data = {k: archive[k] for k in archive.files}
     if 'truth' in data:
         raise ValueError('This report is specifically for a bag without ground truth')
-    runs = {case: json.loads((root / case / 'samples.json').read_text()) for case in 'ABCDE'}
+    runs = {case: json.loads((root / case / 'samples.json').read_text()) for case in args.cases}
     paths = {case: np.asarray(run['paths']['slam']) for case, run in runs.items()}
     stamps = paths['A'][:, 0]
     if not all(np.array_equal(stamps, path[:, 0]) for path in paths.values()):
@@ -158,6 +166,7 @@ def main():
                       'end_to_start_yaw_deg': float(np.degrees(angular_error(path[-1, 3], path[0, 3]))),
                       'warning': 'Relative start-end separation; not absolute error or verified loop-closure error.'}
         row = {'case': case, 'particles': config['filter']['particles'],
+               'timing_origin': 'previous_cycle' if case in args.reused_cases else 'current_cycle',
                'prior_xy': config['scan_match']['prior_xy'], 'sample_xy': config['scan_match']['sample_xy'],
                'endpoints_10cm_percent': 100 * measured['fraction_within_10cm'],
                'endpoint_median_cm': 100 * measured['distance_m']['median'],
@@ -190,9 +199,13 @@ def main():
         (root / case / 'metrics.json').write_text(json.dumps(records[case], indent=2) + '\n')
     hmeta, hpixels = maps['H']
     historical_nav = connectivity(hpixels, hmeta, baseline_points, start)
-    seed_index = common_interior_seed(maps, baseline_points)
+    seed_index = args.interior_seed_index if args.interior_seed_index is not None else common_interior_seed(maps, baseline_points)
+    if seed_index is not None and not 0 <= seed_index < len(baseline_points):
+        raise ValueError('Interior seed index is outside the frozen checkpoints')
     interior = {'scope': 'Additional interior connectivity; does not replace failure at the initial origin.',
-                'selection': 'First baseline checkpoint whose 22 cm footprint is free in every map, including H.',
+                'selection': ('Fixed checkpoint index supplied from the previous cycle; no relocation if a new map blocks it.'
+                              if args.interior_seed_index is not None else
+                              'First baseline checkpoint whose 22 cm footprint is free in every map, including H.'),
                 'checkpoint_index': seed_index}
     if seed_index is not None:
         seed = baseline_points[seed_index]
@@ -227,14 +240,26 @@ def main():
                              'usage': 'Post-hoc qualitative reference only, never filter input or ground truth.'},
               'A_B_bitwise_equality': equality, 'experiments': rows, 'details': records,
               'interior_connectivity_diagnostic': interior,
-              'human_review': {'status': 'pending', 'decisions': {case: 'investigar' for case in 'ABCDE'}}}
+              'reused_cases': args.reused_cases,
+              'human_review': {'status': 'pending', 'decisions': {case: 'investigar' for case in args.cases}}}
+    if args.repeat_check:
+        case, previous_folder = args.repeat_check
+        previous = Path(previous_folder)
+        old_samples = json.loads((previous / 'samples.json').read_text())
+        repeat = {'configuration': runs[case]['configuration'] == old_samples['configuration'],
+                  'trajectory': runs[case]['paths']['slam'] == old_samples['paths']['slam'],
+                  'pgm': (root / case / 'map.pgm').read_bytes() == (previous / 'map.pgm').read_bytes()}
+        with np.load(root / case / 'grid.npz') as current, np.load(previous / 'grid.npz') as old:
+            repeat['raw_grid'] = all(current[k].dtype == old[k].dtype and current[k].tobytes() == old[k].tobytes()
+                                     for k in ('observed', 'log_odds'))
+        result['repeat_control_equality'] = {'case': case, 'previous_folder': str(previous), 'equal': repeat}
     (report / 'comparison.json').write_text(json.dumps(result, indent=2) + '\n')
     with (report / 'comparison.csv').open('w') as stream:
         writer = csv.DictWriter(stream, fieldnames=rows[0].keys(), lineterminator='\n')
         writer.writeheader()
         writer.writerows(rows)
-    plot_report(report, root, maps, paths)
-    lines = ['# Bag 16/11 — ciclo 01, revisión humana pendiente', '',
+    plot_report(report, root, maps, paths, args.plot_cases)
+    lines = ['# ' + args.title, '',
              '| Caso | N | prior / sample m | Endpoints ≤10 cm % | Reservados ≤10 cm % | P95 extremos cm | Conectividad interior % | Med/P95 núcleo ms | >137 ms % |',
              '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
     for row in rows:
@@ -243,13 +268,13 @@ def main():
                      f"{row['endpoint_p95_cm']:.2f} | {row.get('interior_connected_percent', 0.):.2f} | "
                      f"{row['median_ms']:.1f}/{row['p95_ms']:.1f} | {row['over_137ms_percent']:.2f} |")
     lines += ['', 'H es el mapa guardado intento3 el 16/11: no es ground truth.',
-              'A y B usan la configuración histórica; A original, B optimizado. C/D/E optimizados.',
+              'A y B usan la configuración histórica; A original, B optimizado. Las demás variantes son optimizadas.',
               'Endpoints v2: 30 haces por scan, extrínseca del bag, distancia a centros sin truncar.',
               f'{len(heldout_stamps)} scans reservados: no integrados; poses interpoladas y datos correlacionados.',
               'Conectividad: inflación 22 cm, ocupado/desconocido/exterior bloqueados.',
               'Puntos comunes del replay A, además del recorrido propio: ambos son estimaciones.',
-              'El origen inicial no admite la huella de 22 cm en H/A/B/C/D/E: conectividad desde el origen 0 %. Sin liberar celdas artificialmente.',
-              'La columna interior usa el primer checkpoint seguro en todos los mapas; se archivan índice, pose y ambos resultados.',
+              'El resultado estricto desde el origen se conserva en comparison.json; no se liberan celdas artificialmente.',
+              'La columna interior usa el checkpoint documentado en comparison.json; se archivan índice, pose y ambos resultados.',
               'No hay RMSE ni error absoluto. Separación inicio-fin no certifica cierre.',
               'Núcleo con prioridad baja en host compartido; no mide TF, colas ni descartes ROS.',
               'Mapas en coordenadas nativas: misma escala, orientación, colores y sin ajuste al histórico.',
@@ -261,7 +286,7 @@ def main():
     print(json.dumps({'experiments': rows, 'A_B_equality': equality}, indent=2))
 
 
-def plot_report(report, root, maps, paths):
+def plot_report(report, root, maps, paths, selected):
     """Conserva escala/orientación y regiones idénticas para todos los casos."""
     os.environ.setdefault('MPLCONFIGDIR', '/tmp/hitl_mpl_cache')
     import matplotlib
@@ -278,7 +303,14 @@ def plot_report(report, root, maps, paths):
             boxes[:, 2].min()-.4, boxes[:, 3].max()+.4]
     titles = {'H': 'H · guardado 16/11', 'A': 'A · original 8', 'B': 'B · optimizado 8',
               'C': 'C · optimizado 16', 'D': 'D · 16, prior .025', 'E': 'E · 16, sample .005'}
-    selected = ['H', 'B', 'C', 'D', 'E']
+    for case in paths:
+        if case not in titles:
+            cfg = json.loads((root / case / 'samples.json').read_text())['configuration']
+            titles[case] = (f"{case} · {cfg['filter']['particles']} particulas\n"
+                            f"prior {cfg['scan_match']['prior_xy']:g}, sample {cfg['scan_match']['sample_xy']:g}")
+    if not selected or any(case not in maps for case in selected):
+        raise ValueError('Plot cases must refer to evaluated maps or historical H')
+    columns = len(selected)
     def draw(ax, case, limits, path=False, navigation=False):
         meta, pixels = maps[case]
         rendered = np.where(pixels == 0, 0., np.where(pixels == 254, 1., .55))
@@ -297,8 +329,8 @@ def plot_report(report, root, maps, paths):
     for filename, with_paths, with_navigation in [('maps.png', False, False),
                                                    ('maps_and_paths.png', True, False),
                                                    ('navigation.png', False, True)]:
-        fig, axes = plt.subplots(1, 5, figsize=(22, 8), sharex=True, sharey=True)
-        for ax, case in zip(axes, selected):
+        fig, axes = plt.subplots(1, columns, figsize=(4.4*columns, 8), sharex=True, sharey=True, squeeze=False)
+        for ax, case in zip(axes[0], selected):
             draw(ax, case, crop, with_paths, with_navigation)
         fig.tight_layout()
         fig.savefig(report / filename, dpi=170)
@@ -308,7 +340,7 @@ def plot_report(report, root, maps, paths):
                ('Mesas y pasillos centrales', [-9, -1, -.5, 5.6]),
                ('Pared inferior y esquinas', [-12, 1, -4, -1.5])]
     (report / 'regions.json').write_text(json.dumps(regions, indent=2) + '\n')
-    fig, axes = plt.subplots(3, 5, figsize=(22, 15))
+    fig, axes = plt.subplots(3, columns, figsize=(4.4*columns, 15), squeeze=False)
     for row, (name, limits) in enumerate(regions):
         for col, case in enumerate(selected):
             draw(axes[row, col], case, limits)
@@ -318,7 +350,7 @@ def plot_report(report, root, maps, paths):
     fig.savefig(report / 'details.png', dpi=170)
     plt.close(fig)
     fig, axes = plt.subplots(2, 1, figsize=(12, 7), sharex=True)
-    for case in 'ABCDE':
+    for case in paths:
         with np.load(root / case / 'updates.npz') as archive:
             u = archive['values']
         times = u[:, 0] - u[0, 0]
@@ -330,7 +362,7 @@ def plot_report(report, root, maps, paths):
     axes[0].set(ylabel='Nucleo [ms]', title='Host compartido, prioridad baja; sin calentamiento ni ROS')
     axes[1].set(xlabel='Tiempo del sensor [s]', ylabel='ESS / N')
     for ax in axes:
-        ax.legend(ncol=5)
+        ax.legend(ncol=min(5, len(paths)))
         ax.grid(alpha=.25)
     fig.tight_layout()
     fig.savefig(report / 'timing_and_ess.png', dpi=170)

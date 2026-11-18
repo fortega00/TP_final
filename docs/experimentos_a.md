@@ -114,3 +114,12 @@ La carga del host cambió durante las corridas, por lo que no se certifica
 tiempo real. El origen no admite inflación de 22 cm en ningún mapa; desde un
 punto interior común todos los checkpoints admisibles están conectados.
 Revisión humana pendiente; no se adopta un perfil físico ni se fusiona la rama.
+
+El usuario autorizó después subir a 24 partículas. En el
+[ciclo bag16 02](ciclo_hitl_bag16_02.md) se ejecutaron E16 de control y tres
+variantes N24 con Numba, semilla7. E16 repitió su estimación exactamente y
+dio P95 122,2 ms con menor carga. Las variantes de 24 partículas no mejoraron
+los endpoints y dieron P95 185,6–201,3 ms. D24 combina menor separación
+inicio-fin y más checkpoints admisibles con una regresión fuerte de endpoints
+reservados (76,40 % vs 94,71 % E16); no seleccionar por cierre/conectividad
+aislados. Revisión geométrica humana pendiente, sin adoptar un perfil nuevo.

@@ -1,0 +1,936 @@
+data: '{"state": "RUNNING", "processed_scans": 11, "skipped_motion": 74, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 0, "ess": 6.190487076249488, "update_seconds": 0.09193717800008017, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 12, "skipped_motion": 81, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 0, "ess": 6.102688051728359, "update_seconds": 0.09235674899991864, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 13, "skipped_motion": 88, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 0, "ess": 5.827450257623713, "update_seconds": 0.08807501000001139, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 14, "skipped_motion": 94, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 0, "ess": 5.730984601135689, "update_seconds": 0.08698003700010304, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 15, "skipped_motion": 101, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 0, "ess": 5.7773785985578465, "update_seconds": 0.08683967400020265, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 16, "skipped_motion": 107, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 0, "ess": 5.722766788858258, "update_seconds": 0.08341937900013363, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 17, "skipped_motion": 114, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 0, "ess": 5.2621862207943595, "update_seconds": 0.09322452300011719, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 18, "skipped_motion": 121, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 2.2486333340685016, "update_seconds": 0.08733814599963807, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 19, "skipped_motion": 127, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 7.9046486312695725, "update_seconds": 0.10684390100004748, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 20, "skipped_motion": 134, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 7.867426555396728, "update_seconds": 0.08935808599972006, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 21, "skipped_motion": 141, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 7.800723986203371, "update_seconds": 0.10393148200000724, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 21, "skipped_motion": 148, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 7.800723986203371, "update_seconds": 0.10393148200000724, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 22, "skipped_motion": 155, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 4.549755901944798, "update_seconds": 0.08764434599970627, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 23, "skipped_motion": 161, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 4.0661048311633, "update_seconds": 0.1116433029997097, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 24, "skipped_motion": 168, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 1, "ess": 4.000968953295862, "update_seconds": 0.08807765500023379, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 25, "skipped_motion": 175, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 3.747744246529669, "update_seconds": 0.11385304900022675, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 26, "skipped_motion": 181, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 7.92688012354032, "update_seconds": 0.08457409399989047, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 27, "skipped_motion": 188, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 7.840130253882395, "update_seconds": 0.08678861299995333, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 28, "skipped_motion": 194, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 7.677641675381726, "update_seconds": 0.08282177999990381, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 29, "skipped_motion": 201, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 7.44666282199958, "update_seconds": 0.08464412600005744, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 30, "skipped_motion": 208, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 7.4405491266766, "update_seconds": 0.08049223299985897, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 31, "skipped_motion": 214, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 7.615775598475312, "update_seconds": 0.08775148299991997, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 32, "skipped_motion": 221, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 7.465771599734088, "update_seconds": 0.08778762699967047, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 33, "skipped_motion": 228, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 6.4634165205536815, "update_seconds": 0.08631339100020341, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 34, "skipped_motion": 234, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 6.107746641587928, "update_seconds": 0.08009421299993846, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 35, "skipped_motion": 241, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 5.840660732253995, "update_seconds": 0.08545980400003828, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 36, "skipped_motion": 247, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 5.668668045056262, "update_seconds": 0.08151640300002327, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 37, "skipped_motion": 254, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 5.422571177895196, "update_seconds": 0.0800691529998403, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 38, "skipped_motion": 260, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 5.645225536130602, "update_seconds": 0.0817291460002707, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 39, "skipped_motion": 267, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 6.077510056115754, "update_seconds": 0.0820619640003315, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 40, "skipped_motion": 274, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 6.024774503806897, "update_seconds": 0.08203394099973593, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 40, "skipped_motion": 281, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 6.024774503806897, "update_seconds": 0.08203394099973593, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 41, "skipped_motion": 288, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 6.131783756032372, "update_seconds": 0.0817138550000891, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 42, "skipped_motion": 295, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 4.555388597805629, "update_seconds": 0.08168737200003306, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 43, "skipped_motion": 301, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 4.182209379643396, "update_seconds": 0.08109436799986725, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 44, "skipped_motion": 308, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 2, "ess": 4.158184104554146, "update_seconds": 0.08188127000039458, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 45, "skipped_motion": 315, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 3.972179826449745, "update_seconds": 0.0913038140001845, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 46, "skipped_motion": 321, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 7.913888991200019, "update_seconds": 0.08496682499981034, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 47, "skipped_motion": 328, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 7.705321967705225, "update_seconds": 0.08319747599989569, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 48, "skipped_motion": 334, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 7.734941766827311, "update_seconds": 0.07962600200016823, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 49, "skipped_motion": 341, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.838546997164047, "update_seconds": 0.0813967640001465, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 50, "skipped_motion": 348, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.675326857962436, "update_seconds": 0.08164912099982757, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 51, "skipped_motion": 354, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.544477315885881, "update_seconds": 0.081930862000263, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 52, "skipped_motion": 361, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.5225920796784695, "update_seconds": 0.08161418500003492, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 53, "skipped_motion": 367, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.728269360385717, "update_seconds": 0.08239664399980029, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 54, "skipped_motion": 374, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.798918489538899, "update_seconds": 0.08499601099993015, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 55, "skipped_motion": 381, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.805924057070312, "update_seconds": 0.08524398200006544, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 56, "skipped_motion": 387, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 6.855500503932325, "update_seconds": 0.0797356830003082, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 57, "skipped_motion": 394, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 5.133166946859833, "update_seconds": 0.08052518400018016, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 58, "skipped_motion": 400, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 5.2200640250405765, "update_seconds": 0.08062814800041451, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 59, "skipped_motion": 407, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 5.241305870426934, "update_seconds": 0.08243457400021725, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 60, "skipped_motion": 414, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 5.0028769729785765, "update_seconds": 0.08141399399983129, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 60, "skipped_motion": 421, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 5.0028769729785765, "update_seconds": 0.08141399399983129, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 61, "skipped_motion": 428, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 4.927003310514804, "update_seconds": 0.08391238399963186, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 62, "skipped_motion": 435, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 5.030187903093788, "update_seconds": 0.08346081299987418, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 63, "skipped_motion": 441, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 3, "ess": 5.197498194900288, "update_seconds": 0.0797341239999696, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 64, "skipped_motion": 448, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 3.2150487346163037, "update_seconds": 0.08496365100018011, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 65, "skipped_motion": 455, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 7.951740298880829, "update_seconds": 0.08013024100000621, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 66, "skipped_motion": 461, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 7.628300237568269, "update_seconds": 0.089400661000127, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 67, "skipped_motion": 468, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 7.315323140883353, "update_seconds": 0.09064930200020171, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 68, "skipped_motion": 474, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 6.86294696639576, "update_seconds": 0.07936317100029555, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 69, "skipped_motion": 481, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 7.211645593448088, "update_seconds": 0.08007408499997837, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 70, "skipped_motion": 488, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 7.242220546616269, "update_seconds": 0.07993370000031064, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 71, "skipped_motion": 494, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 6.464550467481417, "update_seconds": 0.0802839689999928, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 72, "skipped_motion": 501, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 6.292802114968735, "update_seconds": 0.08158909300027517, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 73, "skipped_motion": 508, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 6.14076383961787, "update_seconds": 0.08226960999991206, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 74, "skipped_motion": 514, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 6.141042090764615, "update_seconds": 0.09106862799990267, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 75, "skipped_motion": 521, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 5.54723935440035, "update_seconds": 0.08486425399996733, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 76, "skipped_motion": 527, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 5.422461274271472, "update_seconds": 0.08853971600001387, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 77, "skipped_motion": 534, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 5.091003406904026, "update_seconds": 0.08299280299979728, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 78, "skipped_motion": 541, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 5.1210778497350065, "update_seconds": 0.08160386700001254, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 79, "skipped_motion": 547, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.489398626526229, "update_seconds": 0.08264558100017894, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 80, "skipped_motion": 554, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.544208886829692, "update_seconds": 0.08234571299999516, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 81, "skipped_motion": 561, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.7244435837174965, "update_seconds": 0.0820084889996906, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 81, "skipped_motion": 568, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.7244435837174965, "update_seconds": 0.0820084889996906, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 82, "skipped_motion": 575, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.233366078100582, "update_seconds": 0.08011595799962379, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 83, "skipped_motion": 582, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.332774243158518, "update_seconds": 0.08160080300012851, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 84, "skipped_motion": 588, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.7830763225912385, "update_seconds": 0.08194562499966196, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 85, "skipped_motion": 595, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.429722959739018, "update_seconds": 0.08198980800034406, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 86, "skipped_motion": 601, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 4, "ess": 4.647534943649772, "update_seconds": 0.08258140599991748, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 87, "skipped_motion": 608, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 5, "ess": 2.8165743715890827, "update_seconds": 0.08558848100028627, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 88, "skipped_motion": 615, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 5, "ess": 6.400177118020699, "update_seconds": 0.08232031200031997, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 89, "skipped_motion": 621, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 5, "ess": 4.631314208416469, "update_seconds": 0.08170289899999261, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 90, "skipped_motion": 628, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 6, "ess": 3.5249271134007323, "update_seconds": 0.08800913300001412, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 91, "skipped_motion": 634, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 6, "ess": 7.051829711782875, "update_seconds": 0.08126680199984548, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 92, "skipped_motion": 641, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 6, "ess": 6.957201688012615, "update_seconds": 0.08161695300032079, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 93, "skipped_motion": 648, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 7, "ess": 2.347853534217774, "update_seconds": 0.08575284500011549, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 94, "skipped_motion": 654, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 7, "ess": 5.832807129406412, "update_seconds": 0.08204588099988541, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 95, "skipped_motion": 661, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 7, "ess": 4.818747025237602, "update_seconds": 0.08125883999991856, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 96, "skipped_motion": 668, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 7, "ess": 4.477027031584592, "update_seconds": 0.08079980299999079, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 97, "skipped_motion": 674, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 1.160026285195872, "update_seconds": 0.08798742599992693, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 98, "skipped_motion": 681, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.968659223880849, "update_seconds": 0.08195077899972603, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 99, "skipped_motion": 687, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.866162683895976, "update_seconds": 0.0817822089998117, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 100, "skipped_motion": 694, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.444864042287876, "update_seconds": 0.08123697600012747, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 101, "skipped_motion": 701, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.532627008114703, "update_seconds": 0.07998260199974538, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 101, "skipped_motion": 708, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.532627008114703, "update_seconds": 0.07998260199974538, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 102, "skipped_motion": 715, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.4091478066679946, "update_seconds": 0.0818902020000678, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 103, "skipped_motion": 722, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.534951388377903, "update_seconds": 0.07965407699975913, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 104, "skipped_motion": 728, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.362542747831612, "update_seconds": 0.07987638899976446, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 105, "skipped_motion": 735, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.262806285662808, "update_seconds": 0.0798450839997713, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 106, "skipped_motion": 742, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.355127081115598, "update_seconds": 0.08268933099998321, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 107, "skipped_motion": 748, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.148502336225777, "update_seconds": 0.08291638699984105, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 108, "skipped_motion": 755, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.144735104801247, "update_seconds": 0.08131233299991436, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 109, "skipped_motion": 762, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.058972752215334, "update_seconds": 0.08155465099980574, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 110, "skipped_motion": 768, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 6.048620273543638, "update_seconds": 0.0844895010000073, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 111, "skipped_motion": 775, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 5.927140593583012, "update_seconds": 0.08269007600028999, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 112, "skipped_motion": 781, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 4.698028950360093, "update_seconds": 0.08338953700013008, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 113, "skipped_motion": 788, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 8, "ess": 4.4403533314425845, "update_seconds": 0.08730706599999394, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 114, "skipped_motion": 795, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 2.926537919844737, "update_seconds": 0.08485154899972258, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 115, "skipped_motion": 801, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 7.8450016468258665, "update_seconds": 0.08231331300021338, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 116, "skipped_motion": 808, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 7.648550325382298, "update_seconds": 0.08697474600012356, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 117, "skipped_motion": 815, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 6.881919286122054, "update_seconds": 0.08101236899983633, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 118, "skipped_motion": 821, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 6.747225891178149, "update_seconds": 0.08098446699978012, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 119, "skipped_motion": 828, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 6.3680759784685215, "update_seconds": 0.08193374200027392, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 120, "skipped_motion": 834, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 6.474488434420183, "update_seconds": 0.08014479700023003, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 121, "skipped_motion": 841, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 6.5507745256263625, "update_seconds": 0.08182823499964798, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 122, "skipped_motion": 848, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 6.7528506259692005, "update_seconds": 0.08434995700008585, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 122, "skipped_motion": 855, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 6.7528506259692005, "update_seconds": 0.08434995700008585, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 123, "skipped_motion": 862, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 5.312215576162283, "update_seconds": 0.084070894999968, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 124, "skipped_motion": 869, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 4.614894136317905, "update_seconds": 0.07988290499997674, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 125, "skipped_motion": 875, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 4.797769614452331, "update_seconds": 0.08043593699994744, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 126, "skipped_motion": 882, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 5.25782727164361, "update_seconds": 0.08068059600009292, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 127, "skipped_motion": 888, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 5.249302821062724, "update_seconds": 0.0799985150001703, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 128, "skipped_motion": 895, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 4.950788585595874, "update_seconds": 0.08065575399996305, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 129, "skipped_motion": 902, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 9, "ess": 4.59808879436497, "update_seconds": 0.08357111899977099, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 130, "skipped_motion": 908, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 2.472217128534533, "update_seconds": 0.0820737660001214, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 131, "skipped_motion": 915, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 7.88260346802503, "update_seconds": 0.07979643299995587, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 132, "skipped_motion": 922, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 7.5398748936514295, "update_seconds": 0.0833376139999018, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 133, "skipped_motion": 928, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 7.332955217130964, "update_seconds": 0.07980883600021116, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 134, "skipped_motion": 935, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 7.164841010441552, "update_seconds": 0.07954507100021146, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 135, "skipped_motion": 942, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 7.049557154421939, "update_seconds": 0.07942592599965792, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 136, "skipped_motion": 948, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 6.46958835369067, "update_seconds": 0.08028536800020447, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 137, "skipped_motion": 955, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 5.780304602653338, "update_seconds": 0.08177887500005454, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 138, "skipped_motion": 961, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 5.268085737698664, "update_seconds": 0.08195849999992788, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 139, "skipped_motion": 968, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 5.059637257418806, "update_seconds": 0.08146154299993213, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 140, "skipped_motion": 975, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 4.68382471427973, "update_seconds": 0.08363282500022251, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 141, "skipped_motion": 981, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 10, "ess": 4.157084505488818, "update_seconds": 0.08648829300000216, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 142, "skipped_motion": 988, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 11, "ess": 2.8607397630773153, "update_seconds": 0.0845251709997683, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 143, "skipped_motion": 995, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 11, "ess": 7.293700893424065, "update_seconds": 0.08464596099975097, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 143, "skipped_motion": 1002, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 11, "ess": 7.293700893424065, "update_seconds": 0.08464596099975097, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 144, "skipped_motion": 1009, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 11, "ess": 7.217177702198183, "update_seconds": 0.08789820199990572, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 145, "skipped_motion": 1016, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 11, "ess": 7.381105979935238, "update_seconds": 0.08311285600029805, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 146, "skipped_motion": 1022, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 1.5685124898001204, "update_seconds": 0.08222564299967416, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 147, "skipped_motion": 1029, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 7.912073358519048, "update_seconds": 0.08265354000013758, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 148, "skipped_motion": 1035, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 7.83727896954541, "update_seconds": 0.08073901799980376, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 149, "skipped_motion": 1042, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 7.680088966318889, "update_seconds": 0.08149956200031738, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 150, "skipped_motion": 1049, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 7.307557643187209, "update_seconds": 0.08220394999989367, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 151, "skipped_motion": 1055, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 6.75601820407104, "update_seconds": 0.08065567200037549, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 152, "skipped_motion": 1062, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 5.193449351607534, "update_seconds": 0.08317535700007284, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 153, "skipped_motion": 1069, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 4.9845795683135625, "update_seconds": 0.08020564800017382, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 154, "skipped_motion": 1075, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 12, "ess": 4.770263985409609, "update_seconds": 0.08060632099977738, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 155, "skipped_motion": 1082, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 2.743052610411057, "update_seconds": 0.08383824800012007, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 156, "skipped_motion": 1089, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 6.9558599591146395, "update_seconds": 0.084241973999724, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 157, "skipped_motion": 1095, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 6.672774087653749, "update_seconds": 0.08112697800015667, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 158, "skipped_motion": 1102, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 5.06191975645455, "update_seconds": 0.08183171099972242, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 159, "skipped_motion": 1109, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 4.293101871427603, "update_seconds": 0.08460281299994676, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 160, "skipped_motion": 1115, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 4.713681881144535, "update_seconds": 0.08341107799969905, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 161, "skipped_motion": 1122, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 5.0689177702498736, "update_seconds": 0.08670441999993272, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 162, "skipped_motion": 1128, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 5.588833009908165, "update_seconds": 0.08017057699998986, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 163, "skipped_motion": 1135, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 5.700871403418047, "update_seconds": 0.08947804099989298, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 164, "skipped_motion": 1142, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 5.6444190910885546, "update_seconds": 0.08208738699977403, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 164, "skipped_motion": 1149, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 5.6444190910885546, "update_seconds": 0.08208738699977403, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 165, "skipped_motion": 1156, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 5.01581741364713, "update_seconds": 0.08268352300001425, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 166, "skipped_motion": 1163, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 13, "ess": 4.966699196439062, "update_seconds": 0.08319342599997981, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 167, "skipped_motion": 1169, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 2.082952444239503, "update_seconds": 0.08391818700010845, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 168, "skipped_motion": 1176, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 7.943702857352087, "update_seconds": 0.0822721299996374, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 169, "skipped_motion": 1183, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 6.6571452195454315, "update_seconds": 0.08501412099985828, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 170, "skipped_motion": 1189, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 6.646335561899039, "update_seconds": 0.08491110900013155, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 171, "skipped_motion": 1196, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 6.328330403909464, "update_seconds": 0.08353766399977758, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 172, "skipped_motion": 1203, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 6.458547570182824, "update_seconds": 0.08719569599998067, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 173, "skipped_motion": 1209, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 6.207336378303226, "update_seconds": 0.08375900900000488, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 174, "skipped_motion": 1216, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 5.843546588706983, "update_seconds": 0.08366540999986682, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 175, "skipped_motion": 1223, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 6.033430770573047, "update_seconds": 0.08595749899996008, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 176, "skipped_motion": 1229, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 5.882842869982816, "update_seconds": 0.08134004700013975, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 177, "skipped_motion": 1236, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 5.9899903710033815, "update_seconds": 0.08483215199976257, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 178, "skipped_motion": 1242, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 14, "ess": 5.241891582759523, "update_seconds": 0.08031199799961541, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 179, "skipped_motion": 1249, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 15, "ess": 3.5164067010841706, "update_seconds": 0.08596629200019379, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 180, "skipped_motion": 1256, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 15, "ess": 7.613090856184464, "update_seconds": 0.08026697400009652, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 181, "skipped_motion": 1262, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 15, "ess": 7.5854976511025525, "update_seconds": 0.08437636100006785, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 182, "skipped_motion": 1269, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 15, "ess": 6.459088095487619, "update_seconds": 0.0833193029998256, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 183, "skipped_motion": 1276, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 15, "ess": 6.053257715897756, "update_seconds": 0.08100077300014163, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 184, "skipped_motion": 1282, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 15, "ess": 5.159176037376654, "update_seconds": 0.08551479400011885, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 185, "skipped_motion": 1289, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 3.7062318126260716, "update_seconds": 0.08182350299966856, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 186, "skipped_motion": 1296, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 6.123980440089992, "update_seconds": 0.08641493999994054, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 186, "skipped_motion": 1303, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 6.123980440089992, "update_seconds": 0.08641493999994054, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 187, "skipped_motion": 1310, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 6.1406687954515435, "update_seconds": 0.08049884899992321, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 188, "skipped_motion": 1317, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 6.198382632330238, "update_seconds": 0.07992710100006661, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 189, "skipped_motion": 1323, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 5.587970943418658, "update_seconds": 0.08017304099985267, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 190, "skipped_motion": 1330, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 5.009974332089171, "update_seconds": 0.08025316899966128, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 191, "skipped_motion": 1337, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 4.752983380306168, "update_seconds": 0.08370194000008269, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 192, "skipped_motion": 1343, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 5.319350088476353, "update_seconds": 0.0812422610001704, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 193, "skipped_motion": 1350, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 5.493249713324785, "update_seconds": 0.08076475699999719, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 194, "skipped_motion": 1356, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 5.451574143893091, "update_seconds": 0.08083490200033339, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 195, "skipped_motion": 1363, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 5.616606561431108, "update_seconds": 0.08115374499993777, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 196, "skipped_motion": 1370, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 5.633687695078262, "update_seconds": 0.08547919000011461, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 197, "skipped_motion": 1376, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 4.820170797944622, "update_seconds": 0.08468600600008358, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 198, "skipped_motion": 1383, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 4.907607635635378, "update_seconds": 0.0860505750001721, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 199, "skipped_motion": 1390, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 16, "ess": 4.892050469778489, "update_seconds": 0.08200546799980657, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 200, "skipped_motion": 1396, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 17, "ess": 3.8831505688719465, "update_seconds": 0.0908744809999007, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 201, "skipped_motion": 1403, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 17, "ess": 7.9488948477553905, "update_seconds": 0.0848393359997317, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 202, "skipped_motion": 1410, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 17, "ess": 7.814757736687619, "update_seconds": 0.08772606499996982, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 203, "skipped_motion": 1416, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 17, "ess": 7.433324819012999, "update_seconds": 0.07983170399984374, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 204, "skipped_motion": 1423, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 17, "ess": 7.227913135418258, "update_seconds": 0.07972729099992648, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 205, "skipped_motion": 1430, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 17, "ess": 7.3049603831921575, "update_seconds": 0.08102835399995456, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 209, "skipped_motion": 1433, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 17, "ess": 6.595659551352661, "update_seconds": 0.07854879299975437, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 212, "skipped_motion": 1438, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 18, "ess": 4.4067438169915, "update_seconds": 0.0806157360002544, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 218, "skipped_motion": 1440, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 19, "ess": 5.677232897664177, "update_seconds": 0.08308791499985091, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 225, "skipped_motion": 1440, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 20, "ess": 6.253439768544346, "update_seconds": 0.08615558700012116, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 233, "skipped_motion": 1440, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 22, "ess": 4.199532494523287, "update_seconds": 0.08806477299958715, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 234, "skipped_motion": 1447, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 23, "ess": 3.9058900074566463, "update_seconds": 0.08728255899995929, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 234, "skipped_motion": 1454, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 23, "ess": 3.9058900074566463, "update_seconds": 0.08728255899995929, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 236, "skipped_motion": 1460, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 23, "ess": 6.990131286294008, "update_seconds": 0.08854452199966545, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 240, "skipped_motion": 1464, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 23, "ess": 4.530139884841316, "update_seconds": 0.08633599800032243, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 241, "skipped_motion": 1470, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 24, "ess": 3.9657954854585262, "update_seconds": 0.09160157199994501, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 244, "skipped_motion": 1475, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 25, "ess": 2.2077388918931558, "update_seconds": 0.09245801299994127, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 245, "skipped_motion": 1481, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 25, "ess": 7.879561540048695, "update_seconds": 0.08218677000013486, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 247, "skipped_motion": 1487, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 25, "ess": 6.994690398699478, "update_seconds": 0.0873110029997406, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 254, "skipped_motion": 1488, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 27, "ess": 7.082185548351152, "update_seconds": 0.08313954100003684, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 257, "skipped_motion": 1492, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 27, "ess": 5.788190818808574, "update_seconds": 0.08207820999996329, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 261, "skipped_motion": 1496, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 27, "ess": 5.780322591173678, "update_seconds": 0.08833875799973612, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 265, "skipped_motion": 1500, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 3.453986232853623, "update_seconds": 0.08131746099979864, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 267, "skipped_motion": 1505, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 7.082495397830412, "update_seconds": 0.08048075099986818, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 268, "skipped_motion": 1512, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 5.9251924304194645, "update_seconds": 0.08040373499989073, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 269, "skipped_motion": 1518, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 5.864314842937475, "update_seconds": 0.08090429399999266, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 270, "skipped_motion": 1525, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 5.705109429085703, "update_seconds": 0.08235181600002761, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 274, "skipped_motion": 1528, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 5.090928380317458, "update_seconds": 0.08207596300007935, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 275, "skipped_motion": 1535, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 5.065794858510858, "update_seconds": 0.08183673900020949, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 279, "skipped_motion": 1539, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 4.916461913505976, "update_seconds": 0.08546742999988055, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 283, "skipped_motion": 1543, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 28, "ess": 4.334508054014743, "update_seconds": 0.08433865000006335, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 287, "skipped_motion": 1546, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 29, "ess": 7.576729705321255, "update_seconds": 0.08989285300003758, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 295, "skipped_motion": 1546, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 29, "ess": 4.958851136124363, "update_seconds": 0.09346892100029436, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 302, "skipped_motion": 1546, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 31, "ess": 3.8853324774438223, "update_seconds": 0.0917142939997575, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 306, "skipped_motion": 1550, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 32, "ess": 6.983386815688101, "update_seconds": 0.08727620099989508, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 310, "skipped_motion": 1554, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 33, "ess": 7.257888164974907, "update_seconds": 0.0892711540000164, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 316, "skipped_motion": 1555, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 34, "ess": 5.122575164552396, "update_seconds": 0.09164219299964316, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 320, "skipped_motion": 1559, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 35, "ess": 6.978515930798244, "update_seconds": 0.09264319500016427, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 324, "skipped_motion": 1563, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 35, "ess": 5.393109310593547, "update_seconds": 0.09258780200025285, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 327, "skipped_motion": 1567, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 35, "ess": 4.975277886568789, "update_seconds": 0.09438296100006482, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 331, "skipped_motion": 1571, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 35, "ess": 5.776655629110701, "update_seconds": 0.08466519900002822, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 335, "skipped_motion": 1574, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 35, "ess": 5.210581400993861, "update_seconds": 0.08999028600010206, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 338, "skipped_motion": 1579, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 36, "ess": 3.7617867453552623, "update_seconds": 0.09114282800010187, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 342, "skipped_motion": 1582, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 36, "ess": 6.945184200514364, "update_seconds": 0.09045089000028383, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 349, "skipped_motion": 1582, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 38, "ess": 4.479336693377526, "update_seconds": 0.08161348399971757, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 350, "skipped_motion": 1589, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 38, "ess": 4.608986958920486, "update_seconds": 0.08996775199966578, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 354, "skipped_motion": 1592, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 39, "ess": 4.085307366750768, "update_seconds": 0.09254175199976089, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 358, "skipped_motion": 1596, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 41, "ess": 1.667954731769612, "update_seconds": 0.0949819029997343, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 362, "skipped_motion": 1600, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 42, "ess": 7.273378675551738, "update_seconds": 0.09209023499988689, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 365, "skipped_motion": 1604, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 42, "ess": 4.556792761676732, "update_seconds": 0.08863409200012029, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 368, "skipped_motion": 1609, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 43, "ess": 7.660177586675074, "update_seconds": 0.0982097099999919, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 372, "skipped_motion": 1613, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 43, "ess": 4.78615991528397, "update_seconds": 0.09858451800027979, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 376, "skipped_motion": 1616, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 45, "ess": 1.9311208326172937, "update_seconds": 0.10295879599971158, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 380, "skipped_motion": 1620, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 45, "ess": 5.855990163110465, "update_seconds": 0.1008548059999157, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 383, "skipped_motion": 1624, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 45, "ess": 6.256245693934019, "update_seconds": 0.10054503700030182, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 387, "skipped_motion": 1628, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 45, "ess": 5.033100305356067, "update_seconds": 0.0931203390000519, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 389, "skipped_motion": 1634, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 45, "ess": 5.09897876740838, "update_seconds": 0.09979787800011763, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 392, "skipped_motion": 1638, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 45, "ess": 4.080548282782906, "update_seconds": 0.10015018700005385, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 396, "skipped_motion": 1642, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 46, "ess": 6.662542221889609, "update_seconds": 0.10255978900022455, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 400, "skipped_motion": 1646, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 47, "ess": 3.426570974570192, "update_seconds": 0.10088368300012007, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 404, "skipped_motion": 1649, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 47, "ess": 6.414170359185731, "update_seconds": 0.10052440599974943, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 408, "skipped_motion": 1653, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 48, "ess": 3.846308460243566, "update_seconds": 0.09200745799989818, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 411, "skipped_motion": 1657, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 48, "ess": 6.7951992896093465, "update_seconds": 0.0926990860002661, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 412, "skipped_motion": 1664, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 48, "ess": 7.072727898268357, "update_seconds": 0.0978905400002077, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 413, "skipped_motion": 1670, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 48, "ess": 5.187877438998534, "update_seconds": 0.08740220599975146, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 414, "skipped_motion": 1677, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 49, "ess": 2.455420848665934, "update_seconds": 0.09745356799976435, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 415, "skipped_motion": 1684, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 49, "ess": 7.8280216360219494, "update_seconds": 0.0957857629996397, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 415, "skipped_motion": 1691, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 49, "ess": 7.8280216360219494, "update_seconds": 0.0957857629996397, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 417, "skipped_motion": 1697, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 49, "ess": 5.629086501373561, "update_seconds": 0.09109612000020206, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 422, "skipped_motion": 1700, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 49, "ess": 5.491617520513367, "update_seconds": 0.08718569299981027, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 423, "skipped_motion": 1706, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 49, "ess": 4.635336334529843, "update_seconds": 0.09103190299993003, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 427, "skipped_motion": 1710, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 49, "ess": 5.052627960825717, "update_seconds": 0.08447128099987822, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 428, "skipped_motion": 1716, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 50, "ess": 3.625419162505776, "update_seconds": 0.08652731199981645, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 435, "skipped_motion": 1717, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 50, "ess": 4.494673536059672, "update_seconds": 0.0831507610000699, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 438, "skipped_motion": 1722, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 51, "ess": 3.910216395900534, "update_seconds": 0.08765792100030012, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 442, "skipped_motion": 1725, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 52, "ess": 1.8896545921123598, "update_seconds": 0.09017107199997554, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 446, "skipped_motion": 1729, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 52, "ess": 4.834054447203861, "update_seconds": 0.09343814099975134, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 449, "skipped_motion": 1733, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 52, "ess": 4.514513774943886, "update_seconds": 0.08639831000027698, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 453, "skipped_motion": 1737, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 53, "ess": 5.351972568519084, "update_seconds": 0.08782631699978083, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 458, "skipped_motion": 1740, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 54, "ess": 5.0502312404780145, "update_seconds": 0.08482308999964516, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 460, "skipped_motion": 1745, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 55, "ess": 1.646348510390742, "update_seconds": 0.0939125029999559, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 466, "skipped_motion": 1747, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 56, "ess": 6.487991431244366, "update_seconds": 0.09647018299983756, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 473, "skipped_motion": 1747, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 58, "ess": 6.417045817620299, "update_seconds": 0.09000249000018812, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 478, "skipped_motion": 1750, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 59, "ess": 6.289581621263746, "update_seconds": 0.09339536100014811, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 479, "skipped_motion": 1757, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 59, "ess": 5.0635033166343515, "update_seconds": 0.09289777100002539, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 480, "skipped_motion": 1763, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 59, "ess": 4.855412703437696, "update_seconds": 0.08749196600001596, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 481, "skipped_motion": 1770, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 59, "ess": 4.280764108786045, "update_seconds": 0.09104509400003735, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 482, "skipped_motion": 1776, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 60, "ess": 2.686472445404824, "update_seconds": 0.09151959900009388, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 483, "skipped_motion": 1783, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 60, "ess": 6.697936274641517, "update_seconds": 0.09339630700014823, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 484, "skipped_motion": 1790, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 60, "ess": 6.000189563027267, "update_seconds": 0.09652983200021481, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 485, "skipped_motion": 1796, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 60, "ess": 6.033191298447653, "update_seconds": 0.08821088500008045, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 486, "skipped_motion": 1803, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 60, "ess": 5.529457940186079, "update_seconds": 0.08668225599967627, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 487, "skipped_motion": 1809, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 60, "ess": 5.001913454545959, "update_seconds": 0.08635063700012324, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 490, "skipped_motion": 1814, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 61, "ess": 3.765845210408441, "update_seconds": 0.08799874599981194, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 493, "skipped_motion": 1819, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 61, "ess": 7.03940650037073, "update_seconds": 0.08843132099991635, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 498, "skipped_motion": 1821, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 62, "ess": 6.250047722955647, "update_seconds": 0.10010659900035535, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 499, "skipped_motion": 1828, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 62, "ess": 6.683198264012119, "update_seconds": 0.09984433499994338, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 503, "skipped_motion": 1831, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 64, "ess": 1.5316928890498627, "update_seconds": 0.09992936500020733, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 507, "skipped_motion": 1835, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 64, "ess": 6.994998243666702, "update_seconds": 0.09628276900002675, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 511, "skipped_motion": 1839, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 64, "ess": 6.851373230608789, "update_seconds": 0.09882597299974805, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 514, "skipped_motion": 1843, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 64, "ess": 5.444878942572151, "update_seconds": 0.09927990500000305, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 518, "skipped_motion": 1847, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 7.842108097091966, "update_seconds": 0.10071680100008962, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 522, "skipped_motion": 1850, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 7.8400914270141335, "update_seconds": 0.09938386000021637, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 526, "skipped_motion": 1854, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 5.604016483228582, "update_seconds": 0.10016357999984393, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 530, "skipped_motion": 1858, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 6.5498279756604685, "update_seconds": 0.09032145999981367, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 532, "skipped_motion": 1863, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 6.616714834340693, "update_seconds": 0.09034744199971101, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 534, "skipped_motion": 1869, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 6.697430060774218, "update_seconds": 0.09272935899980439, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 538, "skipped_motion": 1872, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 5.6728313231444085, "update_seconds": 0.09602419900011228, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 542, "skipped_motion": 1876, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 5.392236390776372, "update_seconds": 0.08834546199977922, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 546, "skipped_motion": 1880, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 65, "ess": 4.663837048205506, "update_seconds": 0.09604667599978711, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 549, "skipped_motion": 1884, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 66, "ess": 3.4556018031283444, "update_seconds": 0.0960543719997986, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 553, "skipped_motion": 1887, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 66, "ess": 5.541295138616829, "update_seconds": 0.09575994700026058, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 559, "skipped_motion": 1889, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 67, "ess": 7.259752018134442, "update_seconds": 0.09620907299995451, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 563, "skipped_motion": 1893, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 67, "ess": 4.513724997269568, "update_seconds": 0.09649136999996699, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 567, "skipped_motion": 1897, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 68, "ess": 7.934322299474604, "update_seconds": 0.09283264999976382, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 570, "skipped_motion": 1901, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 69, "ess": 7.386505270306284, "update_seconds": 0.08945943999970041, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 572, "skipped_motion": 1907, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 69, "ess": 7.584458565679394, "update_seconds": 0.08827629600000364, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 576, "skipped_motion": 1910, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 69, "ess": 6.511366361700117, "update_seconds": 0.08846034699990923, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 579, "skipped_motion": 1915, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 69, "ess": 6.437515012440791, "update_seconds": 0.0868555289998767, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 582, "skipped_motion": 1920, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 69, "ess": 5.237880885924168, "update_seconds": 0.08755875199994989, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 586, "skipped_motion": 1923, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 69, "ess": 4.895877680435526, "update_seconds": 0.08801010799970754, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 590, "skipped_motion": 1927, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 69, "ess": 5.006864266112224, "update_seconds": 0.09348527500014825, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 597, "skipped_motion": 1927, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 70, "ess": 7.671686530907045, "update_seconds": 0.09691960500003916, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 602, "skipped_motion": 1930, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 70, "ess": 6.609110480781319, "update_seconds": 0.09517154300010588, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 608, "skipped_motion": 1931, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 70, "ess": 6.2847166045430995, "update_seconds": 0.09110014099996988, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 613, "skipped_motion": 1934, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 70, "ess": 6.317613620872712, "update_seconds": 0.09422860399990896, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 617, "skipped_motion": 1938, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 70, "ess": 6.243021953478112, "update_seconds": 0.09326725199980501, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 621, "skipped_motion": 1941, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 70, "ess": 4.786566227549058, "update_seconds": 0.09438808100003371, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 625, "skipped_motion": 1945, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 71, "ess": 3.970610976018139, "update_seconds": 0.08799358199985363, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 629, "skipped_motion": 1948, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 71, "ess": 6.0178996855228615, "update_seconds": 0.09625229000039326, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 634, "skipped_motion": 1951, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 72, "ess": 7.9226405319321875, "update_seconds": 0.09189078000008521, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 636, "skipped_motion": 1957, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 72, "ess": 7.57985443508733, "update_seconds": 0.08937374100014495, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 640, "skipped_motion": 1960, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 72, "ess": 6.0949715238156355, "update_seconds": 0.08905691000018123, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 642, "skipped_motion": 1966, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 72, "ess": 5.665662046064785, "update_seconds": 0.08508343000039531, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 646, "skipped_motion": 1969, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 72, "ess": 4.61562789471581, "update_seconds": 0.08505513099999007, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 650, "skipped_motion": 1973, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 73, "ess": 6.548779832099203, "update_seconds": 0.08816499600015959, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 651, "skipped_motion": 1979, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 2.091495315661402, "update_seconds": 0.08654144899992389, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 652, "skipped_motion": 1986, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 6.667396933683106, "update_seconds": 0.08568500600040352, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 655, "skipped_motion": 1991, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 6.195077765409677, "update_seconds": 0.08659812799987776, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 656, "skipped_motion": 1997, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 6.2450209878906255, "update_seconds": 0.08697104699967895, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 658, "skipped_motion": 2003, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 5.435309234218194, "update_seconds": 0.08985816599988539, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 661, "skipped_motion": 2007, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 5.698371218030017, "update_seconds": 0.08653756099965904, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 665, "skipped_motion": 2011, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 4.701426490592654, "update_seconds": 0.0845707050002602, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 668, "skipped_motion": 2016, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 74, "ess": 4.769955771038536, "update_seconds": 0.08909955399985847, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 672, "skipped_motion": 2019, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 75, "ess": 7.547145001865367, "update_seconds": 0.09012292900024477, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 676, "skipped_motion": 2023, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 75, "ess": 7.3025185149400915, "update_seconds": 0.08822696600009294, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 679, "skipped_motion": 2027, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 75, "ess": 6.805270051253245, "update_seconds": 0.09189881500014963, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 682, "skipped_motion": 2032, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 75, "ess": 4.934690773562691, "update_seconds": 0.09327950699980647, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 686, "skipped_motion": 2036, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 7.713898717957957, "update_seconds": 0.0961399990001155, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 689, "skipped_motion": 2040, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 6.743317374176184, "update_seconds": 0.09518709800022407, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 693, "skipped_motion": 2044, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 4.203832773501055, "update_seconds": 0.08983258299986119, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 696, "skipped_motion": 2048, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 5.095505546815511, "update_seconds": 0.09352485599993088, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 700, "skipped_motion": 2052, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 5.570090716960057, "update_seconds": 0.08512301899963859, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 703, "skipped_motion": 2056, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 6.442899626007972, "update_seconds": 0.08361890799960747, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 704, "skipped_motion": 2063, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 6.270971122567184, "update_seconds": 0.08390873300004387, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 705, "skipped_motion": 2070, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 6.383155082457166, "update_seconds": 0.08399691600016013, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 708, "skipped_motion": 2074, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 5.57936666354344, "update_seconds": 0.08355701500022406, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 710, "skipped_motion": 2080, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 5.654579534786216, "update_seconds": 0.08304782400000477, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 712, "skipped_motion": 2085, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 76, "ess": 5.056373863337447, "update_seconds": 0.0834278929996799, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 714, "skipped_motion": 2091, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 77, "ess": 5.3154399589753805, "update_seconds": 0.08199942600003851, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 715, "skipped_motion": 2098, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 77, "ess": 4.958434666120514, "update_seconds": 0.0823451239998576, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 716, "skipped_motion": 2104, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 77, "ess": 4.337600119485061, "update_seconds": 0.08170578299996123, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 719, "skipped_motion": 2109, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.744696802326554, "update_seconds": 0.08165966499973365, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 720, "skipped_motion": 2115, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.2753304876333535, "update_seconds": 0.08054719500023566, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 722, "skipped_motion": 2121, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 5.877806064727166, "update_seconds": 0.08005706699987059, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 724, "skipped_motion": 2127, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.075327661577257, "update_seconds": 0.07847111199998835, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 725, "skipped_motion": 2133, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.3105196247296345, "update_seconds": 0.0779080399997838, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 726, "skipped_motion": 2140, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.357849492849396, "update_seconds": 0.07891890599967155, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 727, "skipped_motion": 2146, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.344175030884991, "update_seconds": 0.07839627899966217, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 728, "skipped_motion": 2153, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.660078032937256, "update_seconds": 0.07818382599998586, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 728, "skipped_motion": 2160, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.660078032937256, "update_seconds": 0.07818382599998586, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 729, "skipped_motion": 2167, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.61163787336456, "update_seconds": 0.07799227699979383, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 736, "skipped_motion": 2168, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 6.284396167958888, "update_seconds": 0.07861955800035503, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 741, "skipped_motion": 2170, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 5.801240128938337, "update_seconds": 0.07921001800013983, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 742, "skipped_motion": 2177, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 5.080921860404137, "update_seconds": 0.07890719899978649, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 743, "skipped_motion": 2183, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 78, "ess": 4.865305836017457, "update_seconds": 0.08200012099996457, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 747, "skipped_motion": 2187, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.977737587009935, "update_seconds": 0.07808138200016401, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 748, "skipped_motion": 2193, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.84630851801757, "update_seconds": 0.08022762299970054, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 750, "skipped_motion": 2199, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.456995672924719, "update_seconds": 0.07792409100011355, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 751, "skipped_motion": 2206, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.406306447726352, "update_seconds": 0.07723544700002094, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 752, "skipped_motion": 2212, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.43637959097784, "update_seconds": 0.07728141999996296, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 753, "skipped_motion": 2219, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.394030243055738, "update_seconds": 0.0776837470002647, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 754, "skipped_motion": 2225, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.288312261531194, "update_seconds": 0.07917283699998734, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 755, "skipped_motion": 2232, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.156466496037564, "update_seconds": 0.0774841299999025, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 756, "skipped_motion": 2239, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.018201664217232, "update_seconds": 0.07776787400007379, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 761, "skipped_motion": 2241, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 6.907643077305071, "update_seconds": 0.07783249100020839, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 763, "skipped_motion": 2247, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 7.14067261568267, "update_seconds": 0.07823922899979152, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 768, "skipped_motion": 2249, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 6.645610868395993, "update_seconds": 0.07659603299998707, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 769, "skipped_motion": 2256, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 6.729501440548572, "update_seconds": 0.07694401099979586, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 770, "skipped_motion": 2263, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 6.687780056841913, "update_seconds": 0.0775393509998139, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 770, "skipped_motion": 2270, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 6.687780056841913, "update_seconds": 0.0775393509998139, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 773, "skipped_motion": 2275, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 6.771799323492579, "update_seconds": 0.08586640600015016, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 776, "skipped_motion": 2279, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 6.502877320039183, "update_seconds": 0.0826519269999153, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 780, "skipped_motion": 2283, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 5.494429420661723, "update_seconds": 0.0777425989999756, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 783, "skipped_motion": 2288, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 5.363566235761636, "update_seconds": 0.08170307199998206, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 786, "skipped_motion": 2292, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 4.718376667599784, "update_seconds": 0.08766719000004741, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 791, "skipped_motion": 2295, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 4.711849060259603, "update_seconds": 0.08734969999977693, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 797, "skipped_motion": 2296, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 5.231360890029629, "update_seconds": 0.08999785300011354, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 802, "skipped_motion": 2299, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 79, "ess": 4.944899460687075, "update_seconds": 0.08800473700011935, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 808, "skipped_motion": 2301, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 80, "ess": 5.72480728128104, "update_seconds": 0.08888384300007601, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 811, "skipped_motion": 2305, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 81, "ess": 2.918050014018242, "update_seconds": 0.10115970300012123, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 815, "skipped_motion": 2309, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 82, "ess": 7.574125878308088, "update_seconds": 0.10304511499998625, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 819, "skipped_motion": 2312, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 82, "ess": 6.687808032393125, "update_seconds": 0.10073156400039807, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 823, "skipped_motion": 2316, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 82, "ess": 5.5384931395558645, "update_seconds": 0.09588422300021193, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 826, "skipped_motion": 2320, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 82, "ess": 4.215847535432513, "update_seconds": 0.0979164350001156, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 830, "skipped_motion": 2324, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 83, "ess": 6.985758859349997, "update_seconds": 0.10033961699991778, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 834, "skipped_motion": 2328, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 83, "ess": 5.527294068737312, "update_seconds": 0.09997219099977883, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 838, "skipped_motion": 2331, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 84, "ess": 3.7484690293344416, "update_seconds": 0.10624310000002879, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 842, "skipped_motion": 2335, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 84, "ess": 6.731405784718155, "update_seconds": 0.10257503399998313, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 845, "skipped_motion": 2339, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 84, "ess": 5.654739783663031, "update_seconds": 0.10066024600018864, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 849, "skipped_motion": 2343, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 85, "ess": 3.8888538742501195, "update_seconds": 0.1038228130000789, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 853, "skipped_motion": 2347, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 85, "ess": 6.902784047058776, "update_seconds": 0.09818067000014707, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 857, "skipped_motion": 2350, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 85, "ess": 5.4018684557295575, "update_seconds": 0.0988907350001682, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 860, "skipped_motion": 2355, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 86, "ess": 3.398812162545608, "update_seconds": 0.09058697000000393, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 863, "skipped_motion": 2359, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 86, "ess": 4.988518223540571, "update_seconds": 0.08716620499990313, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 868, "skipped_motion": 2362, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 87, "ess": 3.1062123758036413, "update_seconds": 0.09206824100010635, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 870, "skipped_motion": 2368, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 87, "ess": 7.299298775029571, "update_seconds": 0.09037446499996804, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 874, "skipped_motion": 2371, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 88, "ess": 7.985694936128004, "update_seconds": 0.09180286599985266, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 878, "skipped_motion": 2375, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 88, "ess": 6.317954998190561, "update_seconds": 0.0922121249996053, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 881, "skipped_motion": 2379, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 88, "ess": 6.622128914186351, "update_seconds": 0.08617008400005943, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 884, "skipped_motion": 2384, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 89, "ess": 3.9974217336199733, "update_seconds": 0.09706497400020453, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 887, "skipped_motion": 2388, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 89, "ess": 5.919784447230894, "update_seconds": 0.09547459199984587, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 891, "skipped_motion": 2391, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 89, "ess": 5.569434058641918, "update_seconds": 0.0845165209998413, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 895, "skipped_motion": 2395, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 89, "ess": 4.69834399291857, "update_seconds": 0.08662847200002943, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 896, "skipped_motion": 2401, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 89, "ess": 4.354504327724024, "update_seconds": 0.09384839500035014, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 900, "skipped_motion": 2405, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 90, "ess": 7.964003365274848, "update_seconds": 0.08417750599983265, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 904, "skipped_motion": 2408, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 90, "ess": 4.00676239368925, "update_seconds": 0.08288280100032352, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 906, "skipped_motion": 2414, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 6.269111464297258, "update_seconds": 0.08241264499974932, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 910, "skipped_motion": 2418, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 6.9905475457507364, "update_seconds": 0.08083945699991091, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 917, "skipped_motion": 2418, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 5.989941617870089, "update_seconds": 0.08431919099984952, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 922, "skipped_motion": 2420, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 6.041927136210142, "update_seconds": 0.08259340099994006, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 924, "skipped_motion": 2426, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 6.2348646124074705, "update_seconds": 0.08304423100025815, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 928, "skipped_motion": 2430, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 4.8765588590856, "update_seconds": 0.08777168799997526, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 929, "skipped_motion": 2437, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 5.447661260547561, "update_seconds": 0.08741447400007019, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 930, "skipped_motion": 2443, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 5.361494030545024, "update_seconds": 0.08135013199989771, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 931, "skipped_motion": 2450, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 5.209020176140896, "update_seconds": 0.08233651099999406, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 934, "skipped_motion": 2454, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 91, "ess": 4.016863586636822, "update_seconds": 0.08148944100003064, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 935, "skipped_motion": 2461, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 3.621316596351058, "update_seconds": 0.08428421700000399, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 936, "skipped_motion": 2467, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 7.808081379862195, "update_seconds": 0.08193294100010462, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 937, "skipped_motion": 2474, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 7.716969891557726, "update_seconds": 0.08151560799979052, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 938, "skipped_motion": 2481, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 7.4832274496071065, "update_seconds": 0.08315707399970051, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 939, "skipped_motion": 2487, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 6.849754817345154, "update_seconds": 0.0816370980001011, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 940, "skipped_motion": 2494, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 6.563906570099403, "update_seconds": 0.08387898499995572, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 941, "skipped_motion": 2500, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 6.173121869025382, "update_seconds": 0.08082347200024742, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 942, "skipped_motion": 2507, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 5.859168374838756, "update_seconds": 0.0817034669998975, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 943, "skipped_motion": 2514, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 5.2399811175714515, "update_seconds": 0.08814500700009376, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 944, "skipped_motion": 2520, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 5.064782302413247, "update_seconds": 0.08042860399973506, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 945, "skipped_motion": 2527, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 4.8015451984269575, "update_seconds": 0.08047660900001574, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 946, "skipped_motion": 2533, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 4.458547382551087, "update_seconds": 0.07937408200041318, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 947, "skipped_motion": 2540, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 92, "ess": 4.5343926085986075, "update_seconds": 0.08010048899996036, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 948, "skipped_motion": 2546, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 3.633212412621368, "update_seconds": 0.08231953199992859, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 949, "skipped_motion": 2553, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 7.870094493144691, "update_seconds": 0.08075740200001746, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 950, "skipped_motion": 2560, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 7.932854771608091, "update_seconds": 0.08072309099998165, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 950, "skipped_motion": 2567, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 7.932854771608091, "update_seconds": 0.08072309099998165, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 951, "skipped_motion": 2574, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 7.322437190002171, "update_seconds": 0.07888706600033402, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 952, "skipped_motion": 2581, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 6.802489003734617, "update_seconds": 0.07923057399966638, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 953, "skipped_motion": 2587, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 6.695704989301814, "update_seconds": 0.08075210599963611, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 954, "skipped_motion": 2594, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 6.358554039104535, "update_seconds": 0.08538165700019817, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 955, "skipped_motion": 2600, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 5.684432788836128, "update_seconds": 0.084103504000268, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 956, "skipped_motion": 2607, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 5.598112246543005, "update_seconds": 0.08325527799979682, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 957, "skipped_motion": 2613, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 5.732643493670027, "update_seconds": 0.08117545899995093, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 958, "skipped_motion": 2620, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 5.566852471497957, "update_seconds": 0.08316729499983921, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 959, "skipped_motion": 2627, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 4.956842318172057, "update_seconds": 0.08262311499993302, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 960, "skipped_motion": 2633, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 5.08383471416095, "update_seconds": 0.0830073669999365, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 961, "skipped_motion": 2640, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 4.7623546680114055, "update_seconds": 0.08303159200022492, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 962, "skipped_motion": 2646, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 93, "ess": 4.47284919087479, "update_seconds": 0.09205274600026314, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 963, "skipped_motion": 2653, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 94, "ess": 3.755234831378109, "update_seconds": 0.08413030900010199, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 964, "skipped_motion": 2660, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 94, "ess": 7.732638034022027, "update_seconds": 0.08613254700003381, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 965, "skipped_motion": 2666, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 94, "ess": 7.591443905959886, "update_seconds": 0.08108774899983473, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---
+data: '{"state": "RUNNING", "processed_scans": 966, "skipped_motion": 2673, "rejected_stamp": 0, "invalid_scans": 0, "resamples": 94, "ess": 6.7842312805326115, "update_seconds": 0.08284987400020327, "clipped_rays": 0, "out_of_bounds_particles": 0, "adapter_error": "", "waiting_for": "", "dropped_scans": 0, "queued_scans": 0}'
+---

@@ -20,6 +20,9 @@ Los perfiles `config/bag16_compare_*.yaml` son experimentales y conservan el
 sensor/grilla físicos de `parcial_bag_scan_match.yaml`. El [ciclo bag16 01](ciclo_hitl_bag16_01.md)
 compara 8/16 partículas, prior 0,05/0,025 y sample 0,01/0,005 sobre `bag_mapa2`.
 No sustituyen el perfil físico de uso; requieren revisión humana del mapa.
+El [ciclo bag16 02](ciclo_hitl_bag16_02.md) agrega 24 partículas con los mismos
+valores de prior/sample por separado, y repite E16 como control de tiempos.
+Todos sus casos exigen backend Numba; N y aceleración son decisiones independientes.
 
 ## 6. Hiperparámetros del filtro
 

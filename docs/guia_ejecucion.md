@@ -374,6 +374,9 @@ La misma evaluación sobre el bag físico del 16/11 está registrada en
 [el ciclo bag16 01](ciclo_hitl_bag16_01.md), en un worktree separado. Sus
 replays headless no validan colas/descartes ROS ni cambian el perfil físico
 instalado. El análisis sin GT usa `slam/scripts/analyze_bag_cycle.py`.
+El [ciclo bag16 02](ciclo_hitl_bag16_02.md) documenta el ensayo autorizado de
+24 partículas, la comprobación obligatoria de Numba y los argumentos para
+compararlo con el control E16 sin desplazar los checkpoints del ciclo anterior.
 Si Numba no está instalado o `SLAM_DISABLE_NUMBA=1`, usa NumPy. No cambia el
 modelo ni los parámetros del sensor. La ruta compilada usa `fastmath=false` y
 calienta sus firmas antes de recibir sensores; el primer arranque puede tardar
