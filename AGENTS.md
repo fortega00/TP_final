@@ -19,6 +19,7 @@ Actualizado: 18 de noviembre de 2026. Workspace: `/home/fran/TP_final`.
 - Mantener `docs/guia_ejecucion.md` y `docs/parametros.md` con comandos para los cuatro modos e hiperparámetros completos con defaults reproducibles. Actualizar este archivo al cambiar interfaces, decisiones, comandos o validaciones.
 - Repositorio creado a pedido del usuario: **https://github.com/fortega00/TP_final**, privado, rama `main`, remoto `origin`. Mantener esa visibilidad salvo pedido expreso de publicación pública.
 - Distinguir evidencia sintética de pruebas físicas. No afirmar calidad del aula o del bag real sin ejecutarlos.
+- El usuario ejecuta las próximas comparaciones de Café en RViz/Gazebo. Preparación del 18/11: perfiles `cafe_compare_8`, `cafe_compare_16`, `cafe_compare_16_prior` y `cafe_compare_16_sample`, todos completos y sin cambiar `cafe.yaml`. Matriz, selección de revisiones por PYTHONPATH y captura en `docs/comparacion_cafe_manual.md`. No se autoriza lanzar estas pruebas durante la preparación; no fusionar la rama salvo mejora demostrada del mapa.
 
 ## Implementación
 

@@ -342,6 +342,9 @@ El diagnóstico informa scans integrados, omitidos por movimiento, rechazados po
 
 El worktree de profiling agrega kernels propios compilables con Numba para
 consultas del scan matcher, distancias del likelihood y escritura de la grilla.
+La [comparación manual de Café](comparacion_cafe_manual.md) permite al usuario
+seleccionar original u optimizado sin sustituir el paquete instalado y ensayar
+ocho/dieciséis partículas y cada hiperparámetro por separado.
 Si Numba no está instalado o `SLAM_DISABLE_NUMBA=1`, usa NumPy. No cambia el
 modelo ni los parámetros del sensor. La ruta compilada usa `fastmath=false` y
 calienta sus firmas antes de recibir sensores; el primer arranque puede tardar
