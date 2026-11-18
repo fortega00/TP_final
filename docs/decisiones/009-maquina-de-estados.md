@@ -82,7 +82,7 @@ Los demás casos (objetivo antes de ubicarse, objetivo nuevo en marcha, `/initia
 
 ## Punto abierto
 
-La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). La condición de salida de `LOCALIZING` y la de entrada a `LOST` se definen cuando esté medida una señal mejor.
+La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). Resuelto el 2026-11-17: el nodo de localización informa `LOST` cuando el residuo del scan contra el mapa supera 10 cm ([004](004-localizacion-en-mapa-conocido.md#detección-de-perdido)), y con eso la máquina frena y espera un `/initialpose` nuevo.
 
 ## Datos
 

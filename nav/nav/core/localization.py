@@ -63,7 +63,8 @@ class MonteCarloLocalization:
         self.poses = None
         self.diagnostics = {"processed_scans": 0, "skipped_motion": 0, "invalid_scans": 0,
                             "resamples": 0, "injected_particles": 0, "burst_iterations": 0,
-                            "ess": 0.0, "scan_score": 0.0, "update_seconds": 0.0}
+                            "ess": 0.0, "scan_score": 0.0, "scan_residual": 0.0,
+                            "update_seconds": 0.0}
 
     # ----- Inicialización -----
 
@@ -297,6 +298,15 @@ class MonteCarloLocalization:
         """La nube está concentrada: la estimación es confiable."""
         c = self.config.localization
         return self.std_xy < c.converged_std_xy and self.std_yaw < c.converged_std_yaw
+
+    def lost(self, scan: Scan) -> bool:
+        """La pose estimada no explica el scan: el robot está en otro lado.
+
+        Hace falta además de `converged`: la nube se puede cerrar en una pose
+        equivocada. Deja el residuo medido en `diagnostics["scan_residual"]`.
+        """
+        self.diagnostics["scan_residual"] = self.scan_residual(scan)
+        return self.diagnostics["scan_residual"] > self.config.localization.lost_residual
 
     def scan_residual(self, scan: Scan) -> float:
         """Distancia media de los extremos del scan a la pared más cercana del mapa.

@@ -265,6 +265,15 @@ class FilterTests(unittest.TestCase):
 
 
 class ExportAndConfigTests(unittest.TestCase):
+    def test_shipped_slam_profiles_load(self):
+        # Los perfiles instalados deben seguir siendo compatibles con el núcleo.
+        folder = Path(__file__).resolve().parents[1] / "config"
+        profiles = sorted(path for path in folder.glob("*.yaml") if path.name != "bag_qos.yaml")
+        self.assertTrue(profiles)
+        for path in profiles:
+            with self.subTest(profile=path.name):
+                SlamConfig.load_yaml(path)
+
     def test_export_flips_y_and_preserves_unknown(self):
         grid = OccupancyGrid(MapConfig(resolution=1, width=2, height=2, origin_x=-1, origin_y=-1))
         grid.observed[0, 0], grid.log_odds[0, 0] = True, 4

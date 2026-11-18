@@ -42,4 +42,3 @@ filter:
 update:
   min_translation: 0.08
   min_rotation: 0.06
-  max_interval: 1.0

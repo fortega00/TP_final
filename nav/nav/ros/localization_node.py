@@ -175,7 +175,7 @@ class LocalizationNode(Node):
                 started = time.perf_counter()
                 self.core.initialize(pose, std_xy, std_yaw)
                 converged = self.core.converge(scan)
-                self.state = 'LOCALIZED' if converged else 'NOT_CONVERGED'
+                self.state = self.state_for(scan)
                 self.get_logger().info(
                     f'Initial burst: {"converged" if converged else "did NOT converge"} in '
                     f'{self.core.diagnostics["burst_iterations"]} iterations, '
@@ -184,7 +184,7 @@ class LocalizationNode(Node):
             elif self.core.poses is None or not self.core.process(scan, odom):
                 return
             else:
-                self.state = 'LOCALIZED' if self.core.converged else 'NOT_CONVERGED'
+                self.state = self.state_for(scan)
         except ValueError as exc:
             self.fail(f'{exc}; send a new /initialpose')
             return
@@ -193,6 +193,15 @@ class LocalizationNode(Node):
         self.correction = estimate.compose(odom.inverse())
         self.publish_pose(estimate, message.header.stamp)
         self.publish_particles(message.header.stamp)
+
+    def state_for(self, scan):
+        """Estado que se informa después de una actualización del filtro."""
+        if self.core.lost(scan):
+            self.get_logger().warning(
+                f'Scan is {100 * self.core.diagnostics["scan_residual"]:.0f} cm off the map on average: '
+                'LOST, send a new /initialpose', throttle_duration_sec=5.0)
+            return 'LOST'
+        return 'LOCALIZED' if self.core.converged else 'NOT_CONVERGED'
 
     def fail(self, reason):
         if reason != self.error:

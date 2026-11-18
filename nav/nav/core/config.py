@@ -28,6 +28,9 @@ class LocalizationConfig:
     # La nube se considera convergida por debajo de estos desvíos (m, rad).
     converged_std_xy: float = 0.10
     converged_std_yaw: float = 0.10
+    # Perdido: el residuo del scan contra el mapa supera esto (m). Una nube cerrada
+    # en una pose equivocada pasa por convergida (docs/decisiones/004).
+    lost_residual: float = 0.10
     # Ráfaga inicial con el robot quieto, después de cada /initialpose.
     burst_max_iterations: int = 30
     # La ráfaga termina cuando una iteración más mueve la estimación menos que esto.
@@ -125,6 +128,8 @@ class NavConfig:
             raise ValueError("Motion gate and burst jitter must be nonnegative")
         if min(c.converged_std_xy, c.converged_std_yaw) <= 0:
             raise ValueError("Convergence thresholds must be positive")
+        if c.lost_residual <= 0:
+            raise ValueError("localization.lost_residual must be positive")
         if not 0 < c.injection_alpha_slow < c.injection_alpha_fast <= 1:
             raise ValueError("Require 0 < injection_alpha_slow < injection_alpha_fast <= 1")
         if not 0 < c.injection_max_fraction <= 1:

@@ -71,10 +71,9 @@ class FilterConfig:
 
 @dataclass(frozen=True)
 class UpdateConfig:
-    """Un scan se integra solo si el robot se movió o giró lo suficiente, o pasó max_interval."""
+    """Un scan se integra solo si el robot se movió o giró lo suficiente desde la última integración."""
     min_translation: float = 0.08
     min_rotation: float = 0.06
-    max_interval: float = 1.0
 
 
 @dataclass(frozen=True)
@@ -138,7 +137,7 @@ class SlamConfig:
             raise ValueError("occupied_threshold must be in (0.5,1)")
         if min(self.motion.alpha1, self.motion.alpha2, self.motion.alpha3, self.motion.alpha4) < 0:
             raise ValueError("Motion variance coefficients must be nonnegative")
-        if min(u.min_translation, u.min_rotation) < 0 or u.max_interval <= 0:
+        if min(u.min_translation, u.min_rotation) < 0:
             raise ValueError("Invalid update thresholds")
         k = self.scan_match
         if not isinstance(k.enabled, bool):

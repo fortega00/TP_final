@@ -114,9 +114,29 @@ Bag real del Parcial sobre el mapa del laboratorio de los profesores (`my_map3`)
 
 ## Métrica sin pose real
 
-Para el robot real pensaba usar el residuo del scan contra el mapa (distancia media de los extremos del scan a la pared más cercana, desde la pose estimada). En simulación, con el filtro ya convergido, el residuo no sigue al error real: la correlación entre los dos dio 0,41 en un tramo y -0,73 en el otro. Sirve como mucho para distinguir ubicado de perdido, y eso todavía no está medido.
+Para el robot real pensaba usar el residuo del scan contra el mapa (distancia media de los extremos del scan a la pared más cercana, desde la pose estimada). En simulación, con el filtro ya convergido, el residuo no sigue al error real: la correlación entre los dos dio 0,41 en un tramo y -0,73 en el otro. Para lo que sí sirve es para distinguir ubicado de perdido, ver la sección siguiente.
 
 Las medidas que lo reemplazan en el robot real están en [010](010-metricas-de-evaluacion.md).
+
+## Detección de perdido
+
+Decidida e implementada el 2026-11-17.
+
+Problema: con un click muy equivocado (90° en el aula, 2 m en el café) la ráfaga se cierra en una pose falsa. La nube queda concentrada, el filtro dice que convergió y el robot navegaría con una pose a metros de la real.
+
+| Opción | A favor | En contra |
+|---|---|---|
+| A. Mirar los puntos del lidar contra el mapa en RViz | Sin código | Depende de que alguien mire |
+| B. Declarar `LOST` cuando el residuo del scan supera un umbral | Una comparación por actualización. Separa bien los dos casos | Un umbral más. Muchas sillas movidas podrían subir el residuo |
+
+Elegí B con umbral de 10 cm (`localization.lost_residual`). El nodo informa `LOST`, la máquina de estados frena y espera un `/initialpose` nuevo. Si el residuo vuelve a bajar, el estado vuelve solo a `LOCALIZED`.
+
+| Datos | Bien ubicado | Perdido |
+|---|---|---|
+| Aula real, 82 corridas sobre los dos bags, contra el SLAM | Residuo de 1,3 cm de mediana. Supera 10 cm en el 0,1 % de las actualizaciones | 20 a 34 cm de mediana. Supera 10 cm en el 100 % |
+| Café simulado, 16 corridas, contra la pose real | 2,1 cm de mediana. 0 falsas alarmas en 2603 actualizaciones | 18,6 cm de mediana. Detectado en 351 de 366 (96 %) |
+
+Sin medir: el residuo con sillas movidas en el aula real. Se mide con el bag del paso 7 de la [guía de laboratorio](../robot_real_checklist.md).
 
 ## Pendiente
 

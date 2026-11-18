@@ -4,6 +4,8 @@ Todos los comandos se corren desde la carpeta `slam/` del repositorio, que es el
 
 La [revisión del 16/11/2026](revision_20261116.md) compara los cambios de Iván e incluye recetas específicas para el bag del Parcial y Café Fortress.
 
+Desde la corrección de deriva con el robot quieto ([012](decisiones/012-integracion-con-el-robot-quieto.md)), el SLAM integra solo por desplazamiento o giro. Antes de usar un YAML externo o archivado, quitar `update.max_interval`: el cargador lo rechaza. Los perfiles instalados, incluidos `cafe_compare_*.yaml`, ya están migrados. Resincronizar y construir antes de lanzar la versión nueva.
+
 ## 1. Prueba reproducible sin ROS
 
 Desde `~/TP_final/slam`:

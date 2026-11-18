@@ -1,6 +1,6 @@
 # Guía de ejecución de la etapa B
 
-Paquete `nav/`: localización sobre un mapa conocido y navegación a un objetivo. Las decisiones y sus datos están en [decisiones/](decisiones/) (004 a 011). El plan de la sesión con el robot real está en [robot_real_checklist.md](robot_real_checklist.md).
+Paquete `nav/`: localización sobre un mapa conocido y navegación a un objetivo. Las decisiones y sus datos están en [decisiones/](decisiones/) (004 a 012). El plan de las visitas al laboratorio está en [robot_real_checklist.md](robot_real_checklist.md).
 
 Todos los comandos van desde la carpeta `nav/`.
 
@@ -43,10 +43,10 @@ En el contenedor del RosMaster, `slam/scripts/sync_container.sh` copia y compila
 
 ```bash
 ros2 launch nav nav.launch.py map_file:=/ruta/al/mapa.yaml config_file:=$PWD/config/real.yaml \
-  base_frame:=base_link odom_topic:=/odom
+  base_frame:=base_footprint odom_topic:=/odom
 ```
 
-Después, en RViz: marcar la pose con **2D Pose Estimate** y el objetivo con **2D Goal Pose**.
+`base_footprint` es el frame de la base del robot del laboratorio, medido el 2026-11-16. Después, en RViz: marcar la pose con **2D Pose Estimate** y el objetivo con **2D Goal Pose**.
 
 | Argumento | Para qué |
 |---|---|
@@ -88,7 +88,10 @@ Publica un `/initialpose` corrido 36 cm, manda el objetivo e imprime el error re
 |---|---|
 | `/nav/pose` | Pose del robot en el mapa |
 | `/nav/particles` | Nube de partículas |
-| `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score` |
+| `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score`, `scan_residual` |
+
+`LOST` aparece cuando `scan_residual` (distancia media del scan a las paredes del mapa, en metros) supera 0,10: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
+
 | `/nav/plan` | Camino planificado |
 | `/nav/state` | JSON: estado de la máquina, si la parada de seguridad está activa y los últimos eventos |
 
@@ -100,7 +103,7 @@ Los scripts están en `scripts/`. El primero necesita ROS, el resto solo Python.
 
 ```bash
 # 1. Bag a .npz (entorno con ROS)
-python scripts/bag_to_npz.py bag_aula bag_aula.npz --base-frame base_link
+python scripts/bag_to_npz.py bag_aula bag_aula.npz --base-frame base_footprint
 
 # 2. Correr la localización sobre la grabación
 PYTHONPATH=../slam:. python3 scripts/replay_localization.py --input bag_aula.npz \

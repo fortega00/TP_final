@@ -54,7 +54,7 @@ Comentarios y docstrings en español; identificadores, mensajes de error y commi
 | `../docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
 | `../docs/guia_ejecucion.md`, `../docs/parametros.md`, `../docs/architecture.md`, `../docs/entrega_a.md` | Ejecución, parámetros, arquitectura e informe con diez respuestas. |
 
-Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `011`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3`, revisado solo a ojo). Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
+Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `012`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3_corregido`, sin medidas con cinta). El nodo de localización informa `LOST` si el residuo del scan supera `localization.lost_residual` (10 cm, decisión 004). Quedan dos visitas al laboratorio como máximo, repartidas en `docs/robot_real_checklist.md`. Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
 
 | Ruta | Responsabilidad |
 | --- | --- |
@@ -89,7 +89,7 @@ Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/d
 - 8 partículas con propuesta de scan matching (`docs/decisiones/002-propuesta-con-scan-matching.md`), semilla 7, remuestreo con ESS < 0,5 N; pose inicial `(0,0,0)` sin dispersión.
 - Sensor: `p_hit=0.70`, `p_free=0.35`, log-odds `[-4,4]`, espesor 0,08 m, rango 0,12–8 m, 180 haces de mapa/60 de likelihood, sigma 0,15 m, mezcla 0,95/0,05, distancia máxima 0,60 m, temperatura 1, ocupado 0,65.
 - Movimiento: `alpha1=0.0001`, `alpha2=0.00001`, `alpha3=0.0001`, `alpha4=0.0001`.
-- Incorporación por movimiento/tiempo: 0,08 m, 0,06 rad o 1 s.
+- Incorporación solo por movimiento: 0,08 m o 0,06 rad (`docs/decisiones/012-integracion-con-el-robot-quieto.md`).
 - Valores calificados sólo para el toy; **no calibrados en robot real**. Todas las opciones y fórmulas están en `docs/parametros.md`.
 - El usuario pidió conservar el perfil cinemático `ideal`. El 10/11 aprobó usar un recorrido guiado para cerrar la prueba de café, después de que el seguidor izquierdo necesitara recuperaciones. No agregar `stress` ni sesgos de movimiento a esa sesión.
 - El perfil café usa `sensor.min_range=0.25`: se observaron retornos del propio chasis a 0,14–0,20 m. Los defaults generales permanecen en 0,12 m.
@@ -208,3 +208,9 @@ Antes de B/C registrar sesiones físicas y verificar puertas, paredes, cobertura
 - Entorno `/home/alumno/rosmaster_ws/.venv`, Python 3.10 con `--system-site-packages` y `COLCON_IGNORE`. Numba 0.57.1, llvmlite 0.40.1 y pip 24.0 se instalan con ruedas descargadas en el host, sin pip global ni ensurepip en el contenedor. NumPy 1.21.5, SciPy 1.8.0 y PyYAML 5.4.1 siguen siendo los del sistema. No se modifica la imagen ni el helper de PRA_00.
 - `.bashrc` carga `~/rosmaster_ws/.tp_env/scripts/tp_env.bash`; las terminales nuevas activan ROS, overlay y venv. En terminales existentes, hacer `source` de ese archivo. `tp-env on|off|numpy|status` permite activar, salir restaurando variables, forzar NumPy y consultar versiones/backend. `on` antepone el site-packages del venv a `PYTHONPATH` para los nodos con shebang `/usr/bin/python3`; caché en `~/rosmaster_ws/.cache/numba`. Cambiar backend requiere relanzar procesos existentes.
 - Construcción de ambos paquetes e imports de Numba/llvmlite/rclpy aprobados; estado `SLAM backend: numba`. Se verificaron activación automática en Bash interactivo, backend NumPy con `tp-env numpy`, backend Numba desde `/usr/bin/python3` y retorno al Python del sistema con `tp-env off`. Esto verifica instalación, no una nueva corrida ni tiempos de ejecución. El entorno/caché no están montados en el host y se pierden al eliminar el contenedor. Detalles en `docs/guia_ejecucion.md` y `docs/parametros.md`.
+
+## Revisión de PR del 18/11/2026
+
+- PR #3 de Iván: integración solo por movimiento y detección `LOST` por residuo. Al combinar con main se migraron también los cuatro `cafe_compare_*.yaml` para quitar `update.max_interval`; se documentó la migración de YAML externos. Una prueba de carga de todos los perfiles instalados detectó los cuatro fallos antes de corregirlos. Las evidencias históricas conservan su código/configuración originales; no son una validación nueva del perfil D con esta compuerta.
+- Revisión sin nodos ROS, replays, RViz, Gazebo ni robot. PR #4 queda sin merge por la interacción entre `sensor.min_range=0.25` y `navigator.stop_distance=0.25` en Café: con la extrínseca registrada `(0.043, 0, pi)`, un retorno frontal a 0.20 m del láser (0.243 m del centro) no activa la parada.
+- Validación del resultado de PR #3 + main: suite A, 53 tests (46 aprobados y 7 omitidos por falta de ROS/Numba); suite B, 29 aprobados. La combinación de PR #4 + main pasó 36 tests B, pero no cubrían el perfil Café con su extrínseca y el umbral de parada reducido.

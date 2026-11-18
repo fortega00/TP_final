@@ -217,9 +217,9 @@ class FastSLAM:
         delta = Pose2D() if self._last_odom is None else self._last_odom.between(odom_pose)
         if self._last_odom is not None:
             u = self.config.update
-            if (math.hypot(delta.x, delta.y) < u.min_translation and
-                    abs(delta.yaw) < u.min_rotation and
-                    scan.stamp - self.last_stamp < u.max_interval):
+            # No hay integración por tiempo: con el robot quieto, cada integración
+            # muestrea una pose nueva y la estimación camina sola (docs/decisiones/012).
+            if math.hypot(delta.x, delta.y) < u.min_translation and abs(delta.yaw) < u.min_rotation:
                 self.diagnostics["skipped_motion"] += 1
                 return None
         return delta
