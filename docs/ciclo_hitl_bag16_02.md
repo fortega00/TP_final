@@ -1,5 +1,13 @@
 # Ciclo colaborativo bag16/11 02: 24 partículas
 
+Selección posterior del usuario tras revisar los mapas: los ve muy parecidos
+y pide adoptar la configuración que mejor dio, priorizando rapidez/utilidad.
+Se adopta E16 en el YAML habitual del robot/bag; ver
+[decisión 012](decisiones/012-perfil-real-e16.md). La mejora de residuos es
+modesta y ocho partículas son más rápidas. Los resultados, estados de revisión
+y restricciones que siguen conservan el cierre original del ciclo, anterior
+a esa selección. No se ejecutaron nuevas pruebas al adoptar el YAML.
+
 El usuario pidió explícitamente: «subamos a 24 particulas y probemos como queda
 el mapa», conservando los ejes de evaluación anteriores. Continúa en el
 worktree `/tmp/tp-final-bag-20261116-cycle01`, rama
