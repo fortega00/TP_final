@@ -114,16 +114,118 @@ Bag real del Parcial sobre el mapa del laboratorio de los profesores (`my_map3`)
 
 ## Métrica sin pose real
 
-Para el robot real pensaba usar el residuo del scan contra el mapa (distancia media de los extremos del scan a la pared más cercana, desde la pose estimada). En simulación, con el filtro ya convergido, el residuo no sigue al error real: la correlación entre los dos dio 0,41 en un tramo y -0,73 en el otro. Sirve como mucho para distinguir ubicado de perdido, y eso todavía no está medido.
+Para el robot real pensaba usar el residuo del scan contra el mapa (distancia media de los extremos del scan a la pared más cercana, desde la pose estimada). En simulación, con el filtro ya convergido, el residuo no sigue al error real: la correlación entre los dos dio 0,41 en un tramo y -0,73 en el otro. Para lo que sí sirve es para distinguir ubicado de perdido, ver la sección siguiente.
 
 Las medidas que lo reemplazan en el robot real están en [010](010-metricas-de-evaluacion.md).
+
+## Detección de perdido
+
+Decidida e implementada el 2026-11-17. La señal se cambió el mismo día, al sumar la evasión de obstáculos.
+
+Problema: con un click muy equivocado (90° en el aula, 2 m en el café) la ráfaga se cierra en una pose falsa. La nube queda concentrada, el filtro dice que convergió y el robot navegaría con una pose a metros de la real.
+
+Regla: el nodo informa `LOST` cuando más del 25 % de los puntos del scan cae a más de 20 cm de toda pared del mapa (`localization.lost_fraction` y `localization.unexplained_distance`). La máquina de estados frena y espera un `/initialpose` nuevo. Si la fracción vuelve a bajar, el estado vuelve solo a `LOCALIZED`. Justo después del click el umbral es 15 % y el rechazo no se levanta solo ([detalle](#umbral-más-estricto-justo-después-del-click)).
+
+| Señal | Falsas alarmas, bien ubicado | Detecta perdido, por actualización | Con un obstáculo cerca que no está en el mapa |
+|---|---|---|---|
+| A. Mirar los puntos del lidar en RViz | no aplica | Depende de que alguien mire | no aplica |
+| B. Distancia media a las paredes mayor que 10 cm | 0 % | 100 % aula, 94 % café | **Falla**: una caja de 40 cm a 25 cm sube la media a 10 cm. En Gazebo, 3 de 5 corridas con caja terminaron en `LOST` |
+| C. Mediana de la distancia mayor que 5 cm | 0 % | 97 % aula, **41 % café** | No la mueve |
+| D. Fracción de puntos a más de 20 cm de toda pared, mayor que 25 % | 0 % | 98 % aula, 72 % café | Una caja de 40 cm a 25 cm da 15 a 18 %. Un obstáculo de 90 cm a 25 cm da 23 a 25 % |
+
+Elegí D. Primero había elegido B, que separa mejor los dos casos pero choca con la evasión: un obstáculo tapa pocos rayos y queda muy lejos de las paredes, así que mueve mucho la media. La mediana (C) no ve un falso encaje, porque un falso encaje es justamente una pose que explica más de la mitad del scan.
+
+El 72 % es por actualización. Por episodio alcanza: en las 10 corridas perdidas (6 del aula, 4 del café) D marcó `LOST` en la primera actualización, y el robot frena con la primera.
+
+Datos: aula real, bags del 16/11 con click correcto y con 90° de error, 3822 actualizaciones ubicado y 2140 perdido, contra la corrida bien ubicada. Café simulado con pose real, 2590 ubicado y 547 perdido. Scripts en `tp4_final/review/` del repo personal (`lab_residual_statistic.py`).
+
+### Prueba en vivo en Gazebo (café), con los nodos ROS
+
+| Caso | `unexplained_fraction` | Estado |
+|---|---|---|
+| Bien ubicado, sin caja (4 corridas) | hasta 0,03 | `LOCALIZED` |
+| Bien ubicado, rodeando una caja de 30 cm (3 corridas) | 0,07 a 0,21 | `LOCALIZED`. Con la media, estas tres terminaban en `LOST` |
+| Click a 2 m, la ráfaga recupera la pose real (2 de 5) | 0,00 a 0,01 | `LOCALIZED` |
+| Click a 2 m, la ráfaga cae 1 a 3 m corrida a lo largo de un pasillo (3 de 5) | 0,22 a 0,24 | `LOCALIZED`, **no lo detectaba** con 25 % solo |
+
+### Umbral más estricto justo después del click
+
+Con 25 % solo, la regla no detecta un falso encaje corrido a lo largo de un pasillo, que explica casi el 80 % del scan. Y no se puede bajar el umbral en marcha: rodear una caja con la pose correcta llega a 21 %.
+
+Decidido el 2026-11-18: dos umbrales. En marcha sigue 25 % (`lost_fraction`). En la ráfaga del click, 15 % (`click_lost_fraction`). Un click rechazado descarta la estimación y el nodo queda en `LOST` hasta el próximo click.
+
+Datos, sobre la grabación del café con pose real (30 clicks: 6 errores de click por 5 semillas, `review/lab_lost_after_click.py`):
+
+| Resultado de la ráfaga | Casos | Fracción sin explicar | Con 25 % solo | Con 15 % en el click |
+|---|---|---|---|---|
+| Pose correcta (menos de 10 cm) | 15 | 0,00 a 0,01 | acepta | acepta |
+| Falso encaje a 1,5 a 3 m | 9 | 0,21 a 0,25 | **acepta, y tarda 26 a 29 s de marcha en detectarlo** | rechaza |
+| Error grueso | 5 | 0,78 | rechaza | rechaza |
+| A 69 cm, se corrige sola al moverse | 1 | 0,08 | acepta | acepta |
+
+En los bags del aula un click correcto deja 0,00 a 0,01 y uno a 90° deja 0,34 a 0,61. En Gazebo los tres falsos encajes quedaron en 0,22 a 0,24.
+
+Verificado en Gazebo con los nodos ROS, 31 clicks equivocados (2 m de error) con el robot quieto:
+
+| Resultado | Clicks | Fracción sin explicar |
+|---|---|---|
+| La ráfaga recupera la pose real (menos de 8 cm) | 11 | 0,00 a 0,01 |
+| `Click rejected`, queda en `LOST` | 14 | 0,20 a 0,25 y 0,77 a 0,83 |
+| **Acepta una pose corrida 67 a 71 cm** | 6 | 0,08 a 0,10 |
+
+Después de un rechazo, manejar sin marcar la pose de nuevo deja el estado en `LOST` (3 de 3), y un click correcto vuelve a `LOCALIZED` siempre.
+
+Límite que queda: el falso encaje a 70 cm no se detecta, porque deja sin explicar lo mismo que una caja a 2 m con la pose correcta (0,11). En la grabación del café ese caso se corrige solo al moverse, en unos 20 s. Mientras tanto el robot navega con 70 cm de error y lo único que lo cubre es la parada de seguridad.
+
+Alternativas descartadas:
+
+| Opción | Por qué no |
+|---|---|
+| Dejar 25 % y mirar los puntos del lidar en RViz | El falso encaje queda a ojo, y el robot navega 26 a 29 s con la pose mal |
+| Bajar a 20 % siempre | Rodear una caja de cerca da 21 %. Y los falsos encajes arrancan en 0,21: no queda margen |
+
+Costo: un click con algo nuevo y grande pegado al robot se rechaza (una caja de 40 cm a 25 cm da 15 a 18 %). Por eso la pose se marca con el robot en un lugar despejado. Si en el aula molesta, se sube `click_lost_fraction`; igual a `lost_fraction` vuelve al comportamiento anterior.
+
+Sin medir en el aula real con clicks equivocados ni con sillas movidas: sale de los pasos 4 y 7 de la [guía de laboratorio](../robot_real_checklist.md).
+
+## Velocidad y frecuencia de actualización
+
+Medido el 2026-11-18 para las preguntas 6 y 9 del informe, con `review/lab_partb_speed_frequency.py` del repo personal. Datos: los primeros 20,6 m de la grabación del café (75 s, 0,27 m/s), click sin error, semillas 1 / 2 / 3. El piso de 11 cm es el corrimiento del mapa de los profesores, no del filtro.
+
+**Velocidad.** Usar un scan de cada k equivale a un robot k veces más rápido con el mismo lidar.
+
+| Velocidad equivalente | Metros entre actualizaciones | RMSE (cm) | Máximo (cm) |
+|---|---|---|---|
+| 0,27 m/s | 0,10 | 11,4 / 11,2 / 11,3 | 20,5 |
+| 0,55 m/s | 0,11 | 11,1 / 11,2 / 11,2 | 20,4 |
+| 1,1 m/s | 0,22 | 11,2 / 11,2 / 11,2 | 20,8 |
+| 2,2 m/s | 0,45 | 11,2 / 11,4 / 11,1 | 21,3 |
+| 4,4 m/s | 0,93 | 20,8 / 35,4 / 26,6 | 74 a 137 |
+
+**Frecuencia.** El filtro actualiza cada `min_translation` metros (el giro mínimo se escala igual).
+
+| `min_translation` | Actualizaciones | RMSE (cm) | Máximo (cm) |
+|---|---|---|---|
+| 0,02 y 0,04 m | 376 (todos los scans: llega uno cada 5 cm) | 11,4 / 11,4 / 11,3 | 20,8 |
+| 0,08 m (actual) | 204 | 11,4 / 11,2 / 11,3 | 20,5 |
+| 0,16 m | 141 | 11,3 / 11,2 / 11,2 | 21,0 |
+| 0,32 m | 70 | 10,9 / 11,1 / 10,9 | 19,9 |
+| 0,64 m | 37 | 11,7 / 12,3 / 11,7 | 20,8 |
+| 1,28 m | 17 | 12,3 / 12,5 / 11,9 | 22,5 |
+
+Lecturas:
+
+- Dentro de lo que el robot puede hacer (0,2 m/s en navegación), ni la velocidad ni la frecuencia cambian el error. Entre dos actualizaciones la pose se arrastra con odometría, que en 1 m deriva pocos centímetros, y un solo scan de 360° alcanza para corregirla.
+- Se rompe recién cuando el robot avanza cerca de 1 m entre scans y además gira: la nube predicha ya no cubre la pose real.
+- Actualizar más seguido no mejora y cuesta cómputo. Además, con scans muy parecidos el filtro cuenta la misma evidencia varias veces, por eso existe la compuerta de movimiento.
+
+Límite: los scans de Gazebo son instantáneos. La prueba no incluye la deformación de un scan tomado en movimiento ni el patinaje de las ruedas, que son los efectos reales de la velocidad. En el aula, a 0,4 m/s un scan abarca hasta 7 cm y 8° de movimiento ([bitácora](../sesion_robot_20261116.md)). Queda por comparar el bag lento de la visita 1 contra los del 16/11.
 
 ## Pendiente
 
 - Repetir todas las tablas con un mapa hecho por nuestro SLAM.
 - Medir si el puntaje del scan separa un encaje correcto de uno falso, y con eso decidir cómo validar la ráfaga.
 - Decidir qué hacer con la inyección: dejarla, sacarla o inyectar alrededor de la estimación en lugar de en todo el mapa.
-- Barridos de velocidad y de frecuencia de actualización (preguntas 6 y 9 del informe).
 
 | Medición | Simulación, mapa propio | Robot real |
 |---|---|---|

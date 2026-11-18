@@ -54,7 +54,7 @@ Comentarios y docstrings en español; identificadores, mensajes de error y commi
 | `../docs/experimentos_a.md` | Procedimiento y resultados de café y del bag real del Parcial. |
 | `../docs/guia_ejecucion.md`, `../docs/parametros.md`, `../docs/architecture.md`, `../docs/entrega_a.md` | Ejecución, parámetros, arquitectura e informe con diez respuestas. |
 
-Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `011`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3`, revisado solo a ojo). Falta la evasión de obstáculos no mapeados (008): hoy el robot solo frena.
+Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/decisiones/004` a `012`, ejecución en `docs/guia_etapa_b.md`, plan del robot real en `docs/robot_real_checklist.md`, bitácora de la sesión del 16/11 en `docs/sesion_robot_20261116.md` (robot en `172.23.16.78`, `ROS_DOMAIN_ID=11`, base `base_footprint`; mapa del aula elegido en `sesiones/20261116/mapa/intento3_corregido`, sin medidas con cinta). El nodo de localización informa `LOST` si más de `localization.lost_fraction` (25 %) del scan cae a más de 20 cm de toda pared, o más de `click_lost_fraction` (15 %) justo después del click (decisión 004). Quedan dos visitas al laboratorio como máximo, repartidas en `docs/robot_real_checklist.md`. Evasión de obstáculos no mapeados implementada (008): capa aparte en `nav/core/obstacles.py`, el mapa estático no se modifica. La parada de seguridad (`navigator.stop_distance`) bajó de 0,40 a 0,25 m porque impedía llegar a objetivos cerca de una pared (008).
 
 | Ruta | Responsabilidad |
 | --- | --- |
@@ -89,7 +89,7 @@ Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/d
 - 8 partículas con propuesta de scan matching (`docs/decisiones/002-propuesta-con-scan-matching.md`), semilla 7, remuestreo con ESS < 0,5 N; pose inicial `(0,0,0)` sin dispersión.
 - Sensor: `p_hit=0.70`, `p_free=0.35`, log-odds `[-4,4]`, espesor 0,08 m, rango 0,12–8 m, 180 haces de mapa/60 de likelihood, sigma 0,15 m, mezcla 0,95/0,05, distancia máxima 0,60 m, temperatura 1, ocupado 0,65.
 - Movimiento: `alpha1=0.0001`, `alpha2=0.00001`, `alpha3=0.0001`, `alpha4=0.0001`.
-- Incorporación por movimiento/tiempo: 0,08 m, 0,06 rad o 1 s.
+- Incorporación solo por movimiento: 0,08 m o 0,06 rad (`docs/decisiones/012-integracion-con-el-robot-quieto.md`).
 - Valores calificados sólo para el toy; **no calibrados en robot real**. Todas las opciones y fórmulas están en `docs/parametros.md`.
 - El usuario pidió conservar el perfil cinemático `ideal`. El 10/11 aprobó usar un recorrido guiado para cerrar la prueba de café, después de que el seguidor izquierdo necesitara recuperaciones. No agregar `stress` ni sesgos de movimiento a esa sesión.
 - El perfil café usa `sensor.min_range=0.25`: se observaron retornos del propio chasis a 0,14–0,20 m. Los defaults generales permanecen en 0,12 m.
@@ -226,3 +226,15 @@ Las restricciones de los cierres de ciclos siguientes son históricas, anteriore
 - `output_path` fijo sobrescribe la exportación al guardar y al cierre limpio; no hay versionado de mapas. La guía agrega prefijos con nombre de caso y timestamp para comparaciones futuras. No se cambió el algoritmo ni el comportamiento del guardado.
 - Análisis estático de la rápida, sin SLAM/ROS/replays/simulación: 95,12 % de ocupados a ≤10 cm de cajas SDF aproximadas; puerta inferior 1,05 m frente a 1,09 m nominales; libre navegable conectado 164,94 m² con radio 0,27 m y desconocido/exterior bloqueados. Faltan patas de mesa en (-1,5; -5,5) y (2,4; -9,0) m; otras dos aparecen desplazadas 13–15 cm. Se confirmó sección visual de las patas de 4,16 cm a altura del LIDAR. No certificar seguridad sólo por conectividad ni cobertura completa con las cajas, especialmente arriba donde difieren de las mallas.
 - Rápida: 653 integraciones, 351 omisiones, 42 descartes por odometría de 1046 scans recibidos; ESS final 11,85/16. Mediana/P95 de núcleo 235/265 ms y `drain` 265/317 ms sobre las últimas 512 integraciones. Sensor configurado 5 Hz; falta factor de tiempo real/series para afirmar capacidad sostenida a 1×. Consignas aportadas hasta 1,73 m/s y 3,45 rad/s, sin velocidades medidas. No hay bag/trayectorias ni RMSE de pose. No se modificó D ni se inició otro ciclo. Informe y propuestas en el README de la corrida y `docs/experimentos_a.md`.
+
+## Revisión de PR del 18/11/2026
+
+- PR #3 de Iván: integración solo por movimiento y detección `LOST` por residuo. Al combinar con main se migraron también los cuatro `cafe_compare_*.yaml` para quitar `update.max_interval`; se documentó la migración de YAML externos. Una prueba de carga de todos los perfiles instalados detectó los cuatro fallos antes de corregirlos. Las evidencias históricas conservan su código/configuración originales; no son una validación nueva del perfil D con esta compuerta.
+- Revisión sin nodos ROS, replays, RViz, Gazebo ni robot. PR #4 queda sin merge por la interacción entre `sensor.min_range=0.25` y `navigator.stop_distance=0.25` en Café: con la extrínseca registrada `(0.043, 0, pi)`, un retorno frontal a 0.20 m del láser (0.243 m del centro) no activa la parada.
+- Validación del resultado de PR #3 + main: suite A, 53 tests (46 aprobados y 7 omitidos por falta de ROS/Numba); suite B, 29 aprobados. La combinación de PR #4 + main pasó 36 tests B, pero no cubrían el perfil Café con su extrínseca y el umbral de parada reducido.
+
+## Corrección y aprobación del PR #4, 18/11/2026
+
+- A pedido del usuario se corrigió el perfil de navegación Café: `nav/config/cafe.yaml` restaura `navigator.stop_distance=0.40`, conservando mínimo de 0,25 m y extrínseca registrada `(0.043, 0, pi)`. La parada actúa antes de la zona descartada; los retornos dentro del mínimo siguen sin aportar detección. El perfil real/default conserva parada 0,25 m y mínimo 0,12 m, pendiente de huella física. La mayor parada de Café conserva la limitación de objetivos cercanos a paredes.
+- Cuatro regresiones usan el perfil Café y su extrínseca; los casos de parada fallaban antes de la corrección. Se documentan parámetros y límites en las guías de ejecución/B, parámetros y decisiones 008/009. Validación sin ROS, RViz, Gazebo, replays ni robot; no se actualizó el contenedor habitual.
+- Resultado de la combinación con main: suite A, 53 tests (46 aprobados y 7 omitidos por dependencias ROS/Numba); suite B, 40 aprobados, incluidos los cuatro casos Café. `git diff --check` limpio.

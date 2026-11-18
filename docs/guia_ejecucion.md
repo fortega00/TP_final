@@ -4,6 +4,8 @@ Todos los comandos se corren desde la carpeta `slam/` del repositorio, que es el
 
 La [revisión del 16/11/2026](revision_20261116.md) compara los cambios de Iván e incluye recetas específicas para el bag del Parcial y Café Fortress.
 
+Desde la corrección de deriva con el robot quieto ([012](decisiones/012-integracion-con-el-robot-quieto.md)), el SLAM integra solo por desplazamiento o giro. Antes de usar un YAML externo o archivado, quitar `update.max_interval`: el cargador lo rechaza. Los perfiles instalados, incluidos `cafe_compare_*.yaml`, ya están migrados. Resincronizar y construir antes de lanzar la versión nueva.
+
 ## 1. Prueba reproducible sin ROS
 
 Desde `~/TP_final/slam`:
@@ -499,3 +501,7 @@ profiling y la condición de integración están en
 | Mapa truncado | Ampliar `map.width/height` y ajustar origen; el mapa tiene extensión fija. |
 | Retraso creciente con el bag | Reducir `bag_rate`, haces o partículas; medir tiempo por scan. |
 | Se perdió la hipótesis correcta | Reiniciar y repetir con mejor odometría/recorrido o mayor diversidad; esta versión no hace optimización global retrospectiva. |
+
+## Navegación B después del merge de los PR
+
+La navegación usa perfiles propios en `nav/config/`, separados de los del SLAM. En Café, `navigator.stop_distance=0.40` m conserva una franja frontal detectable con `sensor.min_range=0.25` m y la extrínseca del láser; no copiar los 0,25 m del perfil real a Café. Resincronizar y construir ambos paquetes antes de ejecutar la versión nueva. Los comandos y las limitaciones para objetivos cerca de paredes están en la [guía de B](guia_etapa_b.md#parada-de-seguridad-por-perfil). La validación de esta corrección fue unitaria; no se lanzaron ROS, RViz, Gazebo ni replays.

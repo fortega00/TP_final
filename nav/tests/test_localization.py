@@ -186,6 +186,30 @@ class LocalizationTests(unittest.TestCase):
         self.assertGreater(self.kidnap(), 0)
         self.assertEqual(self.kidnap(injection_enabled=False), 0)
 
+    def test_lost_when_the_estimate_does_not_explain_the_scan(self):
+        # Una nube cerrada en una pose equivocada (acá, girada 90 grados) pasa por
+        # convergida. Lo que la delata es que el scan no cae sobre las paredes.
+        truth = Pose2D(-1.0, -0.5, 0.4)
+        scan = room_scan(truth)
+        mcl = self.filter()
+        mcl.initialize(truth, 0.001, 0.001)
+        self.assertFalse(mcl.lost(scan))
+        mcl.initialize(Pose2D(truth.x, truth.y, truth.yaw + math.pi / 2), 0.001, 0.001)
+        self.assertTrue(mcl.converged)
+        self.assertTrue(mcl.lost(scan))
+
+    def test_right_after_the_click_the_lost_check_is_stricter(self):
+        # Justo después del click no debería haber obstáculos nuevos pegados al
+        # robot, así que se tolera menos scan sin explicar que en marcha.
+        truth = Pose2D(-1.0, -0.5, 0.4)
+        scan = room_scan(truth)
+        mcl = self.filter(lost_fraction=0.99, click_lost_fraction=0.15)
+        mcl.initialize(Pose2D(truth.x, truth.y, truth.yaw + math.pi / 2), 0.001, 0.001)
+        self.assertFalse(mcl.lost(scan))
+        self.assertTrue(mcl.lost(scan, after_click=True))
+        mcl.initialize(truth, 0.001, 0.001)
+        self.assertFalse(mcl.lost(scan, after_click=True))
+
     def test_process_requires_an_initial_pose(self):
         with self.assertRaises(RuntimeError):
             self.filter().process(room_scan(Pose2D()), Pose2D())

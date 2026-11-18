@@ -119,9 +119,10 @@ Reducir `sigma_hit` o aumentar cantidad de haces/temperatura vuelve la ponderaci
 | `filter.initial_std_yaw` | `0.0` | Desvío angular inicial, en radianes. |
 | `update.min_translation` | `0.08` | Desplazamiento neto mínimo desde el último scan integrado, en m. |
 | `update.min_rotation` | `0.06` | Giro neto mínimo desde el último integrado, en radianes. |
-| `update.max_interval` | `1.0` | Máximo intervalo entre integraciones, en segundos de datos. |
 
-Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para un incremento relativo `(dx,dy,dtheta)`, la varianza por eje de traslación es `alpha1·(dx²+dy²) + alpha2·dtheta²`; la angular es `alpha3·dtheta² + alpha4·(dx²+dy²)`. El modelo conserva movimiento lateral; no supone una base exclusivamente diferencial. Se integra un scan al superar cualquiera de los umbrales de desplazamiento/giro/tiempo. Los scans omitidos no reinician la referencia, de modo que movimientos pequeños pueden acumularse hasta superar el umbral. La semilla no compensa datos perdidos o diferencias en el orden temporal de ROS.
+Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para un incremento relativo `(dx,dy,dtheta)`, la varianza por eje de traslación es `alpha1·(dx²+dy²) + alpha2·dtheta²`; la angular es `alpha3·dtheta² + alpha4·(dx²+dy²)`. El modelo conserva movimiento lateral; no supone una base exclusivamente diferencial. Se integra un scan al superar el umbral de desplazamiento o el de giro; con el robot quieto no se integra nada ([012](decisiones/012-integracion-con-el-robot-quieto.md)). Los scans omitidos no reinician la referencia, de modo que movimientos pequeños pueden acumularse hasta superar el umbral. La semilla no compensa datos perdidos o diferencias en el orden temporal de ROS.
+
+`update.max_interval` se eliminó y se rechaza al cargar configuraciones antiguas. Quitar ese campo antes de usarlas con el núcleo actual. Los perfiles de comparación también se migraron: con código actual usan la compuerta por movimiento; los resultados históricos del ciclo Café 01 corresponden al código y a las configuraciones archivados de aquella corrida, que sí integraban por tiempo. Esta migración no constituye una nueva validación de D.
 
 La [auditoría de ruido odométrico](ruido_odometria.md) distingue perturbaciones
 de las lecturas de entrada y cambios en la incertidumbre asumida por el filtro,
@@ -203,3 +204,7 @@ en ambos scripts del host. `tp-env off` restaura las variables previas a la
 activación; ROS/overlay quedan cargados. Los procesos ya iniciados conservan su
 backend hasta relanzarlos. `tp-env status` informa el intérprete y backend sin
 inicializar nodos.
+
+## Parada de seguridad de la etapa B
+
+Estos parámetros pertenecen a `nav/config/*.yaml`, no al SLAM. `navigator.stop_distance` se mide desde el centro de la base: Café usa **0,40 m**, frente a **0,25 m** en el perfil real y el default Python. `navigator.stop_half_width=0.20` m en ambos. Café descarta rangos de hasta `sensor.min_range=0.25` m del láser; con montaje `(0.043, 0, pi)`, los retornos justo enfrente válidos empiezan después de 0,293 m del centro. Con parada a 0,25 m no podían activarla. El alcance mínimo real/default es 0,12 m. No bajar el mínimo Café sin separar el rechazo del chasis. La mayor parada mantiene la limitación de objetivos muy próximos a paredes; detalle y evidencia en [008](decisiones/008-obstaculos-no-mapeados.md#corrección-del-perfil-café-en-la-revisión-del-pr-4). No constituye calibración física ni una nueva validación en Gazebo.

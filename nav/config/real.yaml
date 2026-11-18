@@ -24,6 +24,9 @@ localization:
   min_rotation: 0.06
   converged_std_xy: 0.10
   converged_std_yaw: 0.10
+  unexplained_distance: 0.20
+  lost_fraction: 0.25
+  click_lost_fraction: 0.15
   burst_max_iterations: 30
   burst_stable_xy: 0.01
   burst_stable_yaw: 0.01
@@ -53,8 +56,14 @@ follower:
   goal_tolerance_xy: 0.08
   goal_tolerance_yaw: 0.05
 navigator:
-  stop_distance: 0.40
+  stop_distance: 0.25
   stop_half_width: 0.20
   blocked_timeout: 15.0
+  retry_period: 2.0
   lost_timeout: 10.0
   pose_timeout: 1.0
+obstacles:
+  # Obstáculos que no están en el mapa (docs/decisiones/008).
+  max_range: 3.0
+  wall_distance: 0.20
+  hits_to_mark: 3
