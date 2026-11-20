@@ -7,6 +7,17 @@ La selección no cambia `default.yaml` ni los perfiles del robot/bag real.
 Todavía faltan múltiples semillas y validación ROS1×. Para reproducir los
 tiempos medidos usar el backend Numba con las versiones de la guía.
 
+Perfil de trabajo real/bag adoptado posteriormente el 18/11: **E16** en
+`config/parcial_bag_scan_match.yaml`, con `filter.particles: 16`,
+`scan_match.prior_xy: 0.05` y `scan_match.sample_xy: 0.005`.
+Mejora modestamente la consistencia del replay frente al perfil de ocho
+partículas usado el 16/11; requiere más cómputo. Elección, métricas y límites
+en [la decisión 013](decisiones/013-perfil-real-e16.md). El backend medido es
+Numba; el YAML no lo activa. Faltan otras semillas y validación ROS1×.
+Estos resultados preceden la corrección de integración por tiempo: el YAML
+actual usa solo movimiento y omite `max_interval`. No se trasladan los tiempos
+ni la calidad medidos a esa compuerta sin una nueva evaluación.
+
 Los perfiles experimentales `config/cafe_compare_*.yaml` y la matriz de
 [comparación manual](comparacion_cafe_manual.md) separan implementación,
 cantidad de partículas, `scan_match.prior_xy` y `scan_match.sample_xy`.
@@ -15,6 +26,14 @@ el caso D; los perfiles de comparación mantienen los valores de cada corrida.
 En el [ciclo Café 01](ciclo_hitl_cafe_01.md) se evalúan con semilla 7. El radio
 de inflación de evaluación es 0,22 m (robot 0,17 + margen 0,05); no se modifica
 el mapa exportado ni se mezclan sus conectividades con las históricas de 0,27 m.
+
+Los perfiles `config/bag16_compare_*.yaml` son experimentales y conservan el
+sensor/grilla físicos de `parcial_bag_scan_match.yaml`. El [ciclo bag16 01](ciclo_hitl_bag16_01.md)
+compara 8/16 partículas, prior 0,05/0,025 y sample 0,01/0,005 sobre `bag_mapa2`.
+No sustituyen el perfil físico de uso; requieren revisión humana del mapa.
+El [ciclo bag16 02](ciclo_hitl_bag16_02.md) agrega 24 partículas con los mismos
+valores de prior/sample por separado, y repite E16 como control de tiempos.
+Todos sus casos exigen backend Numba; N y aceleración son decisiones independientes.
 
 ## 6. Hiperparámetros del filtro
 
@@ -107,6 +126,11 @@ Reducir `sigma_hit` o aumentar cantidad de haces/temperatura vuelve la ponderaci
 Los coeficientes `alpha` parametrizan **varianzas**, no desvíos estándar. Para un incremento relativo `(dx,dy,dtheta)`, la varianza por eje de traslación es `alpha1·(dx²+dy²) + alpha2·dtheta²`; la angular es `alpha3·dtheta² + alpha4·(dx²+dy²)`. El modelo conserva movimiento lateral; no supone una base exclusivamente diferencial. Se integra un scan al superar el umbral de desplazamiento o el de giro; con el robot quieto no se integra nada ([012](decisiones/012-integracion-con-el-robot-quieto.md)). Los scans omitidos no reinician la referencia, de modo que movimientos pequeños pueden acumularse hasta superar el umbral. La semilla no compensa datos perdidos o diferencias en el orden temporal de ROS.
 
 `update.max_interval` se eliminó y se rechaza al cargar configuraciones antiguas. Quitar ese campo antes de usarlas con el núcleo actual. Los perfiles de comparación también se migraron: con código actual usan la compuerta por movimiento; los resultados históricos del ciclo Café 01 corresponden al código y a las configuraciones archivados de aquella corrida, que sí integraban por tiempo. Esta migración no constituye una nueva validación de D.
+
+La [auditoría de ruido odométrico](ruido_odometria.md) distingue perturbaciones
+de las lecturas de entrada y cambios en la incertidumbre asumida por el filtro,
+con los antecedentes persistidos y sus límites. Los ensayos con `alpha` mayores
+de la propuesta odométrica no prueban por sí solos robustez del perfil Café D.
 
 ## 7. Cómo ajustar y evaluar
 

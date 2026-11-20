@@ -1,0 +1,8 @@
+Entorno: contenedor aislado, PYTHONPATH=/tmp/bag16_source/slam:/tmp/profile_site057
+python3 -m unittest discover -s /tmp/bag16_source/slam/tests -p test_experiment_metrics.py -v
+5 tests passed (0.009 s)
+python3 -m unittest discover -s /tmp/bag16_source/slam/tests -p test_bag_cycle_metrics.py -v
+2 tests passed (0.003 s)
+Host: py_compile analyze_bag_cycle.py, bash -n run_hitl_bag16_01.sh and git diff --check passed.
+
+Connectivity diagnostic added after discovering a blocked initial footprint; the 3 updated analytical tests all passed, see additional_tests.log. Total unique tests: 8.

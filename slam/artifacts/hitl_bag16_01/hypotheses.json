@@ -1,0 +1,37 @@
+{
+  "result": "Modest internal-consistency improvement for E; no demonstrated across-criteria superiority over saved historical map, pending human inspection.",
+  "hypotheses": [
+    {
+      "comparison": "A vs B",
+      "finding": "Identical raw grids, ancestral trajectory and PGM. Numerical optimization preserves estimates."
+    },
+    {
+      "comparison": "B vs C",
+      "finding": "Doubling particles alone does not materially improve consistency; withheld endpoint fraction decreases slightly."
+    },
+    {
+      "comparison": "C vs D",
+      "finding": "Tighter prior does not reproduce the substantial Cafe gain. Withheld P95 increases relative to B. Possible reliance on imperfect physical odometry; hypothesis only."
+    },
+    {
+      "comparison": "C vs E",
+      "finding": "Smaller proposal sampling improves integrated and withheld endpoint tails in this seed. Not yet robust across seeds."
+    }
+  ],
+  "visual_observations": [
+    "Historical and replay maps preserve the room contour and three table rows.",
+    "E looks slightly cleaner in parts of the upper wall; differences are small.",
+    "Irregular table edges and the narrow fan of observed space at the upper opening persist.",
+    "Native-frame global rotation/translation differences are not physical deformation or accuracy measurements."
+  ],
+  "navigation": "Origin footprint blocked at 22 cm in every map. From the same common safe interior seed, all admissible checkpoints are in one component; total accepted checkpoints H83/181, A/B89/181, C/D/E88/181. Different estimated trajectories and footprint validity are not ground truth.",
+  "timing": "Large host-load change during C, then slower D/E. Keep actual full distributions but do not attribute the difference to prior/sample parameters or certify 1x ROS throughput.",
+  "next_step_requires_human_review": "Inspect H/B/E wall and table details before choosing finalists or planning new seeds/controlled ROS validation.",
+  "decision": {
+    "A": "investigar",
+    "B": "investigar",
+    "C": "investigar",
+    "D": "investigar",
+    "E": "investigar"
+  }
+}

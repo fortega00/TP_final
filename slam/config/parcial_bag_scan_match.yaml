@@ -1,5 +1,5 @@
-# TP Parcial real bag with the scan-matching proposal (docs/decisiones/002).
-# Sensor and map values are those of parcial_bag_tuned.yaml.
+# Perfil real E16 elegido el 18/11/2026 (docs/decisiones/013-perfil-real-e16.md).
+# Usar Numba para reproducir los tiempos medidos. Sensor/grilla del perfil real.
 map:
   resolution: 0.05
   width: 48.0
@@ -32,7 +32,7 @@ motion:
   alpha3: 0.003
   alpha4: 0.003
 filter:
-  particles: 8
+  particles: 16
   seed: 7
   resample_ess_ratio: 0.5
   initial_x: 0.0
@@ -52,7 +52,7 @@ scan_match:
   sigma: 0.05
   prior_xy: 0.05
   prior_yaw: 0.03
-  sample_xy: 0.01
+  sample_xy: 0.005
   sample_yaw: 0.005
   beams: 180
   effective_beams: 20.0

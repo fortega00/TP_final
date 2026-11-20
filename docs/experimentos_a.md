@@ -1,5 +1,16 @@
 # Evaluación de A: café y bag real del Parcial
 
+Selección posterior, 18/11/2026: el perfil real con scan matching adopta **E16**
+(16 partículas, `prior_xy=0.05`, `sample_xy=0.005`) tras los ciclos del bag
+`bag_mapa2` del 16/11 y revisión visual humana. Mejora modesta de consistencia
+frente al replay de ocho partículas, con mayor costo; no acredita mayor
+exactitud física ni ROS1×. [Métricas y límites](decisiones/013-perfil-real-e16.md).
+Las configuraciones históricas de las corridas siguientes siguen archivadas
+en sus propias exportaciones; no se reinterpretan como E16.
+Las métricas de los ciclos bag16 preceden la corrección de deriva en reposo.
+La configuración instalable sigue ahora la compuerta solo por movimiento;
+la migración del YAML no equivale a revalidar E16 con ese comportamiento.
+
 Fecha: 10 de noviembre de 2026. Esta evaluación distingue completar una ejecución de aprobar la calidad del mapa exigida por la consigna. Los resultados de los ajustes sin ROS son screening; sólo las corridas con el launcher validan transporte, TF, exportación y RViz.
 
 ## Procedimiento y referencias
@@ -101,3 +112,63 @@ No se conservaron bag ni trayectorias en la exportación: no se conoce velocidad
 efectiva ni tiempo a cada consigna y no se puede medir RMSE contra Gazebo.
 No se cambiaron hiperparámetros. Los próximos ensayos los ejecuta el usuario;
 las propuestas de sincronización y ajuste están separadas de lo ya medido.
+
+## Café manual rápido posterior, 18/11/2026
+
+El usuario identificó la exportación final como la corrida rápida; la lenta
+se sobrescribió al usar el mismo prefijo `maps/cafe`. No se analiza la del choque.
+Esta sesión es distinta del Café manual de las 13:14 y del ciclo Café 01.
+Se conservaron PGM/YAML/JSON, logs, métricas y figuras en
+[cafe_manual_20261118_fast](../slam/artifacts/cafe_manual_20261118_fast/README.md).
+El análisis sólo procesó archivos existentes usando las dependencias científicas
+del contenedor; no ejecutó SLAM, ROS ni simulación y no cambió parámetros.
+
+El 95,12 % de ocupados está a ≤10 cm de las cajas SDF aproximadas y el 98,14 %
+a ≤15 cm. La puerta inferior conserva 1,05 m libres frente a 1,09 m nominales.
+Con inflación métrica de 0,27 m, desconocido/exterior bloqueados, el espacio
+navegable del mapa forma una componente de 164,94 m²; eso no valida seguridad
+porque **faltan dos patas de mesa**, en (-1,5; -5,5) y (2,4; -9,0) m. Otras dos
+se representan con una celda ocupada desplazada unos 13–15 cm. La sección de
+la malla visual de las patas a z=0,19 m mide 4,16 cm, de modo que su presencia
+también está confirmada en la geometría que observa el GPU LiDAR.
+
+Se integraron 653 scans, se omitieron 351 por movimiento y se descartaron 42
+por odometría (35 sin muestras, siete anteriores al historial), sobre 1046
+recibidos. ESS final 11,85/16. En las últimas 512 integraciones, mediana/P95 del
+núcleo 235/265 ms y procesamiento `drain` 265/317 ms. El sensor está configurado
+a 5 Hz: estos tiempos de pared requieren verificar margen con el factor de
+tiempo real y no certifican capacidad sostenida a 1× ni prueban cola creciente.
+
+El usuario reportó consignas de teleop hasta 1,73 m/s y 3,45 rad/s, sin velocidad
+efectiva ni tiempo a cada consigna. No hay bag/trayectorias para medir RMSE o
+aislar el efecto de velocidad. La cobertura contra cajas no permite certificar
+cobertura total: la diferencia superior está afectada por la discrepancia entre
+colisiones y mallas. Se recomienda conservar D como referencia y priorizar
+obstáculos finos, medición de capacidad y grabaciones con nombres únicos. Una
+comparación futura 180→360 haces de mapa es una hipótesis, todavía sin ejecutar.
+
+La [auditoría de ruido](ruido_odometria.md) distingue ensayos históricos con
+odometría perturbada de cambios de incertidumbre del filtro. Esos antecedentes
+no sustituyen una evaluación del perfil D con odometría degradada.
+
+## Ciclo colaborativo sobre el aula del 16/11, ejecutado el 18/11
+
+Cinco replays del núcleo autorizados en worktree separado sobre `bag_mapa2`,
+semilla 7 y referencia visual histórica `intento3`. [Método, tabla y límites](ciclo_hitl_bag16_01.md).
+Optimizar conserva exactamente la estimación de ocho partículas. La variante
+E (16 partículas, `sample_xy=0.005`) mejora modestamente la consistencia de
+extremos y de scans reservados; D no reproduce la gran mejora de Café. No se
+demuestra todavía superioridad geométrica global sobre el mapa histórico.
+La carga del host cambió durante las corridas, por lo que no se certifica
+tiempo real. El origen no admite inflación de 22 cm en ningún mapa; desde un
+punto interior común todos los checkpoints admisibles están conectados.
+Revisión humana pendiente; no se adopta un perfil físico ni se fusiona la rama.
+
+El usuario autorizó después subir a 24 partículas. En el
+[ciclo bag16 02](ciclo_hitl_bag16_02.md) se ejecutaron E16 de control y tres
+variantes N24 con Numba, semilla7. E16 repitió su estimación exactamente y
+dio P95 122,2 ms con menor carga. Las variantes de 24 partículas no mejoraron
+los endpoints y dieron P95 185,6–201,3 ms. D24 combina menor separación
+inicio-fin y más checkpoints admisibles con una regresión fuerte de endpoints
+reservados (76,40 % vs 94,71 % E16); no seleccionar por cierre/conectividad
+aislados. Revisión geométrica humana pendiente, sin adoptar un perfil nuevo.

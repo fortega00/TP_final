@@ -1,0 +1,518 @@
+{
+  "authorization": "User explicitly requested 24 particles and evaluation using the previous axes; same separate worktree, no new ROS/live tests.",
+  "base_commit": "704b1f5eb6320769ce87e0f209e833b9d8bd9b39",
+  "branch": "exp/rosbag-20261116-cycle01",
+  "worktree": "/tmp/tp-final-bag-20261116-cycle01",
+  "cycle": "bag16_02",
+  "new_cases": [
+    "E16",
+    "F24",
+    "D24",
+    "E24"
+  ],
+  "new_case_order": [
+    "E16",
+    "F24",
+    "D24",
+    "E24"
+  ],
+  "reused_cases": [
+    "A",
+    "B",
+    "H"
+  ],
+  "reused_evidence": "../hitl_bag16_01",
+  "reuse_reason": "Preserve fixed original baseline/checkpoints without rerunning estimators; repeat E16 because cycle01 timing was contaminated by varying host load.",
+  "seed": 7,
+  "backend_required": "numba",
+  "input": {
+    "bag": "sesiones/20261116/bags/bag_mapa2",
+    "db3_sha256": "2205ae73f26184edc5fc55d3e110a3944e1153f10738569b03bc62d9484342c6",
+    "metadata_sha256": "25807e81cbb2042b51b243fe21509dbd1ee11855c3be1dc83c45d5af914f3835",
+    "npz_sha256": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "bag_scans": 3614,
+    "interpolable_scans": 3613,
+    "excluded_without_odometry_bracket": 1,
+    "laser": [
+      0.0435,
+      5.26e-05,
+      3.141592653589793
+    ],
+    "no_ground_truth": true
+  },
+  "core_sources": {
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "acceleration.py": "5966c171a1e54ad37a921611821ea1c1823f0701bb7b8b421285bd8ac404c250",
+    "config.py": "d057cb29bef41f32d50cb069b99b5f3d56c6e01b6193c8128ee06d5a260ace4f",
+    "filter.py": "5333c0de77547dd878c8e15cebd8a81d137373a5206158104fe4b0023279a55c",
+    "geometry.py": "eb68115834c3de76d61e8cf0ab40325f0bfd5c6da41a417930dd016a43e2e0b3",
+    "grid.py": "f9e055e8ea32f271693209bb0cca955965007efde49edcd751f355db1056948c",
+    "io.py": "dbc25c89f0c33f1dccde22630ffab9ba0a209103d5ac5090fefe565edb4089a3",
+    "motion.py": "359775566a374d8f0a89e1ebb8a1fc14966363bf40ede4ca6ce14bdc575924ea",
+    "odometry.py": "21c7936c03832b1e67b74ae0a2cde24f192df7aef97db036e3bf44bda9ecc49a",
+    "scan_match.py": "3e676ae9ebb15f7f56d33db729ba3e2a6be93976e90a200380986612c49c8a25",
+    "sensor.py": "4631f6f8e9eaa7a50f78b54bfedd336bd72c532de27ec0f6dabc9ad4fcb7693e",
+    "state_machine.py": "3ca55103c184619bf8d474cc045164cc3e09cbfc92f50acd7b61fac9a8822d89",
+    "types.py": "4d66efc9147a80fb81296656543a9653b64f0d262ea8ef264b0ba12030aba36b"
+  },
+  "host_context_initial": {
+    "loadavg": "1.09 0.79 1.57",
+    "note": "Snapshot before cycle, shared host; per-case load is in run.log"
+  },
+  "evaluation": {
+    "schema": 2,
+    "same_endpoint_method": true,
+    "same_navigation_checkpoints_as_cycle01": true,
+    "interior_seed_index_fixed": 83,
+    "scan_holdout": "Skipped by motion gate, interpolated ancestral poses; same-session correlated input, not GT.",
+    "no_ground_truth": true
+  },
+  "scope": "Four sequential low-priority fixed-input core replays, no ROS player/nodes/simulator/robot changes",
+  "source_sha256": {
+    "source/analyze_bag_cycle.py": "7fc6698defc5bb69d08398f36ed3c1a82b67736dbb9893b4d885717871aca7b8",
+    "source/profile_replay.py": "8919e68c634567de3c7e0482359cfb5becf57db3cb0da5d5f2c1c848db163a41",
+    "source/experiment_metrics.py": "63fab8b735996868a437873e6a25a45f2d8012494e84882a47ce404311ccacf8",
+    "source/test_bag_cycle_metrics.py": "6f57ba3676e4f8095f056d1c46e9da1fa9cbfad7f67374c2719d8a864dc8b179",
+    "source/run_hitl_bag16_02.sh": "83886071bb58d55fbf061dbd0bf541c152c86b8b0fe3607ba248e7b24e271065",
+    "source/test_experiment_metrics.py": "738ab0cc4332d51ac8e028bddad89c43b01996b2f859cff7b3459a5f715f38c2"
+  },
+  "no_main_worktree_changes_by_experiment": true,
+  "no_habitual_container_changes": true,
+  "no_merge": true,
+  "human_review": {
+    "status": "pending",
+    "no_finalist_chosen": true
+  },
+  "runtime": {
+    "python": "3.10.12",
+    "numpy": "1.21.5",
+    "scipy": "1.8.0",
+    "numba": "0.57.1",
+    "llvmlite": "0.40.1"
+  },
+  "actual_core_source_verified": true,
+  "backend_verified_for_all_new_cases": true,
+  "all_cases_completed": true,
+  "isolated_container_stopped": true,
+  "tests": {
+    "analytical_metrics_unique": 8,
+    "all_passed": true
+  },
+  "previous_cycle_manifest_sha256": "3380aba5c083bea2d14ce27c1c19ee7bab53cff839d02be4a7315d2e49655cbe",
+  "new_case_profiles": {
+    "E16": {
+      "map": {
+        "resolution": 0.05,
+        "width": 48.0,
+        "height": 40.0,
+        "origin_x": -16.0,
+        "origin_y": -20.0,
+        "prior": 0.5
+      },
+      "sensor": {
+        "p_hit": 0.75,
+        "p_free": 0.4,
+        "log_odds_min": -4.0,
+        "log_odds_max": 4.0,
+        "hit_thickness": 0.08,
+        "min_range": 0.12,
+        "max_range": 8.0,
+        "max_beams": 180,
+        "likelihood_beams": 60,
+        "sigma_hit": 0.15,
+        "z_hit": 0.95,
+        "z_rand": 0.05,
+        "likelihood_max_dist": 0.6,
+        "likelihood_temperature": 1.0,
+        "occupied_threshold": 0.65,
+        "no_return_is_free": false
+      },
+      "motion": {
+        "alpha1": 0.003,
+        "alpha2": 0.0003,
+        "alpha3": 0.003,
+        "alpha4": 0.003
+      },
+      "filter": {
+        "particles": 16,
+        "seed": 7,
+        "resample_ess_ratio": 0.5,
+        "initial_x": 0.0,
+        "initial_y": 0.0,
+        "initial_yaw": 0.0,
+        "initial_std_xy": 0.0,
+        "initial_std_yaw": 0.0
+      },
+      "update": {
+        "min_translation": 0.08,
+        "min_rotation": 0.06,
+        "max_interval": 1.0
+      },
+      "scan_match": {
+        "enabled": true,
+        "window_xy": 0.1,
+        "step_xy": 0.025,
+        "window_yaw": 0.06,
+        "step_yaw": 0.01,
+        "sigma": 0.05,
+        "prior_xy": 0.05,
+        "prior_yaw": 0.03,
+        "sample_xy": 0.005,
+        "sample_yaw": 0.005,
+        "beams": 180,
+        "effective_beams": 20.0,
+        "min_occupied_cells": 200
+      }
+    },
+    "F24": {
+      "map": {
+        "resolution": 0.05,
+        "width": 48.0,
+        "height": 40.0,
+        "origin_x": -16.0,
+        "origin_y": -20.0,
+        "prior": 0.5
+      },
+      "sensor": {
+        "p_hit": 0.75,
+        "p_free": 0.4,
+        "log_odds_min": -4.0,
+        "log_odds_max": 4.0,
+        "hit_thickness": 0.08,
+        "min_range": 0.12,
+        "max_range": 8.0,
+        "max_beams": 180,
+        "likelihood_beams": 60,
+        "sigma_hit": 0.15,
+        "z_hit": 0.95,
+        "z_rand": 0.05,
+        "likelihood_max_dist": 0.6,
+        "likelihood_temperature": 1.0,
+        "occupied_threshold": 0.65,
+        "no_return_is_free": false
+      },
+      "motion": {
+        "alpha1": 0.003,
+        "alpha2": 0.0003,
+        "alpha3": 0.003,
+        "alpha4": 0.003
+      },
+      "filter": {
+        "particles": 24,
+        "seed": 7,
+        "resample_ess_ratio": 0.5,
+        "initial_x": 0.0,
+        "initial_y": 0.0,
+        "initial_yaw": 0.0,
+        "initial_std_xy": 0.0,
+        "initial_std_yaw": 0.0
+      },
+      "update": {
+        "min_translation": 0.08,
+        "min_rotation": 0.06,
+        "max_interval": 1.0
+      },
+      "scan_match": {
+        "enabled": true,
+        "window_xy": 0.1,
+        "step_xy": 0.025,
+        "window_yaw": 0.06,
+        "step_yaw": 0.01,
+        "sigma": 0.05,
+        "prior_xy": 0.05,
+        "prior_yaw": 0.03,
+        "sample_xy": 0.01,
+        "sample_yaw": 0.005,
+        "beams": 180,
+        "effective_beams": 20.0,
+        "min_occupied_cells": 200
+      }
+    },
+    "D24": {
+      "map": {
+        "resolution": 0.05,
+        "width": 48.0,
+        "height": 40.0,
+        "origin_x": -16.0,
+        "origin_y": -20.0,
+        "prior": 0.5
+      },
+      "sensor": {
+        "p_hit": 0.75,
+        "p_free": 0.4,
+        "log_odds_min": -4.0,
+        "log_odds_max": 4.0,
+        "hit_thickness": 0.08,
+        "min_range": 0.12,
+        "max_range": 8.0,
+        "max_beams": 180,
+        "likelihood_beams": 60,
+        "sigma_hit": 0.15,
+        "z_hit": 0.95,
+        "z_rand": 0.05,
+        "likelihood_max_dist": 0.6,
+        "likelihood_temperature": 1.0,
+        "occupied_threshold": 0.65,
+        "no_return_is_free": false
+      },
+      "motion": {
+        "alpha1": 0.003,
+        "alpha2": 0.0003,
+        "alpha3": 0.003,
+        "alpha4": 0.003
+      },
+      "filter": {
+        "particles": 24,
+        "seed": 7,
+        "resample_ess_ratio": 0.5,
+        "initial_x": 0.0,
+        "initial_y": 0.0,
+        "initial_yaw": 0.0,
+        "initial_std_xy": 0.0,
+        "initial_std_yaw": 0.0
+      },
+      "update": {
+        "min_translation": 0.08,
+        "min_rotation": 0.06,
+        "max_interval": 1.0
+      },
+      "scan_match": {
+        "enabled": true,
+        "window_xy": 0.1,
+        "step_xy": 0.025,
+        "window_yaw": 0.06,
+        "step_yaw": 0.01,
+        "sigma": 0.05,
+        "prior_xy": 0.025,
+        "prior_yaw": 0.03,
+        "sample_xy": 0.01,
+        "sample_yaw": 0.005,
+        "beams": 180,
+        "effective_beams": 20.0,
+        "min_occupied_cells": 200
+      }
+    },
+    "E24": {
+      "map": {
+        "resolution": 0.05,
+        "width": 48.0,
+        "height": 40.0,
+        "origin_x": -16.0,
+        "origin_y": -20.0,
+        "prior": 0.5
+      },
+      "sensor": {
+        "p_hit": 0.75,
+        "p_free": 0.4,
+        "log_odds_min": -4.0,
+        "log_odds_max": 4.0,
+        "hit_thickness": 0.08,
+        "min_range": 0.12,
+        "max_range": 8.0,
+        "max_beams": 180,
+        "likelihood_beams": 60,
+        "sigma_hit": 0.15,
+        "z_hit": 0.95,
+        "z_rand": 0.05,
+        "likelihood_max_dist": 0.6,
+        "likelihood_temperature": 1.0,
+        "occupied_threshold": 0.65,
+        "no_return_is_free": false
+      },
+      "motion": {
+        "alpha1": 0.003,
+        "alpha2": 0.0003,
+        "alpha3": 0.003,
+        "alpha4": 0.003
+      },
+      "filter": {
+        "particles": 24,
+        "seed": 7,
+        "resample_ess_ratio": 0.5,
+        "initial_x": 0.0,
+        "initial_y": 0.0,
+        "initial_yaw": 0.0,
+        "initial_std_xy": 0.0,
+        "initial_std_yaw": 0.0
+      },
+      "update": {
+        "min_translation": 0.08,
+        "min_rotation": 0.06,
+        "max_interval": 1.0
+      },
+      "scan_match": {
+        "enabled": true,
+        "window_xy": 0.1,
+        "step_xy": 0.025,
+        "window_yaw": 0.06,
+        "step_yaw": 0.01,
+        "sigma": 0.05,
+        "prior_xy": 0.05,
+        "prior_yaw": 0.03,
+        "sample_xy": 0.005,
+        "sample_yaw": 0.005,
+        "beams": 180,
+        "effective_beams": 20.0,
+        "min_occupied_cells": 200
+      }
+    }
+  },
+  "reused_source_hashes": {
+    "A": {
+      "map.pgm": "46acdb175a51659725efbfebe097638eba4e43ad99d5dc7b82c65e1e1fba4edb",
+      "grid.npz": "3a3907e07be7b33b5474cd6323af27d259221f83d8311879b7ef0d3cad318718",
+      "samples.json": "78d02091d2ffab844646c16826a5730daff60d4323fb367a6c7386b6430486b4",
+      "timing.json": "e3888922cdd0a557a558aff9408ee6d4f1ff119d3dc237808a6f9c28441be832"
+    },
+    "B": {
+      "map.pgm": "46acdb175a51659725efbfebe097638eba4e43ad99d5dc7b82c65e1e1fba4edb",
+      "grid.npz": "3a3907e07be7b33b5474cd6323af27d259221f83d8311879b7ef0d3cad318718",
+      "samples.json": "7ea45317369cad5493088a309d14275b2a522c1734b04e05af8824a577ec1733",
+      "timing.json": "725b7ef561e480319e2f1ae7cc7cb5da11028381ad4b817abc91d62261bc21b6"
+    }
+  },
+  "new_case_timing": {
+    "E16": {
+      "count": 963,
+      "total": 103.98836963800022,
+      "median": 0.10780838199934806,
+      "p95": 0.1222451716004798,
+      "max": 0.1714115260001563,
+      "fraction_over_90ms": 0.9979231568016614,
+      "fraction_over_137ms": 0.004153686396677051
+    },
+    "F24": {
+      "count": 963,
+      "total": 155.90129871001227,
+      "median": 0.16377022599954216,
+      "p95": 0.18555973790025745,
+      "max": 0.2487938470003428,
+      "fraction_over_90ms": 0.9989615784008308,
+      "fraction_over_137ms": 0.9325025960539979
+    },
+    "D24": {
+      "count": 963,
+      "total": 158.71376207098183,
+      "median": 0.16437931300060882,
+      "p95": 0.18868148459969233,
+      "max": 0.25038021199907234,
+      "fraction_over_90ms": 0.9989615784008308,
+      "fraction_over_137ms": 0.9906542056074766
+    },
+    "E24": {
+      "count": 963,
+      "total": 161.8221154190196,
+      "median": 0.16636568899957638,
+      "p95": 0.20125483410047307,
+      "max": 0.269979222000984,
+      "fraction_over_90ms": 0.9989615784008308,
+      "fraction_over_137ms": 0.9813084112149533
+    }
+  },
+  "isolated_changes_vs_cycle01": {
+    "F24": {
+      "previous_case": "C",
+      "changed_only": "filter.particles: 16 -> 24"
+    },
+    "D24": {
+      "previous_case": "D",
+      "changed_only": "filter.particles: 16 -> 24"
+    },
+    "E24": {
+      "previous_case": "E",
+      "changed_only": "filter.particles: 16 -> 24"
+    }
+  },
+  "artifacts_sha256": {
+    "A/config.yaml": "af35a0eea456ad0deaafaa0c645007fded033390839d8c2dab88121309cd3556",
+    "A/grid.npz": "3a3907e07be7b33b5474cd6323af27d259221f83d8311879b7ef0d3cad318718",
+    "A/map.json": "660579058808088ef0a67fc611b48e829fcc1476c5d81cbe0b1a3148de3cc1b5",
+    "A/map.pgm": "46acdb175a51659725efbfebe097638eba4e43ad99d5dc7b82c65e1e1fba4edb",
+    "A/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "A/metrics.json": "8676c44be33e131a4204de0bd0162842884b73f14dff06e418b12112443f40a0",
+    "A/samples.json": "78d02091d2ffab844646c16826a5730daff60d4323fb367a6c7386b6430486b4",
+    "A/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "A/timing.json": "e3888922cdd0a557a558aff9408ee6d4f1ff119d3dc237808a6f9c28441be832",
+    "A/updates.npz": "aaf6ae6cb799c38f7f558041f8aa7db3c7cad1ecc567ed579b22216e5123a515",
+    "B/config.yaml": "af35a0eea456ad0deaafaa0c645007fded033390839d8c2dab88121309cd3556",
+    "B/grid.npz": "3a3907e07be7b33b5474cd6323af27d259221f83d8311879b7ef0d3cad318718",
+    "B/map.json": "c6a4fa03e583496fc8573e07578e242c89c1f529065a689d6a7ec6bf7770bf66",
+    "B/map.pgm": "46acdb175a51659725efbfebe097638eba4e43ad99d5dc7b82c65e1e1fba4edb",
+    "B/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "B/metrics.json": "a184d65f606a8f03163c6c016cfcd70252d7b7f7eb53bf079603db129065326b",
+    "B/samples.json": "7ea45317369cad5493088a309d14275b2a522c1734b04e05af8824a577ec1733",
+    "B/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "B/timing.json": "725b7ef561e480319e2f1ae7cc7cb5da11028381ad4b817abc91d62261bc21b6",
+    "B/updates.npz": "fbf818571c8c71a9ff834f95b7bff63c8a3568dfd35b744fb071a3248128b0db",
+    "D24/config.yaml": "6af7b39f10f6f66d3a6258253f7c13c731acd43d82d28a58b47b5c5b49cd5676",
+    "D24/grid.npz": "075ba51abc101348270dfda689285b01a3eb68c7bfa678330abfc665104981b4",
+    "D24/map.json": "c4e973e4a7475e9c77baf98d20e51f9d4210e23905af09660b498095c05b4e80",
+    "D24/map.pgm": "fbfcefb6f8be3b47a57bfd8414abb26d04958c5229d63865d3f04a521ab18b60",
+    "D24/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "D24/metrics.json": "b7d1085c96f152249186106750e82b166c51cfcc16c58e62578a97902f42d315",
+    "D24/samples.json": "2a22086c5999280bc7eaaaedb4f6e6857493f3b4022e90416fc8a3a126f46d39",
+    "D24/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "D24/timing.json": "583846f9ce7ac4eef7daee1498c3292adcbe150dc832efa7f6c9fc693b93cd80",
+    "D24/updates.npz": "9a5fa224ac44aa6b4ede4956fb018ecc4b5a68dd157e6fd5a998bdf3e56947d9",
+    "D24.log": "e516de4e3fa00314c09faf5e3c5ed5875ffc8ada19675ce4f4510723faa20f6d",
+    "E16/config.yaml": "3cdfb68889f907e36a797ac94aa65cab11b3445cd82090198314cc2e5f517920",
+    "E16/grid.npz": "a1e619841a48552870bc0d2b30130e1785fe5c2d59dde7ecf7134236b0adea3b",
+    "E16/map.json": "78294b678f79a8955200d29c38b71ebbc8e9a4068877cde65248bf6b0b9904cb",
+    "E16/map.pgm": "7cdaf785e70ce63f88f8bcb7f664fb41363b9909de88b53fe8e5eab99f51e60f",
+    "E16/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "E16/metrics.json": "c80b1b0946be0b470c67878bbfa14dbc89186e9353e5e2a30eaad5205026a534",
+    "E16/samples.json": "25aabc1868fd457e39a12b4803b3c2e4031a0aa58350232bf97603022bdcd674",
+    "E16/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "E16/timing.json": "a995daf54ca37dc37859073fcf64a46bb9f161148b36d4dd491b487d0444bb8e",
+    "E16/updates.npz": "c599a3533759f5ef9bbbe65a3104ed22952fb030cdbd3ca2f07bc4283cb03122",
+    "E16.log": "bf521c2b0f659dac73d5872f5c8c56df21e5b445e192ca7f07516a347990171e",
+    "E24/config.yaml": "7402c6aceb4a73241239a655b442bdd96c8211a9092842ae69263589786802c2",
+    "E24/grid.npz": "268c57baef3b7806e441d9ca50e7878a6559168b9b96d320b65b24fde7605399",
+    "E24/map.json": "ee1495d7f13ca1ec97de2a89813d4bf93026167fbaf04b78eddbc04d5cbf7802",
+    "E24/map.pgm": "34c9a9225c240b528bf3391753a1f1f8b2382c1d5b62c8e95f368ec95ff79205",
+    "E24/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "E24/metrics.json": "f0ff713ff4cd33510648c3fb19c32bbc471ba4dc0c62007a1b88c040148ae837",
+    "E24/samples.json": "c8f3e958c84747b72d504f65b2571c062e6b9d826394826d913bec76aa10bda9",
+    "E24/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "E24/timing.json": "02717b66d4b568edace5ce71e364cc35701806240cedfb3328d85af6c7535995",
+    "E24/updates.npz": "65aefe1d012e96bf4c3360add3c87ef797e13f8563059f6afe235410fd727978",
+    "E24.log": "0ace1d3724adc582cc245e0d81a7c4afd88fa9e4f5038f9d8081cee20651f5cd",
+    "F24/config.yaml": "5fa693aed40fb152d4587c86c20eb7c2bd7b00c6edfe1a0b958e6b77b1babb0e",
+    "F24/grid.npz": "c02a31523f3bf5f41317ed8deb7006d8f6a7a8c8e74d82cbfd328f249508f935",
+    "F24/map.json": "d5d9786cd71df18b5e5f7d8f1c5fa0228ac048a7d807846d0138536b7bbbd04d",
+    "F24/map.pgm": "62b4de930bd428f4bfe245ba48808761d61ea4d2a65a2170989cc6c08286db93",
+    "F24/map.yaml": "49f927efb8354663db3254d850daea415b2d13d9425f4e29443dffa16bc748a8",
+    "F24/metrics.json": "da26d5d89491c867b7a1a7a03ab307c500f04e6f263339c04336dec95414a3b4",
+    "F24/samples.json": "d019c19074ee2b70c6ae486de3f771f5904893c0eaaeb518171e8c4174747a22",
+    "F24/scans.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "F24/timing.json": "35008618e7568511b6f81af6942753bfa83358c1a88e6b3818577b9a8789289a",
+    "F24/updates.npz": "6e637d71b99faef4f9f9c2fb75820978002e7a8a3a788d83d25ce4e3ea24eee9",
+    "F24.log": "5c279c972f71a23ad37a4a7d74684450242952179596277de72287b529549cb6",
+    "H/aula.json": "38fab2471de4b697ba536358301c7af9ab312de65c8ba443ac8c9259c0235700",
+    "H/aula.pgm": "0d5c25d66aa0372f5694ceda343fc18b7704be90d458e8f927e09462c6c5aeb4",
+    "H/aula.yaml": "70b8b0ff1599de3cb6cd587798e44fdeb5cd5b1341fbc77f5fdc6734893cdb42",
+    "H/status.log": "4211fb32074429bee6abb7f2123ddec579c94059f3753e9f05540729db3eb4d6",
+    "analysis.log": "152a40630e7b33820d56df5fad5206bea5eff944bff8008c6eee110e29ffaf8c",
+    "environment.json": "bdb5a1357b2b8b6942d74d0138ea1cb5108d9c8472805b764083e93351774fa3",
+    "hypotheses.json": "fe1d21b0a47ed7aeaadd5c16d10b754a69d9d7990004e71e7352d2ec8b13c3b7",
+    "input/bag_mapa2.npz": "50946170bcc0bbb8874979f04299213e8551865513369cf30cc72a48c6229ebc",
+    "report/README.md": "bd8ba7e04168f35ec2845d0606fc9859205aeba213a2ebd5bf21545449c4279d",
+    "report/checkpoints.npz": "d509c2f0b3d6db6a3a6714098c07817cd8bfdcc9a4ccb4a5844c37c280fad446",
+    "report/comparison.csv": "5cb6545494a0b971106812fe058daf3ce1037e4ecef210956516bc766b9ced07",
+    "report/comparison.json": "01d66784610b27bd639b8a8859fe90001761c58251e70880aaac1b0ec97e6c4c",
+    "report/details.png": "71d7f27f3bb272963fe3a841d164f94f9826f26bcd1645905c262a4b5a5a0c17",
+    "report/maps.png": "73d3066dd9b26fa4dca4bb5ac436a324aa5201d3021709366c22100482a7800e",
+    "report/maps_and_paths.png": "9d91a6d6dafd372a19ddeabdd719ce014a2aca4aa8286670f8bd2a33af6d1da0",
+    "report/navigation.png": "98248f759d7125c71d020043681976e23695030e5fb90024d0b2c97d1674d003",
+    "report/regions.json": "915428372c57ff83b1982cc198001db9393a58921dd9769f97cbe0c3a905474b",
+    "report/timing_and_ess.png": "c497570f1729fbe88022bfc1d3e9ed01b5a0877d773191d8dee5ef0e799fefec",
+    "run.log": "f2d20c15be2d7ba3faa552cb9572f9b5026bfaa353a3a3c3c7faa93e2308c45b",
+    "source/analyze_bag_cycle.py": "7fc6698defc5bb69d08398f36ed3c1a82b67736dbb9893b4d885717871aca7b8",
+    "source/experiment_metrics.py": "63fab8b735996868a437873e6a25a45f2d8012494e84882a47ce404311ccacf8",
+    "source/profile_replay.py": "8919e68c634567de3c7e0482359cfb5becf57db3cb0da5d5f2c1c848db163a41",
+    "source/run_hitl_bag16_02.sh": "83886071bb58d55fbf061dbd0bf541c152c86b8b0fe3607ba248e7b24e271065",
+    "source/test_bag_cycle_metrics.py": "6f57ba3676e4f8095f056d1c46e9da1fa9cbfad7f67374c2719d8a864dc8b179",
+    "source/test_experiment_metrics.py": "738ab0cc4332d51ac8e028bddad89c43b01996b2f859cff7b3459a5f715f38c2",
+    "tests.log": "607bc369d5c73a96b830d7bc4fd10c0621a1c4efa9554c76caf2b860d375a072"
+  }
+}

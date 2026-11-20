@@ -1,0 +1,18 @@
+test_endpoint_metric_reads_input_mount (test_experiment_metrics.ExperimentMetricsTests) ... ok
+test_inflation_is_metric_and_unknown_blocks_footprint (test_experiment_metrics.ExperimentMetricsTests) ... ok
+test_laser_mount_and_base_rotation (test_experiment_metrics.ExperimentMetricsTests) ... ok
+test_truth_anchor_and_yaw_are_consistent (test_experiment_metrics.ExperimentMetricsTests) ... ok
+test_yaw_wrap (test_experiment_metrics.ExperimentMetricsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.008s
+
+OK
+test_interior_seed_is_shared_by_every_map (test_bag_cycle_metrics.BagCycleMetricsTests) ... ok
+test_interpolation_wraps_yaw_and_rejects_extrapolation (test_bag_cycle_metrics.BagCycleMetricsTests) ... ok
+test_unknown_barrier_and_start_component (test_bag_cycle_metrics.BagCycleMetricsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.003s
+
+OK
