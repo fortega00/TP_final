@@ -88,6 +88,40 @@ Publica un `/initialpose` corrido 36 cm, manda el objetivo e imprime el error re
 
 En Café, elegir objetivos con espacio delante del robot; los objetivos muy próximos a una pared pueden terminar en `BLOCKED`. La parada conserva una zona ciega bajo el mínimo del sensor: comenzar con el frente despejado. Ver [decisión 008](decisiones/008-obstaculos-no-mapeados.md#corrección-del-perfil-café-en-la-revisión-del-pr-4). La corrección del perfil se verificó con tests; todavía no se repitió en ROS/Gazebo.
 
+### Pérdida del LIDAR
+
+`navigator.scan_timeout` vale **0,50 s** en el perfil real y **0,45 s** en
+Café. En real se mide con reloj monotónico local desde que entra el último
+scan utilizable al callback. El timestamp del sensor sirve para rechazar
+duplicados y rebobinados de esa fuente. En Café se usa el tiempo simulado
+(`use_sim_time:=true`) y se verifica también la edad del scan en ese reloj.
+Los scans vacíos, sin TF o sin retornos finitos en rango fuera del chasis
+no renuevan el plazo. Si se rebobina el reloj de simulación, reiniciar
+navegación y localización antes de operar de nuevo.
+
+En `WAIT_SCAN` se rechazan objetivos. Si vence el plazo con un viaje activo,
+el navegador envía un comando cero para avance y giro, cancela el objetivo,
+vacía el plan y registra una advertencia en la terminal una vez por corte.
+Para volver a navegar, esperar un scan utilizable y una pose reciente en
+`LOCALIZED`, y marcar un objetivo nuevo.
+
+El 20/11 se verificó el corte en Café Fortress con el mapa D y ROS Humble
+en un contenedor aislado. Al interrumpir solo el relay del scan en marcha,
+el comando cero llegó 0,50 s de simulación después de la captura del último
+scan. Durante el corte siguieron llegando odometría y poses. El plan se
+vació, hubo una advertencia y el robot solo retomó la marcha con un
+objetivo nuevo. Pasaron las 45 pruebas B.
+[Resultados](../nav/artifacts/lidar_cut_cafe/summary.json).
+
+En el aula, **0,50 s es el punto de partida**. A 7,3 Hz permite dos scans
+perdidos y unos 90 ms de jitter adicional. Registrar los intervalos entre
+callbacks con reloj monotónico bajo la carga habitual y ajustar entre 0,45 y
+0,60 s según los intervalos observados. Sin demoras del ejecutor, el lazo de
+10 Hz puede sumar hasta 0,10 s al timeout. Con el valor inicial a 0,20 m/s,
+esos 0,60 s equivalen a 12 cm antes de que la base empiece a frenar. Medir en la prueba física el recorrido total desde
+el último scan hasta detenerse y ajustar velocidad o margen frontal según
+esa distancia.
+
 ## Qué mirar
 
 | Tópico | Contenido |
@@ -99,7 +133,7 @@ En Café, elegir objetivos con espacio delante del robot; los objetivos muy pró
 `LOST` aparece cuando `unexplained_fraction` (fracción de los puntos del scan a más de 20 cm de toda pared del mapa) supera 0,25: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo. Justo después del click el límite es 0,15: si lo supera, el log dice `Click rejected` y el nodo queda en `LOST` hasta el próximo click ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
 
 | `/nav/plan` | Camino planificado |
-| `/nav/state` | JSON: estado de la máquina, si la parada de seguridad está activa y los últimos eventos |
+| `/nav/state` | JSON: estado de la máquina, si la parada frontal está activa y los últimos eventos. `WAIT_SCAN` indica falta de un scan utilizable |
 
 Para guardar el estado durante una corrida: `ros2 topic echo /nav/localization_status > loc_status.log` y `ros2 topic echo /nav/state > nav_state.log`.
 

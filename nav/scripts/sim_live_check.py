@@ -111,7 +111,7 @@ def main():
             rclpy.spin_once(node, timeout_sec=0.05)
             state = navigation[-1]["state"] if navigation else None
             seen_moving = seen_moving or state in ("PLANNING", "ALIGNING", "FOLLOWING")
-            if seen_moving and state in ("IDLE", "WAIT_INITIAL_POSE"):
+            if seen_moving and state in ("IDLE", "WAIT_INITIAL_POSE", "WAIT_SCAN"):
                 break
         spin(1.0)
         _, x, y, yaw = truth[-1]

@@ -5,13 +5,14 @@ Entradas: `/nav/pose` y `/nav/localization_status` (del nodo de localización),
 corrigió la pose) y `/scan` (parada de seguridad y obstáculos que no están en el mapa).
 Salidas: `/cmd_vel`, `/nav/plan` y `/nav/state` (JSON).
 
-Solo publica velocidades mientras está llevando al robot a un objetivo. Parado
-no publica nada, así no pisa al teleop.
+Publica velocidades durante un viaje y un comando cero al detenerlo.
+En espera no pisa al teleop.
 """
 import json
+import time
 
-import numpy as np
 import rclpy
+from rclpy.clock import Clock, ClockType
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.time import Time
@@ -28,6 +29,7 @@ from ..core.config import NavConfig
 from ..core.map import load_map
 from ..core.navigator import Navigator, State, safety_stop
 from ..core.planner import Costmap
+from ..core.scan_watchdog import ScanWatchdog
 from .localization_node import pose_message, seconds, yaw_from_quaternion
 
 ACTIVE = (State.ALIGNING, State.FOLLOWING, State.FINAL_ALIGN)
@@ -49,7 +51,10 @@ class NavigatorNode(Node):
         self.core = Navigator(Costmap(grid, self.config.planner), self.config)
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
-        self.laser_mount = None
+        self.use_sim_time = self.get_parameter('use_sim_time').value
+        self.scan_watchdog = ScanWatchdog(self.config.navigator.scan_timeout,
+                                          self.config.sensor.min_range, self.use_sim_time)
+        self.awaiting_recovery_goal = False
         self.pose = None
         self.pose_stamp = None
         self.localization = 'WAITING_INITIAL_POSE'
@@ -68,8 +73,9 @@ class NavigatorNode(Node):
         self.create_subscription(PoseStamped, '/goal_pose', self.on_goal, 10)
         self.create_subscription(PoseWithCovarianceStamped, '/initialpose', self.on_initial_pose, 10)
         self.create_subscription(LaserScan, self.options['scan_topic'], self.on_scan,
-                                 QoSProfile(depth=5, reliability=ReliabilityPolicy.BEST_EFFORT))
-        self.create_timer(1.0 / self.options['rate'], self.step)
+                                 QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
+        control_clock = self.get_clock() if self.use_sim_time else Clock(clock_type=ClockType.STEADY_TIME)
+        self.create_timer(1.0 / self.options['rate'], self.step, clock=control_clock)
         self.get_logger().info('Navigator ready; waiting for localization and /goal_pose')
 
     def now(self):
@@ -90,9 +96,19 @@ class NavigatorNode(Node):
             self.get_logger().error(f'/goal_pose must be in frame {self.options["map_frame"]}, '
                                     f'got "{message.header.frame_id}"')
             return
+        now = self.now()
+        if not self.check_scan(now, self.scan_time(now)):
+            self.get_logger().warning('Goal rejected: waiting for usable lidar data')
+            self.publish_navigation()
+            return
+        if self.awaiting_recovery_goal and (self.localization != 'LOCALIZED'
+                                            or self.fresh_pose(now) is None):
+            self.get_logger().warning('Goal rejected: waiting for a recent localized pose after lidar loss')
+            return
         body = message.pose
         self.core.set_goal(Pose2D(body.position.x, body.position.y,
-                                  yaw_from_quaternion(body.orientation)), self.now())
+                                  yaw_from_quaternion(body.orientation)), now)
+        self.awaiting_recovery_goal = False
 
     def on_initial_pose(self, message):
         del message
@@ -102,44 +118,95 @@ class NavigatorNode(Node):
 
     def on_scan(self, message):
         """Parada de seguridad y obstáculos que no están en el mapa."""
-        if self.laser_mount is None:
-            try:
-                transform = self.tf_buffer.lookup_transform(
-                    self.options['base_frame'], message.header.frame_id, Time())
-            except TransformException:
-                return
-            t = transform.transform
-            self.laser_mount = Pose2D(t.translation.x, t.translation.y,
-                                      yaw_from_quaternion(t.rotation))
-        if not message.ranges:
+        now = self.now()
+        received = self.scan_time(now)
+        # Si volvió entre dos ticks luego de un silencio largo, el viaje igual
+        # queda cancelado antes de aceptar el nuevo scan.
+        if not self.check_scan(now, received):
+            self.publish_navigation()
+        if not message.ranges or not message.header.frame_id:
             return
-        scan = Scan(np.asarray(message.ranges), message.angle_min, message.angle_increment,
-                    message.range_min, message.range_max, seconds(message.header.stamp),
-                    self.laser_mount)
+        try:
+            transform = self.tf_buffer.lookup_transform(
+                self.options['base_frame'], message.header.frame_id, Time())
+            t = transform.transform
+            mount = Pose2D(t.translation.x, t.translation.y, yaw_from_quaternion(t.rotation))
+            scan = Scan(message.ranges, message.angle_min, message.angle_increment,
+                        message.range_min, message.range_max, seconds(message.header.stamp),
+                        mount)
+        except (TransformException, ValueError):
+            return
+        if not self.scan_watchdog.accept(scan, received):
+            return
         self.blocked = safety_stop(scan, self.config)
         # Los obstáculos se anotan solo con una pose confiable y reciente.
-        if (self.localization == 'LOCALIZED' and self.pose_stamp is not None
-                and self.now() - self.pose_stamp <= self.config.navigator.pose_timeout):
-            self.core.observe(self.pose, scan)
+        pose = self.fresh_pose(now)
+        if self.localization == 'LOCALIZED' and pose is not None:
+            self.core.observe(pose, scan)
 
     # ----- Lazo de control -----
 
+    def scan_time(self, ros_now):
+        return ros_now if self.use_sim_time else time.monotonic()
+
+    def fresh_pose(self, now):
+        if self.pose_stamp is None or now - self.pose_stamp > self.config.navigator.pose_timeout:
+            return None
+        return self.pose
+
+    def check_scan(self, now, scan_now):
+        """Frena antes de usar una velocidad o un objetivo sin un scan utilizable."""
+        clock_was_rewound = self.scan_watchdog.clock_rewound
+        if self.scan_watchdog.ready(scan_now):
+            self.core.scan_available(now)
+            return True
+        clock_rewound = self.scan_watchdog.clock_rewound
+        if clock_rewound and not clock_was_rewound:
+            self.get_logger().warning('ROS time jumped backwards; restart navigation and localization')
+        if self.core.state == State.WAIT_SCAN:
+            return False
+
+        had_goal = self.core.goal is not None
+        if had_goal or self.was_active:
+            self.velocity_pub.publish(Twist())
+            self.was_active = False
+        self.core.wait_for_scan(now)
+        self.blocked = False
+        silence = self.scan_watchdog.silence(scan_now)
+        if silence is not None and not clock_rewound:
+            self.awaiting_recovery_goal = True
+            action = 'active goal canceled' if had_goal else 'no active goal'
+            age = (f', {scan_now - self.scan_watchdog.last_stamp:.3f} s since scan capture'
+                   if self.use_sim_time else '')
+            self.get_logger().warning(f'Lidar unavailable on {self.options["scan_topic"]}: '
+                                      f'{max(0.0, silence):.3f} s since last usable reception{age} '
+                                      f'(timeout {self.scan_watchdog.timeout:.2f} s); {action}')
+        return False
+
     def step(self):
         now = self.now()
-        pose = self.pose
-        # Una pose vieja no sirve para manejar: se trata como si no hubiera.
-        if self.pose_stamp is None or now - self.pose_stamp > self.config.navigator.pose_timeout:
-            pose = None
+        if not self.check_scan(now, self.scan_time(now)):
+            self.publish_navigation()
+            return
+        pose = self.fresh_pose(now)
         localization = self.localization if pose is not None or self.localization != 'LOCALIZED' \
             else 'NOT_CONVERGED'
         v, w = self.core.update(now, pose, localization, self.blocked)
+        # Un cálculo que terminó después del plazo no puede publicar movimiento.
+        now = self.now()
+        if not self.check_scan(now, self.scan_time(now)):
+            self.publish_navigation()
+            return
         active = self.core.state in ACTIVE
         if active or self.was_active:
             command = Twist()
             command.linear.x, command.angular.z = float(v), float(w)
             self.velocity_pub.publish(command)
         self.was_active = active
-        for stamp, text in self.core.events[self.shown_events:]:
+        self.publish_navigation()
+
+    def publish_navigation(self):
+        for _, text in self.core.events[self.shown_events:]:
             self.get_logger().info(text)
         self.shown_events = len(self.core.events)
         if self.core.path is not self.shown_path:

@@ -65,6 +65,7 @@ navigator:
   retry_period: 2.0
   lost_timeout: 10.0
   pose_timeout: 1.0
+  scan_timeout: 0.45
 obstacles:
   # Obstáculos que no están en el mapa (docs/decisiones/008).
   max_range: 3.0

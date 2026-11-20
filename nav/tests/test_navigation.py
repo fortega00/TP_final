@@ -172,6 +172,30 @@ class NavigatorTests(Base):
         self.assertEqual(nav.state, State.IDLE)
         self.assertLess(math.hypot(pose.x - second.x, pose.y - second.y), 0.08)
 
+    def test_lidar_loss_cancels_a_moving_goal_even_when_localized(self):
+        goal = Pose2D(-1.0, -1.0, 0.0)
+        for yaw, motion in ((0.0, 0), (math.pi, 1)):
+            with self.subTest(yaw=yaw):
+                navigator = self.navigator()
+                pose = Pose2D(-2.0, -1.0, yaw)
+                navigator.set_goal(goal, 0.0)
+                for t in (0.0, 0.1, 0.2, 0.3):
+                    command = navigator.update(t, pose, "LOCALIZED", False)
+                self.assertNotEqual(command[motion], 0.0)
+                self.assertTrue(navigator.path)
+
+                navigator.wait_for_scan(0.4)
+                self.assertEqual(navigator.update(0.4, pose, "LOCALIZED", False), (0.0, 0.0))
+                self.assertEqual(navigator.state, State.WAIT_SCAN)
+                self.assertIsNone(navigator.goal)
+                self.assertEqual(navigator.path, [])
+
+                navigator.scan_available(0.5)
+                self.assertEqual(navigator.update(0.5, pose, "LOCALIZED", False), (0.0, 0.0))
+                self.assertEqual(navigator.state, State.IDLE)
+                navigator.set_goal(goal, 0.6)
+                self.assertEqual(navigator.state, State.PLANNING)
+
     def test_unreachable_goal_is_rejected_and_robot_stays(self):
         nav = self.navigator()
         start = Pose2D(-2.0, -1.0, 0.0)
