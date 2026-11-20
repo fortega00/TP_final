@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "world": "Cafe Fortress",
+  "use_sim_time": true,
+  "scan_timeout_s": 0.45,
+  "last_forward_t": 3.8910000000000005,
+  "last_capture_t": 3.8,
+  "cut_t": 4.023000000000001,
+  "zero_t": 4.300000000000001,
+  "scan_capture_to_zero_s": 0.5000000000000009,
+  "last_scan_to_zero_s": 0.40900000000000025,
+  "cut_to_zero_s": 0.27700000000000014,
+  "odom_messages_during_cut_before_stop": 8,
+  "nav_pose_messages_during_cut_before_stop": 9,
+  "travel_cut_to_zero_m": 0.05439996181217065,
+  "wait_scan": true,
+  "path_cleared": true,
+  "stayed_stopped_after_recovery": true,
+  "accepted_new_goal": true
+}

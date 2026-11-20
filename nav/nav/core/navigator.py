@@ -20,9 +20,11 @@ from .config import NavConfig
 from .follower import PurePursuit, rotate_command
 from .obstacles import ObstacleLayer
 from .planner import Costmap, PlanningError, plan
+from .scan_watchdog import valid_returns
 
 
 class State(Enum):
+    WAIT_SCAN = "WAIT_SCAN"                   # sin datos utilizables del lidar
     WAIT_INITIAL_POSE = "WAIT_INITIAL_POSE"   # el filtro no arrancó o se perdió
     LOCALIZING = "LOCALIZING"                 # hay pose inicial, la nube no convergió
     IDLE = "IDLE"                             # ubicado, sin objetivo
@@ -38,8 +40,7 @@ def safety_stop(scan: Scan, config: NavConfig) -> bool:
     """Parada de seguridad: el lidar ve algo dentro del rectángulo delante del robot."""
     ranges = np.asarray(scan.ranges)
     angles = scan.angle_min + np.arange(len(ranges)) * scan.angle_increment
-    # Lecturas más cortas que min_range son el propio chasis.
-    valid = np.isfinite(ranges) & (ranges > max(scan.range_min, config.sensor.min_range))
+    valid = valid_returns(scan, config.sensor.min_range)
     beam = angles[valid] + scan.sensor_pose.yaw
     x = scan.sensor_pose.x + ranges[valid] * np.cos(beam)
     y = scan.sensor_pose.y + ranges[valid] * np.sin(beam)
@@ -81,6 +82,18 @@ class Navigator:
         """Scan nuevo tomado desde `pose`: actualiza los obstáculos que no están en el mapa."""
         self.obstacles.observe(pose, scan)
 
+    def wait_for_scan(self, now: float):
+        """Cancela el viaje ante la falta de datos del lidar."""
+        self.goal, self.path, self.follower = None, [], None
+        self._blocked_since = None
+        self._safety = False
+        self._go(State.WAIT_SCAN, now)
+
+    def scan_available(self, now: float):
+        """Tras la espera, vuelve a comprobar la localización antes de planear."""
+        if self.state == State.WAIT_SCAN:
+            self._go(State.WAIT_INITIAL_POSE, now)
+
     def on_reinitialized(self, now: float):
         """Llegó un /initialpose nuevo. Con el robot en marcha: frenar y replanificar.
 
@@ -92,7 +105,7 @@ class Navigator:
         # Los obstáculos anotados con la pose anterior quedaron en lugares equivocados.
         self.obstacles = ObstacleLayer(self.costmap.grid, self.config.sensor, self.config.obstacles)
         # Desde WAIT_INITIAL_POSE el estado sigue al de la localización en update().
-        if self.state != State.WAIT_INITIAL_POSE:
+        if self.state not in (State.WAIT_INITIAL_POSE, State.WAIT_SCAN):
             self._go(State.LOCALIZING, now)
 
     def update(self, now: float, pose, localization: str, blocked: bool):
@@ -102,6 +115,8 @@ class Navigator:
         de localización: WAITING_INITIAL_POSE, NOT_CONVERGED, LOCALIZED o LOST.
         `blocked` dice si el lidar ve algo en el rectángulo de seguridad.
         """
+        if self.state == State.WAIT_SCAN:
+            return 0.0, 0.0
         located = localization == "LOCALIZED" and pose is not None
         # Transiciones globales por el estado de la localización.
         if self._needs_initial_pose or localization in ("WAITING_INITIAL_POSE", "LOST"):

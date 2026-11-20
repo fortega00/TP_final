@@ -508,3 +508,8 @@ profiling y la condición de integración están en
 ## Navegación B después del merge de los PR
 
 La navegación usa perfiles propios en `nav/config/`, separados de los del SLAM. En Café, `navigator.stop_distance=0.40` m conserva una franja frontal detectable con `sensor.min_range=0.25` m y la extrínseca del láser; no copiar los 0,25 m del perfil real a Café. Resincronizar y construir ambos paquetes antes de ejecutar la versión nueva. Los comandos y las limitaciones para objetivos cerca de paredes están en la [guía de B](guia_etapa_b.md#parada-de-seguridad-por-perfil). La validación de esta corrección fue unitaria; no se lanzaron ROS, RViz, Gazebo ni replays.
+
+
+La navegación también corta avance y giro al perder el LIDAR. En real el
+umbral inicial es 0,50 s de silencio local y en Café es 0,45 s de simulación.
+Para recuperar el viaje se requiere un objetivo nuevo. Ver [guía de B](guia_etapa_b.md#pérdida-del-lidar).

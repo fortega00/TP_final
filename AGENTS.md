@@ -240,3 +240,18 @@ Las restricciones de los cierres de ciclos siguientes son históricas, anteriore
 - A pedido del usuario se corrigió el perfil de navegación Café: `nav/config/cafe.yaml` restaura `navigator.stop_distance=0.40`, conservando mínimo de 0,25 m y extrínseca registrada `(0.043, 0, pi)`. La parada actúa antes de la zona descartada; los retornos dentro del mínimo siguen sin aportar detección. El perfil real/default conserva parada 0,25 m y mínimo 0,12 m, pendiente de huella física. La mayor parada de Café conserva la limitación de objetivos cercanos a paredes.
 - Cuatro regresiones usan el perfil Café y su extrínseca; los casos de parada fallaban antes de la corrección. Se documentan parámetros y límites en las guías de ejecución/B, parámetros y decisiones 008/009. Validación sin ROS, RViz, Gazebo, replays ni robot; no se actualizó el contenedor habitual.
 - Resultado de la combinación con main: suite A, 53 tests (46 aprobados y 7 omitidos por dependencias ROS/Numba); suite B, 40 aprobados, incluidos los cuatro casos Café. `git diff --check` limpio.
+
+
+## Parada de navegación por pérdida de LIDAR
+
+- `navigator.scan_timeout`: 0,50 s con reloj monotónico de recepción en real, 0,45 s con tiempo simulado en Café. El sello del scan real solo ordena mensajes de la fuente. Usar `WAIT_SCAN` para el corte de avance y giro, con aviso en terminal, cancelación del objetivo y plan vacío. Al recuperar datos hace falta pose reciente localizada y un objetivo nuevo. Ver `docs/guia_etapa_b.md` y `docs/parametros.md`.
+- El valor real es inicial. La calibración de jitter y recorrido de frenado se mide en el aula antes de usarlo para evaluar seguridad física. Un salto hacia atrás del reloj simulado requiere relanzar navegación y localización.
+
+- Validación en vivo del watchdog en Café Fortress el 20/11: Humble, mapa D
+  fijo, perfil Café, contenedor separado sin red. Corte del relay del scan
+  durante `FOLLOWING`, con odometría y pose aún activas. `Twist` cero 0,50 s
+  de simulación desde la captura del último scan y 0,409 s desde el envío del
+  relay para ese scan. `WAIT_SCAN`, plan vacío, una advertencia y marcha solo
+  al mandar otro objetivo. Build de ambos paquetes y 45 pruebas B aprobadas.
+  Resumen en `nav/artifacts/lidar_cut_cafe/summary.json`. El margen de
+  frenado físico sigue pendiente de medición.

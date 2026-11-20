@@ -99,6 +99,8 @@ class NavigatorConfig:
     lost_timeout: float = 10.0
     # Si la pose no se actualiza en este tiempo, el robot frena.
     pose_timeout: float = 1.0
+    # Silencio máximo entre scans utilizables. Independiente de la pose.
+    scan_timeout: float = 0.50
 
 
 @dataclass(frozen=True)

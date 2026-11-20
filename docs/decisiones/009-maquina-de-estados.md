@@ -6,6 +6,7 @@ Estado: decidida el 2026-11-14. Implementada en `nav/nav/core/navigator.py` y pr
 
 | Estado | Qué hace el robot | Sale cuando |
 |---|---|---|
+| `WAIT_SCAN` | Quieto y sin objetivo, faltan scans utilizables | Vuelve un scan utilizable → se comprueba localización. Tras un corte, el usuario debe enviar un objetivo nuevo con pose reciente y localizada |
 | `WAIT_INITIAL_POSE` | Nada, el filtro no arrancó | Llega `/initialpose` → `LOCALIZING` |
 | `LOCALIZING` | Quieto, ráfaga inicial del filtro | Convergió → `IDLE`, o `PLANNING` si hay un objetivo guardado. Tope de iteraciones → `WAIT_INITIAL_POSE` |
 | `IDLE` | Quieto, ubicado | Llega `/goal_pose` → `PLANNING` |
@@ -16,7 +17,7 @@ Estado: decidida el 2026-11-14. Implementada en `nav/nav/core/navigator.py` y pr
 | `BLOCKED` | Quieto: un obstáculo no deja avanzar | Se despejó, o pasaron 2 s → `PLANNING`. 15 s sin poder avanzar → abandona el objetivo, `IDLE` |
 | `LOST` | Quieto, espera que el filtro vuelva a converger | Convergió → `PLANNING`. Se acabó el tiempo → `WAIT_INITIAL_POSE` |
 
-Eventos globales: un `/goal_pose` nuevo en cualquier estado en movimiento lleva a `PLANNING`, y un `/initialpose` nuevo en cualquier estado frena al robot y lleva a `LOCALIZING`.
+La falta de scans utilizables lleva a `WAIT_SCAN`, cancela el objetivo y borra el camino. En los demás estados, un `/goal_pose` nuevo durante el movimiento lleva a `PLANNING`. Un `/initialpose` nuevo frena y vuelve a comprobar la localización. Durante `WAIT_SCAN` se conserva la espera del sensor.
 
 ## Casos que eran una decisión
 

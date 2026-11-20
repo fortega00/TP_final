@@ -211,3 +211,11 @@ inicializar nodos.
 ## Parada de seguridad de la etapa B
 
 Estos parámetros pertenecen a `nav/config/*.yaml`, no al SLAM. `navigator.stop_distance` se mide desde el centro de la base: Café usa **0,40 m**, frente a **0,25 m** en el perfil real y el default Python. `navigator.stop_half_width=0.20` m en ambos. Café descarta rangos de hasta `sensor.min_range=0.25` m del láser; con montaje `(0.043, 0, pi)`, los retornos justo enfrente válidos empiezan después de 0,293 m del centro. Con parada a 0,25 m no podían activarla. El alcance mínimo real/default es 0,12 m. No bajar el mínimo Café sin separar el rechazo del chasis. La mayor parada mantiene la limitación de objetivos muy próximos a paredes; detalle y evidencia en [008](decisiones/008-obstaculos-no-mapeados.md#corrección-del-perfil-café-en-la-revisión-del-pr-4). No constituye calibración física ni una nueva validación en Gazebo.
+
+
+`navigator.scan_timeout` es el máximo silencio aceptado entre scans utilizables.
+El default y el perfil real usan **0,50 s** medidos desde la recepción local
+monotónica. Café usa **0,45 s** de simulación y valida también la antigüedad
+del scan en `/clock`. Tiene que ser un número finito y positivo. El timeout
+opera además de `navigator.pose_timeout` (1,0 s en ambos perfiles). Al vencer,
+el navegador espera en `WAIT_SCAN` y cancela el viaje. Ver [guía de B](guia_etapa_b.md#pérdida-del-lidar).
