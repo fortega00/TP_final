@@ -113,6 +113,13 @@ vació, hubo una advertencia y el robot solo retomó la marcha con un
 objetivo nuevo. Pasaron las 45 pruebas B.
 [Resultados](../nav/artifacts/lidar_cut_cafe/summary.json).
 
+En Café Fortress, una ruta larga podía disparar el watchdog porque A* ocupaba
+el hilo que atendía `/scan` y `/clock`. El nodo ahora calcula la ruta en un
+hilo propio. Mientras está en `PLANNING`, el robot espera quieto y el lazo
+de control sigue verificando el sensor. La terminal muestra `Planning result
+ready after ... s (wall time)` al recibir el resultado, y ante un corte informa
+también cuánto tiempo de pared pasó desde el último callback de `/scan`.
+
 En el aula, **0,50 s es el punto de partida**. A 7,3 Hz permite dos scans
 perdidos y unos 90 ms de jitter adicional. Registrar los intervalos entre
 callbacks con reloj monotónico bajo la carga habitual y ajustar entre 0,45 y
@@ -128,12 +135,12 @@ esa distancia.
 |---|---|
 | `/nav/pose` | Pose del robot en el mapa |
 | `/nav/particles` | Nube de partículas |
-| `/nav/localization_status` | JSON: `state` (`WAITING_INITIAL_POSE`, `NOT_CONVERGED`, `LOCALIZED`, `LOST`), dispersión, `update_seconds`, `scan_score`, `unexplained_fraction` |
-
-`LOST` aparece cuando `unexplained_fraction` (fracción de los puntos del scan a más de 20 cm de toda pared del mapa) supera 0,25: la pose no explica lo que ve el lidar. Hay que marcar la pose de nuevo. Justo después del click el límite es 0,15: si lo supera, el log dice `Click rejected` y el nodo queda en `LOST` hasta el próximo click ([004](decisiones/004-localizacion-en-mapa-conocido.md#detección-de-perdido)).
-
+| `/nav/localization_status` | JSON con `state`, dispersión, `update_seconds`, `lost_check_seconds`, `scan_score`, `unexplained_fraction` (residuo usado para `LOST`) y `static_unexplained_fraction` (residuo contra el mapa fijo) |
+| `/nav/obstacle_cells` | Centros de las celdas de obstáculos confirmadas por el navegador, con el sello del último scan integrado |
 | `/nav/plan` | Camino planificado |
 | `/nav/state` | JSON: estado de la máquina, si la parada frontal está activa y los últimos eventos. `WAIT_SCAN` indica falta de un scan utilizable |
+
+En marcha, `LOST` aparece cuando `unexplained_fraction` supera 0,25. Un retorno queda explicado si hay una celda ocupada a 20 cm o menos en el mapa fijo o en la capa dinámica confirmada en scans anteriores. La capa dinámica se usa si es reciente y el mapa fijo explica al menos la mitad de los retornos. `static_unexplained_fraction` permite ver cuánto habría quedado sin explicar usando solo el mapa fijo. `lost_check_seconds` mide el cálculo en el núcleo, incluida la consulta a la capa dinámica. Justo después del click se usa el mapa fijo con el límite de 0,15. Si lo supera, el log dice `Click rejected` y el nodo queda en `LOST` hasta el próximo click. [Decisión de localización](decisiones/004-localizacion-en-mapa-conocido.md#diagnóstico-con-obstáculos-confirmados)
 
 Para guardar el estado durante una corrida: `ros2 topic echo /nav/localization_status > loc_status.log` y `ros2 topic echo /nav/state > nav_state.log`.
 

@@ -15,6 +15,7 @@ from slam.core.types import Scan
 from nav.core.config import LocalizationConfig, NavConfig
 from nav.core.localization import MonteCarloLocalization
 from nav.core.map import free_cells, load_map, occupied_cells
+from nav.core.obstacles import ObstacleLayer, ObstacleSnapshot
 
 RESOLUTION = 0.05
 # Sala de 6 x 4 m con una columna cuadrada de 0,5 m adentro. La columna rompe la
@@ -209,6 +210,33 @@ class LocalizationTests(unittest.TestCase):
         self.assertTrue(mcl.lost(scan, after_click=True))
         mcl.initialize(truth, 0.001, 0.001)
         self.assertFalse(mcl.lost(scan, after_click=True))
+
+    def test_confirmed_obstacle_explains_returns_only_during_tracking(self):
+        truth = Pose2D()
+        scan = room_scan(truth, stamp=10.0)
+        angles = np.arange(len(scan.ranges)) * scan.angle_increment
+        box = _box_distance(0.0, 0.0, np.cos(angles), np.sin(angles), (0.55, 0.80), (-0.85, 0.85))
+        scan = replace(scan, ranges=np.minimum(scan.ranges, box))
+        mcl = self.filter()
+        mcl.initialize(truth, 0.0, 0.0)
+        layer = ObstacleLayer(self.grid, mcl.config.sensor, mcl.config.obstacles)
+        for stamp in (9.6, 9.7, 9.8):
+            layer.observe(truth, replace(scan, stamp=stamp))
+        confirmed = ObstacleSnapshot(9.8, layer.points())
+
+        self.assertTrue(mcl.lost(scan))
+        self.assertFalse(mcl.lost(scan, obstacles=confirmed))
+        self.assertGreater(mcl.diagnostics['static_unexplained_fraction'], 0.25)
+        self.assertLess(mcl.diagnostics['unexplained_fraction'], 0.25)
+
+        for stamp in (9.0, scan.stamp, 10.1):
+            with self.subTest(stamp=stamp):
+                self.assertTrue(mcl.lost(scan, obstacles=replace(confirmed, stamp=stamp)))
+        self.assertTrue(mcl.lost(scan, after_click=True, obstacles=confirmed))
+
+        require_more_static = self.filter(min_static_match_fraction=0.80)
+        require_more_static.initialize(truth, 0.0, 0.0)
+        self.assertTrue(require_more_static.lost(scan, obstacles=confirmed))
 
     def test_process_requires_an_initial_pose(self):
         with self.assertRaises(RuntimeError):

@@ -1,10 +1,12 @@
 """Planificador, seguidor y máquina de estados sobre un mapa sintético."""
 
+from concurrent.futures import Future
 from dataclasses import replace
 import math
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import Mock
 
 import numpy as np
 
@@ -171,6 +173,56 @@ class NavigatorTests(Base):
         pose, _ = simulate(nav, pose, 90.0, start=t)
         self.assertEqual(nav.state, State.IDLE)
         self.assertLess(math.hypot(pose.x - second.x, pose.y - second.y), 0.08)
+
+    def test_waits_for_a_background_plan_with_zero_velocity(self):
+        result = Future()
+        executor = Mock()
+        executor.submit.return_value = result
+        nav = Navigator(self.costmap, self.config, planning_executor=executor)
+        pose = Pose2D(-2, -1, 0)
+        goal = Pose2D(-1, -1, 0)
+        nav.update(0.0, pose, "LOCALIZED", False)
+        nav.set_goal(goal, 0.0)
+
+        for now in (0.0, 0.2, 0.4, 0.6, 1.0):
+            self.assertEqual(nav.update(now, pose, "LOCALIZED", False), (0.0, 0.0))
+            self.assertEqual(nav.state, State.PLANNING)
+        executor.submit.assert_called_once()
+        calculate, *args = executor.submit.call_args.args
+        result.set_result(calculate(*args))
+
+        self.assertEqual(nav.update(1.1, pose, "LOCALIZED", False), (0.0, 0.0))
+        self.assertEqual(nav.state, State.ALIGNING)
+        self.assertEqual(nav.path[-1], (goal.x, goal.y))
+
+    def test_ignores_a_running_plan_when_the_goal_is_canceled_or_replaced(self):
+        for lose_scan in (True, False):
+            with self.subTest(lose_scan=lose_scan):
+                old_result, new_result = Future(), Future()
+                executor = Mock()
+                executor.submit.side_effect = [old_result, new_result]
+                nav = Navigator(self.costmap, self.config, planning_executor=executor)
+                pose = Pose2D(-2, -1, 0)
+                nav.update(0.0, pose, "LOCALIZED", False)
+                nav.set_goal(Pose2D(-1, -1, 0), 0.0)
+                nav.update(0.0, pose, "LOCALIZED", False)
+                old_result.set_running_or_notify_cancel()
+                if lose_scan:
+                    nav.wait_for_scan(0.5)
+                else:
+                    nav.set_goal(Pose2D(-3, -1, 0), 0.5)
+                old_result.set_result([(-2, -1), (-1, -1)])
+
+                self.assertEqual(nav.update(0.6, pose, "LOCALIZED", False), (0.0, 0.0))
+                self.assertEqual(nav.path, [])
+                if lose_scan:
+                    self.assertEqual(nav.state, State.WAIT_SCAN)
+                    self.assertIsNone(nav.goal)
+                else:
+                    self.assertEqual(nav.state, State.PLANNING)
+                    new_result.set_result([(-2, -1), (-3, -1)])
+                    nav.update(0.7, pose, "LOCALIZED", False)
+                    self.assertEqual(nav.path[-1], (-3, -1))
 
     def test_lidar_loss_cancels_a_moving_goal_even_when_localized(self):
         goal = Pose2D(-1.0, -1.0, 0.0)

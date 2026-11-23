@@ -38,6 +38,7 @@ from slam.core.types import Scan
 
 from .config import NavConfig
 from .map import free_cells, occupied_cells
+from .obstacles import ObstacleSnapshot
 
 # Log-verosimilitud de una partícula cuyo sensor quedó fuera del mapa: muere al remuestrear.
 OUTSIDE_LOG_LIKELIHOOD = -1e6
@@ -64,6 +65,7 @@ class MonteCarloLocalization:
         self.diagnostics = {"processed_scans": 0, "skipped_motion": 0, "invalid_scans": 0,
                             "resamples": 0, "injected_particles": 0, "burst_iterations": 0,
                             "ess": 0.0, "scan_score": 0.0, "unexplained_fraction": 0.0,
+                            "static_unexplained_fraction": 0.0, "lost_check_seconds": 0.0,
                             "update_seconds": 0.0}
 
     # ----- Inicialización -----
@@ -299,20 +301,33 @@ class MonteCarloLocalization:
         c = self.config.localization
         return self.std_xy < c.converged_std_xy and self.std_yaw < c.converged_std_yaw
 
-    def lost(self, scan: Scan, after_click: bool = False) -> bool:
-        """La pose estimada no explica el scan: el robot está en otro lado.
+    def lost(self, scan: Scan, after_click: bool = False, *,
+             obstacles: ObstacleSnapshot | None = None) -> bool:
+        """Comprueba los retornos contra el mapa fijo y la ocupación dinámica previa.
 
-        Hace falta además de `converged`: la nube se puede cerrar en una pose
-        equivocada. Deja la fracción medida en `diagnostics["unexplained_fraction"]`.
-
-        Justo después del click (`after_click`) el umbral es más estricto. En
-        marcha tiene que tolerar una caja cerca, que deja hasta 21 % del scan sin
-        explicar. En el click el robot está quieto en un lugar elegido, sin
-        obstáculos nuevos pegados, y ahí conviene detectar el falso encaje.
+        Las paredes deben seguir explicando parte del scan: la capa dinámica se
+        construyó con la pose estimada. El click se valida solo con el mapa fijo.
         """
+        started = perf_counter()
         c = self.config.localization
-        self.diagnostics["unexplained_fraction"] = self.unexplained_fraction(scan)
-        return self.diagnostics["unexplained_fraction"] > (c.click_lost_fraction if after_click else c.lost_fraction)
+        cols, rows, inside = self._scan_cells(scan)
+        unexplained = self._wall_distances_at(cols, rows, inside) > c.unexplained_distance
+        count = int(np.count_nonzero(unexplained))
+        static_fraction = count / len(unexplained)
+        self.diagnostics["static_unexplained_fraction"] = static_fraction
+        if (not after_click and obstacles is not None and len(obstacles.points)
+                and 0 < scan.stamp - obstacles.stamp <= self.config.navigator.scan_timeout
+                and 0 < static_fraction <= 1 - c.min_static_match_fraction):
+            candidates = unexplained & inside
+            g = self.grid.config
+            points = np.column_stack((g.origin_x + (cols[candidates] + 0.5) * g.resolution,
+                                      g.origin_y + (rows[candidates] + 0.5) * g.resolution))
+            distances, _ = obstacles.tree.query(points)
+            count -= int(np.count_nonzero(distances <= c.unexplained_distance))
+        fraction = count / len(unexplained)
+        self.diagnostics["unexplained_fraction"] = fraction
+        self.diagnostics["lost_check_seconds"] = perf_counter() - started
+        return fraction > (c.click_lost_fraction if after_click else c.lost_fraction)
 
     def unexplained_fraction(self, scan: Scan) -> float:
         """Fracción de los puntos del scan que cae lejos de toda pared del mapa.
@@ -335,11 +350,8 @@ class MonteCarloLocalization:
         """
         return float(np.minimum(self._wall_distances(scan), self.config.sensor.likelihood_max_dist).mean())
 
-    def _wall_distances(self, scan: Scan) -> np.ndarray:
-        """Distancia de cada extremo del scan a la pared más cercana, desde la pose estimada.
-
-        Un punto fuera del mapa cuenta como infinitamente lejos.
-        """
+    def _scan_cells(self, scan: Scan):
+        """Proyecta los impactos a celdas desde la pose estimada."""
         self._require_initialized()
         ranges, angles, hits = prepare_scan(scan, self.config.sensor)
         if not hits.any():
@@ -349,6 +361,13 @@ class MonteCarloLocalization:
         cols, rows = self.grid.world_to_grid(sensor_pose.x + ranges[hits] * np.cos(beam),
                                              sensor_pose.y + ranges[hits] * np.sin(beam))
         inside = (cols >= 0) & (cols < self.grid.width) & (rows >= 0) & (rows < self.grid.height)
+        return cols, rows, inside
+
+    def _wall_distances(self, scan: Scan) -> np.ndarray:
+        return self._wall_distances_at(*self._scan_cells(scan))
+
+    def _wall_distances_at(self, cols, rows, inside) -> np.ndarray:
+        """Un punto fuera del mapa cuenta como infinitamente lejos de las paredes."""
         d = np.full(cols.shape, np.inf)
         d[inside] = self.distance[rows[inside], cols[inside]]
         return d

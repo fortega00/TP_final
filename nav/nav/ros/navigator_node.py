@@ -3,11 +3,12 @@
 Entradas: `/nav/pose` y `/nav/localization_status` (del nodo de localización),
 `/goal_pose` (2D Goal Pose de RViz), `/initialpose` (para saber que el usuario
 corrigió la pose) y `/scan` (parada de seguridad y obstáculos que no están en el mapa).
-Salidas: `/cmd_vel`, `/nav/plan` y `/nav/state` (JSON).
+Salidas: `/cmd_vel`, `/nav/plan`, `/nav/state` (JSON) y `/nav/obstacle_cells`.
 
 Publica velocidades durante un viaje y un comando cero al detenerlo.
 En espera no pisa al teleop.
 """
+from concurrent.futures import ThreadPoolExecutor
 import json
 import time
 
@@ -16,8 +17,8 @@ from rclpy.clock import Clock, ClockType
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.time import Time
-from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped, Twist
-from nav_msgs.msg import Path as PathMsg
+from geometry_msgs.msg import Point, PoseStamped, PoseWithCovarianceStamped, Twist
+from nav_msgs.msg import GridCells, Path as PathMsg
 from sensor_msgs.msg import LaserScan
 from std_msgs.msg import String
 from tf2_ros import Buffer, TransformException, TransformListener
@@ -33,10 +34,11 @@ from ..core.scan_watchdog import ScanWatchdog
 from .localization_node import pose_message, seconds, yaw_from_quaternion
 
 ACTIVE = (State.ALIGNING, State.FOLLOWING, State.FINAL_ALIGN)
+OBSTACLE_PUBLISH_PERIOD = 0.20  # segundos entre capturas publicadas
 
 
 class NavigatorNode(Node):
-    def __init__(self):
+    def __init__(self, planning_executor):
         super().__init__('navigator')
         defaults = {'map_file': '', 'config_file': '', 'scan_topic': '/scan',
                     'cmd_vel_topic': '/cmd_vel', 'map_frame': 'map',
@@ -48,7 +50,8 @@ class NavigatorNode(Node):
             raise ValueError('map_file and config_file are required')
         self.config = NavConfig.load_yaml(self.options['config_file'])
         grid = load_map(self.options['map_file'], self.config.sensor)
-        self.core = Navigator(Costmap(grid, self.config.planner), self.config)
+        self.core = Navigator(Costmap(grid, self.config.planner), self.config,
+                              planning_executor=planning_executor)
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
         self.use_sim_time = self.get_parameter('use_sim_time').value
@@ -62,12 +65,16 @@ class NavigatorNode(Node):
         self.was_active = False
         self.shown_events = 0
         self.shown_path = None
+        self.last_scan_callback = None
+        self.last_obstacle_stamp = None
 
         persistent = QoSProfile(depth=1, reliability=ReliabilityPolicy.RELIABLE,
                                 durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.velocity_pub = self.create_publisher(Twist, self.options['cmd_vel_topic'], 10)
         self.plan_pub = self.create_publisher(PathMsg, '/nav/plan', persistent)
         self.state_pub = self.create_publisher(String, '/nav/state', persistent)
+        self.obstacles_pub = self.create_publisher(
+            GridCells, '/nav/obstacle_cells', QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
         self.create_subscription(PoseWithCovarianceStamped, '/nav/pose', self.on_pose, 10)
         self.create_subscription(String, '/nav/localization_status', self.on_status, persistent)
         self.create_subscription(PoseStamped, '/goal_pose', self.on_goal, 10)
@@ -114,16 +121,19 @@ class NavigatorNode(Node):
         del message
         # La pose anterior ya no vale: esperar la que publique la localización.
         self.pose = self.pose_stamp = None
+        self.last_obstacle_stamp = None
         self.core.on_reinitialized(self.now())
 
     def on_scan(self, message):
         """Parada de seguridad y obstáculos que no están en el mapa."""
+        callback_started = time.monotonic()
         now = self.now()
         received = self.scan_time(now)
         # Si volvió entre dos ticks luego de un silencio largo, el viaje igual
         # queda cancelado antes de aceptar el nuevo scan.
         if not self.check_scan(now, received):
             self.publish_navigation()
+        self.last_scan_callback = callback_started
         if not message.ranges or not message.header.frame_id:
             return
         try:
@@ -143,6 +153,10 @@ class NavigatorNode(Node):
         pose = self.fresh_pose(now)
         if self.localization == 'LOCALIZED' and pose is not None:
             self.core.observe(pose, scan)
+            if (self.last_obstacle_stamp is None
+                    or scan.stamp - self.last_obstacle_stamp >= OBSTACLE_PUBLISH_PERIOD):
+                self.publish_obstacles(message.header.stamp)
+                self.last_obstacle_stamp = scan.stamp
 
     # ----- Lazo de control -----
 
@@ -178,8 +192,10 @@ class NavigatorNode(Node):
             action = 'active goal canceled' if had_goal else 'no active goal'
             age = (f', {scan_now - self.scan_watchdog.last_stamp:.3f} s since scan capture'
                    if self.use_sim_time else '')
+            callback_age = (f', {time.monotonic() - self.last_scan_callback:.3f} wall s '
+                            'since previous scan callback' if self.last_scan_callback is not None else '')
             self.get_logger().warning(f'Lidar unavailable on {self.options["scan_topic"]}: '
-                                      f'{max(0.0, silence):.3f} s since last usable reception{age} '
+                                      f'{max(0.0, silence):.3f} s since last usable reception{age}{callback_age} '
                                       f'(timeout {self.scan_watchdog.timeout:.2f} s); {action}')
         return False
 
@@ -229,12 +245,22 @@ class NavigatorNode(Node):
             message.poses.append(point)
         self.plan_pub.publish(message)
 
+    def publish_obstacles(self, stamp):
+        message = GridCells()
+        message.header.frame_id = self.options['map_frame']
+        message.header.stamp = stamp
+        resolution = self.core.costmap.grid.config.resolution
+        message.cell_width = message.cell_height = resolution
+        message.cells = [Point(x=float(x), y=float(y)) for x, y in self.core.obstacles.points()]
+        self.obstacles_pub.publish(message)
+
 
 def main(args=None):
     rclpy.init(args=args)
     node = None
+    planning_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='nav-planner')
     try:
-        node = NavigatorNode()
+        node = NavigatorNode(planning_executor)
         rclpy.spin(node)
     except KeyboardInterrupt:
         pass
@@ -245,3 +271,4 @@ def main(args=None):
             node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
+        planning_executor.shutdown(cancel_futures=True)

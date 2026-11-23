@@ -186,6 +186,14 @@ Alternativas descartadas:
 
 Costo: un click con algo nuevo y grande pegado al robot se rechaza (una caja de 40 cm a 25 cm da 15 a 18 %). Por eso la pose se marca con el robot en un lugar despejado. Si en el aula molesta, se sube `click_lost_fraction`; igual a `lost_fraction` vuelve al comportamiento anterior.
 
+### Diagnóstico con obstáculos confirmados
+
+El 20/11 apareció `LOST` con un 26 % del scan sin explicar en una sesión de Café que ya había replanificado por obstáculos. Esa señal combina cambios de la escena y error de pose. En marcha se usa la capa existente del navegador para explicar retornos de obstáculos que ya confirmó. La comparación inicial y el modelo de medición del filtro usan el mapa fijo.
+
+El navegador envía centros de celdas ocupadas, con el sello del último scan integrado. El localizador admite capturas recientes y estrictamente anteriores al scan evaluado. Un `/initialpose` limpia las capturas previas. Para usar la capa dinámica, el mapa fijo debe explicar al menos el 50 % de los retornos. Este mínimo preserva una referencia independiente de la capa, que se construyó con poses estimadas. Si el obstáculo todavía no se confirmó, sus impactos siguen contando contra el límite del 25 %.
+
+El diagnóstico consulta un índice espacial disperso con los retornos que el mapa fijo dejó sin explicar. El índice se construye a demanda para cada captura usada y se conserva mientras se reutiliza esa captura. `/nav/localization_status` permite comparar `static_unexplained_fraction` con `unexplained_fraction` y expone `lost_check_seconds` para medir el cálculo de ese diagnóstico. La latencia total y el mínimo de coincidencia estática quedan pendientes de evaluar en vivo.
+
 Sin medir en el aula real con clicks equivocados ni con sillas movidas: sale de los pasos 4 y 7 de la [guía de laboratorio](../robot_real_checklist.md).
 
 ## Velocidad y frecuencia de actualización

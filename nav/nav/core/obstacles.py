@@ -13,10 +13,12 @@ scan desde la pose estimada.
 Decisiones, alternativas y datos en docs/decisiones/008.
 """
 
-from dataclasses import replace
+from dataclasses import dataclass, replace
+from functools import cached_property
 import math
 import numpy as np
 from scipy.ndimage import distance_transform_edt
+from scipy.spatial import cKDTree
 
 from slam.core.config import SensorConfig
 from slam.core.geometry import Pose2D
@@ -25,6 +27,19 @@ from slam.core.types import Scan
 
 from .config import ObstacleConfig
 from .map import occupied_cells
+
+
+@dataclass(frozen=True)
+class ObstacleSnapshot:
+    """Centros ocupados ya confirmados, con el sello del último scan integrado."""
+
+    stamp: float
+    points: np.ndarray
+
+    @cached_property
+    def tree(self):
+        """Índice disperso, se construye al necesitar la primera consulta."""
+        return cKDTree(self.points)
 
 
 class ObstacleLayer:
@@ -39,11 +54,22 @@ class ObstacleLayer:
         self.threshold = (config.hits_to_mark - 0.5) * hit
         if self.threshold >= sensor.log_odds_max:
             raise ValueError("obstacles.hits_to_mark is too high for sensor.log_odds_max")
+        self._points = None
 
     def observe(self, pose: Pose2D, scan: Scan):
         """Integra un scan tomado desde `pose` (pose de la base en el mapa)."""
         self.grid.integrate(pose, scan, self.sensor)
+        self._points = None
 
     def cells(self) -> np.ndarray:
         """Máscara de celdas con un obstáculo que no está en el mapa."""
         return self.away_from_walls & (self.grid.log_odds > self.threshold)
+
+    def points(self) -> np.ndarray:
+        """Centros ocupados en metros, compartidos por el control y ROS."""
+        if self._points is None:
+            rows, cols = np.nonzero(self.cells())
+            c = self.grid.config
+            self._points = np.column_stack((c.origin_x + (cols + 0.5) * c.resolution,
+                                            c.origin_y + (rows + 0.5) * c.resolution))
+        return self._points

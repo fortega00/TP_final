@@ -1,6 +1,7 @@
 """Nodo ROS 2 de localización. Solo conecta ROS con el filtro de nav/core/localization.py.
 
-Entradas: `/scan`, la odometría y `/initialpose` (2D Pose Estimate de RViz).
+Entradas: `/scan`, la odometría, `/initialpose` (2D Pose Estimate de RViz) y
+`/nav/obstacle_cells` para el diagnóstico de perdido en marcha.
 Salidas:
 
 - `/nav/pose`: pose del robot en el mapa, publicada con cada mensaje de
@@ -24,7 +25,7 @@ from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from rclpy.time import Time
 from geometry_msgs.msg import Pose, PoseArray, PoseWithCovarianceStamped, TransformStamped
-from nav_msgs.msg import OccupancyGrid, Odometry
+from nav_msgs.msg import GridCells, OccupancyGrid, Odometry
 from sensor_msgs.msg import LaserScan
 from std_msgs.msg import String
 from tf2_ros import Buffer, TransformBroadcaster, TransformException, TransformListener
@@ -36,6 +37,7 @@ from slam.core.types import Scan
 from ..core.config import NavConfig
 from ..core.localization import MonteCarloLocalization
 from ..core.map import load_map
+from ..core.obstacles import ObstacleSnapshot
 
 
 def seconds(stamp):
@@ -82,6 +84,8 @@ class LocalizationNode(Node):
         self.laser_mount = None          # dónde está el lidar respecto de la base
         self.pending = deque(maxlen=5)   # scans que esperan su odometría
         self.pending_initial = None      # /initialpose que espera un scan
+        self.obstacle_history = deque(maxlen=self.pending.maxlen + 1)
+        self.obstacles_since = None      # sello del scan del último click válido
         self.correction = None           # map -> odom, de la última actualización
         self.covariance = np.zeros((3, 3))
         self.state = 'WAITING_INITIAL_POSE'
@@ -100,6 +104,8 @@ class LocalizationNode(Node):
         self.create_subscription(LaserScan, self.options['scan_topic'], self.on_scan, sensor_qos)
         self.create_subscription(Odometry, self.options['odom_topic'], self.on_odom, sensor_qos)
         self.create_subscription(PoseWithCovarianceStamped, '/initialpose', self.on_initial_pose, 10)
+        self.create_subscription(GridCells, '/nav/obstacle_cells', self.on_obstacles,
+                                 QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT))
         # Timers con reloj de pared: siguen andando con el simulador o el bag en pausa.
         steady = Clock(clock_type=ClockType.STEADY_TIME)
         self.create_timer(0.02, self.drain, clock=steady)
@@ -137,8 +143,24 @@ class LocalizationNode(Node):
         self.pending_initial = (Pose2D(body.position.x, body.position.y,
                                        yaw_from_quaternion(body.orientation)),
                                 math.sqrt(max(cov[0], cov[7])), math.sqrt(cov[35]))
+        self.obstacle_history.clear()
+        self.obstacles_since = None
         self.error = ''
         self.get_logger().info('Initial pose received')
+
+    def on_obstacles(self, message):
+        stamp = seconds(message.header.stamp)
+        if (message.header.frame_id != self.options['map_frame']
+                or self.obstacles_since is None or stamp < self.obstacles_since
+                or (self.obstacle_history and stamp <= self.obstacle_history[-1].stamp)):
+            return
+        resolution = self.grid.config.resolution
+        if not (math.isclose(message.cell_width, resolution, rel_tol=1e-6)
+                and math.isclose(message.cell_height, resolution, rel_tol=1e-6)):
+            return
+        points = np.array([(cell.x, cell.y) for cell in message.cells], dtype=float).reshape(-1, 2)
+        if np.isfinite(points).all():
+            self.obstacle_history.append(ObstacleSnapshot(stamp, points))
 
     # ----- Filtro -----
 
@@ -186,6 +208,7 @@ class LocalizationNode(Node):
                               'the scan is far from every mapped wall; send a new /initialpose')
                     return
                 self.state = self.state_for(scan)
+                self.obstacles_since = scan.stamp
                 self.core.process(scan, odom)      # fija la referencia de odometría
             elif self.core.poses is None or not self.core.process(scan, odom):
                 return
@@ -202,9 +225,15 @@ class LocalizationNode(Node):
 
     def state_for(self, scan):
         """Estado que se informa después de una actualización del filtro."""
-        if self.core.lost(scan):
+        # Un scan puede llegar a navegación antes que al filtro. Usar solo celdas
+        # confirmadas hasta un scan anterior, aunque ya haya un mensaje más nuevo.
+        obstacles = next((layer for layer in reversed(self.obstacle_history)
+                          if layer.stamp < scan.stamp), None)
+        if self.core.lost(scan, obstacles=obstacles):
+            diagnostics = self.core.diagnostics
             self.get_logger().warning(
-                f'{100 * self.core.diagnostics["unexplained_fraction"]:.0f} % of the scan is far from every mapped wall: '
+                f'{100 * diagnostics["unexplained_fraction"]:.0f} % of the scan has no nearby mapped obstacle '
+                f'({100 * diagnostics["static_unexplained_fraction"]:.0f} % against the static map alone): '
                 'LOST, send a new /initialpose', throttle_duration_sec=5.0)
             return 'LOST'
         return 'LOCALIZED' if self.core.converged else 'NOT_CONVERGED'
@@ -216,6 +245,8 @@ class LocalizationNode(Node):
         self.state = 'LOST'
         self.correction = None
         self.core.poses = None
+        self.obstacle_history.clear()
+        self.obstacles_since = None
 
     # ----- Salidas -----
 

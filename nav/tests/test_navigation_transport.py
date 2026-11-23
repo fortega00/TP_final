@@ -32,7 +32,8 @@ class NavigationTransportTests(Base):
                                awaiting_recovery_goal=False,
                                pose=Pose2D(-2.0, -1.0, 0.0), pose_stamp=0.0,
                                localization='LOCALIZED', blocked=False, was_active=False,
-                               shown_events=0, shown_path=None,
+                               shown_events=0, shown_path=None, last_scan_callback=None,
+                               last_obstacle_stamp=None, publish_obstacles=Mock(),
                                velocity_pub=Mock(), state_pub=Mock(), publish_plan=Mock())
         node.get_logger = Mock(return_value=Mock())
         node.tf_buffer = SimpleNamespace(lookup_transform=Mock(return_value=tf))

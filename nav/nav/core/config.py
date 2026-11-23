@@ -28,11 +28,12 @@ class LocalizationConfig:
     # La nube se considera convergida por debajo de estos desvíos (m, rad).
     converged_std_xy: float = 0.10
     converged_std_yaw: float = 0.10
-    # Perdido: más de esta fracción del scan cae lejos de toda pared del mapa, a más
-    # de unexplained_distance (m). Una nube cerrada en una pose equivocada pasa por
-    # convergida (docs/decisiones/004).
+    # Perdido: más de esta fracción del scan cae lejos de las celdas ocupadas,
+    # a más de unexplained_distance (m), aunque la nube esté convergida.
     unexplained_distance: float = 0.20
     lost_fraction: float = 0.25
+    # En marcha se usa la capa dinámica solo si el mapa fijo explica esta fracción.
+    min_static_match_fraction: float = 0.50
     # Umbral más estricto para la ráfaga del click: ahí un falso encaje corrido a lo
     # largo de un pasillo deja 21 a 25 % sin explicar y una pose buena menos de 11 %.
     click_lost_fraction: float = 0.15
@@ -151,6 +152,8 @@ class NavConfig:
             raise ValueError("Convergence thresholds must be positive")
         if c.unexplained_distance <= 0 or not 0 < c.click_lost_fraction <= c.lost_fraction < 1:
             raise ValueError("Require unexplained_distance > 0 and 0 < click_lost_fraction <= lost_fraction < 1")
+        if not 0 < c.min_static_match_fraction <= 1:
+            raise ValueError("localization.min_static_match_fraction must be in (0, 1]")
         if not 0 < c.injection_alpha_slow < c.injection_alpha_fast <= 1:
             raise ValueError("Require 0 < injection_alpha_slow < injection_alpha_fast <= 1")
         if not 0 < c.injection_max_fraction <= 1:

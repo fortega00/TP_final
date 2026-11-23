@@ -219,3 +219,14 @@ monotónica. Café usa **0,45 s** de simulación y valida también la antigüeda
 del scan en `/clock`. Tiene que ser un número finito y positivo. El timeout
 opera además de `navigator.pose_timeout` (1,0 s en ambos perfiles). Al vencer,
 el navegador espera en `WAIT_SCAN` y cancela el viaje. Ver [guía de B](guia_etapa_b.md#pérdida-del-lidar).
+
+## Diagnóstico de localización de la etapa B
+
+| Parámetro | Default / Café / real | Uso |
+|---|---|---|
+| `localization.unexplained_distance` | 0,20 m | Distancia máxima del retorno a una celda ocupada para que coincida. |
+| `localization.lost_fraction` | 0,25 | Límite de retornos sin explicar durante el seguimiento. |
+| `localization.min_static_match_fraction` | 0,50 | Fracción mínima que tiene que coincidir con el mapa fijo para poder usar la capa dinámica. Valores en `(0, 1]`. |
+| `localization.click_lost_fraction` | 0,15 | Límite tras `/initialpose`, aplicado al mapa fijo. |
+
+La captura dinámica tiene que provenir de un scan anterior y estar como máximo a `navigator.scan_timeout` del scan que se evalúa, medido entre sellos del mismo LiDAR. El navegador publica `/nav/obstacle_cells` a un máximo de 5 Hz.

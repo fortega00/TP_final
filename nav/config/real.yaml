@@ -26,6 +26,7 @@ localization:
   converged_std_yaw: 0.10
   unexplained_distance: 0.20
   lost_fraction: 0.25
+  min_static_match_fraction: 0.50
   click_lost_fraction: 0.15
   burst_max_iterations: 30
   burst_stable_xy: 0.01

@@ -255,3 +255,14 @@ Las restricciones de los cierres de ciclos siguientes son históricas, anteriore
   al mandar otro objetivo. Build de ambos paquetes y 45 pruebas B aprobadas.
   Resumen en `nav/artifacts/lidar_cut_cafe/summary.json`. El margen de
   frenado físico sigue pendiente de medición.
+
+- Sesión manual de Café del 20/11: dos objetivos cerca de `(-3,4; 8,3)`
+  alcanzaron `ALIGNING` y se cancelaron con más de 1,1 s simulados sin un scan
+  utilizable. Durante la repetición, un suscriptor independiente midió un
+  intervalo máximo de 0,310 s de pared. En el mapa D archivado, el A* original
+  tardó 1,30–1,43 s para esos objetivos desde un inicio aproximado. El nodo de
+  navegación ahora ejecuta A* en otro hilo, con el robot quieto durante
+  `PLANNING`, el watchdog activo y descarte de resultados obsoletos. Falta la
+  repetición del usuario en Café Fortress con el cambio instalado.
+
+- Diagnóstico `LOST` en marcha: el navegador publica las celdas confirmadas de su capa dinámica por `/nav/obstacle_cells`. El localizador consulta celdas cercanas solo para retornos sin explicar por el mapa fijo, con capturas de scans anteriores y recientes. `localization.min_static_match_fraction=0.50` exige apoyo del mapa fijo para usar la capa. Tras `/initialpose` se limpia esa evidencia y se mantiene el límite estático de 0,15. `/nav/localization_status` informa el residuo fijo y el usado para decidir. Falta medir latencia y verificar el caso manual de Café. Ver `docs/decisiones/004-localizacion-en-mapa-conocido.md`.
