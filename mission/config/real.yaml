@@ -1,0 +1,33 @@
+# Parámetros de la misión de la etapa C para el robot real.
+# El mapa de costos sale del grupo planner del YAML de nav (nav/config/real.yaml).
+
+exploration:
+  # Grilla de candidatos a punto de observación (m).
+  viewpoint_spacing: 0.50
+  # Campo de visión horizontal de la cámara (rad). Astra: unos 60 grados.
+  # Confirmar con camera_info en la visita 1.
+  camera_fov: 1.0
+  # Alcance con el que se espera detectar un cono, y mínimo de la profundidad (m).
+  view_range: 3.0
+  view_min_range: 0.30
+  # Fracción de lo visible que tienen que cubrir los puntos.
+  coverage_target: 0.98
+  # No se agrega un punto que vea menos que esta área nueva (m²).
+  min_gain: 0.50
+  rays: 360
+  # Respaldo: puntos fijados a mano en el frame del mapa, en orden de visita.
+  # Vacío = se calculan solos. Fijarlos antes de saber dónde están los conos.
+  viewpoints: []
+  snap_distance: 0.30
+  # En cada punto se gira solo hacia direcciones que muestren al menos esta
+  # área sin ver (m²), elegidas entre heading_candidates direcciones.
+  heading_min_gain: 0.05
+  heading_candidates: 36
+
+  # Mesas y bancos, detectados a partir del mapa. El lidar ve solo las patas y
+  # el borde delantero de los bancos: los obstáculos interiores (no las
+  # paredes) a menos de 2 x clutter_radius entre sí se unen en un bloque.
+  clutter_radius: 0.65
+  clutter_max_hole: 2.0
+  # No pararse a mirar a menos de esta distancia de un obstáculo (m).
+  viewpoint_clearance: 0.50

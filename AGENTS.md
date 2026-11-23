@@ -76,6 +76,9 @@ Etapa C, paquete `mission` (rutas relativas a `mission/`), en desarrollo. Explor
 | --- | --- |
 | `mission/core/throttle.py` | Baja la frecuencia de la cámara y acompaña cada cuadro de color con la profundidad más cercana en el tiempo. |
 | `mission/ros/camera_throttle_node.py`, `launch/camera_throttle.launch.py` | Republica `/cam_1/...` bajo `/mission/cam/...` (3 Hz por defecto) para grabar `bag_conos` sin saturar el wifi. Corre sin compilar con `python3 -m mission.ros.camera_throttle_node`. |
+| `mission/core/config.py`, `config/real.yaml` | Configuración validada de la misión. El mapa de costos no se duplica: se usa el grupo `planner` del YAML de `nav`. |
+| `mission/core/exploration.py` | Puntos de observación sobre el mapa conocido (cobertura codiciosa con visibilidad 2D), orden del recorrido con distancias por zona transitable y `CoverageTracker` para girar solo hacia lo no visto. Mesas y bancos (el lidar ve solo patas y bordes) se detectan del mismo mapa en `prepare_map`: las paredes (obstáculos que tocan el exterior desconocido) se separan de los muebles, y solo los muebles pasan por un cierre morfológico `clutter_radius=0.65`; los puntos guardan holgura `viewpoint_clearance=0.50` (`config/real.yaml`). Sin intervención manual. Decisión 014. En el aula: 11 puntos, 98,9 % y 35,7 m. |
+| `scripts/plot_viewpoints.py`, `artifacts/` | Dibuja el plan sobre un mapa (matplotlib, `requirements-evaluation.txt`). |
 
 ### Invariantes
 
