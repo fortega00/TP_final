@@ -94,11 +94,22 @@ Con los conos repartidos por la sala (rojos y de otros colores, alguno visible a
 
 ```bash
 ros2 topic list | grep -i -E "image|camera|depth"
-ros2 topic hz <tópico de imagen>
-ros2 bag record -o bag_conos /scan /odom /tf /tf_static <tópicos de imagen y de camera_info>
+ros2 topic hz /cam_1/color/image_raw
+ros2 topic echo /cam_1/color/camera_info --once    # resolución y frame de la cámara
 ```
 
-Manejar con teleop mirando los conos de cerca, de lejos, de costado y a contraluz. Anotar la altura y el diámetro de un cono, y el nombre del frame de la cámara.
+La cámara publica sin comprimir: a 30 Hz, color y profundidad son unos 45 MB/s y saturan el wifi. Primero se republica a 3 Hz, con cada cuadro de color acompañado de su profundidad, y se graba esa versión. El nodo corre sin compilar desde la carpeta `mission/` del repo. Conviene correrlo en el robot, porque si corre en la PC la imagen completa igual viaja por wifi:
+
+```bash
+cd $TP/mission && python3 -m mission.ros.camera_throttle_node --ros-args -p rate_hz:=3.0
+ros2 topic hz /mission/cam/color/image_raw          # en otra terminal: tiene que dar unos 3 Hz
+ros2 bag record -o bag_conos /scan /odom /tf /tf_static /mission/cam/color/image_raw \
+  /mission/cam/color/camera_info /mission/cam/depth/image_raw /mission/cam/depth/camera_info
+```
+
+El nodo escribe cada 5 s cuántos cuadros recibe, cuántos publica y cuántos quedaron sin profundidad. Si en el robot no se puede correr, correrlo en la PC igual reduce el tamaño del bag. Guardar el bag en el pendrive, no en el repo.
+
+Manejar con teleop mirando los conos de cerca, de lejos, de costado y a contraluz. Anotar la altura y el diámetro de un cono, el nombre del frame de la cámara (`tf2_echo base_footprint <frame>`) y si la imagen de profundidad está alineada con la de color.
 
 Listo cuando: `ros2 bag info bag_conos` muestra mensajes en los tópicos de imagen.
 

@@ -70,6 +70,13 @@ Etapa B, paquete `nav` (rutas relativas a `nav/`). Decisiones y datos en `docs/d
 | `scripts/sim_live_check.py`, `scripts/chairs_sim.py` | Prueba en vivo contra la pose real del simulador y prueba sintética de sillas movidas. |
 | `tests/` | `PYTHONPATH=../slam:. python3 -m unittest discover -s tests` |
 
+Etapa C, paquete `mission` (rutas relativas a `mission/`), en desarrollo. Exploración sobre el mapa conocido con puntos de observación, detector de conos rojos con OpenCV solo para operaciones genéricas de imagen, y envío del cono confirmado al navegador de B por `/goal_pose`; no modifica `nav`. Tests: `PYTHONPATH=../slam:../nav:. python3 -m unittest discover -s tests`. `slam/scripts/sync_container.sh` copia y construye también `mission`.
+
+| Ruta | Responsabilidad |
+| --- | --- |
+| `mission/core/throttle.py` | Baja la frecuencia de la cámara y acompaña cada cuadro de color con la profundidad más cercana en el tiempo. |
+| `mission/ros/camera_throttle_node.py`, `launch/camera_throttle.launch.py` | Republica `/cam_1/...` bajo `/mission/cam/...` (3 Hz por defecto) para grabar `bag_conos` sin saturar el wifi. Corre sin compilar con `python3 -m mission.ros.camera_throttle_node`. |
+
 ### Invariantes
 
 - Cada partícula mantiene mapa y trayectoria ancestral propios. El remuestreo no comparte arrays mutables.
