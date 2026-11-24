@@ -60,6 +60,31 @@ class ExplorationConfig:
 
 
 @dataclass(frozen=True)
+class DetectorConfig:
+    """Detector de conos rojos (decisión 016). Valores de OpenCV: tono 0-179, saturación y brillo 0-255.
+
+    Supuestos hasta tener imágenes del aula (`bag_conos`): se ajustan en el paso 14.
+    """
+    # El rojo está en los dos extremos del tono: hasta hue_low_max o desde hue_high_min.
+    # El naranja (unos 10 a 25) queda afuera.
+    hue_low_max: int = 8
+    hue_high_min: int = 170
+    sat_min: int = 120
+    val_min: int = 70
+    # Lado del elemento de la apertura y el cierre morfológicos (px, impar).
+    kernel: int = 5
+    # Mancha mínima: menos que esto es ruido o un cono demasiado lejos (px²).
+    min_area: int = 80
+    # Alto / ancho del rectángulo que encierra la mancha.
+    aspect_min: float = 0.6
+    aspect_max: float = 4.0
+    # Área de la mancha / área de su envolvente convexa: un cono es convexo.
+    solidity_min: float = 0.75
+    # Ancho del tercio de arriba / ancho del tercio de abajo: un cono se angosta.
+    taper_max: float = 0.85
+
+
+@dataclass(frozen=True)
 class MissionStateConfig:
     """Máquina de estados de la misión (decisión 015). Tiempos en s, distancias en m."""
     # Un objetivo cuenta como alcanzado si el navegador volvió a IDLE con el
@@ -89,9 +114,29 @@ def _numbers(item, count) -> bool:
 @dataclass(frozen=True)
 class MissionConfig:
     exploration: ExplorationConfig = field(default_factory=ExplorationConfig)
+    detector: DetectorConfig = field(default_factory=DetectorConfig)
     mission: MissionStateConfig = field(default_factory=MissionStateConfig)
 
     def __post_init__(self):
+        d = self.detector
+        for name in ("hue_low_max", "hue_high_min", "sat_min", "val_min", "kernel", "min_area"):
+            value = getattr(d, name)
+            if not isinstance(value, int) or isinstance(value, bool) or value < 0:
+                raise ValueError(f"detector.{name} must be a nonnegative integer")
+        if not 0 <= d.hue_low_max < d.hue_high_min <= 179:
+            raise ValueError("Require 0 <= detector.hue_low_max < detector.hue_high_min <= 179")
+        if d.sat_min > 255 or d.val_min > 255:
+            raise ValueError("detector.sat_min and detector.val_min must be at most 255")
+        if d.kernel < 1 or d.kernel % 2 == 0:
+            raise ValueError("detector.kernel must be a positive odd integer")
+        for name in ("aspect_min", "aspect_max", "solidity_min", "taper_max"):
+            value = getattr(d, name)
+            if not isinstance(value, (float, int)) or isinstance(value, bool) or not math.isfinite(value) or value <= 0:
+                raise ValueError(f"detector.{name} must be a positive number")
+        if d.aspect_min >= d.aspect_max:
+            raise ValueError("detector.aspect_min must be smaller than detector.aspect_max")
+        if d.solidity_min > 1:
+            raise ValueError("detector.solidity_min must be at most 1")
         m = self.mission
         for f in fields(m):
             value = getattr(m, f.name)
@@ -127,7 +172,7 @@ class MissionConfig:
     def from_dict(cls, data: Mapping) -> "MissionConfig":
         if not isinstance(data, Mapping):
             raise ValueError("Configuration must be a mapping")
-        groups = {"exploration": ExplorationConfig, "mission": MissionStateConfig}
+        groups = {"exploration": ExplorationConfig, "detector": DetectorConfig, "mission": MissionStateConfig}
         unknown = set(data) - set(groups)
         if unknown:
             raise ValueError(f"Unknown configuration groups: {sorted(unknown)}")
