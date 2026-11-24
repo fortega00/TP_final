@@ -17,5 +17,6 @@ setup(
     license='UNLICENSED',
     entry_points={'console_scripts': [
         'camera_throttle_node = mission.ros.camera_throttle_node:main',
+        'mission_node = mission.ros.mission_node:main',
     ]},
 )
