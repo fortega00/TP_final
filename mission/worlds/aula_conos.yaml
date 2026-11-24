@@ -1,0 +1,10 @@
+# Escenario de Gazebo: el aula del 16/11 con un cono rojo y distractores.
+# Coordenadas en el frame de sesiones/20261116/mapa/intento3_corregido.
+# Generar el mundo con scripts/make_world.py.
+# El origen del mapa está a 15 cm de una pared: el robot aparece 0,8 m antes.
+spawn: [-0.8, 0.0]
+cones:
+  - {x: -4.6, y: 3.2, color: red}       # pasillo central, entre los bloques de mesas
+  - {x: -7.6, y: -0.6, color: orange}   # distractor en la ruta de abajo
+  - {x: -3.0, y: 6.8, color: blue}      # distractor en el pasillo de arriba
+  - {x: -9.5, y: 2.0, color: yellow}    # distractor a la izquierda

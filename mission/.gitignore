@@ -1,0 +1,4 @@
+# Generados por scripts/make_world.py a partir de los escenarios worlds/*.yaml
+worlds/*.sdf
+worlds/*_map.pgm
+worlds/*_map.yaml
