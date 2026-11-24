@@ -1,0 +1,55 @@
+\documentclass[10pt,twocolumn,a4paper]{article}
+
+% ---------- idioma y fuentes ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[spanish,es-noshorthands,es-tabla,es-nodecimaldot]{babel}
+\usepackage{microtype}
+
+% ---------- diseño ----------
+\usepackage[a4paper,margin=18mm,columnsep=7mm]{geometry}
+\usepackage{graphicx}
+\graphicspath{{figuras/}}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage[font=small,labelfont=bf,skip=4pt]{caption}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+\usepackage{placeins}
+\usepackage[hidelinks]{hyperref}
+
+% títulos más compactos
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{1.4ex plus .5ex}{0.8ex}
+\titlespacing*{\subsection}{0pt}{1.1ex plus .4ex}{0.5ex}
+\titlespacing*{\subsubsection}{0pt}{0.8ex plus .3ex}{0.3ex}
+
+% figuras: preferir arriba y permitir varias por página
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.8}
+\raggedbottom
+
+% ---------- macros ----------
+% nota gris que indica qué pregunta de la consigna responde un párrafo
+\newcommand{\resp}[1]{{\small\color{black!55}\textit{(Responde a #1.)}}}
+% identificadores de código
+\newcommand{\code}[1]{\texttt{#1}}
+
+\title{Trabajo Práctico Final: SLAM, Navegación y Exploración}
+\author{Iván Domínguez de Álzaga \and Nazareno Gonella \and Francisco Ortega\\[2pt]
+  \small I402 -- Principios de la Robótica Autónoma, Universidad de San Andrés}
+\date{2026}
+
+\begin{document}
+\maketitle
+
+\input{parte_a}
+\input{parte_b}
+\input{parte_c}
+
+\end{document}
