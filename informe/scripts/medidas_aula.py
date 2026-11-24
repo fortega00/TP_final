@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Dibuja sobre el mapa del aula las distancias a medir con cinta y lo que mide el mapa.
+"""Dibuja sobre el mapa del aula las paredes a medir con cinta y lo que mide el mapa.
 
-Cada medida es la distancia entre las caras internas de dos paredes a lo largo de
-una recta. Sobre el mapa se obtiene caminando desde un punto libre hasta la primera
-pared, en cada sentido. Uso, desde la raíz del repo:
+Cada medida es el largo de un tramo de pared, de esquina a esquina, con la cinta
+apoyada en el piso contra la pared. Sobre el mapa, la posición de cada pared se
+obtiene caminando desde un punto libre hasta la primera pared. Uso, desde la raíz
+del repo:
 
     python informe/scripts/medidas_aula.py
 """
@@ -21,21 +22,41 @@ MAP_DIR = REPO / 'sesiones/20261116/mapa/intento3_corregido'
 OUTPUT = REPO / 'informe/figuras/medidas_aula.png'
 FREE = 254
 WALL_CELLS = 3
-# fotos: nombre, dónde pararse, hacia dónde apuntar
-PHOTOS = [('F1', (-10.9, -2.8), (-8.9, -0.9)), ('F2', (-2.3, 7.1), (-4.3, 5.2 + 1.0))]
-# posición de cada etiqueta a lo largo de su flecha, para que no se tapen
-LABEL_AT = {'W1': 0.6, 'W2': 0.6, 'W3': 0.5, 'H1': 0.55, 'H2': 0.83, 'H3': 0.8, 'C': 0.5}
+BLUE, VERMILION, PURPLE, ORANGE = '#0072B2', '#D55E00', '#CC79A7', '#E69F00'
 
-# nombre, eje de la recta ('x' horizontal, 'y' vertical), coordenada fija, punto libre de partida, color
-MEASURES = [
-    ('W1', 'x', -0.8, -5.0, '#0072B2'),
-    ('W2', 'x', 3.0, -5.0, '#0072B2'),
-    ('W3', 'x', 6.9, -5.0, '#0072B2'),
-    ('H1', 'y', -10.2, 0.0, '#D55E00'),
-    ('H2', 'y', -8.7, 0.0, '#D55E00'),
-    ('H3', 'y', -1.5, 0.0, '#D55E00'),
-    ('C', 'x', 6.9, -5.0, '#009E73'),
+# Cara interna de cada pared: nombre, eje de la recta de búsqueda ('x' horizontal,
+# 'y' vertical), coordenada fija de la recta, punto libre de partida, extremo ('lo' o 'hi').
+WALLS = {
+    'x_izquierda': ('x', 0.0, -9.5, 'lo'),
+    'x_derecha': ('x', -0.8, -5.0, 'hi'),
+    'y_abajo': ('y', -8.7, 0.0, 'lo'),
+    'y_escalon': ('y', -10.2, 0.0, 'hi'),
+    'x_escalon': ('x', 6.9, -5.0, 'lo'),
+    'y_arriba': ('y', -8.7, 0.0, 'hi'),
+    'x_entrante': ('x', 6.9, -5.0, 'hi'),
+    'y_entrante': ('y', -1.5, 0.0, 'hi'),
+    'x_fondo': ('x', 5.8, 0.0, 'hi'),
+    'y_fondo': ('y', 0.6, 5.8, 'lo'),
+}
+
+# Tramos: letra, esquina inicial y final como nombres de pared (x, y), lado hacia el que
+# se dibuja la etiqueta (dx, dy) y de qué esquina a qué esquina va, para la tabla.
+SEGMENTS = [
+    ('A', ('x_izquierda', 'y_abajo'), ('x_derecha', 'y_abajo'), (0, 1)),
+    ('B', ('x_izquierda', 'y_abajo'), ('x_izquierda', 'y_escalon'), (1, 0)),
+    ('C', ('x_izquierda', 'y_escalon'), ('x_escalon', 'y_escalon'), (0, -1)),
+    ('D', ('x_escalon', 'y_escalon'), ('x_escalon', 'y_arriba'), (1, 0)),
+    ('E', ('x_escalon', 'y_arriba'), ('x_entrante', 'y_arriba'), (0, -1)),
+    ('F', ('x_entrante', 'y_arriba'), ('x_entrante', 'y_entrante'), (-1, 0)),
+    ('G', ('x_entrante', 'y_entrante'), ('x_fondo', 'y_entrante'), (0, -1)),
+    ('H', ('x_derecha', 'y_abajo'), ('x_derecha', 'y_fondo'), (-1, 0)),
 ]
+
+# posición de la etiqueta a lo largo del tramo cuando el medio tapa otra cosa
+LABEL_AT = {'H': 0.72, 'E': 0.3}
+
+# fotos: nombre, dónde pararse, hacia dónde apuntar
+PHOTOS = [('F1', (-10.6, -2.3), (-8.4, -0.4)), ('F2', (-3.7, 6.75), (-5.9, 5.75))]
 
 
 def load_map():
@@ -68,6 +89,11 @@ def free_run(image, res, ox, oy, axis, fixed, start):
 
 def main():
     image, res, ox, oy = load_map()
+    wall = {}
+    for name, (axis, fixed, start, end) in WALLS.items():
+        lo, hi = free_run(image, res, ox, oy, axis, fixed, start)
+        wall[name] = lo if end == 'lo' else hi
+
     occupied = np.argwhere(image == 0)
     r0, c0 = occupied.min(0) - 8
     r1, c1 = occupied.max(0) + 8
@@ -77,40 +103,38 @@ def main():
     fig, ax = plt.subplots(figsize=(11, 12.5))
     ax.imshow(image[r0:r1 + 1, c0:c1 + 1], cmap='gray', extent=extent, vmin=0, vmax=255,
               interpolation='nearest')
-    ends = {}
-    for name, axis, fixed, start, color in MEASURES:
-        ends[name] = free_run(image, res, ox, oy, axis, fixed, start)
-    # C es el ancho del escalón: de la pared izquierda (extremo de W2) a la pared del escalón.
-    ends['C'] = (ends['W2'][0], ends['W3'][0])
-    fixed_of = {m[0]: m[2] for m in MEASURES}
-    fixed_of['C'] = 4.75
-    print('medida  mapa [m]')
-    for name, axis, _, _, color in MEASURES:
-        a, b = ends[name]
-        fixed = fixed_of[name]
-        p, q = ((a, fixed), (b, fixed)) if axis == 'x' else ((fixed, a), (fixed, b))
-        ax.annotate('', xy=q, xytext=p, arrowprops=dict(arrowstyle='<->', color=color, lw=2.6,
-                                                        shrinkA=0, shrinkB=0))
-        along = LABEL_AT[name]
-        mid = (p[0] + along * (q[0] - p[0]), p[1] + along * (q[1] - p[1]))
-        ax.text(*mid, f'{name}  ≈ {b - a:.2f} m', color='white', fontsize=15, fontweight='bold',
-                ha='center', va='center', rotation=0 if axis == 'x' else 90,
-                bbox=dict(boxstyle='round,pad=0.3', fc=color, ec='none'))
-        print(f'{name:6s}  {b - a:.2f}')
-    ax.plot(0, 0, marker='*', ms=22, color='#E69F00', mec='black')
-    ax.text(-0.25, 0.0, 'partida', fontsize=13, ha='right', va='center',
-            bbox=dict(boxstyle='round,pad=0.2', fc='white', ec='black'))
-    # desde dónde sacar las fotos del aula: posición y hacia dónde apuntar
+    print('tramo  mapa [m]')
+    for k, (name, start, end, side) in enumerate(SEGMENTS):
+        color = BLUE if k % 2 == 0 else VERMILION
+        p = np.array([wall[start[0]], wall[start[1]]])
+        q = np.array([wall[end[0]], wall[end[1]]])
+        length = float(np.linalg.norm(q - p))
+        # el tramo se dibuja corrido 0,18 m hacia adentro para que no lo tape la pared
+        inward = 0.18 * np.array(side)
+        ax.plot(*zip(p + inward, q + inward), color=color, lw=6, solid_capstyle='butt')
+        for corner in (p, q):
+            ax.plot(*corner, 'o', color='white', mec='black', ms=11, mew=2, zorder=5)
+        along = LABEL_AT.get(name, 0.5)
+        label = p + along * (q - p) + 0.75 * np.array(side)
+        ax.text(*label, f'{name}  ≈ {length:.2f} m', color='white', fontsize=15, fontweight='bold',
+                ha='center', va='center', rotation=0 if side[0] == 0 else 90,
+                bbox=dict(boxstyle='round,pad=0.3', fc=color, ec='none'), zorder=6)
+        print(f'{name:5s}  {length:.2f}')
+
     for name, spot, target in PHOTOS:
         ax.annotate('', xy=target, xytext=spot,
-                    arrowprops=dict(arrowstyle='-|>', color='#CC79A7', lw=3, mutation_scale=28))
+                    arrowprops=dict(arrowstyle='-|>', color=PURPLE, lw=3, mutation_scale=28))
         ax.text(*spot, name, color='white', fontsize=15, fontweight='bold', ha='center', va='center',
-                bbox=dict(boxstyle='circle,pad=0.35', fc='#CC79A7', ec='black'))
+                bbox=dict(boxstyle='circle,pad=0.35', fc=PURPLE, ec='black'))
+    ax.plot(0, 0, marker='*', ms=22, color=ORANGE, mec='black')
+    ax.text(-0.3, 0.0, 'partida', fontsize=13, ha='right', va='center',
+            bbox=dict(boxstyle='round,pad=0.2', fc='white', ec='black'))
     ax.set_xlabel('x [m]', fontsize=14)
     ax.set_ylabel('y [m]', fontsize=14)
     ax.tick_params(labelsize=12)
-    ax.set_title('Distancias a medir con cinta, entre caras internas de pared\n'
-                 '(el valor es lo que mide el mapa). F1 y F2: fotos', fontsize=15)
+    ax.set_title('Paredes a medir con cinta, de esquina a esquina (círculos blancos)\n'
+                 'El valor es lo que mide el mapa. F1 y F2: desde dónde sacar las fotos',
+                 fontsize=15)
     fig.savefig(OUTPUT, dpi=130, bbox_inches='tight')
 
 
