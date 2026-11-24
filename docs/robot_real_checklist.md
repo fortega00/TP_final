@@ -178,7 +178,7 @@ Primero lo que falló o no se llegó a hacer, en el mismo orden.
 
 ### 2. Misión de la etapa C
 
-Los pasos concretos se escriben cuando la etapa C esté implementada. Lo que tiene que salir de esta visita, según la consigna:
+Los comandos están en [guia_etapa_c.md, Robot real](guia_etapa_c.md#robot-real): el limitador de la cámara corre adentro del contenedor del robot, no en la PC. Lo que tiene que salir de esta visita, según la consigna:
 
 - **Video** del robot explorando solo, viendo un cono rojo y navegando hasta él. Es un entregable.
 - Un bag de cada intento, con las imágenes.
