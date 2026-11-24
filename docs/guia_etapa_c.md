@@ -32,6 +32,7 @@ Mundos generados por `mission/scripts/make_world.py` a partir del mapa del aula 
 | `aula_conos` | Un cono rojo en el pasillo central y distractores naranja, azul y amarillo. Tiene que ir al rojo e ignorar el resto |
 | `aula_hueco` | Una pared extra con un hueco de 15 cm y el cono rojo detrás. Lo ve por el hueco y tiene que rodear por arriba a la izquierda |
 | `aula_punto` | Un cono rojo sobre el camino entre los dos primeros puntos de observación. Tiene que verlo y aproximarse sin chocarlo. Con el cono justo sobre un punto no lo encontraba ([015](decisiones/015-maquina-de-estados-de-la-mision.md#decisiones-menores)) |
+| `aula_lejos` | Un cono rojo en la esquina de arriba a la izquierda, cerca del último punto del recorrido. Tiene que recorrer casi toda el aula sin trabarse hasta encontrarlo; da el tiempo de una misión completa |
 
 El launch del curso hace aparecer al robot siempre en el origen del mundo. El origen del mapa del aula está a 15 cm de una pared, así que los mundos están corridos: el robot aparece en **(−0,8; 0) del mapa, mirando a +x**.
 
@@ -42,7 +43,7 @@ Una vez, y cada vez que cambie el código o un escenario. Desde la raíz del rep
 ```bash
 # Mundos y mapas de los escenarios (quedan en mission/worlds/, no se versionan)
 docker run --rm -u "$(id -u):$(id -g)" -e PYTHONDONTWRITEBYTECODE=1 -v "$PWD":/ws -w /ws/mission \
-  yahboom_rosmaster:latest bash -c 'for s in aula_conos aula_hueco aula_punto; do
+  yahboom_rosmaster:latest bash -c 'for s in aula_conos aula_hueco aula_punto aula_lejos; do
     PYTHONPATH=../slam:../nav:. python3 scripts/make_world.py \
       ../sesiones/20261116/mapa/intento3_corregido/map.yaml worlds/$s.yaml worlds/$s; done'
 
@@ -55,7 +56,7 @@ El sincronizador tiene que terminar listando `mission_node` entre los ejecutable
 
 ### Correr un escenario
 
-Tres terminales dentro del contenedor (`./archivos_ros/container.sh enter`). En cada una, `ESC=aula_conos` (o `aula_hueco`, `aula_punto`).
+Tres terminales dentro del contenedor (`./archivos_ros/container.sh enter`). En cada una, `ESC=aula_conos` (o `aula_hueco`, `aula_punto`, `aula_lejos`).
 
 **Terminal 1, Gazebo:**
 
