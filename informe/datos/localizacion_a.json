@@ -1,0 +1,110 @@
+[
+ {
+  "bag": "bag_mapa2",
+  "seed": 1,
+  "rmse_cm": 4.012748913043496,
+  "max_cm": 11.38726056859292,
+  "std_xy_max_cm": 5.1910375157020665,
+  "update_ms": 6.7,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa2",
+  "seed": 2,
+  "rmse_cm": 4.01741220620668,
+  "max_cm": 11.417985262351287,
+  "std_xy_max_cm": 4.602753261869379,
+  "update_ms": 6.6,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa2",
+  "seed": 3,
+  "rmse_cm": 4.024450723189218,
+  "max_cm": 11.657067830920163,
+  "std_xy_max_cm": 5.056448680853274,
+  "update_ms": 6.6,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa2",
+  "seed": 4,
+  "rmse_cm": 3.99145703078455,
+  "max_cm": 11.163737125978681,
+  "std_xy_max_cm": 5.8717433454814465,
+  "update_ms": 6.7,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa2",
+  "seed": 5,
+  "rmse_cm": 4.036439514463592,
+  "max_cm": 12.159277849932586,
+  "std_xy_max_cm": 5.141054815679203,
+  "update_ms": 6.8,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa2",
+  "seed": 6,
+  "rmse_cm": 4.116730178703179,
+  "max_cm": 12.804531682295053,
+  "std_xy_max_cm": 4.577590640572382,
+  "update_ms": 6.7,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa",
+  "seed": 1,
+  "rmse_cm": 5.046628869383022,
+  "max_cm": 12.06669441943708,
+  "std_xy_max_cm": 4.910083092354919,
+  "update_ms": 7.4,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa",
+  "seed": 2,
+  "rmse_cm": 5.117041322593174,
+  "max_cm": 12.895477620759873,
+  "std_xy_max_cm": 4.729780110548621,
+  "update_ms": 7.4,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa",
+  "seed": 3,
+  "rmse_cm": 5.151076823723234,
+  "max_cm": 12.583252108857334,
+  "std_xy_max_cm": 5.940899493112754,
+  "update_ms": 7.8,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa",
+  "seed": 4,
+  "rmse_cm": 5.107726268154232,
+  "max_cm": 13.130112569313596,
+  "std_xy_max_cm": 6.212552640262534,
+  "update_ms": 7.5,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa",
+  "seed": 5,
+  "rmse_cm": 5.138962962059386,
+  "max_cm": 12.56325291576964,
+  "std_xy_max_cm": 4.781315346769311,
+  "update_ms": 7.3,
+  "burst_converged": true
+ },
+ {
+  "bag": "bag_mapa",
+  "seed": 6,
+  "rmse_cm": 5.090148894761653,
+  "max_cm": 13.20082118887135,
+  "std_xy_max_cm": 9.504805206361624,
+  "update_ms": 7.3,
+  "burst_converged": true
+ }
+]
