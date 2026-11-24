@@ -55,11 +55,11 @@ def odometry_path(bag):
     return np.c_[dx * np.cos(yaw0) + dy * np.sin(yaw0), -dx * np.sin(yaw0) + dy * np.cos(yaw0)]
 
 
-ROOM = (-12.1, 1.5, -4.1, 12.1)  # ventana que contiene el aula en el mapa de bag_mapa2
+ROOM = (-12.1, 1.5, -4.1, 12.1)  # ventana que contiene el laboratorio en el mapa de bag_mapa2
 
 
 def figure_map():
-    """Mapa del aula con las trayectorias, y el mismo mapa visto por el planificador."""
+    """Mapa del laboratorio con las trayectorias, y el mismo mapa visto por el planificador."""
     from nav.core.config import NavConfig
     from nav.core.map import load_map as load_nav_map
     from nav.core.planner import Costmap, plan
@@ -74,7 +74,7 @@ def figure_map():
     left.plot(slam[-1, 1], slam[-1, 2], 'o', color=BLUE, ms=9, mec='black')
     left.plot(0, 0, '*', color=ORANGE, ms=22, mec='black', label='partida', zorder=5)
     left.legend(loc='upper left', framealpha=1)
-    left.set_title('Mapa del aula y recorrido')
+    left.set_title('Mapa del laboratorio y recorrido')
     left.set_xlabel('x [m]')
     left.set_ylabel('y [m]')
 
@@ -168,14 +168,9 @@ def summary():
 
 
 def figure_sensitivity():
-    """Cierre por semilla y residuo del mapa para cada cambio de un parámetro."""
+    """Error de cierre y desajuste scan-mapa para cada cambio de un parámetro."""
     table = summary()
-    fig, (left, right) = plt.subplots(1, 2, figsize=(15, 10.5), sharey=True,
-                                      gridspec_kw={'width_ratios': [1.25, 1]})
-    for ax in (left, right):
-        ax.tick_params(labelsize=16)
-        ax.title.set_fontsize(18)
-        ax.xaxis.label.set_fontsize(16)
+    fig, (left, right) = plt.subplots(1, 2, figsize=(15, 9.3), sharey=True)
     y, ticks, labels = 0, [], []
     for row in SENSITIVITY_ROWS:
         if row is None:
@@ -184,34 +179,42 @@ def figure_sensitivity():
         name, label = row
         color = VERMILION if name == 'base' else BLUE
         closure = per_seed(name)
-        left.plot(closure, np.full(len(closure), y), 'o', color=color, ms=7, alpha=0.55, mec='none')
-        left.plot(np.median(closure), y, '|', color='black', ms=22, mew=3)
+        median = float(np.median(closure))
+        left.barh(y, median, color=color, height=0.62)
+        # la línea negra va de la mejor a la peor semilla
+        left.plot([closure.min(), closure.max()], [y, y], color='black', lw=2.2)
+        left.plot([closure.min(), closure.max()], [y, y], '|', color='black', ms=11, mew=2.2)
+        left.text(closure.max() + 1.2, y, f'{median:.0f}', va='center', fontsize=15)
         residual = float(table[name]['residuo_cm'])
         right.barh(y, min(residual, 5.2), color=color, height=0.62)
-        right.text(min(residual, 5.2) + 0.08, y, f'{residual:.1f}'.replace('.', ','), va='center', fontsize=15)
+        right.text(min(residual, 5.2) + 0.08, y, f'{residual:.1f}'.replace('.', ','),
+                   va='center', fontsize=15, bbox=dict(fc='white', ec='none', pad=1.5))
         ticks.append(y)
         labels.append(label)
         y -= 1
-    for ax in (left, right):
+    for ax, base in ((left, float(np.median(per_seed('base')))),
+                     (right, float(table['base']['residuo_cm']))):
+        ax.axvline(base, color=VERMILION, lw=1.6, ls='--', zorder=0, label='valor de la base')
         ax.grid(axis='x', alpha=0.35)
         ax.set_axisbelow(True)
+        ax.tick_params(labelsize=16)
+    left.legend(loc='lower right', fontsize=15, framealpha=1)
     left.set_yticks(ticks)
     left.set_yticklabels(labels)
-    left.axvspan(0, 10, color=GREEN, alpha=0.12, lw=0)
-    left.text(5, ticks[0] + 0.85, 'error de\nestacionado', ha='center', va='bottom', fontsize=14, color=GREEN)
-    left.set_xlim(0, 65)
-    left.set_ylim(y + 0.3, ticks[0] + 2.2)
-    left.set_xlabel('distancia entre llegada y partida [cm]\n(un punto por semilla, la raya es la mediana)')
-    left.set_title('Cierre del recorrido')
+    left.set_xlim(0, 70)
+    left.set_ylim(y + 0.3, ticks[0] + 0.8)
+    left.set_title('Error al volver al punto de partida [cm]', fontsize=18)
+    left.set_xlabel('barra: mediana de las semillas\nlínea negra: de la mejor a la peor semilla', fontsize=16)
     right.set_xlim(0, 6)
-    right.set_xlabel('distancia media de los puntos del scan\na la pared del mapa [cm]')
-    right.set_title('Nitidez del mapa')
+    right.set_title('Distancia de los scans a las paredes [cm]', fontsize=18)
+    right.set_xlabel('promedio sobre todos los scans integrados\ncuanto menor, más nítido el mapa', fontsize=16)
+    fig.tight_layout()
     fig.savefig(FIGURES / 'a_sensibilidad.png')
     plt.close(fig)
 
 
 def figure_cell():
-    """El mismo rincón del aula mapeado con tres tamaños de celda."""
+    """El mismo rincón del laboratorio mapeado con tres tamaños de celda."""
     window = (-9.7, -5.0, 3.6, 8.1)
     cases = [('celda_025', 'Celda de 2,5 cm'), ('base', 'Celda de 5 cm'), ('celda_100', 'Celda de 10 cm')]
     fig, axes = plt.subplots(1, 3, figsize=(15, 5.3))
