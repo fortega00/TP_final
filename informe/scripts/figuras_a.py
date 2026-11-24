@@ -106,7 +106,168 @@ def figure_map():
     plt.close(fig)
 
 
-FIGURES_BY_NAME = {'mapa': figure_map}
+def figure_scan_matching():
+    """El mismo recorrido con la propuesta de odometría y con scan matching, 8 partículas."""
+    fig, axes = plt.subplots(1, 2, figsize=(15, 8.6))
+    cases = [(RUNS / 'odometria_8/seed_3', 'Propuesta de odometría, 8 partículas'),
+             (RUNS / 'base/seed_3', 'Propuesta con scan matching, 8 partículas')]
+    for ax, (run, title) in zip(axes, cases):
+        show_map(ax, run, ROOM)
+        path = np.load(run / 'trajectory.npy')
+        ax.plot(path[:, 1], path[:, 2], color=BLUE, lw=1.6, label='trayectoria estimada')
+        ax.plot(0, 0, '*', color=ORANGE, ms=22, mec='black', label='partida', zorder=5)
+        ax.plot(path[-1, 1], path[-1, 2], 'o', color=VERMILION, ms=10, mec='black',
+                label='llegada estimada', zorder=6)
+        ax.set_title(title)
+        ax.set_xlabel('x [m]')
+    axes[0].set_ylabel('y [m]')
+    axes[0].legend(loc='upper left', framealpha=1)
+    fig.savefig(FIGURES / 'a_scan_matching.png')
+    plt.close(fig)
+
+
+# experimento, etiqueta; None separa grupos
+SENSITIVITY_ROWS = [
+    ('base', 'base: 8 partículas, celda 5 cm'),
+    None,
+    ('particulas_4', '4 partículas'),
+    ('particulas_16', '16 partículas'),
+    ('particulas_32', '32 partículas'),
+    None,
+    ('odometria_8', 'sin scan matching, 8 partículas'),
+    ('odometria_128', 'sin scan matching, 128 partículas'),
+    None,
+    ('match_sigma_003', 'sigma del matching 0,03 m'),
+    ('match_sigma_010', 'sigma del matching 0,10 m'),
+    ('match_yaw_003', 'ventana de giro ±0,03 rad'),
+    ('match_yaw_012', 'ventana de giro ±0,12 rad'),
+    None,
+    ('sigma_hit_005', 'sigma del sensor 0,05 m'),
+    ('sigma_hit_030', 'sigma del sensor 0,30 m'),
+    ('grosor_003', 'grosor de impacto 3 cm'),
+    ('sin_retorno_libre', 'rayo sin retorno = libre'),
+    None,
+    ('paso_004', 'integrar cada 4 cm'),
+    ('paso_016', 'integrar cada 16 cm'),
+    None,
+    ('celda_025', 'celda 2,5 cm'),
+    ('celda_100', 'celda 10 cm'),
+]
+
+
+def per_seed(experiment):
+    """Cierre [cm] de cada semilla de un experimento."""
+    import json
+    return np.array([100 * json.loads(p.read_text())['end_to_start_m']
+                     for p in sorted((RUNS / experiment).glob('seed_*/run.json'))])
+
+
+def summary():
+    with (DATA / 'resumen_a.csv').open() as handle:
+        return {row['experimento']: row for row in csv.DictReader(handle)}
+
+
+def figure_sensitivity():
+    """Cierre por semilla y residuo del mapa para cada cambio de un parámetro."""
+    table = summary()
+    fig, (left, right) = plt.subplots(1, 2, figsize=(15, 10.5), sharey=True,
+                                      gridspec_kw={'width_ratios': [1.25, 1]})
+    for ax in (left, right):
+        ax.tick_params(labelsize=16)
+        ax.title.set_fontsize(18)
+        ax.xaxis.label.set_fontsize(16)
+    y, ticks, labels = 0, [], []
+    for row in SENSITIVITY_ROWS:
+        if row is None:
+            y -= 0.6
+            continue
+        name, label = row
+        color = VERMILION if name == 'base' else BLUE
+        closure = per_seed(name)
+        left.plot(closure, np.full(len(closure), y), 'o', color=color, ms=7, alpha=0.55, mec='none')
+        left.plot(np.median(closure), y, '|', color='black', ms=22, mew=3)
+        residual = float(table[name]['residuo_cm'])
+        right.barh(y, min(residual, 5.2), color=color, height=0.62)
+        right.text(min(residual, 5.2) + 0.08, y, f'{residual:.1f}'.replace('.', ','), va='center', fontsize=15)
+        ticks.append(y)
+        labels.append(label)
+        y -= 1
+    for ax in (left, right):
+        ax.grid(axis='x', alpha=0.35)
+        ax.set_axisbelow(True)
+    left.set_yticks(ticks)
+    left.set_yticklabels(labels)
+    left.axvspan(0, 10, color=GREEN, alpha=0.12, lw=0)
+    left.text(5, ticks[0] + 0.85, 'error de\nestacionado', ha='center', va='bottom', fontsize=14, color=GREEN)
+    left.set_xlim(0, 65)
+    left.set_ylim(y + 0.3, ticks[0] + 2.2)
+    left.set_xlabel('distancia entre llegada y partida [cm]\n(un punto por semilla, la raya es la mediana)')
+    left.set_title('Cierre del recorrido')
+    right.set_xlim(0, 6)
+    right.set_xlabel('distancia media de los puntos del scan\na la pared del mapa [cm]')
+    right.set_title('Nitidez del mapa')
+    fig.savefig(FIGURES / 'a_sensibilidad.png')
+    plt.close(fig)
+
+
+def figure_cell():
+    """El mismo rincón del aula mapeado con tres tamaños de celda."""
+    window = (-9.7, -5.0, 3.6, 8.1)
+    cases = [('celda_025', 'Celda de 2,5 cm'), ('base', 'Celda de 5 cm'), ('celda_100', 'Celda de 10 cm')]
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.3))
+    for ax, (name, title) in zip(axes, cases):
+        show_map(ax, RUNS / name / 'seed_1', window)
+        ax.set_title(title)
+        ax.set_xlabel('x [m]')
+    axes[0].set_ylabel('y [m]')
+    fig.savefig(FIGURES / 'a_celda.png')
+    plt.close(fig)
+
+
+def figure_speed():
+    """Residuo de cada scan integrado según la velocidad de giro del robot en ese momento."""
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent))
+    from analisis_a import scan_residuals
+
+    residual = 100 * scan_residuals(FINAL, 'bag_mapa2', 1)
+    stamps = np.load(FINAL / 'trajectory.npy')[:, 0]
+    data = np.load(DATA / 'bag_mapa2.npz')
+    t, odom = data['metadata'][:, 0], data['odometry']
+    k = 2  # velocidad promediada sobre 4 scans, unos 0,5 s
+    dt = t[2 * k:] - t[:-2 * k]
+    turn = np.abs(np.angle(np.exp(1j * (odom[2 * k:, 2] - odom[:-2 * k, 2])))) / dt
+    speed = np.hypot(odom[2 * k:, 0] - odom[:-2 * k, 0], odom[2 * k:, 1] - odom[:-2 * k, 1]) / dt
+    index = np.clip(np.searchsorted(t, stamps) - k, 0, len(dt) - 1)
+    turn, speed = turn[index], speed[index]
+
+    fig, (left, right) = plt.subplots(2, 1, figsize=(7, 8.2))
+    panels = [(left, turn, [0, 0.1, 0.3, 0.5, 0.8, 2.0], 'velocidad de giro [rad/s]', ['< 0,1', '0,1–0,3', '0,3–0,5', '0,5–0,8', '> 0,8']),
+              (right, speed, [0, 0.15, 0.3, 0.4, 1.0], 'velocidad de avance [m/s]', ['< 0,15', '0,15–0,3', '0,3–0,4', '> 0,4'])]
+    for ax, value, edges, label, names in panels:
+        means, counts = [], []
+        for lo, hi in zip(edges[:-1], edges[1:]):
+            inside = (value >= lo) & (value < hi)
+            means.append(residual[inside].mean())
+            counts.append(int(inside.sum()))
+        bars = ax.bar(names, means, color=BLUE, width=0.7)
+        for bar, count in zip(bars, counts):
+            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.05, f'{count} scans',
+                    ha='center', fontsize=14)
+        ax.set_xlabel(label, fontsize=17)
+        ax.set_ylabel('residuo medio [cm]', fontsize=17)
+        ax.set_ylim(0, 3.0)
+        ax.tick_params(labelsize=15)
+        ax.grid(axis='y', alpha=0.35)
+        ax.set_axisbelow(True)
+    fig.tight_layout()
+    fig.savefig(FIGURES / 'a_velocidad.png')
+    plt.close(fig)
+
+
+FIGURES_BY_NAME = {'mapa': figure_map, 'scan_matching': figure_scan_matching,
+                   'sensibilidad': figure_sensitivity, 'celda': figure_cell,
+                   'velocidad': figure_speed}
 
 
 def main():

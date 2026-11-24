@@ -84,9 +84,9 @@ def run(job):
     from slam.core.geometry import Pose2D
     from slam.core.types import Scan
 
-    name, seed = job
+    name, seed, output = job
     bag, every, changes = EXPERIMENTS[name]
-    out = OUTPUT / name / f'seed_{seed}'
+    out = output / name / f'seed_{seed}'
     if (out / 'run.json').exists():
         return name, seed, 'ya estaba'
     out.mkdir(parents=True, exist_ok=True)
@@ -124,8 +124,11 @@ def main():
     parser.add_argument('--workers', type=int, default=6)
     parser.add_argument('--only', nargs='+', choices=sorted(EXPERIMENTS))
     parser.add_argument('--seeds', nargs='+', type=int, default=list(SEEDS))
+    parser.add_argument('--output', type=Path, default=OUTPUT,
+                        help='otra carpeta de salida, por ejemplo para medir tiempos con --workers 1')
     args = parser.parse_args()
-    jobs = [(name, seed) for name in (args.only or EXPERIMENTS) for seed in args.seeds]
+    jobs = [(name, seed, args.output.resolve()) for name in (args.only or EXPERIMENTS)
+            for seed in args.seeds]
     with ProcessPoolExecutor(args.workers) as pool:
         for name, seed, note in pool.map(run, jobs):
             print(f'{name} seed {seed}: {note}', flush=True)
