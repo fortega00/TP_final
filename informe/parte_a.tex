@@ -158,7 +158,8 @@ publicando el mismo mapa.
     laboratorio. Cada fila es una configuración que difiere de la base
     (naranja) solo en lo que dice su etiqueta. Como el robot se estacionó con
     hasta 10 cm de error, las diferencias de cierre por debajo de ese valor no
-    distinguen una configuración de otra.}
+    distinguen una configuración de otra. El tiempo se midió en una laptop
+    (Apple M4) con una corrida por vez.}
   \label{fig:sensibilidad}
 \end{figure*}
 
@@ -209,13 +210,19 @@ la cantidad de partículas, la propuesta, los parámetros del scan matching y de
 sensor, cada cuánto se integra un scan, el tamaño de celda, el descarte de
 scans y el otro recorrido.
 
-Como no hay pose verdadera usamos dos medidas de consistencia
+Como no hay pose verdadera usamos dos medidas de consistencia, y junto a
+ellas el tiempo que tarda cada actualización del filtro
 (figura~\ref{fig:sensibilidad}). La primera es el error de cierre, es decir a qué
 distancia del punto de partida cree el filtro que terminó un recorrido que en
 la realidad terminó donde empezó. La segunda es la nitidez del mapa, que
 medimos como la distancia media entre los puntos de cada scan integrado y la
 celda ocupada más cercana del mapa final. Si las paredes están bien ubicadas y
-son finas, esa distancia es chica.
+son finas, esa distancia es chica. El tiempo importa porque cada actualización
+tiene que terminar antes de que llegue el scan siguiente, 137 ms después.
+Leída de esa forma, la figura justifica la configuración elegida. Subir de 8 a
+16 o 32 partículas, o bajar la celda a 2,5 cm, cuesta entre dos y cuatro veces
+más sin mejorar el cierre, y el resto de los parámetros no cambia el resultado
+más de lo que ya cambia de una semilla a otra.
 
 \subsubsection*{1. \textquestiondown{}Qué tan sensible a hiperparámetros es el método que eligieron? \textquestiondown{}Porqué?}
 
