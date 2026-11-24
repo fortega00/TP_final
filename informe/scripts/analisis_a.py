@@ -15,7 +15,7 @@ Uso, desde la raíz del repo:
 
     python informe/scripts/analisis_a.py
 
-Escribe `informe/datos/resumen_a.csv` y muestra la tabla.
+Escribe `informe/datos/resumen_a.csv` y `informe/datos/tiempos_a.csv`, y muestra la tabla.
 """
 import csv
 import json
@@ -121,10 +121,27 @@ def summarize(folder):
     )
 
 
+def write_timings():
+    """Tiempo por actualización de las corridas hechas de a una (`--workers 1 --output .../tiempos_a`)."""
+    rows = []
+    for path in sorted((DATA / 'tiempos_a').glob('*/seed_*/run.json')):
+        info = json.loads(path.read_text())
+        rows.append(dict(experimento=info['experiment'],
+                         update_mediana_ms=round(1000 * info['update_median_s'], 1),
+                         update_p95_ms=round(1000 * info['update_p95_s'], 1)))
+    if not rows:
+        return
+    with (DATA / 'tiempos_a.csv').open('w', newline='') as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def main():
+    write_timings()
     rows = [summarize(folder) for folder in sorted(RUNS.iterdir()) if any(folder.glob('seed_*/run.json'))]
     with OUTPUT.open('w', newline='') as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator='\n')
         writer.writeheader()
         writer.writerows(rows)
     widths = {key: max(len(key), *(len(str(row[key])) for row in rows)) for key in rows[0]}

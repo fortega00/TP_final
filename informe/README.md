@@ -67,7 +67,6 @@ Las corridas quedan en `datos/experimentos_a/`, que no se sube a git por tamaño
   ```
 
 - Cada sección termina con `\FloatBarrier` para que sus figuras no pasen a la sección siguiente.
-- `\resp{la pregunta 3 de la parte A}` agrega una nota gris que indica qué pregunta de la consigna responde un párrafo.
 - `\code{nombre}` es para nombres de archivos, tópicos y parámetros.
 - Si la compilación falla, el error con su número de línea está en `informe.log`.
 

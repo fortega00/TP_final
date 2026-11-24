@@ -168,9 +168,11 @@ def summary():
 
 
 def figure_sensitivity():
-    """Error de cierre y desajuste scan-mapa para cada cambio de un parámetro."""
+    """Error de cierre, nitidez del mapa y costo para cada cambio de un parámetro."""
     table = summary()
-    fig, (left, right) = plt.subplots(1, 2, figsize=(15, 9.3), sharey=True)
+    with (DATA / 'tiempos_a.csv').open() as handle:
+        timing = {row['experimento']: float(row['update_mediana_ms']) for row in csv.DictReader(handle)}
+    fig, (left, right, cost) = plt.subplots(1, 3, figsize=(17, 9.3), sharey=True)
     y, ticks, labels = 0, [], []
     for row in SENSITIVITY_ROWS:
         if row is None:
@@ -189,9 +191,21 @@ def figure_sensitivity():
         right.barh(y, min(residual, 5.2), color=color, height=0.62)
         right.text(min(residual, 5.2) + 0.08, y, f'{residual:.1f}'.replace('.', ','),
                    va='center', fontsize=15, bbox=dict(fc='white', ec='none', pad=1.5))
+        cost.barh(y, timing[name], color=color, height=0.62)
+        cost.text(timing[name] + 2.5, y, f'{timing[name]:.0f}', va='center', fontsize=15,
+                  bbox=dict(fc='white', ec='none', pad=1.5))
         ticks.append(y)
         labels.append(label)
         y -= 1
+    cost.axvline(137, color='black', lw=1.6, ls=':', zorder=0, label='llega un scan nuevo')
+    cost.legend(loc='lower right', fontsize=15, framealpha=1)
+    cost.set_xlim(0, 165)
+    cost.set_title('Tiempo por actualización [ms]', fontsize=18)
+    cost.set_xlabel('en una laptop, una corrida sola\ntiene que ser menor que 137 ms', fontsize=16)
+    cost.axvline(timing['base'], color=VERMILION, lw=1.6, ls='--', zorder=0)
+    cost.grid(axis='x', alpha=0.35)
+    cost.set_axisbelow(True)
+    cost.tick_params(labelsize=16)
     for ax, base in ((left, float(np.median(per_seed('base')))),
                      (right, float(table['base']['residuo_cm']))):
         ax.axvline(base, color=VERMILION, lw=1.6, ls='--', zorder=0, label='valor de la base')
@@ -203,11 +217,11 @@ def figure_sensitivity():
     left.set_yticklabels(labels)
     left.set_xlim(0, 70)
     left.set_ylim(y + 0.3, ticks[0] + 0.8)
-    left.set_title('Error al volver al punto de partida [cm]', fontsize=18)
+    left.set_title('Error al volver a la partida [cm]', fontsize=18)
     left.set_xlabel('barra: mediana de las semillas\nlínea negra: de la mejor a la peor semilla', fontsize=16)
     right.set_xlim(0, 6)
-    right.set_title('Distancia de los scans a las paredes [cm]', fontsize=18)
-    right.set_xlabel('promedio sobre todos los scans integrados\ncuanto menor, más nítido el mapa', fontsize=16)
+    right.set_title('Distancia scan a pared [cm]', fontsize=18)
+    right.set_xlabel('promedio de los scans integrados\ncuanto menor, más nítido el mapa', fontsize=16)
     fig.tight_layout()
     fig.savefig(FIGURES / 'a_sensibilidad.png')
     plt.close(fig)

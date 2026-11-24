@@ -72,6 +72,37 @@ def score(bag, result):
                 burst_converged=result['summary']['burst_converged'])
 
 
+def map_agreement():
+    """Fracción de celdas ocupadas del mapa del otro recorrido que caen cerca de una del mapa final.
+
+    El mapa de bag_mapa está en otra terna. Se lleva a la del mapa final con el ajuste
+    rígido entre la trayectoria de su SLAM y la de la localización del mismo bag.
+    """
+    from PIL import Image
+    from scipy import ndimage
+    res, origin = 0.05, np.array([-16.0, -20.0])
+    slam = np.load(DATA / 'experimentos_a/recorrido_1/seed_1/trajectory.npy')
+    samples = json.loads((OUTPUT / 'bag_mapa_seed_1.json').read_text())['samples']
+    t = np.array([s['stamp'] for s in samples])
+    inside = (t >= slam[0, 0]) & (t <= slam[-1, 0])
+    located = np.array([[s['x'], s['y']] for s in samples])[inside]
+    mapped = np.c_[np.interp(t[inside], slam[:, 0], slam[:, 1]), np.interp(t[inside], slam[:, 0], slam[:, 2])]
+    other = np.array(Image.open(DATA / 'experimentos_a/recorrido_1/seed_1/map.pgm'))
+    final = np.array(Image.open(MAP.with_name('map.pgm')))
+    rows, cols = np.nonzero(other == 0)
+    cells = np.c_[origin[0] + (cols + 0.5) * res, origin[1] + (other.shape[0] - rows - 0.5) * res]
+    # el ajuste rígido que lleva la trayectoria del SLAM sobre la de la localización lleva también las celdas
+    pc, rc = mapped.mean(0), located.mean(0)
+    u, _, vt = np.linalg.svd((mapped - pc).T @ (located - rc))
+    rotation = vt.T @ np.diag([1.0, np.sign(np.linalg.det(vt.T @ u.T))]) @ u.T
+    moved = (cells - pc) @ rotation.T + rc
+    distance = ndimage.distance_transform_edt(final != 0) * res
+    col = ((moved[:, 0] - origin[0]) / res).astype(int)
+    row = final.shape[0] - 1 - ((moved[:, 1] - origin[1]) / res).astype(int)
+    d = distance[row, col]
+    return float((d <= 0.10).mean()), float((d <= 0.20).mean())
+
+
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
     jobs = [(bag, seed) for bag in RUNS for seed in SEEDS]
@@ -85,6 +116,8 @@ def main():
               '| máximo [cm]:', ' '.join(f"{r['max_cm']:.0f}" for r in sel),
               '| ms por update:', f"{np.median([r['update_ms'] for r in sel]):.1f}",
               '| burst ok:', all(r['burst_converged'] for r in sel))
+    near, far = map_agreement()
+    print(f'celdas ocupadas del mapa de bag_mapa a 10 cm o menos del mapa final: {100 * near:.1f} %, a 20 cm o menos: {100 * far:.1f} %')
 
 
 if __name__ == '__main__':

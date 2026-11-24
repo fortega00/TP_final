@@ -6,7 +6,7 @@
 
 El objetivo de esta parte es construir un mapa de ocupación del Laboratorio de
 Mecatrónica mientras el robot estima su propia pose, usando solo el LIDAR y la
-odometría. El mapa que sale de acá es el que usa la navegación de la parte B.
+odometría. El mapa resultante es el que usa la navegación de la parte B.
 
 \paragraph{Datos de entrada.} El scan \code{/scan} de 1080 rayos a 7,3 Hz, la
 odometría \code{/odom} a 10 Hz y la terna del LIDAR respecto del robot (0,043 m
@@ -31,7 +31,6 @@ de localización, que son el modelo de movimiento, el campo de verosimilitud y
 el resampling. Todo el núcleo es propio, sin librerías de SLAM, y no depende de
 ROS, lo que nos permitió repetir cada recorrido offline con otra configuración
 sin volver al laboratorio.
-\resp{qué método eligieron y por qué}
 
 El filtro se validó en las tres etapas con la misma implementación
 (tabla~\ref{tab:etapas}). En simulación y en el bag del Parcial existe una
@@ -39,10 +38,10 @@ referencia independiente del SLAM, y ahí el error queda entre 5 y 17 cm.
 
 \begin{table}[t]
   \centering\small
-  \caption{Las tres etapas, con 8 partículas y tres semillas. En el laboratorio
-    no hay referencia y el número es el error de cierre: la mediana de la
-    distancia entre la pose final y la inicial de un recorrido que termina
-    donde empezó.}
+  \caption{Las tres etapas, con 8 partículas. En simulación y en el bag se da
+    el rango de tres semillas. En el laboratorio no hay referencia y el número
+    es el error de cierre, la mediana sobre 7 semillas de la distancia entre
+    la pose final y la inicial de un recorrido que termina donde empezó.}
   \label{tab:etapas}
   \begin{tabular}{@{}lll@{}}
     \toprule
@@ -90,7 +89,6 @@ El último cambio es el resampling selectivo. Se resamplea solo cuando el númer
 efectivo de partículas baja de la mitad, con resampling sistemático y pesos en
 logaritmos, porque resamplear en cada scan copia mapas de más y elimina
 hipótesis que todavía servían.
-\resp{las modificaciones al filtro vainilla}
 
 \begin{figure*}[t]
   \centering
@@ -133,8 +131,8 @@ distancia media de los puntos del scan a la pared del mapa sube de 1,1 a
 
 Ya en el laboratorio encontramos que la pose se movía con el robot quieto. El
 filtro integraba un scan por segundo aunque no hubiera movimiento, y cada
-integración sumaba el ruido de la propuesta. En el segundo recorrido la pose
-caminó 17 cm en 215 s de robot estacionado, con la odometría y los scans sin
+integración sumaba el ruido de la propuesta. En el segundo recorrido la pose se
+desplazó 17 cm en 215 s de robot estacionado, con la odometría y los scans sin
 cambiar. Lo detectamos al comparar el origen del mapa con el lugar físico de
 partida y lo corregimos integrando solo por movimiento.
 
@@ -149,7 +147,6 @@ laboratorio salió torcido entre 15 y 20\textdegree{} por girar rápido, hubo qu
 usar \code{base\_footprint} como terna de la base (con \code{base\_link} el
 nodo descartaba todos los scans) y en un reinicio quedaron dos nodos de SLAM
 publicando el mismo mapa.
-\resp{las dificultades de desarrollo}
 
 \subsection{Mapa del laboratorio}
 
@@ -179,29 +176,28 @@ de 7 semillas). El robot arrancó y terminó dentro de un recuadro de cinta en e
 piso, con menos de 10 cm de error al estacionar, así que ese cierre está en el
 límite de lo que podemos medir. Las trayectorias de las distintas semillas
 difieren entre sí 3,3 cm RMS. Además, el mapa del primer recorrido, hecho por
-otro camino y arrancando en sentido opuesto, coincide con este en el 95 \% de
-las celdas ocupadas a menos de 20 cm. La zona blanca que sale del laboratorio
+otro camino y arrancando en sentido opuesto, coincide con este. El 93 \% de sus
+celdas ocupadas cae a 10 cm o menos de una celda ocupada del mapa final, y el
+97 \% a 20 cm o menos. La zona blanca que sale del laboratorio
 arriba a la derecha es la puerta de vidrio, por donde el LIDAR ve hacia afuera.
 La pared real sigue derecha.
-\resp{el criterio 3.1}
 
 En cuanto a la resolución, con 5 cm se ven los pasillos entre mesas y las patas
 de las sillas. Las paredes tienen entre 20 y 25 cm de grosor en el mapa, más
 que las reales. No afecta al planificador, porque la cara interna de la pared
 está en su lugar, pero es el defecto visible del mapa y lo analizamos en las
 preguntas 4 y 6.
-\resp{el criterio 3.2}
 
 En cuanto al uso para navegación, con la huella del robot inflada 22 cm el
 planificador A* de la parte B encuentra una región transitable de
 70,6 m\textsuperscript{2} que llega a todos los pasillos, y entre 40 pares de
 puntos al azar planifica en 17 ms de mediana y 90 ms como máximo. La
 localización de la parte B sobre este mapa sigue a la trayectoria del SLAM a
-3,7 cm con el mismo recorrido y a 4,6 a 4,9 cm con el otro, sin perderse. El
+4,0 cm RMS con el mismo recorrido y a 5,1 cm con el otro, con un apartamiento
+máximo de 13 cm en 6 semillas y sin perderse. El
 mapa tiene dos límites que conviene conocer. El robot no entró al ala izquierda
 ni al pasillo de abajo, que quedaron mapeados desde lejos, y la franja de la
 puerta figura como libre.
-\resp{el criterio 3.3}
 
 \subsection{Preguntas}
 
@@ -214,7 +210,7 @@ sensor, cada cuánto se integra un scan, el tamaño de celda, el descarte de
 scans y el otro recorrido.
 
 Como no hay pose verdadera usamos dos medidas de consistencia
-(figura~\ref{fig:sensibilidad}). La primera es el error de cierre, o sea a qué
+(figura~\ref{fig:sensibilidad}). La primera es el error de cierre, es decir a qué
 distancia del punto de partida cree el filtro que terminó un recorrido que en
 la realidad terminó donde empezó. La segunda es la nitidez del mapa, que
 medimos como la distancia media entre los puntos de cada scan integrado y la
@@ -268,8 +264,8 @@ gira a más de 0,5 rad/s y casi no cambia con la velocidad de avance. El filtro
 asigna una sola pose a cada scan, y a 1 rad/s un barrido de 0,137 s abarca
 8\textdegree. También probamos descartar scans para simular un robot más
 rápido. Usando uno de cada dos, tres o cuatro, el recorrido cierra igual o
-mejor (11,5, 7,7 y 7,6 cm), o sea que la separación entre scans no es el
-límite. No tenemos un recorrido lento para comparar de forma controlada, porque
+mejor (11,5, 7,7 y 7,6 cm), lo que indica que la separación entre scans no es
+el límite. No tenemos un recorrido lento para comparar de forma controlada, porque
 manejamos siempre a unos 0,4 m/s y con giros de hasta 1 rad/s.
 
 \begin{figure}[t]
@@ -311,8 +307,8 @@ decisiones del algoritmo que la odometría.
 \subsubsection*{5. \textquestiondown{}Qué ocurre si el robot vuelve a pasar por una zona que ya había recorrido? \textquestiondown{}El algoritmo logra corregir errores acumulados? \textquestiondown{}El algoritmo que seleccionaron corrige solo valores locales o también corrige valores lejanos al momento de pasar por una zona nuevamente?}
 
 Cuando el robot vuelve a una zona conocida, el scan matching compara el scan
-con las paredes que la partícula ya había mapeado ahí y la pose se vuelve a
-enganchar con ellas. Por eso el error deja de crecer, y después de dos vueltas
+con las paredes que la partícula ya había mapeado ahí y la pose vuelve a
+alinearse con ellas. Por eso el error deja de crecer, y después de dos vueltas
 y 58 m el recorrido cierra a 12 cm.
 
 La corrección es local. El filtro no recalcula poses pasadas ni reescribe las
