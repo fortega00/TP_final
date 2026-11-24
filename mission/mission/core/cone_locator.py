@@ -217,24 +217,39 @@ def open_segment(costmap: Costmap, a, cone) -> bool:
     return bool(inside.all() and (costmap.clearance[rows, cols] >= radius).all())
 
 
-def approach_pose(cone, pose: Pose2D, costmap: Costmap, reachable: np.ndarray, config: LocatorConfig):
+def approach_pose(cone, pose: Pose2D, costmap: Costmap, reachable: np.ndarray, config: LocatorConfig,
+                  clearance: float = 0.0):
     """Pose para quedar frente al cono, o None si no hay ninguna.
 
-    Candidatos en anillos alrededor del cono, entre approach_distance y
-    approach_max_distance. Se queda con los alcanzables desde el robot desde
-    los que podría avanzar en línea recta hasta el cono (`open_segment`), y
-    elige el de camino más corto desde el robot. El ángulo mira al cono.
+    Candidatos en anillos alrededor del cono, cada 15 cm desde
+    approach_distance hasta approach_max_distance. Valen los alcanzables desde
+    el robot, con al menos `clearance` de holgura a los obstáculos (la misma
+    regla que los puntos de observación: no pararse en pasillos angostos, como
+    entre bancos) y desde los que podría avanzar en línea recta hasta el cono
+    (`open_segment`). Se usa el anillo más cercano al cono que tenga alguno, y
+    en él el de camino más corto desde el robot: un cono en un pasillo angosto
+    se aproxima desde la boca del pasillo. El ángulo mira al cono.
     """
+    for radius in np.arange(config.approach_distance, config.approach_max_distance + 1e-9, 0.15):
+        goal = _best_on_ring(cone, radius, pose, costmap, reachable, config, clearance)
+        if goal is not None:
+            return goal
+    return None
+
+
+def _best_on_ring(cone, radius, pose, costmap, reachable, config, clearance):
+    """El mejor candidato a `radius` del cono, o None."""
     grid = costmap.grid
     candidates = []
-    for radius in np.linspace(config.approach_distance, config.approach_max_distance, 3):
-        for angle in np.linspace(-math.pi, math.pi, config.approach_angles, endpoint=False):
-            x, y = cone[0] + radius * math.cos(angle), cone[1] + radius * math.sin(angle)
-            col, row = grid.world_to_grid(x, y)
-            if not (0 <= col < grid.width and 0 <= row < grid.height) or not reachable[row, col]:
-                continue
-            if open_segment(costmap, (x, y), cone):
-                candidates.append((x, y))
+    for angle in np.linspace(-math.pi, math.pi, config.approach_angles, endpoint=False):
+        x, y = cone[0] + radius * math.cos(angle), cone[1] + radius * math.sin(angle)
+        col, row = grid.world_to_grid(x, y)
+        if not (0 <= col < grid.width and 0 <= row < grid.height) or not reachable[row, col]:
+            continue
+        if costmap.clearance[row, col] < clearance:
+            continue
+        if open_segment(costmap, (x, y), cone):
+            candidates.append((x, y))
     if not candidates:
         return None
     distances = path_distances(costmap, reachable, [(pose.x, pose.y)] + candidates)[0, 1:]

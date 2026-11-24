@@ -10,8 +10,9 @@ exploration:
   # Alcance con el que se espera detectar un cono, y mínimo de la profundidad (m).
   view_range: 3.0
   view_min_range: 0.30
-  # Fracción de lo visible que tienen que cubrir los puntos.
-  coverage_target: 0.98
+  # Fracción de lo visible que tienen que cubrir los puntos. En el aula da 10
+  # puntos y deja vistos al 100 % los pasillos entre mesas (decisión 014).
+  coverage_target: 0.95
   # No se agrega un punto que vea menos que esta área nueva (m²).
   min_gain: 0.50
   rays: 360
@@ -27,9 +28,11 @@ exploration:
   # Mesas y bancos, detectados a partir del mapa. El lidar ve solo las patas y
   # el borde delantero de los bancos: los obstáculos interiores (no las
   # paredes) a menos de 2 x clutter_radius entre sí se unen en un bloque.
-  clutter_radius: 0.65
+  # Con 0.64 o más se tapa el paso de arriba a la izquierda del aula (decisión 014).
+  clutter_radius: 0.60
   clutter_max_hole: 2.0
-  # No pararse a mirar a menos de esta distancia de un obstáculo (m).
+  # No pararse a mirar ni a acercarse a un cono a menos de esta distancia de un
+  # obstáculo (m): deja afuera los pasillos angostos entre los bancos.
   viewpoint_clearance: 0.50
 
 # Detector de conos rojos (decisión 016). OpenCV: tono 0-179, saturación y
@@ -73,10 +76,12 @@ locator:
   prior: 0.20
   confirm_probability: 0.97
   drop_probability: 0.05
-  # Dónde pararse frente al cono: entre estas distancias, en approach_angles
-  # direcciones alrededor.
+  # Dónde pararse frente al cono: lo más cerca posible desde approach_distance,
+  # en anillos cada 15 cm y approach_angles direcciones; hasta
+  # approach_max_distance si no hay lugar más cerca (un cono entre bancos se
+  # aproxima desde la boca del pasillo).
   approach_distance: 0.45
-  approach_max_distance: 0.90
+  approach_max_distance: 1.50
   approach_angles: 24
 
 # Máquina de estados de la misión (decisión 015). Tiempos en s, distancias en m.

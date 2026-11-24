@@ -413,10 +413,11 @@ class ClassroomTests(unittest.TestCase):
             index = cell_of(self.grid, x, y)
             self.assertTrue(occupied_cells(self.grid).ravel()[index], (x, y))
 
-    def test_robot_cannot_get_between_the_benches(self):
+    def test_no_viewpoint_between_the_benches(self):
         # Franja de los bancos de abajo, debajo de la ruta principal.
         benches = box(self.grid, -7.5, -3.4, -2.5, -1.9)
-        self.assertLess(np.count_nonzero(self.reachable & benches) * RESOLUTION ** 2, 0.6)
+        for x, y in self.plan.viewpoints:
+            self.assertFalse(benches[self.costmap.cell(x, y)], (x, y))
 
     def test_corridors_stay_open(self):
         # Pasillo central entre los bloques de mesas y pasillo entre el bloque
@@ -425,6 +426,19 @@ class ClassroomTests(unittest.TestCase):
             corridor = box(self.grid, *region)
             self.assertGreater(np.count_nonzero(self.reachable & corridor) / np.count_nonzero(corridor),
                                0.5, region)
+
+    def test_top_left_passage_stays_open(self):
+        # Con clutter_radius de 0,64 o más, una pata suelta en (-8,1; 7,4) se une al
+        # bloque de mesas de arriba y tapa el paso de arriba a la izquierda. No se
+        # notaba porque la zona de arriba se alcanza también por la derecha: se
+        # cierra la derecha con una pared y se exige que siga alcanzable.
+        closed = self.original.clone()
+        wall = box(closed, -2.4, 4.45, 0.6, 4.55)
+        closed.log_odds[wall], closed.observed[wall] = 4.0, True
+        nav = NavConfig.load_yaml(Path(__file__).resolve().parents[2] / "nav/config/real.yaml")
+        _, costmap = prepare_map(closed, nav.planner, self.config)
+        reachable = main_component(costmap.traversable, costmap.cell(0.0, 0.0))
+        self.assertTrue(reachable[costmap.cell(-5.0, 6.8)])
 
     def test_central_corridor_is_covered(self):
         corridor = box(self.grid, -5.5, 2.5, -4.0, 3.9) & self.plan.targets

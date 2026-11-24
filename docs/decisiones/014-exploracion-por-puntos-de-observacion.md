@@ -30,7 +30,7 @@ Detalle de A:
 - **Objetivo:** las celdas libres conectadas con la zona adonde puede ir el robot. Es donde puede estar un cono.
 - **Candidatos:** celdas transitables del mapa de costos de `nav` (el mismo que usa el navegador, así llega a todos), cada 0,5 m, con al menos `viewpoint_clearance` de holgura a los obstáculos.
 - **Visibilidad:** rayos en 2D sobre el mapa que se cortan en la primera pared o zona desconocida, entre 0,3 m (mínimo de la cámara de profundidad) y 3 m.
-- **Selección codiciosa:** primero el candidato que más área ve, después el que más área nueva agrega, hasta ver el 98 % de lo que se puede ver desde algún candidato o hasta que el próximo agregue menos de 0,5 m². Es la aproximación clásica a cubrir un conjunto, que es NP-difícil.
+- **Selección codiciosa:** primero el candidato que más área ve, después el que más área nueva agrega, hasta ver el 95 % de lo que se puede ver desde algún candidato o hasta que el próximo agregue menos de 0,5 m². Es la aproximación clásica a cubrir un conjunto, que es NP-difícil.
 - **Orden:** vecino más cercano desde la pose inicial y después 2-opt, con distancias por la zona transitable (Dijkstra sobre la grilla). El camino real lo calcula el A* del navegador.
 
 ## Mesas y bancos
@@ -52,7 +52,7 @@ Detalle de A (`prepare_map`):
 2. **Cierre morfológico de los muebles** con un disco de radio `clutter_radius`: dilatar y erosionar. Dos muebles a menos de dos radios se unen; un paso más ancho no se cierra. Las paredes no entran, así el pasillo entre un mueble y la pared no se tapa (sin separarlas, el pasillo entre el bloque de mesas de arriba y la pared izquierda se cerraba).
 3. **Relleno** de los huecos encerrados de menos de `clutter_max_hole`: el interior de un bloque, no el aula entera, que también está encerrada por paredes.
 4. Los bloques se marcan como ocupados en una copia del mapa: tapan la vista, no son piso donde buscar y el mapa de costos los infla. El mapa de `nav` no cambia.
-5. **Holgura:** el robot no se para a mirar a menos de `viewpoint_clearance` de un obstáculo.
+5. **Holgura:** el robot no se para a mirar, ni a acercarse a un cono (017), a menos de `viewpoint_clearance` de un obstáculo. Es lo que lo mantiene fuera de los pasillos angostos entre bancos que el cierre no tapa.
 
 Se comprobó que el A* de `nav`, sobre el mapa original, ya rodea los bloques detectados en los trayectos entre puntos: ningún punto de esos caminos cae en ellos.
 
@@ -84,7 +84,7 @@ Sin detectar mesas, con recorrido en línea recta (106 m² de piso como objetivo
 
 Lo que faltaba eran casi todo sombras de patas, y dos puntos caían entre los bancos.
 
-Calibración de la detección. Criterios, sin referencia externa: que los bloques no tapen pasillos (área transitable perdida fuera de los bloques), que el robot no pueda meterse entre los bancos (área alcanzable debajo de la ruta principal) y el tamaño del plan. Se probó con `viewpoint_clearance` 0,45 y 0,50 y en tres mapas del mismo bag (`intento3_corregido`, `intento3` y el replay E16): todos dan 9 a 11 puntos, 95 a 98 % de cobertura y 29 a 36 m. Con `viewpoint_clearance` 0,50 y `coverage_target` 0,97, en `intento3_corregido`:
+Calibración de la detección. Criterios, sin referencia externa: que los bloques no tapen pasillos, que el robot no pueda meterse entre los bancos (área alcanzable debajo de la ruta principal) y el tamaño del plan. Se probó con `viewpoint_clearance` 0,45 y 0,50 y en tres mapas del mismo bag (`intento3_corregido`, `intento3` y el replay E16): todos dan 9 a 11 puntos, 95 a 98 % de cobertura y 29 a 36 m. Con `viewpoint_clearance` 0,50 y `coverage_target` 0,97, en `intento3_corregido`:
 
 | `clutter_radius` (m) | Puntos | Recorrido (m) | Bloques (m²) | Transitable perdido fuera de los bloques (m²) | Alcanzable entre los bancos (m²) |
 |---|---|---|---|---|---|
@@ -94,19 +94,24 @@ Calibración de la detección. Criterios, sin referencia externa: que los bloque
 | 0,65 | 10 | 34,6 | 21,5 | 0,14 | 0,40 |
 | 0,70 | 10 | 34,6 | 21,9 | 0,10 | 0,37 |
 
-Con 0,60 los bancos quedan en tres bloques con pasillos entre medio adonde el robot puede llegar. Con 0,65 la fila de bancos es un solo bloque. De ahí en adelante casi no cambia, pero un radio mayor cierra pasos más anchos (dos radios = 1,3 m con 0,65), lo que en otro mapa puede tapar un pasillo real. **Elegí 0,65**, el menor radio que cierra los bancos. Con 0,97 de cobertura el pasillo entre el bloque de mesas de arriba y la pared izquierda quedaba visto en un 56 %; con 0,98, en un 83 %, a cambio de un punto y 1,1 m más:
+Con 0,60 los bancos quedan en tres bloques con pasillos entre medio; con 0,65 la fila de bancos es un solo bloque. Primero se eligió 0,65. **Error de esa calibración:** la columna "transitable perdido" mide área, no si se corta un paso. Al armar el escenario de Gazebo con una pared extra a la derecha (`mission/worlds/aula_hueco.yaml`), la zona de arriba quedó inalcanzable: desde 0,64 una pata suelta en (−8,1; 7,4), a 1,3 m del bloque de mesas de arriba, se une a él y tapa el paso de arriba a la izquierda. Con el mapa original no se notaba porque esa zona se alcanza también por la derecha. Un test (`test_top_left_passage_stays_open`) cierra la derecha y exige que siga alcanzable.
+
+No hay un radio que cierre los bancos sin tapar ese paso. **Elegí 0,60**, con margen respecto de 0,64. Los pasillos entre bancos que quedan abiertos los cubre la holgura: ningún objetivo de la misión (punto de observación o aproximación a un cono) cae ahí.
+
+Con 0,60 los dos pasillos entre mesas quedan vistos al 100 % ya desde 0,95 de cobertura:
 
 | `coverage_target` | Puntos | Cobertura | Recorrido (m) |
 |---|---|---|---|
-| 0,97 | 10 | 97,7 % | 34,6 |
-| 0,98 (elegido) | 11 | 98,9 % | 35,7 |
-| 0,99 | 12 | 99,5 % | 38,7 |
+| 0,95 (elegido) | 10 | 96,2 % | 31,9 |
+| 0,97 | 11 | 97,4 % | 32,2 |
+
+Con 0,98 da lo mismo que con 0,97: el siguiente punto agregaría menos de 0,5 m².
 
 Plan elegido (`mission/config/real.yaml`), con los caminos del A* de `nav`:
 
 ![Puntos de observación sobre el aula](../../mission/artifacts/viewpoints_intento3.png)
 
-Lo que queda sin ver es la franja entre la fila de bancos y la pared de abajo, adonde el robot no llega, y bordes chicos.
+Lo que queda sin ver es un pasillo ancho entre bancos y la franja entre los bancos y la pared de abajo, adonde el robot no llega, y bordes chicos.
 
 En el primer punto, sin haber visto nada, la vuelta completa pide unas 9 direcciones. Después de mirarlas no queda ninguna.
 
@@ -122,10 +127,10 @@ PYTHONPATH=../slam:../nav:. python3 scripts/plot_viewpoints.py \
 ## Limitaciones
 
 - Visibilidad 2D en el plano del lidar: las patas que quedan fuera de los bloques siguen tapando de más.
-- Los bloques no distinguen una mesa de cualquier otro grupo de obstáculos cercanos, y debajo de ellos no se busca: un cono puesto debajo de una mesa o un banco no se buscaría.
+- Los bloques no distinguen una mesa de cualquier otro grupo de obstáculos cercanos, y debajo de ellos no se busca: un cono puesto debajo de una mesa, entre bancos o al fondo de un pasillo entre bancos no se buscaría ni se aproximaría.
 - Si el mapa no tiene exterior desconocido (un aula sin borde gris), todo obstáculo cuenta como mueble y el cierre puede tapar pasillos junto a las paredes.
 - La cámara se supone en el centro del robot.
-- El plan cuenta solo lo que se ve desde los puntos, no en el camino: un punto aislado, como el 5, muestra su propio disco ciego de 0,3 m en rojo. En la misión, `CoverageTracker` también registra lo visto en movimiento.
+- El plan cuenta solo lo que se ve desde los puntos, no en el camino: un punto aislado muestra su propio disco ciego de 0,3 m en rojo. En la misión, `CoverageTracker` también registra lo visto en movimiento.
 - Un cono justo sobre un punto de observación: como el robot solo avanza y gira, la cámara mira hacia el punto durante la aproximación y el detector, que corre también en movimiento, debería verlo antes de llegar. Si el cono mide más que la altura del lidar (18 cm), además lo frena la parada de seguridad de B. Si mide menos y el detector falla en ese tramo, el robot puede chocarlo. La máquina de estados tiene que interrumpir la exploración al detectar y saltear un punto que el navegador abandone. Probar en Gazebo con un cono sobre un punto.
 - Las distancias del recorrido no incluyen el costo de cercanía del A*: el camino real puede ser algo más largo.
 - `camera_fov` y `view_range` son supuestos: el campo de visión se confirma con `camera_info` en la visita 1 y el alcance con el detector sobre `bag_conos`.

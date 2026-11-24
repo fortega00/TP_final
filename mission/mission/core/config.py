@@ -107,10 +107,10 @@ class LocatorConfig:
     prior: float = 0.20
     confirm_probability: float = 0.97
     drop_probability: float = 0.05
-    # Pose de aproximación: entre approach_distance y approach_max_distance del
-    # cono, transitable, alcanzable y con línea de vista libre hasta el cono.
+    # Pose de aproximación: lo más cerca posible desde approach_distance, en
+    # anillos cada 15 cm, hasta approach_max_distance (ver approach_pose).
     approach_distance: float = 0.45
-    approach_max_distance: float = 0.90
+    approach_max_distance: float = 1.50
     approach_angles: int = 24
 
 

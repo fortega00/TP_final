@@ -161,8 +161,8 @@ class ApproachTests(unittest.TestCase):
         cone = (4.0, 2.5)
         goal = approach_pose(cone, Pose2D(1.0, 2.5, 0.0), costmap, reachable, self.config)
         distance = math.hypot(goal.x - cone[0], goal.y - cone[1])
-        self.assertGreaterEqual(distance, self.config.approach_distance - 0.01)
-        self.assertLessEqual(distance, self.config.approach_max_distance + 0.01)
+        # Con lugar libre alrededor, el anillo más cercano.
+        self.assertAlmostEqual(distance, self.config.approach_distance, places=2)
         self.assertLess(goal.x, cone[0])                       # del lado del robot
         self.assertAlmostEqual(math.atan2(cone[1] - goal.y, cone[0] - goal.x), goal.yaw)
         row, col = costmap.cell(goal.x, goal.y)
@@ -180,6 +180,19 @@ class ApproachTests(unittest.TestCase):
         # El A* del navegador de la etapa B llega por la puerta (y > 3,5), no por el hueco.
         path = plan(costmap, (2.0, 1.5), (goal.x, goal.y))
         self.assertGreater(max(y for _, y in path), 3.5)
+
+    def test_cone_in_a_narrow_aisle_is_approached_from_its_mouth(self):
+        # Pasillo de 0,8 m de ancho y 1,4 m de fondo (como entre dos bancos), con
+        # el cono adentro. Con la holgura de 0,5 m no se para adentro del pasillo.
+        grid = room(7.0, 6.0, walls=[(2.9, 0.4, 3.0, 1.8), (3.8, 0.4, 3.9, 1.8)])
+        costmap, reachable = self.plan(grid, (1.0, 4.5))
+        cone = (3.45, 1.0)
+        goal = approach_pose(cone, Pose2D(1.0, 4.5, 0.0), costmap, reachable, self.config, clearance=0.5)
+        self.assertGreater(goal.y, 1.8)                        # afuera del pasillo
+        self.assertLessEqual(math.hypot(goal.x - cone[0], goal.y - cone[1]), self.config.approach_max_distance + 0.01)
+        # Sin holgura se mete en el pasillo, a la distancia mínima.
+        inside = approach_pose(cone, Pose2D(1.0, 4.5, 0.0), costmap, reachable, self.config)
+        self.assertLess(inside.y, 1.8)
 
     def test_unreachable_cone(self):
         # Cono en una sala cerrada sin puerta.

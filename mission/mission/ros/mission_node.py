@@ -185,9 +185,10 @@ class MissionNode(Node):
             return False
         reachable = main_component(self.costmap.traversable, self.costmap.cell(*start))
         tracker = CoverageTracker(Visibility(self.grid, exploration), plan.coverable)
-        locator = self.config.locator
+        locator, clearance = self.config.locator, exploration.viewpoint_clearance
         self.mission = Mission(plan.viewpoints, tracker,
-                               lambda cone, pose: approach_pose(cone, pose, self.costmap, reachable, locator),
+                               lambda cone, pose: approach_pose(cone, pose, self.costmap, reachable, locator,
+                                                                clearance),
                                self.config.mission)
         self.viewpoints = plan.viewpoints
         self.get_logger().info(f'Exploration plan: {json.dumps(plan.summary())}')
