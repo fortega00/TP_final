@@ -150,6 +150,28 @@ class NavigatorTests(Base):
         self.assertLess(abs(wrap_angle(pose.yaw - goal.yaw)), limits.goal_tolerance_yaw)
         self.assertGreater(min(closest), self.config.planner.robot_radius)
 
+    def test_goal_on_the_robot_only_turns_in_place(self):
+        # Objetivo en la misma posición con otro ángulo: girar en el lugar. Antes
+        # pasaba por ALIGNING hacia un camino de largo cero, cuya dirección sale de
+        # milímetros de error, y el robot giraba hacia cualquier lado primero.
+        nav = self.navigator()
+        start = Pose2D(-2.0, -1.0, 0.0)
+        nav.update(0.0, start, "LOCALIZED", False)
+        nav.set_goal(Pose2D(-1.99, -1.01, math.pi / 2), 0.0)
+        states, turned = set(), [0.0]
+
+        def check(t, pose, v, w):
+            states.add(nav.state)
+            turned[0] += abs(w) * 0.05
+            self.assertEqual(v, 0.0)
+
+        pose, _ = simulate(nav, start, 30.0, on_step=check)
+        self.assertEqual(nav.state, State.IDLE)
+        self.assertNotIn(State.ALIGNING, states)
+        self.assertNotIn(State.FOLLOWING, states)
+        self.assertLess(abs(wrap_angle(pose.yaw - math.pi / 2)), self.config.follower.goal_tolerance_yaw)
+        self.assertLess(turned[0], math.pi / 2 + 0.2)        # un solo giro de 90 grados
+
     def test_goal_before_localization_is_stored(self):
         nav = self.navigator()
         nav.set_goal(Pose2D(-1.0, 0.0, 0.0), 0.0)
