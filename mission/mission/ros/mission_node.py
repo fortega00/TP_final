@@ -42,6 +42,11 @@ from ..core.throttle import PairedThrottle
 from .conversions import depth_in_meters, intrinsics_from_k, match_size, transform_matrix
 
 
+# Radio supuesto de un cono en la base (m): el de Gazebo. Confirmar con los conos
+# del aula en la visita 1.
+CONE_RADIUS = 0.10
+
+
 class MissionNode(Node):
     def __init__(self):
         super().__init__('mission')
@@ -57,6 +62,14 @@ class MissionNode(Node):
                 raise ValueError(f'{name} is required')
         self.config = MissionConfig.load_yaml(self.options['config_file'])
         nav_config = NavConfig.load_yaml(self.options['nav_config_file'])
+        # El borde del cono tiene que quedar fuera de la parada de seguridad del
+        # navegador; si no, el robot frena por el mismo cono antes de llegar.
+        cone_edge = self.config.locator.approach_distance - CONE_RADIUS
+        if cone_edge <= nav_config.navigator.stop_distance:
+            self.get_logger().warning(
+                f'locator.approach_distance ({self.config.locator.approach_distance} m) leaves the cone '
+                f'edge at {cone_edge:.2f} m, inside navigator.stop_distance '
+                f'({nav_config.navigator.stop_distance} m): the robot may stop before reaching it')
         # Mismo mapa y mismo mapa de costos que el navegador, con mesas y bancos detectados.
         original = load_map(self.options['map_file'], nav_config.sensor)
         self.grid, self.costmap = prepare_map(original, nav_config.planner, self.config.exploration)

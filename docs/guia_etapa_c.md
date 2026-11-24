@@ -31,7 +31,7 @@ Mundos generados por `mission/scripts/make_world.py` a partir del mapa del aula 
 |---|---|
 | `aula_conos` | Un cono rojo en el pasillo central y distractores naranja, azul y amarillo. Tiene que ir al rojo e ignorar el resto |
 | `aula_hueco` | Una pared extra con un hueco de 15 cm y el cono rojo detrás. Lo ve por el hueco y tiene que rodear por arriba a la izquierda |
-| `aula_punto` | Un cono rojo justo sobre un punto de observación. Tiene que verlo en el camino y frenar antes, sin chocarlo |
+| `aula_punto` | Un cono rojo sobre el camino entre los dos primeros puntos de observación. Tiene que verlo y aproximarse sin chocarlo. Con el cono justo sobre un punto no lo encontraba ([015](decisiones/015-maquina-de-estados-de-la-mision.md#decisiones-menores)) |
 
 El launch del curso hace aparecer al robot siempre en el origen del mundo. El origen del mapa del aula está a 15 cm de una pared, así que los mundos están corridos: el robot aparece en **(−0,8; 0) del mapa, mirando a +x**.
 
@@ -114,6 +114,7 @@ Si nunca lo encuentra termina en `EXHAUSTED`.
 |---|---|
 | Al entrar al contenedor: `Permission denied` en `/tmp/rosmaster-x11-...` y `no X cookie found`; Gazebo y RViz no abren ventanas | Después de reiniciar la PC, Docker vuelve a crear esa carpeta como `root`. En el host: `sudo chown "$USER:$USER" /tmp/rosmaster-x11-$(id -u)-yahboom_rosmaster` y volver a entrar. Para evitarlo: `mkdir -p` de esa carpeta antes de `container.sh start` |
 | El log de la misión dice `waiting for localization` y no avanza | Falta la pose inicial, o la localización no convergió: `ros2 topic echo /nav/state --once` |
+| El navegador dice `new initial pose` pero la localización nunca dice `Initial pose received`; RViz no muestra el robot | La pose inicial se mandó antes de que la localización estuviera escuchando. Mandarla de nuevo, siempre después de ver `Localization with 1000 particles ... waiting for /initialpose` |
 | `No camera pose` en el log | TF entre `map` y el frame de la imagen: `ros2 run tf2_ros tf2_echo map cam_1_depth_optical_frame` |
 | Los marcadores de los conos aparecen en lugares raros, lejos del cono real | El `frame_id` de la imagen no es el óptico (ver la comprobación de arriba) |
 | `/mission/debug_image` no muestra recuadros con el cono a la vista | Umbrales del detector (`detector:` en `sim.yaml`) o luz de Gazebo: traer una captura de esa imagen |

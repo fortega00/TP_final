@@ -82,7 +82,11 @@ locator:
   # en anillos cada 15 cm y approach_angles direcciones; hasta
   # approach_max_distance si no hay lugar más cerca (un cono entre bancos se
   # aproxima desde la boca del pasillo).
-  approach_distance: 0.45
+  # El borde del cono (10 cm de radio) tiene que quedar más lejos que la parada
+  # de seguridad del navegador (navigator.stop_distance: 0,40 m en cafe.yaml);
+  # si no, el robot frena por el mismo cono al llegar. En real.yaml la parada es
+  # de 0,25 m y alcanza con 0,45.
+  approach_distance: 0.60
   approach_max_distance: 1.50
   approach_angles: 24
 
