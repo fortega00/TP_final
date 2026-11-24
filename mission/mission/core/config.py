@@ -59,6 +59,26 @@ class ExplorationConfig:
     viewpoint_clearance: float = 0.0
 
 
+@dataclass(frozen=True)
+class MissionStateConfig:
+    """Máquina de estados de la misión (decisión 015). Tiempos en s, distancias en m."""
+    # Un objetivo cuenta como alcanzado si el navegador volvió a IDLE con el
+    # robot a menos de esto del objetivo (posición y ángulo).
+    reach_tolerance_xy: float = 0.30
+    reach_tolerance_yaw: float = 0.35
+    # Si el navegador sigue en IDLE este tiempo después de mandar un objetivo y
+    # el robot no está ahí, el objetivo se considera rechazado.
+    ack_timeout: float = 3.0
+    # Tiempo máximo para un objetivo, sin contar el tiempo con la localización perdida.
+    goal_timeout: float = 120.0
+    # Parado mirando un candidato, cuánto se espera a que se confirme como cono.
+    confirm_timeout: float = 4.0
+    # Intentos de llegar a un cono confirmado antes de darlo por inalcanzable.
+    approach_attempts: int = 2
+    # Un cono confirmado a menos de esto de uno inalcanzable es el mismo.
+    same_cone_distance: float = 0.50
+
+
 def _numbers(item, count) -> bool:
     """`item` es una lista o tupla de `count` números finitos."""
     return (isinstance(item, (tuple, list)) and len(item) == count
@@ -69,8 +89,16 @@ def _numbers(item, count) -> bool:
 @dataclass(frozen=True)
 class MissionConfig:
     exploration: ExplorationConfig = field(default_factory=ExplorationConfig)
+    mission: MissionStateConfig = field(default_factory=MissionStateConfig)
 
     def __post_init__(self):
+        m = self.mission
+        for f in fields(m):
+            value = getattr(m, f.name)
+            if not isinstance(value, (float, int)) or isinstance(value, bool) or not math.isfinite(value) or value <= 0:
+                raise ValueError(f"mission.{f.name} must be a positive number")
+        if not isinstance(m.approach_attempts, int):
+            raise ValueError("mission.approach_attempts must be an integer")
         e = self.exploration
         for f in fields(e):
             if f.name == "viewpoints":
@@ -99,7 +127,7 @@ class MissionConfig:
     def from_dict(cls, data: Mapping) -> "MissionConfig":
         if not isinstance(data, Mapping):
             raise ValueError("Configuration must be a mapping")
-        groups = {"exploration": ExplorationConfig}
+        groups = {"exploration": ExplorationConfig, "mission": MissionStateConfig}
         unknown = set(data) - set(groups)
         if unknown:
             raise ValueError(f"Unknown configuration groups: {sorted(unknown)}")

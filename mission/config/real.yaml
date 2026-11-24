@@ -31,3 +31,21 @@ exploration:
   clutter_max_hole: 2.0
   # No pararse a mirar a menos de esta distancia de un obstáculo (m).
   viewpoint_clearance: 0.50
+
+# Máquina de estados de la misión (decisión 015). Tiempos en s, distancias en m.
+mission:
+  # Un objetivo cuenta como alcanzado si el navegador volvió a IDLE con el
+  # robot a menos de esto (posición y ángulo).
+  reach_tolerance_xy: 0.30
+  reach_tolerance_yaw: 0.35
+  # Si el navegador sigue en IDLE este tiempo y el robot no llegó, el objetivo
+  # se considera rechazado.
+  ack_timeout: 3.0
+  # Tiempo máximo por objetivo, sin contar el tiempo con la localización perdida.
+  goal_timeout: 120.0
+  # Parado mirando un candidato rojo, cuánto se espera a que se confirme.
+  confirm_timeout: 4.0
+  # Intentos de llegar a un cono antes de darlo por inalcanzable.
+  approach_attempts: 2
+  # Dos conos a menos de esto son el mismo.
+  same_cone_distance: 0.50
