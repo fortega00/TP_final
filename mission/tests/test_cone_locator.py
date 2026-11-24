@@ -10,7 +10,7 @@ from nav.core.config import PlannerConfig
 from nav.core.map import free_cells
 from nav.core.planner import Costmap, plan
 
-from mission.core.cone_locator import (ConeTracker, Intrinsics, approach_pose, blob_depth,
+from mission.core.cone_locator import (ConeTracker, _best_on_ring, Intrinsics, approach_pose, blob_depth,
                                        camera_position_yaw, line_of_sight, measure)
 from mission.core.config import LocatorConfig, MissionConfig
 from mission.core.detector import Detection
@@ -193,6 +193,25 @@ class ApproachTests(unittest.TestCase):
         # Sin holgura se mete en el pasillo, a la distancia mínima.
         inside = approach_pose(cone, Pose2D(1.0, 4.5, 0.0), costmap, reachable, self.config)
         self.assertLess(inside.y, 1.8)
+
+    def test_cone_in_a_corner_without_clearance_is_still_approached(self):
+        # Pasillo sin salida de 0,9 m de ancho, con el cono al fondo, contra la
+        # esquina: ningún lugar tiene 0,5 m de holgura, como la esquina de arriba a
+        # la izquierda del aula en Gazebo (aula_lejos). Antes daba None y la
+        # misión abandonaba un cono al que se podía llegar.
+        grid = room(7.0, 5.0, walls=[(0.4, 3.5, 5.0, 3.6)])
+        costmap, reachable = self.plan(grid, (3.0, 2.0))
+        cone = (0.9, 4.1)
+        robot = Pose2D(3.0, 2.0, 0.0)
+        # Con la holgura exigida no hay ningún candidato en ningún anillo.
+        radii = np.arange(self.config.approach_distance, self.config.approach_max_distance + 1e-9, 0.15)
+        self.assertTrue(all(_best_on_ring(cone, r, robot, costmap, reachable, self.config, 0.5) is None
+                            for r in radii))
+        goal = approach_pose(cone, robot, costmap, reachable, self.config, clearance=0.5)
+        self.assertIsNotNone(goal)
+        self.assertGreater(goal.y, 3.6)                        # en el pasillo, frente al cono
+        row, col = costmap.cell(goal.x, goal.y)
+        self.assertTrue(reachable[row, col])
 
     def test_unreachable_cone(self):
         # Cono en una sala cerrada sin puerta.

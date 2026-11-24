@@ -40,8 +40,10 @@ Elegí B. El primer intento fue A y su test falló justo en el caso de la consig
 
 Primero los anillos iban hasta 0,9 m y se elegía el de camino más corto entre todos: podía quedar a 0,9 m teniendo lugar a 0,45 m. Al probar un cono dentro de un pasillo entre bancos, con la holgura no había ningún candidato a 0,9 m o menos.
 
+Si ningún candidato tiene la holgura, se busca de nuevo sin exigirla, con la misma regla de alcanzable y segmento libre. Corregido el 2026-11-24 en Gazebo (`aula_lejos`, `mission/artifacts/gazebo_20261124/aula_lejos/`): con el cono a unos 0,5 m de las dos paredes de una esquina, la misión lo confirmó tras recorrer el aula y lo abandonó en el mismo instante como inalcanzable, sin mandar objetivos. Sin ROS, con el mismo mapa: según dónde cae la estimación del cono por milímetros había uno o ningún candidato con 0,5 m de holgura. Una esquina no deja lugar lejos de las dos paredes, y el navegador igual llega a un lugar más justo porque su mapa de costos ya incluye la huella del robot.
+
 ## Datos
 
-20 tests en `mission/tests/test_cone_locator.py`. Con una cámara a 500 px de focal: un cono centrado a 2 m queda a 2 m adelante del robot, uno 100 px a la derecha queda 0,40 m a la derecha, y la posición sigue el ángulo del robot. Pared con un hueco de 15 cm y una puerta de 1 m: el cono se ve por el hueco, el punto de aproximación queda del lado del cono y el camino del A* de la etapa B pasa por la puerta. Un cono al fondo de un pasillo de 0,8 m se aproxima desde la boca del pasillo con holgura de 0,5 m, y desde adentro sin ella.
+21 tests en `mission/tests/test_cone_locator.py`. Con una cámara a 500 px de focal: un cono centrado a 2 m queda a 2 m adelante del robot, uno 100 px a la derecha queda 0,40 m a la derecha, y la posición sigue el ángulo del robot. Pared con un hueco de 15 cm y una puerta de 1 m: el cono se ve por el hueco, el punto de aproximación queda del lado del cono y el camino del A* de la etapa B pasa por la puerta. Un cono al fondo de un pasillo de 0,8 m se aproxima desde la boca del pasillo con holgura de 0,5 m, y desde adentro sin ella. Al fondo de un pasillo sin salida de 0,9 m, donde ningún lugar tiene esa holgura, se aproxima igual desde adentro.
 
 Pendiente: medir en `bag_conos` las tasas de acierto y falsa alarma y el tamaño de los conos, y el error de posición del cono contra una medida con cinta.

@@ -229,11 +229,17 @@ def approach_pose(cone, pose: Pose2D, costmap: Costmap, reachable: np.ndarray, c
     (`open_segment`). Se usa el anillo más cercano al cono que tenga alguno, y
     en él el de camino más corto desde el robot: un cono en un pasillo angosto
     se aproxima desde la boca del pasillo. El ángulo mira al cono.
+
+    Si ningún candidato tiene esa holgura, se busca de nuevo sin exigirla: en
+    una esquina no queda lugar a `clearance` de las dos paredes, y es preferible
+    acercarse por un lugar más justo, al que el navegador igual puede llegar,
+    antes que abandonar el cono.
     """
-    for radius in np.arange(config.approach_distance, config.approach_max_distance + 1e-9, 0.15):
-        goal = _best_on_ring(cone, radius, pose, costmap, reachable, config, clearance)
-        if goal is not None:
-            return goal
+    for required in dict.fromkeys((clearance, 0.0)):
+        for radius in np.arange(config.approach_distance, config.approach_max_distance + 1e-9, 0.15):
+            goal = _best_on_ring(cone, radius, pose, costmap, reachable, config, required)
+            if goal is not None:
+                return goal
     return None
 
 
