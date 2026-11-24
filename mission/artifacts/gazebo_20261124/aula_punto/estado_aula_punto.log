@@ -1,0 +1,368 @@
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.011, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.012, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.013, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.015, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.017, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.019, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.021, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.022, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.024, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.026, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.028, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.03, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.032, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.034, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.035, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.036, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.037, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.037, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.038, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.039, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.04, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.041, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.042, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.043, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.044, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.045, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "EXPLORE", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.046, "cones": [], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE"]}
+---
+{"state": "CONFIRM", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.046, "cones": [{"x": -1.19, "y": -1.88, "p": 0.778}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM"]}
+---
+{"state": "CONFIRM", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.047, "cones": [{"x": -1.19, "y": -1.88, "p": 0.778}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.047, "cones": [{"x": -1.19, "y": -1.89, "p": 0.98}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.047, "cones": [{"x": -1.19, "y": -1.89, "p": 0.98}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.048, "cones": [{"x": -1.19, "y": -1.89, "p": 0.98}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.048, "cones": [{"x": -1.19, "y": -1.9, "p": 0.999}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.048, "cones": [{"x": -1.19, "y": -1.9, "p": 0.999}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.049, "cones": [{"x": -1.19, "y": -1.9, "p": 0.999}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "ALIGNING", "viewpoints_left": 21, "seen": 0.049, "cones": [{"x": -1.19, "y": -1.9, "p": 0.999}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.049, "cones": [{"x": -1.19, "y": -1.9, "p": 0.999}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.05, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.051, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.052, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.053, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.054, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.055, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.055, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.056, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.057, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.058, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.059, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.06, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.061, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.061, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.062, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.063, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.063, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.064, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.064, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.065, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.065, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.066, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.066, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.066, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.066, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.067, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.067, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.067, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FOLLOWING", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.9, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.068, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "APPROACH", "nav_state": "FINAL_ALIGN", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["WAIT_LOCALIZATION -> EXPLORE", "red candidate at (-1.19, -1.88), stopping to look", "EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
+{"state": "DONE", "nav_state": "IDLE", "viewpoints_left": 21, "seen": 0.069, "cones": [{"x": -1.19, "y": -1.91, "p": 1.0}], "unreachable": [], "events": ["EXPLORE -> CONFIRM", "cone confirmed at (-1.19, -1.89)", "CONFIRM -> APPROACH", "reached the cone at (-1.19, -1.89)", "APPROACH -> DONE"]}
+---
