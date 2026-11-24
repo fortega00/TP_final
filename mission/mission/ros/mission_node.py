@@ -19,7 +19,6 @@ import cv2
 import rclpy
 from cv_bridge import CvBridge
 from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
-from rclpy.duration import Duration
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy, qos_profile_sensor_data
 from rclpy.time import Time
@@ -106,12 +105,12 @@ class MissionNode(Node):
         self.intrinsics = intrinsics_from_k(message.k, message.width)
 
     def on_color(self, message):
-        self.handle(self.throttle.on_primary(seconds(message.header.stamp), message))
+        self.pair_frames(self.throttle.on_primary(seconds(message.header.stamp), message))
 
     def on_depth(self, message):
-        self.handle(self.throttle.on_secondary(seconds(message.header.stamp), message))
+        self.pair_frames(self.throttle.on_secondary(seconds(message.header.stamp), message))
 
-    def handle(self, items):
+    def pair_frames(self, items):
         """Junta cada color que pasó el limitador con su profundidad y procesa el par."""
         for kind, message in items:
             if kind == 'primary':
@@ -124,12 +123,8 @@ class MissionNode(Node):
         """Detectar, ubicar en el mapa y actualizar el filtro de Bayes con un par de imágenes."""
         if self.intrinsics is None or self.mission is None or self.nav_state in NAV_NOT_READY:
             return
-        try:
-            transform = self.tf_buffer.lookup_transform(
-                self.options['map_frame'], color.header.frame_id, Time.from_msg(color.header.stamp),
-                timeout=Duration(seconds=0.1))
-        except TransformException as exc:
-            self.get_logger().warning(f'No camera pose: {exc}', throttle_duration_sec=5.0)
+        transform = self.camera_transform(color)
+        if transform is None:
             return
         t = transform.transform
         map_T_camera = transform_matrix((t.translation.x, t.translation.y, t.translation.z),
@@ -152,6 +147,34 @@ class MissionNode(Node):
             debug = self.bridge.cv2_to_imgmsg(image, encoding='bgr8')
             debug.header = color.header
             self.debug_pub.publish(debug)
+
+    # Diferencia máxima entre la foto y la pose de la cámara que se usa (s). A
+    # 0,2 m/s son 4 cm.
+    MAX_TF_AGE = 0.2
+
+    def camera_transform(self, color):
+        """Pose de la cámara en el mapa al sacar la foto, o None.
+
+        La foto puede llegar unos milisegundos antes que el TF de ese instante.
+        En ese caso se usa la última pose conocida si es de menos de
+        MAX_TF_AGE antes de la foto, en lugar de descartarla.
+        """
+        frames = (self.options['map_frame'], color.header.frame_id)
+        try:
+            return self.tf_buffer.lookup_transform(*frames, Time.from_msg(color.header.stamp))
+        except TransformException:
+            pass
+        try:
+            latest = self.tf_buffer.lookup_transform(*frames, Time())
+        except TransformException as exc:
+            self.get_logger().warning(f'No camera pose: {exc}', throttle_duration_sec=5.0)
+            return None
+        age = seconds(color.header.stamp) - seconds(latest.header.stamp)
+        if abs(age) > self.MAX_TF_AGE:
+            self.get_logger().warning(f'No camera pose within {self.MAX_TF_AGE} s of the image '
+                                      f'({age:.3f} s)', throttle_duration_sec=5.0)
+            return None
+        return latest
 
     # ----- Lazo -----
 
