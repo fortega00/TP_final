@@ -187,7 +187,7 @@ class ConeFlowTests(unittest.TestCase):
         candidate_at = lambda now, m: cone if now >= 1.0 else None
         cone_at = lambda now, m: cone if m.state == State.CONFIRM and now >= 3.0 else None
         nav = FakeNavigator()
-        goals = run(self.mission, nav, candidate_at=candidate_at, cone_at=cone_at)
+        run(self.mission, nav, candidate_at=candidate_at, cone_at=cone_at)
         self.assertEqual(self.mission.state, State.DONE)
         self.assertLess(math.hypot(nav.pose.x - cone[0], nav.pose.y - cone[1]), 0.45)
         # Antes de acercarse frenó a mirarlo: un objetivo en el lugar, apuntando al cono.
@@ -196,7 +196,7 @@ class ConeFlowTests(unittest.TestCase):
 
     def test_unconfirmed_candidate_resumes_exploration(self):
         candidate_at = lambda now, m: (4.0, 3.0) if 1.0 <= now < 1.6 else None
-        goals = run(self.mission, FakeNavigator(), candidate_at=candidate_at)
+        run(self.mission, FakeNavigator(), candidate_at=candidate_at)
         self.assertEqual(self.mission.state, State.EXHAUSTED)
         self.assertTrue(any("not confirmed" in text for _, text in self.mission.events))
         self.assertEqual(self.mission.dismissed, [(4.0, 3.0)])

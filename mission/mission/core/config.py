@@ -85,6 +85,36 @@ class DetectorConfig:
 
 
 @dataclass(frozen=True)
+class LocatorConfig:
+    """Ubicación, confirmación y aproximación a un cono (decisión 017). Distancias en m."""
+    # Profundidad válida de la cámara. Fuera de este rango no se ubica el cono.
+    min_depth: float = 0.30
+    max_depth: float = 4.0
+    # Tamaño real aceptado de un cono (ancho y alto de la mancha, en m). Supuestos
+    # hasta medir los conos del aula en la visita 1.
+    width_min: float = 0.08
+    width_max: float = 0.50
+    height_min: float = 0.10
+    height_max: float = 0.70
+    # Dos detecciones a menos de esto son el mismo cono.
+    associate_distance: float = 0.40
+    # Filtro de Bayes binario: probabilidad de que el detector vea un cono que
+    # está en su campo de visión, y de que vea uno donde no hay. Se miden en bag_conos.
+    hit_rate: float = 0.70
+    false_alarm_rate: float = 0.05
+    # Probabilidad inicial de que una detección nueva sea un cono, umbral para
+    # confirmarlo y umbral para olvidarlo.
+    prior: float = 0.20
+    confirm_probability: float = 0.97
+    drop_probability: float = 0.05
+    # Pose de aproximación: entre approach_distance y approach_max_distance del
+    # cono, transitable, alcanzable y con línea de vista libre hasta el cono.
+    approach_distance: float = 0.45
+    approach_max_distance: float = 0.90
+    approach_angles: int = 24
+
+
+@dataclass(frozen=True)
 class MissionStateConfig:
     """Máquina de estados de la misión (decisión 015). Tiempos en s, distancias en m."""
     # Un objetivo cuenta como alcanzado si el navegador volvió a IDLE con el
@@ -115,9 +145,28 @@ def _numbers(item, count) -> bool:
 class MissionConfig:
     exploration: ExplorationConfig = field(default_factory=ExplorationConfig)
     detector: DetectorConfig = field(default_factory=DetectorConfig)
+    locator: LocatorConfig = field(default_factory=LocatorConfig)
     mission: MissionStateConfig = field(default_factory=MissionStateConfig)
 
     def __post_init__(self):
+        loc = self.locator
+        for f in fields(loc):
+            value = getattr(loc, f.name)
+            if not isinstance(value, (float, int)) or isinstance(value, bool) or not math.isfinite(value) or value <= 0:
+                raise ValueError(f"locator.{f.name} must be a positive number")
+        for low, high in (("min_depth", "max_depth"), ("width_min", "width_max"),
+                          ("height_min", "height_max"), ("approach_distance", "approach_max_distance")):
+            if getattr(loc, low) >= getattr(loc, high):
+                raise ValueError(f"locator.{low} must be smaller than locator.{high}")
+        for name in ("hit_rate", "false_alarm_rate", "prior", "confirm_probability", "drop_probability"):
+            if not getattr(loc, name) < 1:
+                raise ValueError(f"locator.{name} must be in (0, 1)")
+        if loc.false_alarm_rate >= loc.hit_rate:
+            raise ValueError("locator.false_alarm_rate must be smaller than locator.hit_rate")
+        if not loc.drop_probability < loc.prior < loc.confirm_probability:
+            raise ValueError("Require locator.drop_probability < locator.prior < locator.confirm_probability")
+        if not isinstance(loc.approach_angles, int) or loc.approach_angles < 4:
+            raise ValueError("locator.approach_angles must be an integer of at least 4")
         d = self.detector
         for name in ("hue_low_max", "hue_high_min", "sat_min", "val_min", "kernel", "min_area"):
             value = getattr(d, name)
@@ -172,7 +221,8 @@ class MissionConfig:
     def from_dict(cls, data: Mapping) -> "MissionConfig":
         if not isinstance(data, Mapping):
             raise ValueError("Configuration must be a mapping")
-        groups = {"exploration": ExplorationConfig, "detector": DetectorConfig, "mission": MissionStateConfig}
+        groups = {"exploration": ExplorationConfig, "detector": DetectorConfig,
+                  "locator": LocatorConfig, "mission": MissionStateConfig}
         unknown = set(data) - set(groups)
         if unknown:
             raise ValueError(f"Unknown configuration groups: {sorted(unknown)}")

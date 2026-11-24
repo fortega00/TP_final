@@ -52,6 +52,33 @@ detector:
   # Ancho arriba / ancho abajo: un cono se angosta.
   taper_max: 0.85
 
+# Ubicación, confirmación y aproximación a un cono (decisión 017). Metros.
+locator:
+  # Profundidad válida de la cámara.
+  min_depth: 0.30
+  max_depth: 4.0
+  # Tamaño real aceptado de un cono. Supuestos hasta medir los conos del aula.
+  width_min: 0.08
+  width_max: 0.50
+  height_min: 0.10
+  height_max: 0.70
+  # Dos detecciones a menos de esto son el mismo cono.
+  associate_distance: 0.40
+  # Filtro de Bayes binario: P(detectar | hay cono a la vista) y
+  # P(detectar | no hay cono). Supuestos hasta medirlos en bag_conos.
+  hit_rate: 0.70
+  false_alarm_rate: 0.05
+  # Probabilidad inicial, de confirmación y de olvido. Con estos valores
+  # confirman dos detecciones seguidas en el mismo lugar.
+  prior: 0.20
+  confirm_probability: 0.97
+  drop_probability: 0.05
+  # Dónde pararse frente al cono: entre estas distancias, en approach_angles
+  # direcciones alrededor.
+  approach_distance: 0.45
+  approach_max_distance: 0.90
+  approach_angles: 24
+
 # Máquina de estados de la misión (decisión 015). Tiempos en s, distancias en m.
 mission:
   # Un objetivo cuenta como alcanzado si el navegador volvió a IDLE con el
