@@ -43,7 +43,7 @@ Como el navegador no tiene "cancelar", todo se hace con objetivos:
 - **Frenar ante un candidato** en lugar de confirmarlo en marcha: el robot puede estar girando y perderlo de vista, y la ubicación del cono es más precisa con el robot quieto.
 - **Candidatos descartados.** Un candidato que no se confirmó no vuelve a frenar al robot si aparece en el mismo lugar (a menos de 0,5 m). Sin esto, un objeto rojo que no es un cono lo frenaría cada vez que lo ve.
 - **Cono inalcanzable.** Si no hay pose de aproximación o el navegador falla dos veces, el cono se anota y se sigue explorando. Es el caso del cono visto por un hueco sin paso.
-- **Cono sobre un punto de observación.** El robot solo avanza y gira, así que la cámara mira hacia el punto al acercarse y el candidato interrumpe antes de llegar. Hay un test con este caso.
+- **Cono sobre un punto de observación.** No choca: el lidar marca el cono como obstáculo nuevo, el navegador no encuentra camino a un objetivo ocupado y lo abandona a los 15 s, y la misión saltea el punto. Pero solo lo encuentra si la cámara lo ubica desde otro lugar. En Gazebo, con el cono sobre el segundo punto, desde el primero quedaba a 2,07 m, fuera de la profundidad simulada (1,4 m), y la misión siguió sin verlo (`mission/artifacts/gazebo_20261124/aula_punto_cono_en_punto/`). Con el alcance de 3 m del perfil real esa distancia entraría, sin medir todavía en el aula. No se agregó otro manejo: si en el aula pasa, buscar un punto libre cercano al que quedó bloqueado. El test de este caso usa un navegador simulado que no ve el cono como obstáculo, así que no cubre el bloqueo.
 - **Un solo cono.** La misión termina en el primer cono alcanzado (decisión 7 del plan de la etapa C).
 
 ## Datos
