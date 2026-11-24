@@ -21,6 +21,8 @@ MAP_DIR = REPO / 'sesiones/20261116/mapa/intento3_corregido'
 OUTPUT = REPO / 'informe/figuras/medidas_aula.png'
 FREE = 254
 WALL_CELLS = 3
+# fotos: nombre, dónde pararse, hacia dónde apuntar
+PHOTOS = [('F1', (-10.9, -2.8), (-8.9, -0.9)), ('F2', (-2.3, 7.1), (-4.3, 5.2 + 1.0))]
 # posición de cada etiqueta a lo largo de su flecha, para que no se tapen
 LABEL_AT = {'W1': 0.6, 'W2': 0.6, 'W3': 0.5, 'H1': 0.55, 'H2': 0.83, 'H3': 0.8, 'C': 0.5}
 
@@ -98,11 +100,17 @@ def main():
     ax.plot(0, 0, marker='*', ms=22, color='#E69F00', mec='black')
     ax.text(-0.25, 0.0, 'partida', fontsize=13, ha='right', va='center',
             bbox=dict(boxstyle='round,pad=0.2', fc='white', ec='black'))
+    # desde dónde sacar las fotos del aula: posición y hacia dónde apuntar
+    for name, spot, target in PHOTOS:
+        ax.annotate('', xy=target, xytext=spot,
+                    arrowprops=dict(arrowstyle='-|>', color='#CC79A7', lw=3, mutation_scale=28))
+        ax.text(*spot, name, color='white', fontsize=15, fontweight='bold', ha='center', va='center',
+                bbox=dict(boxstyle='circle,pad=0.35', fc='#CC79A7', ec='black'))
     ax.set_xlabel('x [m]', fontsize=14)
     ax.set_ylabel('y [m]', fontsize=14)
     ax.tick_params(labelsize=12)
     ax.set_title('Distancias a medir con cinta, entre caras internas de pared\n'
-                 '(el valor es lo que mide el mapa)', fontsize=15)
+                 '(el valor es lo que mide el mapa). F1 y F2: fotos', fontsize=15)
     fig.savefig(OUTPUT, dpi=130, bbox_inches='tight')
 
 
