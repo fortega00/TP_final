@@ -57,11 +57,15 @@ detector:
 
 # Ubicación, confirmación y aproximación a un cono (decisión 017). Metros.
 locator:
-  # Profundidad válida de la cámara.
-  min_depth: 0.30
+  # Profundidad válida de la cámara. Según la cátedra, la del robot no mide a
+  # menos de unos 0,6 m. Con 0,30, en bag_conos_2 un cono confirmado se descartó
+  # al acercarse el robot: sin profundidad, cada imagen contaba como "no lo vi".
+  min_depth: 0.60
   max_depth: 4.0
-  # Tamaño real aceptado de un cono. Supuestos hasta medir los conos del aula.
-  width_min: 0.08
+  # Tamaño real aceptado de un cono. En bag_conos_2 el cono del aula mide 0,10 x
+  # 0,28 m de cerca, pero de lejos la máscara pierde la punta y mide menos: 0,08
+  # de ancho a 2,5 m. Con width_min 0,08 se descartaba desde unos 1,5 m.
+  width_min: 0.05
   width_max: 0.50
   height_min: 0.10
   height_max: 0.70

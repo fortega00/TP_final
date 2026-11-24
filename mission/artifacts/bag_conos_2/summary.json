@@ -1,0 +1,119 @@
+{
+  "images": 590,
+  "images_without_depth_pair": 1,
+  "images_without_odometry": 0,
+  "images_with_detection": 239,
+  "detections": 260,
+  "detections_by_status": {
+    "located": 214,
+    "no_depth": 34,
+    "size": 12
+  },
+  "camera": {
+    "width": 320,
+    "fx": 272.34,
+    "horizontal_fov_rad": 1.062,
+    "base_T_camera_xyz_m": [
+      0.055,
+      0.025,
+      0.109
+    ]
+  },
+  "locator": {
+    "min_depth": 0.6,
+    "max_depth": 4.0,
+    "width_min": 0.05,
+    "width_max": 0.5,
+    "height_min": 0.1,
+    "height_max": 0.7,
+    "associate_distance": 0.4,
+    "confirm_probability": 0.97
+  },
+  "tracks": [
+    {
+      "x": -0.909,
+      "y": -1.542,
+      "hits": 90,
+      "probability": 1.0,
+      "max_probability": 1.0,
+      "dropped_at_image": null,
+      "measurements": 90,
+      "spread_median_m": 0.02,
+      "spread_p95_m": 0.046,
+      "distance_range_m": [
+        0.65,
+        1.4
+      ],
+      "width_median_m": 0.098,
+      "height_median_m": 0.276
+    },
+    {
+      "x": 1.748,
+      "y": -1.544,
+      "hits": 63,
+      "probability": 1.0,
+      "max_probability": 1.0,
+      "dropped_at_image": null,
+      "measurements": 65,
+      "spread_median_m": 0.055,
+      "spread_p95_m": 0.323,
+      "distance_range_m": [
+        0.61,
+        2.74
+      ],
+      "width_median_m": 0.092,
+      "height_median_m": 0.273
+    },
+    {
+      "x": 1.096,
+      "y": -0.72,
+      "hits": 52,
+      "probability": 1.0,
+      "max_probability": 1.0,
+      "dropped_at_image": null,
+      "measurements": 53,
+      "spread_median_m": 0.027,
+      "spread_p95_m": 0.04,
+      "distance_range_m": [
+        0.6,
+        1.62
+      ],
+      "width_median_m": 0.104,
+      "height_median_m": 0.282
+    },
+    {
+      "x": 2.09,
+      "y": -1.767,
+      "hits": 5,
+      "probability": 0.029,
+      "max_probability": 1.0,
+      "dropped_at_image": 342,
+      "measurements": 13,
+      "spread_median_m": 0.146,
+      "spread_p95_m": 0.237,
+      "distance_range_m": [
+        0.74,
+        2.74
+      ],
+      "width_median_m": 0.13,
+      "height_median_m": 0.383
+    },
+    {
+      "x": -1.569,
+      "y": -1.53,
+      "hits": 2,
+      "probability": 0.046,
+      "max_probability": 0.98,
+      "dropped_at_image": 520,
+      "measurements": 2,
+      "spread_median_m": 0.041,
+      "spread_p95_m": 0.041,
+      "distance_range_m": [
+        1.55,
+        1.74
+      ],
+      "width_median_m": 0.15,
+      "height_median_m": 0.45
+    }
+  ]
+}

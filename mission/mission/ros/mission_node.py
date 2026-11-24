@@ -42,8 +42,8 @@ from ..core.throttle import PairedThrottle
 from .conversions import depth_in_meters, intrinsics_from_k, match_size, transform_matrix
 
 
-# Radio supuesto de un cono en la base (m): el de Gazebo. Confirmar con los conos
-# del aula en la visita 1.
+# Radio de un cono en la base (m), con margen. El del aula, medido con cinta: lámina
+# de 0,14 m en el piso y cuerpo de 0,10 m abajo (radio 0,07). El de Gazebo: 0,10.
 CONE_RADIUS = 0.10
 
 

@@ -17,6 +17,18 @@ docker run --rm -e PYTHONDONTWRITEBYTECODE=1 -v "$PWD":/ws:ro -w /ws/mission yah
   bash -c 'PYTHONPATH=../slam:../nav:. python3 -m unittest discover -s tests'
 ```
 
+## Probar la visión sobre un bag del robot
+
+`mission/scripts/check_bag.py` pasa las imágenes de un bag grabado con el limitador de la cámara (`/mission/cam/...`, `/odom`, `/tf_static`) por el detector, la medición con profundidad y el filtro de Bayes, sin navegación. Deja en `--output` un resumen, el gráfico de los conos medidos sobre el recorrido y muestras con los recuadros. Necesita ROS para leer el bag. Desde la raíz del repo, con el bag fuera del repo:
+
+```bash
+docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD":/ws -v ~/ruta/bag_conos_2:/bag:ro -w /ws/mission \
+  yahboom_rosmaster:latest bash -c 'source /opt/ros/humble/setup.bash && \
+  PYTHONPATH=../slam:../nav:.:$PYTHONPATH python3 scripts/check_bag.py /bag --output /tmp/check && cat /tmp/check/summary.json'
+```
+
+Para guardar las salidas, cambiar `--output` a una carpeta dentro de `/ws`. Resultados de `bag_conos_2` en la [decisión 017](decisiones/017-ubicacion-y-confirmacion-del-cono.md#cámara-del-robot-bag_conos_2-2026-11-24).
+
 ## Gazebo
 
 ### Diferencias con el robot real
