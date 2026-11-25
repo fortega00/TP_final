@@ -109,7 +109,7 @@ def figure_plan(original, grid, nav_costmap, plan):
 def parse_run(log_path):
     """Paradas del robot, punto salteado, cono y objetivo de aproximación según el log de la misión."""
     goal = re.compile(r'\[navigator\]: goal \((-?[\d.]+), (-?[\d.]+), (-?[\d.]+) deg\)')
-    events = {'stops': [], 'dropped': [], 'cone': None, 'approach': None, 'candidate': None}
+    events = {'stops': [], 'skipped': [], 'cone': None, 'approach': None, 'candidate': None}
     last_goal = None
     for line in log_path.read_text(errors='replace').splitlines():
         m = goal.search(line)
@@ -117,8 +117,11 @@ def parse_run(log_path):
             last_goal = (float(m.group(1)), float(m.group(2)))
         elif '[navigator]: goal reached' in line and last_goal is not None:
             events['stops'].append(last_goal)
-        elif 'goal dropped' in line and last_goal is not None:
-            events['dropped'].append(last_goal)
+        elif 'not reached, skipped' in line:
+            # Solo los puntos que la misión salteó. Si el navegador abandona un objetivo
+            # pero el robot quedó dentro de la tolerancia, la misión lo da por alcanzado.
+            x, y = re.search(r'viewpoint \((-?[\d.]+), (-?[\d.]+)\)', line).groups()
+            events['skipped'].append((float(x), float(y)))
         elif 'red candidate at' in line:
             x, y = re.search(r'at \((-?[\d.]+), (-?[\d.]+)\)', line).groups()
             events['candidate'] = (float(x), float(y))
@@ -151,7 +154,7 @@ def figure_runs(original, grid, nav_costmap, plan):
             ax.plot(segment[:, 0], segment[:, 1], '-', color=BLUE, lw=1.6, alpha=0.8)
         stops = np.array(stops)
         ax.plot(stops[:, 0], stops[:, 1], 'o', color=BLUE, markersize=5)
-        for x, y in run['dropped']:
+        for x, y in run['skipped']:
             ax.plot(x, y, 'X', color=VERMILION, markersize=14, markeredgecolor='black', zorder=6)
         ax.plot(*run['cone'], '^', color=VERMILION, markersize=16, markeredgecolor='black', zorder=6)
         ax.plot(*run['approach'], 's', color=GREEN, markersize=11, markeredgecolor='black', zorder=6)
@@ -160,7 +163,7 @@ def figure_runs(original, grid, nav_costmap, plan):
                plt.Line2D([], [], color=BLUE, marker='o', lw=1.6, markersize=5,
                           label='paradas y camino del A* entre ellas'),
                plt.Line2D([], [], color=VERMILION, marker='X', ls='', markersize=12, markeredgecolor='black',
-                          label='objetivo abandonado (BLOCKED 15 s)'),
+                          label='punto de observación salteado'),
                plt.Line2D([], [], color=VERMILION, marker='^', ls='', markersize=13, markeredgecolor='black',
                           label='cono confirmado (posición estimada)'),
                plt.Line2D([], [], color=GREEN, marker='s', ls='', markersize=10, markeredgecolor='black',
