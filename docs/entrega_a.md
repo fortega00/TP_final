@@ -21,7 +21,6 @@ La consigna de la parte A no pide video. El formato de entrega (un zip, el repos
 ## Pendiente
 
 - Medir con cinta las ocho paredes marcadas en `informe/figuras/medidas_aula.png` y sacar las dos fotos, para comparar el mapa con el laboratorio real.
-- Decidir qué perfil se entrega para el robot real. El mapa final se generó con 8 partículas y `sample_xy` 0,01 (`sesiones/20261116/mapa/intento3_corregido/config.yaml`), y el informe dice 8. El perfil `slam/config/parcial_bag_scan_match.yaml`, que es el que indica la guía, tiene 16 partículas y `sample_xy` 0,005 (decisión 013). Sobre el bag del laboratorio los dos dan el mismo resultado (11,7 contra 11,9 cm de cierre, mediana de 6 semillas) y el de 16 cuesta el doble.
 - Revisión del informe por los tres integrantes.
 
 ## Cómo se obtuvieron los números del informe

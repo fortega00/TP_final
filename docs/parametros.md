@@ -7,13 +7,11 @@ La selección no cambia `default.yaml` ni los perfiles del robot/bag real.
 Todavía faltan múltiples semillas y validación ROS1×. Para reproducir los
 tiempos medidos usar el backend Numba con las versiones de la guía.
 
-Perfil de trabajo real/bag adoptado posteriormente el 18/11: **E16** en
-`config/parcial_bag_scan_match.yaml`, con `filter.particles: 16`,
-`scan_match.prior_xy: 0.05` y `scan_match.sample_xy: 0.005`.
-Mejora modestamente la consistencia del replay frente al perfil de ocho
-partículas usado el 16/11; requiere más cómputo. Elección, métricas y límites
-en [la decisión 013](decisiones/013-perfil-real-e16.md). El backend medido es
-Numba; el YAML no lo activa. Faltan otras semillas y validación ROS1×.
+Perfil de trabajo real/bag: `config/parcial_bag_scan_match.yaml`, con
+`filter.particles: 8`, `scan_match.prior_xy: 0.05` y `scan_match.sample_xy: 0.01`.
+Es la configuración que generó el mapa final del laboratorio. El 18/11 se había
+adoptado E16 (16 partículas, `sample_xy` 0,005); con 6 semillas no mejora nada
+medible y cuesta el doble, ver [la decisión 014](decisiones/014-perfil-real-8-particulas.md).
 Estos resultados preceden la corrección de integración por tiempo: el YAML
 actual usa solo movimiento y omite `max_interval`. No se trasladan los tiempos
 ni la calidad medidos a esa compuerta sin una nueva evaluación.
