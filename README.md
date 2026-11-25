@@ -64,7 +64,7 @@ ros2 launch slam slam.launch.py mode:=toy
 - [Decisiones](docs/decisiones/): alternativas y datos de cada decisión de diseño.
 - [Guía de laboratorio](docs/robot_real_checklist.md): qué hacer en cada una de las dos visitas que quedan, en orden y con el motivo de cada paso.
 - [macOS](docs/macos.md): cómo correr el núcleo y el nodo ROS en Mac.
-- [Informe de la etapa A](docs/entrega_a.md) y [experimentos](docs/experimentos_a.md).
+- [Informe](informe/README.md), [entregables de la etapa A](docs/entrega_a.md) y [experimentos](docs/experimentos_a.md).
 - [Informe de la etapa B](docs/entrega_b.md), borrador.
 - [Validación](docs/validacion.md): qué está probado y qué no.
 - [AGENTS.md](AGENTS.md): contexto y convenciones para herramientas de IA.

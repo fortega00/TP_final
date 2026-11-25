@@ -45,7 +45,11 @@ Hace falta solo para cambiar una figura o un número. No usa ROS. Desde la raíz
 
 ```bash
 PYTHONPATH=slam python informe/scripts/experimentos_a.py    # unos 30 minutos, 6 procesos
-python informe/scripts/analisis_a.py                        # escribe datos/resumen_a.csv
+PYTHONPATH=slam python informe/scripts/experimentos_a.py --workers 1 --seeds 7 \
+  --output informe/datos/tiempos_a                          # tiempos, una corrida por vez
+python informe/scripts/analisis_a.py                        # escribe datos/resumen_a.csv y tiempos_a.csv
+python informe/scripts/etapas_a.py                          # error en simulación y en el bag del Parcial
+PYTHONPATH=slam:nav python informe/scripts/localizacion_a.py  # localización de la parte B sobre el mapa final
 PYTHONPATH=slam:nav python informe/scripts/figuras_a.py     # escribe figuras/a_*.png
 python informe/scripts/medidas_aula.py                      # plano de medidas con cinta
 ```

@@ -139,7 +139,9 @@ def write_timings():
 
 def main():
     write_timings()
-    rows = [summarize(folder) for folder in sorted(RUNS.iterdir()) if any(folder.glob('seed_*/run.json'))]
+    # las etapas con referencia propia (etapa_*) no son recorridos cerrados: las puntúa etapas_a.py
+    rows = [summarize(folder) for folder in sorted(RUNS.iterdir())
+            if any(folder.glob('seed_*/run.json')) and not folder.name.startswith('etapa_')]
     with OUTPUT.open('w', newline='') as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator='\n')
         writer.writeheader()

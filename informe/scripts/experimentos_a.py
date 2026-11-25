@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Corre el núcleo de SLAM sobre los bags del aula con distintas configuraciones.
+"""Corre el núcleo de SLAM sobre los bags del laboratorio con distintas configuraciones.
 
 Cada experimento cambia una sola cosa respecto de la configuración base (la que
 generó el mapa elegido, `sesiones/20261116/mapa/intento3_corregido`) y se repite con
@@ -63,6 +63,9 @@ EXPERIMENTS = {
     # el otro recorrido
     'recorrido_1': ('bag_mapa', 1, {}),
     'recorrido_1_e16': ('bag_mapa', 1, {'filter.particles': 16, 'scan_match.sample_xy': 0.005}),
+    # las otras dos etapas del workflow, con la misma configuración (las puntúa etapas_a.py)
+    'etapa_cafe': ('cafe_sim', 1, {}),
+    'etapa_parcial': ('bag_parcial', 1, {}),
 }
 
 

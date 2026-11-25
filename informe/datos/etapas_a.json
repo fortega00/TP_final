@@ -1,0 +1,86 @@
+[
+ {
+  "etapa": "etapa_cafe",
+  "semilla": 1,
+  "slam_cm": 7.096153260688104,
+  "odometria_cm": 666.9024121168753,
+  "integrados": 556
+ },
+ {
+  "etapa": "etapa_cafe",
+  "semilla": 2,
+  "slam_cm": 17.46431748225383,
+  "odometria_cm": 666.9024121168753,
+  "integrados": 556
+ },
+ {
+  "etapa": "etapa_cafe",
+  "semilla": 3,
+  "slam_cm": 13.285056084037725,
+  "odometria_cm": 666.9024121168753,
+  "integrados": 556
+ },
+ {
+  "etapa": "etapa_cafe",
+  "semilla": 4,
+  "slam_cm": 17.34065861010962,
+  "odometria_cm": 666.9024121168753,
+  "integrados": 556
+ },
+ {
+  "etapa": "etapa_cafe",
+  "semilla": 5,
+  "slam_cm": 10.979433572270834,
+  "odometria_cm": 666.9024121168753,
+  "integrados": 556
+ },
+ {
+  "etapa": "etapa_cafe",
+  "semilla": 6,
+  "slam_cm": 16.888856232750868,
+  "odometria_cm": 666.9024121168753,
+  "integrados": 556
+ },
+ {
+  "etapa": "etapa_parcial",
+  "semilla": 1,
+  "slam_cm": 5.154585235547247,
+  "maximo_cm": 15.45413654036335,
+  "integrados": 840
+ },
+ {
+  "etapa": "etapa_parcial",
+  "semilla": 2,
+  "slam_cm": 4.974611615293588,
+  "maximo_cm": 15.514858325507067,
+  "integrados": 840
+ },
+ {
+  "etapa": "etapa_parcial",
+  "semilla": 3,
+  "slam_cm": 5.494011183728366,
+  "maximo_cm": 15.37003836172633,
+  "integrados": 840
+ },
+ {
+  "etapa": "etapa_parcial",
+  "semilla": 4,
+  "slam_cm": 5.467160844846896,
+  "maximo_cm": 20.15622592524526,
+  "integrados": 840
+ },
+ {
+  "etapa": "etapa_parcial",
+  "semilla": 5,
+  "slam_cm": 5.363478654319151,
+  "maximo_cm": 17.97135215829047,
+  "integrados": 840
+ },
+ {
+  "etapa": "etapa_parcial",
+  "semilla": 6,
+  "slam_cm": 5.555061687356767,
+  "maximo_cm": 19.958198122145074,
+  "integrados": 840
+ }
+]

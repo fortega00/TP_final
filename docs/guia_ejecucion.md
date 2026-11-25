@@ -390,10 +390,12 @@ Adaptar nombres al sistema y verificar que `/tf_static` quedó registrado. El pr
 Primero ejecutar los drivers, la odometría y la publicación del URDF según el setup del RosMaster. Con `/scan`, `/odom` y TF comprobados:
 
 ```bash
-ros2 launch slam slam.launch.py mode:=real scan_topic:=/scan odom_source:=topic odom_topic:=/odom base_frame:=base_link output_path:=/tmp/slam/aula rviz:=true
+ros2 launch slam slam.launch.py mode:=real scan_topic:=/scan odom_source:=topic \
+  odom_topic:=/odom base_frame:=base_footprint output_path:=/tmp/slam/aula rviz:=true \
+  config_file:=$PWD/config/parcial_bag_scan_match.yaml
 ```
 
-El modo real usa reloj de pared. Los equipos deben compartir una referencia temporal coherente; escaneos y odometría desfasados deforman las paredes aunque las transformaciones espaciales estén bien calibradas. Manejar el robot con el teleop ya validado y guardar el bag de la sesión para comparar configuraciones sobre las mismas lecturas.
+Es el comando usado en el laboratorio el 16/11. En ese robot la base es `base_footprint` (con `base_link` el nodo descarta todos los scans) y hace falta el perfil con el mapa de 48 × 40 m, porque el de `default.yaml` (16 × 16 m) no alcanza. El modo real usa reloj de pared. Los equipos deben compartir una referencia temporal coherente; escaneos y odometría desfasados deforman las paredes aunque las transformaciones espaciales estén bien calibradas. Manejar el robot con el teleop ya validado y guardar el bag de la sesión para comparar configuraciones sobre las mismas lecturas.
 
 ## 5. Guardar y controlar el mapeador
 

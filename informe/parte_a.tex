@@ -34,21 +34,24 @@ sin volver al laboratorio.
 
 El filtro se validó en las tres etapas con la misma implementación
 (tabla~\ref{tab:etapas}). En simulación y en el bag del Parcial existe una
-referencia independiente del SLAM, y ahí el error queda entre 5 y 17 cm.
+referencia independiente del SLAM, y ahí el error queda entre 5 y 18 cm. En
+la simulación la odometría tiene una deriva agregada a propósito y sola
+termina con un error de varios metros.
 
 \begin{table}[t]
   \centering\small
-  \caption{Las tres etapas, con 8 partículas. En simulación y en el bag se da
-    el rango de tres semillas. En el laboratorio no hay referencia y el número
-    es el error de cierre, la mediana sobre 7 semillas de la distancia entre
-    la pose final y la inicial de un recorrido que termina donde empezó.}
+  \caption{Las tres etapas, con la configuración del mapa final (8
+    partículas). En simulación y en el bag es el RMSE de posición, con el
+    rango de 6 semillas. En el laboratorio no hay referencia y el número es el
+    error de cierre, la mediana sobre 7 semillas de la distancia entre la pose
+    final y la inicial de un recorrido que termina donde empezó.}
   \label{tab:etapas}
   \begin{tabular}{@{}lll@{}}
     \toprule
     Etapa & Referencia & Error [cm] \\
     \midrule
-    Café en Gazebo & pose del simulador & 12,8--16,8 \\
-    Bag del Parcial & localización sobre el & 5,4--5,8 \\
+    Café en Gazebo & pose del simulador & 7,1--17,5 \\
+    Bag del Parcial & localización sobre el & 5,0--5,6 \\
                     & mapa de la cátedra & \\
     Laboratorio & cierre del recorrido & 11,7 \\
     \bottomrule
