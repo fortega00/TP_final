@@ -24,29 +24,29 @@ mueve el robot directamente: le manda objetivos al navegador por
 \code{/goal\_pose} y sigue su estado en \code{/nav/state}. Para cada imagen
 detecta los conos, los ubica en el mapa y decide adónde ir. Separamos el
 problema en cuatro preguntas, cada una con su módulo sin ROS y sus tests: dónde
-mirar, cómo reconocer un cono, dónde está en el mapa y dónde pararse.
+mirar, cómo reconocer un cono, dónde está el cono en el mapa y dónde pararse.
 
 \paragraph{Dónde mirar.} Como el aula ya está mapeada, explorar no es
 descubrir paredes sino mirar con la cámara todo el piso donde podría haber un
 cono. Elegimos de forma automática un conjunto de \emph{puntos de
 observación} (figura~\ref{fig:plan}). Los candidatos son las celdas
-transitables del mapa de costos de la parte B, cada 0,5 m y con al menos
-0,5 m de holgura a los obstáculos. Desde cada uno simulamos lo que vería la
-cámara con rayos en 2D sobre el mapa, hasta 3 m. Después elegimos de forma
-codiciosa: primero el candidato que más piso ve y después el que más piso
+transitables del mapa de costos de la parte B, cada 0,5 m y a por lo menos
+0,5 m del obstáculo más cercano. Desde cada uno simulamos lo que vería la
+cámara con \emph{ray casting} en 2D sobre el mapa, hasta 3 m, la distancia a la que
+esperamos detectar y ubicar un cono. Después elegimos con un algoritmo
+\emph{greedy}: primero el candidato que más piso ve y después el que más piso
 nuevo agrega, hasta ver el 95 \% de lo que se puede ver desde algún candidato.
-Es la aproximación clásica al problema de cubrir un conjunto. El orden de
-visita sale de vecino más cercano y 2-opt, con distancias por la zona
-transitable. En el laboratorio son 10 puntos, 31,9 m de recorrido y el
+El orden de visita sale de \emph{nearest neighbor} mejorado con \emph{2-opt},
+con distancias medidas por donde el robot puede pasar y no en línea recta.
+En el laboratorio son 10 puntos, 31,9 m de recorrido y el
 96,2 \% del piso visto, y el cálculo tarda menos de 2 s.
 
 El LIDAR está a 18 cm del piso: de las mesas ve solo las patas y de los bancos
 algún borde. Sin corregirlo, el plan ponía puntos entre los bancos y contaba
 como piso a buscar el área debajo de las mesas. Detectamos esos muebles del
-mismo mapa: los obstáculos que tocan el exterior del aula son paredes, y al
-resto le aplicamos un cierre morfológico de 0,6 m de radio, que une las patas
-de una misma mesa sin tapar los pasillos. Así no hay intervención manual ni
-información sobre dónde están los conos.
+mismo mapa. Para separarlos de las paredes, tomamos como pared todo obstáculo
+que toca el exterior del aula, y al resto le aplicamos un cierre morfológico
+de 0,6 m de radio, que une las patas de una misma mesa sin tapar los pasillos. Así no hay intervención manual.
 
 \begin{figure}[t]
   \centering
@@ -59,11 +59,12 @@ información sobre dónde están los conos.
 \end{figure}
 
 En cada punto el robot no da una vuelta completa: gira solo hacia lo que la
-cámara todavía no vio. Llevamos la cuenta del piso visto desde cada pose,
-también mientras el robot se desplaza, y en cada punto elegimos entre 36
-direcciones la que muestra más piso sin ver, hasta que la siguiente agregue
-menos de 0,05 m\textsuperscript{2}. Antes de ir a un punto se consulta esa
-cuenta: si lo que se vería desde ahí ya se vio en el camino, se saltea.
+cámara todavía no vio. Para eso registramos qué parte del piso ya vio la
+cámara, tanto en los puntos como en el camino entre ellos. En cada punto
+elegimos, entre 36 direcciones, la que muestra más piso sin ver, y repetimos
+hasta que la siguiente agregue menos de 0,05 m\textsuperscript{2}. Antes de ir
+a un punto se consulta ese registro: si lo que se vería desde ahí ya se vio en
+el camino, se saltea.
 
 \paragraph{La máquina de estados.} La misión pasa por siete estados:
 \code{WAIT\_LOCALIZATION} hasta que la parte B se ubica, \code{EXPLORE} hacia
@@ -72,29 +73,21 @@ aparece un candidato, \code{APPROACH} hacia el cono y \code{DONE} al llegar.
 Si recorre todos los puntos sin encontrar un cono, termina en
 \code{EXHAUSTED}. Ante un candidato el robot frena y gira hacia él, porque
 en movimiento puede perderlo de vista y la ubicación es más precisa con el
-robot quieto. Como el navegador no tiene un servicio para cancelar, girar o
-frenar es mandarle un objetivo en la posición actual con otro ángulo. El
-resultado de cada objetivo se deduce de la geometría cuando el navegador
-vuelve a \code{IDLE}: se llegó si el robot está a menos de 30 cm y 0,35 rad
-del objetivo. Si no llega a un punto, lo saltea; si no puede llegar a un
+robot quieto. Cuando el navegador termina, vuelve a \code{IDLE} tanto si
+llegó como si abandonó el objetivo. Para distinguirlos, la misión compara la
+pose del robot con el objetivo: si está a menos de 30 cm y 0,35 rad, llegó. Si no llega a un punto, lo saltea; si no puede llegar a un
 cono, lo anota como inalcanzable y sigue explorando.
 
-\paragraph{Cómo reconocer un cono.} Usamos visión clásica con OpenCV solo para
-operaciones genéricas de imagen. Una red neuronal habría sido más robusta a la
-luz, pero necesita imágenes etiquetadas y resuelve el problema central con una
-biblioteca ajena. La imagen pasa a HSV, que separa el tono del brillo. El rojo
-está en los dos extremos del tono, así que usamos dos rangos (hasta 8 y desde
-170, en la escala 0--179 de OpenCV), con saturación mínima de 120 y brillo
-mínimo de 70 para descartar grises, blancos y sombras. El naranja, el
-distractor más parecido, tiene tono de 10 a 25 y queda afuera. Después de una
-apertura y un cierre morfológicos, cada mancha tiene que cumplir cuatro
-filtros de forma: área mínima de 80 píxeles, alto sobre ancho entre 0,6 y 4,
-solidez (área sobre envolvente convexa) de al menos 0,75 y
-\emph{angostamiento}: el ancho del tercio de arriba sobre el del tercio de
-abajo tiene que ser menor que 0,85. Este último es lo que separa un cono de una
-caja o una mochila roja.
+\paragraph{Cómo reconocer un cono.} Usamos visión clásica con OpenCV; una red
+neuronal necesitaría imágenes etiquetadas del aula. La imagen pasa a HSV, que
+separa el tono del brillo, y nos quedamos con los píxeles de tono rojo, bien
+saturados y no muy oscuros. El naranja, el distractor más parecido, queda
+afuera. Después de limpiar la máscara con una apertura y un cierre
+morfológicos, cada mancha tiene que tener forma de cono: un área mínima, una
+proporción razonable, ser convexa y angostarse hacia arriba. Este último
+filtro es lo que separa un cono de una caja o una mochila roja.
 
-\paragraph{Dónde está.} La profundidad en la mitad central del recuadro de la
+\paragraph{Dónde está el cono.} La profundidad en la mitad central del recuadro de la
 mancha, tomada como mediana para no mezclar el fondo, da la distancia. Con la
 calibración de \code{camera\_info} el centro de la mancha pasa a un punto 3D
 de la cámara, y con TF al mapa. Con la distancia también medimos el tamaño
@@ -117,9 +110,9 @@ libre en el mapa. Del lado equivocado de la pared ese corredor pasa por el
 hueco, que es más angosto que el robot, y queda descartado. Se usa el anillo
 más cercano que tenga alguna, y en él la de camino más corto; el ángulo mira
 al cono. El A* de la parte B, que recibe ese objetivo, rodea la pared solo.
-Las poses además exigen la misma holgura de 0,5 m que los puntos de
-observación, para no pararse entre bancos. Si ninguna la cumple, como en una
-esquina, se buscan de nuevo sin exigirla.
+Las poses además tienen que estar, como los puntos de observación, a por lo
+menos 0,5 m del obstáculo más cercano, para no pararse entre bancos. Si
+ninguna lo cumple, como en una esquina, se buscan de nuevo sin esa condición.
 
 \paragraph{Cambio en la parte B.} Hicimos un solo cambio en el navegador.
 Para girar en el lugar, la misión manda un objetivo en la posición actual. El
@@ -165,8 +158,8 @@ la abertura, rodeó la pared y se detuvo del lado del cono
 llegar: con la aproximación a 0,45 m el borde del cono caía dentro de la
 parada de seguridad de la simulación, de 0,40 m. En el de la esquina la
 misión confirmó el cono tras recorrer casi toda el aula y lo abandonó como
-inalcanzable, porque ninguna pose tenía 0,5 m de holgura a las dos paredes:
-de ahí salió la búsqueda sin holgura. Y con el cono justo sobre un punto de
+inalcanzable, porque ninguna pose quedaba a 0,5 m de las dos paredes: de ahí
+salió la búsqueda sin esa distancia mínima. Y con el cono justo sobre un punto de
 observación, el robot no lo chocó, porque el LIDAR lo vio como obstáculo y el
 navegador abandonó el objetivo, pero tampoco lo encontró: desde el punto
 anterior quedaba a 2 m, fuera del alcance de la cámara simulada.
@@ -300,7 +293,8 @@ una distancia que la cámara mide y sin pared en medio.
 No pudimos probar el distractor más difícil, un cono naranja, porque no había
 en el laboratorio. En Gazebo se ignoró, pero la luz del simulador no es la
 real, y el límite de tono entre rojo y naranja es el punto más frágil del
-detector.
+detector: el rojo que aceptamos y el naranja quedan separados por apenas dos
+unidades en una escala de tono de 180.
 
 \subsubsection*{2. \textquestiondown{}Qué componente del sistema resultó ser el principal limitante para lograr una navegación robusta en el entorno real: percepción, localización, planificación o control? \textquestiondown{}Cómo lo determinaron experimentalmente?}
 
@@ -344,7 +338,7 @@ cuanto aparece un candidato, lo interrumpe.
 
 Consideramos que es adecuada por tres razones. Primero, el mapa ya existe por
 la parte A: lo que falta no es saber dónde están las paredes sino qué parte
-del piso vio la cámara. La exploración por fronteras, la alternativa clásica,
+del piso vio la cámara. La \emph{frontier-based exploration}, la alternativa clásica,
 busca el borde entre lo libre y lo desconocido del mapa, y acá ese borde no
 existe. Además las fronteras salen del LIDAR, que tiene otro alcance y otro
 campo de visión que la cámara. Segundo, el objetivo que optimizamos es
