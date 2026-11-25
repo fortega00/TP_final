@@ -138,13 +138,13 @@ Para cortar: Ctrl+C en la terminal 2 y después en la 1.
 
 ## Robot real
 
-Lo aprendido en la visita del 2026-11-24, en la que se grabó `bag_conos_2`. La PC del laboratorio tiene ROS 2 Humble instalado directo y el workspace del grupo en `~/ivnafra/ws`. Los pasos de cada visita y qué traer están en [robot_real_checklist.md](robot_real_checklist.md).
+Lo aprendido en las visitas del 2026-11-24, en la que se grabó `bag_conos_2`, y del 2026-11-25, con las dos corridas de la misión en `sesiones/20261125/`. La PC del laboratorio tiene ROS 2 Humble instalado directo y el workspace del grupo en `~/ivnafra/ws`. Los pasos de cada visita y qué traer están en [robot_real_checklist.md](robot_real_checklist.md).
 
 ### Cómo está armado el robot
 
-- **Drivers:** arrancan solos al prender el robot, sin lanzar nada. Para verlo desde la PC alcanza con usar **su** `ROS_DOMAIN_ID`. El 16/11 fue 11; el 24/11, otro. Si `ros2 node list` sale vacío con el domain que se probó, es el domain equivocado.
+- **Drivers:** arrancan solos al prender el robot, sin lanzar nada. Para verlo desde la PC alcanza con usar **su** `ROS_DOMAIN_ID`. El 16/11 fue 11; el 25/11, 12, con el robot en `172.23.16.102` y el contenedor `rosmaster_humble`. Si `ros2 node list` sale vacío con el domain que se probó, es el domain equivocado.
 - **ROS en el robot:** no está instalado en el robot, solo adentro de un contenedor Docker, que se ve con `docker ps` por `ssh`. Las credenciales del `ssh` son las de la cátedra.
-- **Cámara:** a 30 Hz y sin comprimir, color y profundidad ocupan unos 16 MB/s y **saturan el wifi**. Con el limitador corriendo en la PC, un bag de 9 minutos quedó con 61 imágenes y 83 scans. El limitador tiene que correr **adentro del contenedor del robot**: así por wifi viajan solo los pares a 3 Hz, unos 1,6 MB/s.
+- **Cámara:** a 30 Hz y sin comprimir, color y profundidad ocupan unos 16 MB/s y **saturan el wifi**. Con el limitador corriendo en la PC, un bag de 9 minutos quedó con 61 imágenes y 83 scans. El limitador tiene que correr **adentro del contenedor del robot**. Aun así, con la misión a 3 Hz el `/scan` llegaba a la PC a 1,1–1,7 Hz en lugar de 7: el navegador cancelaba cada objetivo y la misión salteó los 10 puntos en 37 s. **Para la misión, 0,5 Hz**: el scan llegó a 7,2 Hz, con un hueco máximo de 0,17 s, y el cono se confirmó en unos 2 s (25/11). Para grabar un bag adentro del contenedor, sin la misión, 3 Hz no molesta: las imágenes no viajan por wifi si nadie en la PC se suscribe.
 - **Profundidad:** no mide a menos de unos 0,6 m. Color 320 × 240 y profundidad `32FC1` en metros, las dos en `cam_1_color_optical_frame`.
 - **Evitar en RViz** las imágenes de `/cam_1/...`: según la cátedra, un RViz remoto por wifi sube la latencia de todos los suscriptores. Mirar `/mission/debug_image`.
 
@@ -154,7 +154,7 @@ Una vez por visita:
 
 ```bash
 cd ~/ivnafra/TP_final && git fetch && git checkout feat/mission && git pull
-ln -sfn ~/ivnafra/TP_final/mission ~/ivnafra/ws/src/mission
+ln -sfn ~/ivnafra/TP_final/mission ~/ivnafra/ws/src/mission     # ruta absoluta: un enlace relativo no resolvía y colcon ignoraba el paquete
 cd ~/ivnafra/ws && colcon build --symlink-install --packages-select slam nav mission
 ```
 
@@ -183,14 +183,14 @@ Adentro del contenedor:
 ```bash
 source /opt/ros/*/setup.bash
 export ROS_DOMAIN_ID=<domain>          # si no está definido
-cd /tmp/ivnafra_mission && python3 -m mission.ros.camera_throttle_node --ros-args -p rate_hz:=3.0
+cd /tmp/ivnafra_mission && python3 -m mission.ros.camera_throttle_node --ros-args -p rate_hz:=0.5
 ```
 
-Cada 5 s escribe cuántos cuadros recibe y publica. Desde la PC, `ros2 topic hz /mission/cam/color/image_raw` tiene que dar unos 3 Hz. Queda corriendo toda la visita: lo usan los bags y la misión.
+`rate_hz:=0.5` para la misión; `3.0` solo para grabar un bag sin la misión (ver arriba). Cada 5 s escribe cuántos cuadros recibe y publica. Desde la PC, `ros2 topic hz /mission/cam/color/image_raw` tiene que dar la frecuencia elegida, y `ros2 topic hz /scan` seguir en unos 7 Hz. Queda corriendo toda la visita.
 
 ### 3. Bag de la cámara (opcional)
 
-Para calibrar el detector en casa con `mission/scripts/check_bag.py`. Se graba adentro del contenedor, así no se pierde nada por el wifi; en otra terminal, `docker exec -it <contenedor> bash` y el mismo `source`:
+Para calibrar el detector en casa con `mission/scripts/check_bag.py`, con el limitador a 3 Hz y sin la misión corriendo. Se graba adentro del contenedor, así no se pierde nada por el wifi; en otra terminal, `docker exec -it <contenedor> bash` y el mismo `source`:
 
 ```bash
 cd /tmp && ros2 bag record -o ivnafra_bag_<nombre> /scan /odom /tf /tf_static \
@@ -208,13 +208,13 @@ Con el limitador corriendo en el contenedor y el teleop cerrado (si publica en `
 ros2 launch mission mission.launch.py \
   map_file:=$HOME/ivnafra/TP_final/sesiones/20261116/mapa/intento3_corregido/map.yaml \
   color_topic:=/mission/cam/color/image_raw depth_topic:=/mission/cam/depth/image_raw \
-  camera_info_topic:=/mission/cam/color/camera_info camera_rate:=3.0 \
-  2>&1 | tee /tmp/mision_real.log
+  camera_info_topic:=/mission/cam/color/camera_info camera_rate:=0.5 \
+  2>&1 | tee /tmp/mision_<corrida>.log
 ```
 
-Usa `mission/config/real.yaml` y `nav/config/real.yaml`. En RViz: **2D Pose Estimate** con la pose real del robot, y agregar `/mission/markers` y `/mission/debug_image`. En otra terminal, `ros2 topic echo /mission/state --field data | tee /tmp/estado_real.log`.
+Usa `mission/config/real.yaml` y `nav/config/real.yaml`. Un nombre de log por corrida: con el mismo nombre, la siguiente pisa la anterior. En RViz: **2D Pose Estimate** con la pose real del robot (el 25/11 el primer clic se rechazó en las dos corridas: mandarlo de nuevo), y agregar `/mission/markers` y `/mission/debug_image`. En otra terminal, `ros2 topic echo /mission/state --field data | tee /tmp/estado_<corrida>.log`.
 
-Tiene que pasar lo mismo que en Gazebo (ver [Qué tiene que pasar](#qué-tiene-que-pasar)), con el robot a 0,45 m del cono al final. Tener a mano Ctrl+C en la terminal de la misión para frenarlo.
+Tiene que pasar lo mismo que en Gazebo (ver [Qué tiene que pasar](#qué-tiene-que-pasar)), con el robot a 0,45 m del cono al final. El 25/11: 130 s y 154 s de la pose inicial a `DONE`. Tener a mano Ctrl+C en la terminal de la misión para frenarlo.
 
 Para el video, repetir una corrida que haya salido bien filmando con el celular de principio a fin, sin cortes y con un cono de otro color a la vista.
 
@@ -226,7 +226,7 @@ Cortar el limitador y borrar lo copiado. Adentro del contenedor:
 rm -rf /tmp/ivnafra_mission /tmp/ivnafra_bag_*
 ```
 
-En el robot, fuera del contenedor: `rm -rf ~/ivnafra_mission ~/ivnafra_bag_*`. Copiar al pendrive los bags, `/tmp/mision_real.log`, `/tmp/estado_real.log`, capturas y el video. Apagar el robot con `sudo shutdown -h now` por `ssh` y esperar a que el lidar deje de girar.
+En el robot, fuera del contenedor: `rm -rf ~/ivnafra_mission ~/ivnafra_bag_*`. Copiar al pendrive los bags, los `/tmp/mision_*.log` y `/tmp/estado_*.log`, capturas y el video. Si se tocó algo en la PC del laboratorio (por ejemplo `nav/config/real.yaml`), guardar el `git diff` y descartarlo con `git checkout -- <archivo>`. Apagar el robot con `sudo shutdown -h now` por `ssh` y esperar a que el lidar deje de girar.
 
 ### Si algo no anda en el robot
 
@@ -234,6 +234,10 @@ En el robot, fuera del contenedor: `rm -rf ~/ivnafra_mission ~/ivnafra_bag_*`. C
 |---|---|
 | `ros2 node list` vacío desde la PC, el robot responde al ping | Domain equivocado: probar con el del robot en cada terminal y `ros2 daemon stop; ros2 daemon start` |
 | El teleop publica (`ros2 topic echo /cmd_vel` muestra valores) y el robot no se mueve | Interruptor de los motores, batería o ruedas en el aire. Probar con `ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.15}}"` |
-| `/mission/cam/...` a mucho menos de 3 Hz, o `/scan` con huecos | El limitador está corriendo en la PC y no en el contenedor, o alguien mira `/cam_1/...` en RViz |
+| `/mission/cam/...` a mucho menos de lo pedido, o `/scan` con huecos | El limitador está corriendo en la PC y no en el contenedor, o alguien mira `/cam_1/...` en RViz |
+| La misión saltea los puntos uno tras otro y el navegador cancela los objetivos | `/scan` llega lento a la PC (`ros2 topic hz /scan`, tiene que dar unos 7 Hz): bajar el limitador a 0,5 Hz |
+| `Click rejected: 45 % of the scan is far from every mapped wall` | Volver a marcar la pose; el 25/11 el segundo clic convergió en 2 iteraciones |
+| colcon: `ignoring unknown package mission` | El enlace `ws/src/mission` no resuelve: rehacerlo con la ruta absoluta y la rama `feat/mission` |
+| Los nodos del robot desaparecen a mitad de la visita | El 25/11 la cámara se volvió a enumerar por USB y se cayeron los drivers; reiniciar el robot. Causa sin confirmar |
 | Recuadros amarillos con el cono a menos de 0,6 m | Normal: la cámara no mide tan cerca. El cono ya se ubicó desde más lejos |
 | Sin recuadro con el cono rojo a la vista | Umbrales del detector en `real.yaml` (`sat_min`, `val_min`): traer una captura de `/mission/debug_image` o un bag |

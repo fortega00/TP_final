@@ -50,4 +50,22 @@ Como el navegador no tiene "cancelar", todo se hace con objetivos:
 
 17 tests en `mission/tests/test_mission.py`, contra un navegador simulado que pasa por `PLANNING` y `FOLLOWING` y puede rechazar objetivos o perder la localización. Cubren cada transición y un caso de punta a punta con el plan y la cobertura reales en una sala sintética, que termina con 90 % del piso visto.
 
-Pendiente: tiempo total de la misión y comportamiento con el navegador real en Gazebo; ajustar `confirm_timeout` con la frecuencia real del detector.
+### Gazebo (2026-11-24)
+
+Cuatro escenarios con el navegador real de la etapa B, todos en `DONE`: `aula_conos` en 8,75 min, `aula_hueco` en 13,8 min, `aula_punto` en 25 s y `aula_lejos` en 13,8 min, este último recorriendo el plan casi completo. Logs, capturas y pose real al terminar en `mission/artifacts/gazebo_20261124/`.
+
+### Robot real (2026-11-25)
+
+Dos corridas en el aula, con video. Mapa `intento3_corregido`, `mission/config/real.yaml`, limitador de la cámara a 0,5 Hz adentro del contenedor del robot y `camera_rate` 0,5. Logs y configuración en `sesiones/20261125/`.
+
+| | Corrida corta | Corrida larga |
+|---|---|---|
+| Plan | 10 puntos, 31,9 m | 10 puntos, 31,9 m |
+| Puntos visitados antes del cono | 3 | 4 (salteó el 3: `BLOCKED` 15 s) |
+| Candidato a confirmado | 2,1 s | 2,1 s |
+| Llegada al objetivo de aproximación | 10 cm, −1,8° | 7 cm, −1,0° |
+| Pose inicial a `DONE` | 130 s | 154 s |
+
+En las dos, conos azules a la vista y un solo candidato, el rojo. Localización nunca `LOST` y ningún corte del lidar. Los conos se ubicaron a ojo, sin medida con cinta: no hay error de posición absoluto. A 0,5 Hz, dos imágenes con el cono alcanzan para confirmarlo (de probabilidad 0,20 a 0,78 y 0,98, sobre el umbral de 0,97), así que `confirm_timeout` de 4 s alcanza.
+
+Las corridas usaron `navigator.scan_timeout` 1,0 s en lugar de 0,50, sin commitear en la PC del laboratorio (`cambios_sin_commit.diff` de cada corrida). Se subió mientras el limitador a 3 Hz saturaba el wifi; con 0,5 Hz el hueco máximo del scan fue 0,17 s. Queda para la etapa B decidir si hace falta.

@@ -1,0 +1,6 @@
+1795613466.0428183 [INFO] [launch]: All log files can be found below /home/alumno1/.ros/log/2026-11-25-10-31-06-042346-A1702-UBU-55099
+1795613466.0429018 [INFO] [launch]: Default logging verbosity is set to INFO
+1795613466.0767460 [INFO] [mission_node-1]: process started with pid [55101]
+1795613466.0769811 [INFO] [localization_node-2]: process started with pid [55103]
+1795613466.0770805 [INFO] [navigator_node-3]: process started with pid [55105]
+1795613466.0771425 [INFO] [rviz2-4]: process started with pid [55107]

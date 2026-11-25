@@ -1,0 +1,188 @@
+[INFO] [launch]: All log files can be found below /home/alumno1/.ros/log/2026-11-25-10-31-06-042346-A1702-UBU-55099
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mission_node-1]: process started with pid [55101]
+[INFO] [localization_node-2]: process started with pid [55103]
+[INFO] [navigator_node-3]: process started with pid [55105]
+[INFO] [rviz2-4]: process started with pid [55107]
+[rviz2-4] Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
+[rviz2-4] [INFO] [1795613466.270755687] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-4] [INFO] [1795613466.270807390] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[rviz2-4] [INFO] [1795613466.281140495] [rviz2]: Stereo is NOT SUPPORTED
+[localization_node-2] [INFO] [1795613466.476677519] [localization]: Localization with 1000 particles on /home/alumno1/ivnafra/TP_final/sesiones/20261116/mapa/intento3_corregido/map.yaml; waiting for /initialpose
+[rviz2-4] [INFO] [1795613466.478542619] [rviz2]: Trying to create a map of size 960 x 800 using 1 swatches
+[navigator_node-3] [INFO] [1795613466.484330678] [navigator]: Navigator ready; waiting for localization and /goal_pose
+[rviz2-4] [ERROR] [1795613466.509765898] [rviz2]: Vertex Program:rviz/glsl120/indexed_8bit_image.vert Fragment Program:rviz/glsl120/indexed_8bit_image.frag GLSL link result : 
+[rviz2-4] active samplers with a different type refer to the same texture image unit
+[navigator_node-3] [INFO] [1795613466.567407264] [navigator]: WAIT_INITIAL_POSE -> WAIT_SCAN
+[mission_node-1] [INFO] [1795613466.810822157] [mission]: Mission ready; waiting for localization
+[rviz2-4] [INFO] [1795613468.397509598] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613466.283 for reason 'discarding message because the queue is full'
+[navigator_node-3] [INFO] [1795613468.467147106] [navigator]: WAIT_SCAN -> WAIT_INITIAL_POSE
+[rviz2-4] [INFO] [1795613470.957006031] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613469.441 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613473.581551936] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613472.044 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613476.173216475] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613474.647 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613478.797850088] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613477.263 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613480.607393179] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-4] [INFO] [1795613481.389684544] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613479.867 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613484.013521540] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613482.483 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613486.637974256] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613485.087 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613489.229616181] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613487.691 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613491.821140763] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613490.308 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613494.445641240] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613492.912 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613497.037357340] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613495.515 for reason 'discarding message because the queue is full'
+[localization_node-2] [INFO] [1795613498.967894557] [localization]: Initial pose received
+[navigator_node-3] [INFO] [1795613499.067937682] [navigator]: new initial pose
+[localization_node-2] [INFO] [1795613499.131901315] [localization]: Initial burst: converged in 13 iterations, 28 ms
+[localization_node-2] [ERROR] [1795613499.132280039] [localization]: Click rejected: 44 % of the scan is far from every mapped wall; send a new /initialpose
+[rviz2-4] [INFO] [1795613499.629653000] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613497.983 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613502.253065045] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613500.735 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613504.877688617] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613503.339 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613507.469997956] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613505.955 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613510.093738738] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613508.558 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613512.685568069] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613511.162 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613515.309746793] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613513.780 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613517.901265445] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613516.383 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613520.525615487] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613518.986 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613523.117921295] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613521.602 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613525.741966451] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613524.206 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613528.333656738] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613526.813 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795613528.404367109] [rviz2]: Setting estimate pose: Frame:map, Position(-0.146785, 0.24586, 0), Orientation(0, 0, 0.999998, 0.0017489) = Angle: 3.13809
+[localization_node-2] [INFO] [1795613528.405063579] [localization]: Initial pose received
+[localization_node-2] [INFO] [1795613528.430615947] [localization]: Initial burst: converged in 2 iterations, 6 ms
+[rviz2-4] [ERROR] [1795613528.432065743] [rviz2]: Lookup would require extrapolation at time 1795613527.766975, but only time 1795613527.632669 is in the buffer, when looking up transform from frame [laser_link] to frame [map]
+[navigator_node-3] [INFO] [1795613528.468364111] [navigator]: new initial pose
+[navigator_node-3] [INFO] [1795613528.468573596] [navigator]: WAIT_INITIAL_POSE -> LOCALIZING
+[navigator_node-3] [INFO] [1795613528.468752710] [navigator]: LOCALIZING -> IDLE
+[rviz2-4] [ERROR] [1795613528.750010185] [rviz2]: Lookup would require extrapolation into the future.  Requested time 1795613528.737262 but the latest data is at time 1795613528.737196, when looking up transform from frame [laser_link] to frame [map]
+[mission_node-1] [INFO] [1795613528.890206720] [mission]: Exploration plan: {"viewpoints": 10, "manual": false, "target_m2": 88.55, "coverable_m2": 87.39, "covered_m2": 84.06, "coverage": 0.962, "tour_m": 31.89}
+[mission_node-1] [INFO] [1795613528.898970964] [mission]: WAIT_LOCALIZATION -> EXPLORE
+[navigator_node-3] [INFO] [1795613528.971196566] [navigator]: goal (-0.72, -2.22, -108 deg)
+[navigator_node-3] [INFO] [1795613528.971413981] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613529.068538724] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613529.068727317] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795613529.170106979] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795613544.670655610] [navigator]: path blocked by an unmapped obstacle, replanning
+[navigator_node-3] [INFO] [1795613544.670854420] [navigator]: FOLLOWING -> PLANNING
+[navigator_node-3] [INFO] [1795613544.768964682] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613544.868919209] [navigator]: goal reached, 7 cm and 2.1 deg from it
+[navigator_node-3] [INFO] [1795613544.869101119] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795613545.003516616] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795613545.069117112] [navigator]: goal (-0.69, -2.16, -170 deg)
+[navigator_node-3] [INFO] [1795613545.069327845] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613545.069499949] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613547.268899797] [navigator]: goal reached, 1 cm and -1.8 deg from it
+[navigator_node-3] [INFO] [1795613547.269131975] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795613547.468849261] [navigator]: goal (-0.70, -2.16, -180 deg)
+[navigator_node-3] [INFO] [1795613547.469037810] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613547.469186336] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613549.769084345] [navigator]: goal reached, 0 cm and -2.0 deg from it
+[navigator_node-3] [INFO] [1795613549.769264534] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795613549.868939873] [navigator]: goal (-0.70, -2.15, 70 deg)
+[navigator_node-3] [INFO] [1795613549.869137084] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613549.869289799] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613553.069002657] [navigator]: goal reached, 5 cm and -0.7 deg from it
+[navigator_node-3] [INFO] [1795613553.069215690] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795613553.211516770] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795613553.271000087] [navigator]: goal (-2.72, -0.72, 146 deg)
+[navigator_node-3] [INFO] [1795613553.271211879] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613553.369014179] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613553.369199197] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795613555.469184595] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795613570.769286358] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613573.269445116] [navigator]: goal reached, 7 cm and 2.8 deg from it
+[navigator_node-3] [INFO] [1795613573.269633063] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795613573.404218681] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795613573.469396051] [navigator]: goal (-2.69, -0.78, -170 deg)
+[navigator_node-3] [INFO] [1795613573.469577180] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613573.469759901] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613575.369586216] [navigator]: goal reached, 1 cm and 0.5 deg from it
+[navigator_node-3] [INFO] [1795613575.369780240] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795613575.469404973] [navigator]: goal (-2.68, -0.79, -110 deg)
+[navigator_node-3] [INFO] [1795613575.469614033] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613575.469786663] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613577.669535460] [navigator]: goal reached, 1 cm and 1.9 deg from it
+[navigator_node-3] [INFO] [1795613577.669770426] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795613577.869490982] [navigator]: goal (-2.68, -0.78, 60 deg)
+[navigator_node-3] [INFO] [1795613577.869695815] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613577.869861436] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613582.369855008] [navigator]: goal reached, 3 cm and 2.4 deg from it
+[navigator_node-3] [INFO] [1795613582.370045445] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795613582.413717723] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795613582.469930696] [navigator]: goal (-1.72, 3.28, 76 deg)
+[navigator_node-3] [INFO] [1795613582.470420072] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613582.569594285] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613582.569797918] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795613584.369734736] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795613595.671611957] [navigator]: path blocked by an unmapped obstacle, replanning
+[navigator_node-3] [INFO] [1795613595.671962100] [navigator]: FOLLOWING -> PLANNING
+[navigator_node-3] [INFO] [1795613595.870182450] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613595.870575924] [navigator]: PLANNING -> BLOCKED
+[navigator_node-3] [INFO] [1795613597.969829159] [navigator]: BLOCKED -> PLANNING
+[navigator_node-3] [INFO] [1795613598.169904316] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613598.170096508] [navigator]: PLANNING -> BLOCKED
+[navigator_node-3] [INFO] [1795613600.169952459] [navigator]: BLOCKED -> PLANNING
+[navigator_node-3] [INFO] [1795613600.369901119] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613600.370095070] [navigator]: PLANNING -> BLOCKED
+[navigator_node-3] [INFO] [1795613602.469928702] [navigator]: BLOCKED -> PLANNING
+[navigator_node-3] [INFO] [1795613602.669958112] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613602.670177054] [navigator]: PLANNING -> BLOCKED
+[navigator_node-3] [INFO] [1795613604.670106645] [navigator]: BLOCKED -> PLANNING
+[navigator_node-3] [INFO] [1795613604.870038408] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613604.870222296] [navigator]: PLANNING -> BLOCKED
+[navigator_node-3] [INFO] [1795613606.870129932] [navigator]: BLOCKED -> PLANNING
+[navigator_node-3] [INFO] [1795613607.070044704] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613607.070235789] [navigator]: PLANNING -> BLOCKED
+[navigator_node-3] [INFO] [1795613609.070143573] [navigator]: BLOCKED -> PLANNING
+[navigator_node-3] [INFO] [1795613609.270113537] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613609.270304601] [navigator]: PLANNING -> BLOCKED
+[navigator_node-3] [INFO] [1795613610.870193022] [navigator]: obstacle did not clear in time, goal dropped
+[navigator_node-3] [INFO] [1795613610.870391599] [navigator]: BLOCKED -> IDLE
+[mission_node-1] [INFO] [1795613611.004285965] [mission]: viewpoint (-1.72, 3.28) not reached, skipped
+[navigator_node-3] [INFO] [1795613611.070643711] [navigator]: goal (-1.72, 5.28, 94 deg)
+[navigator_node-3] [INFO] [1795613611.070937845] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613611.172157311] [navigator]: Planning result ready after 0.102 s (wall time)
+[navigator_node-3] [INFO] [1795613611.172340515] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795613611.270401547] [navigator]: ALIGNING -> FOLLOWING
+[rviz2-4] [ERROR] [1795613621.069773346] [rviz2]: Lookup would require extrapolation into the future.  Requested time 1795613621.050278 but the latest data is at time 1795613621.037251, when looking up transform from frame [laser_link] to frame [map]
+[rviz2-4] [INFO] [1795613621.325934016] [rviz]: Message Filter dropping message: frame 'laser_link' at time 1795613526.946 for reason 'discarding message because the queue is full'
+[navigator_node-3] [INFO] [1795613638.570789619] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613640.970861173] [navigator]: goal reached, 6 cm and -2.3 deg from it
+[navigator_node-3] [INFO] [1795613640.971038312] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795613641.004400471] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795613641.070867927] [navigator]: goal (-1.67, 5.28, 20 deg)
+[navigator_node-3] [INFO] [1795613641.071061885] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613641.071221999] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613643.571008644] [navigator]: goal reached, 1 cm and 1.2 deg from it
+[navigator_node-3] [INFO] [1795613643.571237180] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795613643.670884900] [navigator]: goal (-1.66, 5.28, -30 deg)
+[navigator_node-3] [INFO] [1795613643.671069175] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613643.671277785] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613645.771191610] [navigator]: goal reached, 2 cm and 1.5 deg from it
+[navigator_node-3] [INFO] [1795613645.771386011] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795613645.871370620] [navigator]: goal (-1.64, 5.29, -130 deg)
+[navigator_node-3] [INFO] [1795613645.871577417] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613645.871748222] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613648.871031665] [navigator]: goal reached, 3 cm and -0.4 deg from it
+[navigator_node-3] [INFO] [1795613648.871220630] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795613649.010854896] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795613649.071392740] [navigator]: goal (-5.22, 6.78, 157 deg)
+[navigator_node-3] [INFO] [1795613649.071644902] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795613649.171279122] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613649.171656748] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795613653.071143079] [navigator]: ALIGNING -> FOLLOWING
+[mission_node-1] [INFO] [1795613662.596739028] [mission]: red candidate at (-5.66, 6.75), stopping to look
+[mission_node-1] [INFO] [1795613662.596945485] [mission]: EXPLORE -> CONFIRM
+[navigator_node-3] [INFO] [1795613662.671367737] [navigator]: goal (-2.68, 6.41, 174 deg)
+[navigator_node-3] [INFO] [1795613662.671554049] [navigator]: FOLLOWING -> PLANNING
+[navigator_node-3] [INFO] [1795613662.671702952] [navigator]: PLANNING -> FINAL_ALIGN
+[mission_node-1] [INFO] [1795613664.656930876] [mission]: cone confirmed at (-5.63, 6.75)
+[mission_node-1] [INFO] [1795613664.657145297] [mission]: CONFIRM -> APPROACH
+[navigator_node-3] [INFO] [1795613664.672031197] [navigator]: goal (-5.20, 6.63, 165 deg)
+[navigator_node-3] [INFO] [1795613664.672268566] [navigator]: FINAL_ALIGN -> PLANNING
+[navigator_node-3] [INFO] [1795613664.771403967] [navigator]: Planning result ready after 0.100 s (wall time)
+[navigator_node-3] [INFO] [1795613664.771597990] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795613666.673073490] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795613681.072169496] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795613682.671795840] [navigator]: goal reached, 7 cm and -1.0 deg from it
+[navigator_node-3] [INFO] [1795613682.671980393] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795613682.797114288] [mission]: reached the cone at (-5.63, 6.75)
+[mission_node-1] [INFO] [1795613682.797348862] [mission]: APPROACH -> DONE

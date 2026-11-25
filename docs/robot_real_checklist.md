@@ -178,7 +178,7 @@ Primero lo que falló o no se llegó a hacer, en el mismo orden.
 
 ### 2. Misión de la etapa C
 
-Los comandos están en [guia_etapa_c.md, Robot real](guia_etapa_c.md#robot-real): el limitador de la cámara corre adentro del contenedor del robot, no en la PC. Lo que tiene que salir de esta visita, según la consigna:
+Hecho el 2026-11-25: dos corridas en `DONE` con video y conos azules a la vista ([015](decisiones/015-maquina-de-estados-de-la-mision.md#robot-real-2026-11-25), `sesiones/20261125/`). El cono visto por un hueco quedó probado solo en Gazebo (`aula_hueco`). Los comandos están en [guia_etapa_c.md, Robot real](guia_etapa_c.md#robot-real): el limitador de la cámara corre adentro del contenedor del robot a 0,5 Hz. Lo que tenía que salir de esta visita, según la consigna:
 
 - **Video** del robot explorando solo, viendo un cono rojo y navegando hasta él. Es un entregable.
 - Un bag de cada intento, con las imágenes.
