@@ -225,6 +225,15 @@ class Navigator:
     # ----- Internas -----
 
     def _plan(self, now, pose):
+        # Objetivo en el lugar donde ya está el robot: solo girar. Sin esto, ALIGNING
+        # apunta a un camino de largo cero, cuya dirección sale del error de la
+        # pose, y el robot gira hacia cualquier lado antes del giro pedido.
+        if math.hypot(self.goal.x - pose.x, self.goal.y - pose.y) < self.config.follower.goal_tolerance_xy:
+            self._discard_plan()
+            self.path = [(self.goal.x, self.goal.y)]
+            self.follower = PurePursuit(self.path, self.config.follower)
+            self._go(State.FINAL_ALIGN, now)
+            return
         if self._planning_executor is not None:
             if self._pending_plan is None:
                 self._plan_requested_at = time.monotonic()

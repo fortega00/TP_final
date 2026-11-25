@@ -1,0 +1,12 @@
+# Escenario de Gazebo: cono rojo detrás de una pared con un hueco de 15 cm.
+# La pared cierra el paso entre el bloque de mesas de arriba y la pared derecha;
+# el robot ve el cono por el hueco desde abajo y tiene que rodear por arriba.
+# Coordenadas en el frame de sesiones/20261116/mapa/intento3_corregido.
+# El origen del mapa está a 15 cm de una pared: el robot aparece 0,8 m antes.
+spawn: [-0.8, 0.0]
+walls:
+  - [-2.40, 4.45, -0.975, 4.55]
+  - [-0.825, 4.45, 0.60, 4.55]
+cones:
+  - {x: -0.9, y: 4.85, color: red}      # detrás del hueco
+  - {x: -1.5, y: 1.0, color: orange}    # distractor

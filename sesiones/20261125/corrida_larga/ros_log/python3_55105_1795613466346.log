@@ -1,0 +1,123 @@
+[INFO] [1795613466.484330678] [navigator]: Navigator ready; waiting for localization and /goal_pose
+[INFO] [1795613466.567407264] [navigator]: WAIT_INITIAL_POSE -> WAIT_SCAN
+[INFO] [1795613468.467147106] [navigator]: WAIT_SCAN -> WAIT_INITIAL_POSE
+[INFO] [1795613499.067937682] [navigator]: new initial pose
+[INFO] [1795613528.468364111] [navigator]: new initial pose
+[INFO] [1795613528.468573596] [navigator]: WAIT_INITIAL_POSE -> LOCALIZING
+[INFO] [1795613528.468752710] [navigator]: LOCALIZING -> IDLE
+[INFO] [1795613528.971196566] [navigator]: goal (-0.72, -2.22, -108 deg)
+[INFO] [1795613528.971413981] [navigator]: IDLE -> PLANNING
+[INFO] [1795613529.068538724] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613529.068727317] [navigator]: PLANNING -> ALIGNING
+[INFO] [1795613529.170106979] [navigator]: ALIGNING -> FOLLOWING
+[INFO] [1795613544.670655610] [navigator]: path blocked by an unmapped obstacle, replanning
+[INFO] [1795613544.670854420] [navigator]: FOLLOWING -> PLANNING
+[INFO] [1795613544.768964682] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613544.868919209] [navigator]: goal reached, 7 cm and 2.1 deg from it
+[INFO] [1795613544.869101119] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613545.069117112] [navigator]: goal (-0.69, -2.16, -170 deg)
+[INFO] [1795613545.069327845] [navigator]: IDLE -> PLANNING
+[INFO] [1795613545.069499949] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613547.268899797] [navigator]: goal reached, 1 cm and -1.8 deg from it
+[INFO] [1795613547.269131975] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613547.468849261] [navigator]: goal (-0.70, -2.16, -180 deg)
+[INFO] [1795613547.469037810] [navigator]: IDLE -> PLANNING
+[INFO] [1795613547.469186336] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613549.769084345] [navigator]: goal reached, 0 cm and -2.0 deg from it
+[INFO] [1795613549.769264534] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613549.868939873] [navigator]: goal (-0.70, -2.15, 70 deg)
+[INFO] [1795613549.869137084] [navigator]: IDLE -> PLANNING
+[INFO] [1795613549.869289799] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613553.069002657] [navigator]: goal reached, 5 cm and -0.7 deg from it
+[INFO] [1795613553.069215690] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613553.271000087] [navigator]: goal (-2.72, -0.72, 146 deg)
+[INFO] [1795613553.271211879] [navigator]: IDLE -> PLANNING
+[INFO] [1795613553.369014179] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613553.369199197] [navigator]: PLANNING -> ALIGNING
+[INFO] [1795613555.469184595] [navigator]: ALIGNING -> FOLLOWING
+[INFO] [1795613570.769286358] [navigator]: FOLLOWING -> FINAL_ALIGN
+[INFO] [1795613573.269445116] [navigator]: goal reached, 7 cm and 2.8 deg from it
+[INFO] [1795613573.269633063] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613573.469396051] [navigator]: goal (-2.69, -0.78, -170 deg)
+[INFO] [1795613573.469577180] [navigator]: IDLE -> PLANNING
+[INFO] [1795613573.469759901] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613575.369586216] [navigator]: goal reached, 1 cm and 0.5 deg from it
+[INFO] [1795613575.369780240] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613575.469404973] [navigator]: goal (-2.68, -0.79, -110 deg)
+[INFO] [1795613575.469614033] [navigator]: IDLE -> PLANNING
+[INFO] [1795613575.469786663] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613577.669535460] [navigator]: goal reached, 1 cm and 1.9 deg from it
+[INFO] [1795613577.669770426] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613577.869490982] [navigator]: goal (-2.68, -0.78, 60 deg)
+[INFO] [1795613577.869695815] [navigator]: IDLE -> PLANNING
+[INFO] [1795613577.869861436] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613582.369855008] [navigator]: goal reached, 3 cm and 2.4 deg from it
+[INFO] [1795613582.370045445] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613582.469930696] [navigator]: goal (-1.72, 3.28, 76 deg)
+[INFO] [1795613582.470420072] [navigator]: IDLE -> PLANNING
+[INFO] [1795613582.569594285] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613582.569797918] [navigator]: PLANNING -> ALIGNING
+[INFO] [1795613584.369734736] [navigator]: ALIGNING -> FOLLOWING
+[INFO] [1795613595.671611957] [navigator]: path blocked by an unmapped obstacle, replanning
+[INFO] [1795613595.671962100] [navigator]: FOLLOWING -> PLANNING
+[INFO] [1795613595.870182450] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613595.870575924] [navigator]: PLANNING -> BLOCKED
+[INFO] [1795613597.969829159] [navigator]: BLOCKED -> PLANNING
+[INFO] [1795613598.169904316] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613598.170096508] [navigator]: PLANNING -> BLOCKED
+[INFO] [1795613600.169952459] [navigator]: BLOCKED -> PLANNING
+[INFO] [1795613600.369901119] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613600.370095070] [navigator]: PLANNING -> BLOCKED
+[INFO] [1795613602.469928702] [navigator]: BLOCKED -> PLANNING
+[INFO] [1795613602.669958112] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613602.670177054] [navigator]: PLANNING -> BLOCKED
+[INFO] [1795613604.670106645] [navigator]: BLOCKED -> PLANNING
+[INFO] [1795613604.870038408] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613604.870222296] [navigator]: PLANNING -> BLOCKED
+[INFO] [1795613606.870129932] [navigator]: BLOCKED -> PLANNING
+[INFO] [1795613607.070044704] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613607.070235789] [navigator]: PLANNING -> BLOCKED
+[INFO] [1795613609.070143573] [navigator]: BLOCKED -> PLANNING
+[INFO] [1795613609.270113537] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613609.270304601] [navigator]: PLANNING -> BLOCKED
+[INFO] [1795613610.870193022] [navigator]: obstacle did not clear in time, goal dropped
+[INFO] [1795613610.870391599] [navigator]: BLOCKED -> IDLE
+[INFO] [1795613611.070643711] [navigator]: goal (-1.72, 5.28, 94 deg)
+[INFO] [1795613611.070937845] [navigator]: IDLE -> PLANNING
+[INFO] [1795613611.172157311] [navigator]: Planning result ready after 0.102 s (wall time)
+[INFO] [1795613611.172340515] [navigator]: PLANNING -> ALIGNING
+[INFO] [1795613611.270401547] [navigator]: ALIGNING -> FOLLOWING
+[INFO] [1795613638.570789619] [navigator]: FOLLOWING -> FINAL_ALIGN
+[INFO] [1795613640.970861173] [navigator]: goal reached, 6 cm and -2.3 deg from it
+[INFO] [1795613640.971038312] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613641.070867927] [navigator]: goal (-1.67, 5.28, 20 deg)
+[INFO] [1795613641.071061885] [navigator]: IDLE -> PLANNING
+[INFO] [1795613641.071221999] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613643.571008644] [navigator]: goal reached, 1 cm and 1.2 deg from it
+[INFO] [1795613643.571237180] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613643.670884900] [navigator]: goal (-1.66, 5.28, -30 deg)
+[INFO] [1795613643.671069175] [navigator]: IDLE -> PLANNING
+[INFO] [1795613643.671277785] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613645.771191610] [navigator]: goal reached, 2 cm and 1.5 deg from it
+[INFO] [1795613645.771386011] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613645.871370620] [navigator]: goal (-1.64, 5.29, -130 deg)
+[INFO] [1795613645.871577417] [navigator]: IDLE -> PLANNING
+[INFO] [1795613645.871748222] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613648.871031665] [navigator]: goal reached, 3 cm and -0.4 deg from it
+[INFO] [1795613648.871220630] [navigator]: FINAL_ALIGN -> IDLE
+[INFO] [1795613649.071392740] [navigator]: goal (-5.22, 6.78, 157 deg)
+[INFO] [1795613649.071644902] [navigator]: IDLE -> PLANNING
+[INFO] [1795613649.171279122] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613649.171656748] [navigator]: PLANNING -> ALIGNING
+[INFO] [1795613653.071143079] [navigator]: ALIGNING -> FOLLOWING
+[INFO] [1795613662.671367737] [navigator]: goal (-2.68, 6.41, 174 deg)
+[INFO] [1795613662.671554049] [navigator]: FOLLOWING -> PLANNING
+[INFO] [1795613662.671702952] [navigator]: PLANNING -> FINAL_ALIGN
+[INFO] [1795613664.672031197] [navigator]: goal (-5.20, 6.63, 165 deg)
+[INFO] [1795613664.672268566] [navigator]: FINAL_ALIGN -> PLANNING
+[INFO] [1795613664.771403967] [navigator]: Planning result ready after 0.100 s (wall time)
+[INFO] [1795613664.771597990] [navigator]: PLANNING -> ALIGNING
+[INFO] [1795613666.673073490] [navigator]: ALIGNING -> FOLLOWING
+[INFO] [1795613681.072169496] [navigator]: FOLLOWING -> FINAL_ALIGN
+[INFO] [1795613682.671795840] [navigator]: goal reached, 7 cm and -1.0 deg from it
+[INFO] [1795613682.671980393] [navigator]: FINAL_ALIGN -> IDLE

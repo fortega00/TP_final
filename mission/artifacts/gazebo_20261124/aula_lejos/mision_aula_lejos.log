@@ -1,0 +1,443 @@
+[INFO] [launch]: All log files can be found below /home/alumno/.ros/log/2026-11-24-15-24-14-608336-nazar-8831
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mission_node-1]: process started with pid [8887]
+[INFO] [localization_node-2]: process started with pid [8889]
+[INFO] [navigator_node-3]: process started with pid [8891]
+[INFO] [rviz2-4]: process started with pid [8893]
+[rviz2-4] [INFO] [1795533855.633213766] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-4] [INFO] [1795533855.633378741] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[rviz2-4] [INFO] [1795533855.657249338] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-4] [INFO] [1795533856.007075179] [rviz2]: Trying to create a map of size 960 x 800 using 1 swatches
+[localization_node-2] [INFO] [1795533856.033388350] [localization]: Localization with 1000 particles on /home/alumno/rosmaster_ws/src/mission/worlds/aula_lejos_map.yaml; waiting for /initialpose
+[navigator_node-3] [INFO] [1795533856.099581090] [navigator]: Navigator ready; waiting for localization and /goal_pose
+[navigator_node-3] [INFO] [1795533856.103385626] [navigator]: WAIT_INITIAL_POSE -> WAIT_SCAN
+[navigator_node-3] [INFO] [1795533856.481168355] [navigator]: WAIT_SCAN -> WAIT_INITIAL_POSE
+[mission_node-1] [INFO] [1795533857.268673899] [mission]: Mission ready; waiting for localization
+[localization_node-2] [WARN] [1795533858.386806164] [localization]: Discarding scan: no odometry before and after the scan
+[rviz2-4] [INFO] [1795533859.909060699] [rviz]: Message Filter dropping message: frame 'laser_frame' at time 1.800 for reason 'discarding message because the queue is full'
+[localization_node-2] [INFO] [1795533861.110633800] [localization]: Initial pose received
+[navigator_node-3] [INFO] [1795533861.294319633] [navigator]: new initial pose
+[localization_node-2] [INFO] [1795533863.146222508] [localization]: Initial burst: converged in 3 iterations, 20 ms
+[navigator_node-3] [INFO] [1795533863.501073510] [navigator]: WAIT_INITIAL_POSE -> LOCALIZING
+[navigator_node-3] [INFO] [1795533863.501944305] [navigator]: LOCALIZING -> IDLE
+[mission_node-1] [INFO] [1795533864.417651559] [mission]: Exploration plan: {"viewpoints": 22, "manual": false, "target_m2": 88.55, "coverable_m2": 83.7, "covered_m2": 80.03, "coverage": 0.9561, "tour_m": 44.31}
+[mission_node-1] [INFO] [1795533864.438500051] [mission]: WAIT_LOCALIZATION -> EXPLORE
+[mission_node-1] [WARN] [1795533864.448994340] [mission]: No camera pose within 0.2 s of the image (0.210 s)
+[navigator_node-3] [INFO] [1795533864.531998040] [navigator]: goal (-1.22, -0.72, -122 deg)
+[navigator_node-3] [INFO] [1795533864.532910296] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533864.685140289] [navigator]: Planning result ready after 0.155 s (wall time)
+[navigator_node-3] [INFO] [1795533864.685995239] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795533870.661529901] [navigator]: ALIGNING -> FOLLOWING
+[rviz2-4] [INFO] [1795533877.778819866] [rviz]: Message Filter dropping message: frame 'laser_frame' at time 3.600 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[navigator_node-3] [INFO] [1795533882.116074712] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533882.873655703] [navigator]: goal reached, 7 cm and -2.8 deg from it
+[navigator_node-3] [INFO] [1795533882.874484108] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795533883.299981635] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795533883.463566765] [navigator]: goal (-1.19, -0.66, -180 deg)
+[navigator_node-3] [INFO] [1795533883.464427487] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533883.465227261] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533888.134498113] [navigator]: goal reached, 0 cm and -2.1 deg from it
+[navigator_node-3] [INFO] [1795533888.135325524] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795533888.580498528] [navigator]: goal (-1.19, -0.66, 100 deg)
+[navigator_node-3] [INFO] [1795533888.581375732] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533888.581995526] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533893.922743423] [navigator]: goal reached, 1 cm and -2.7 deg from it
+[navigator_node-3] [INFO] [1795533893.923587412] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795533894.303228237] [navigator]: goal (-1.19, -0.65, -60 deg)
+[navigator_node-3] [INFO] [1795533894.303915430] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533894.304588875] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533902.905390315] [navigator]: goal reached, 1 cm and -2.1 deg from it
+[navigator_node-3] [INFO] [1795533902.906259436] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795533903.144519419] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795533903.301928453] [navigator]: goal (-1.22, -2.72, -91 deg)
+[navigator_node-3] [INFO] [1795533903.302701283] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533903.519336422] [navigator]: Planning result ready after 0.225 s (wall time)
+[navigator_node-3] [INFO] [1795533903.520130166] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795533905.777559689] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795533929.219324697] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533931.701529108] [navigator]: goal reached, 7 cm and 2.4 deg from it
+[navigator_node-3] [INFO] [1795533931.702362587] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795533932.109935087] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795533932.278413533] [navigator]: goal (-1.21, -2.65, -180 deg)
+[navigator_node-3] [INFO] [1795533932.279242197] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533932.279768911] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533937.646528466] [navigator]: goal reached, 0 cm and -2.8 deg from it
+[navigator_node-3] [INFO] [1795533937.647369167] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795533938.250989986] [navigator]: goal (-1.21, -2.65, 0 deg)
+[navigator_node-3] [INFO] [1795533938.251784174] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533938.252576741] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533947.716913881] [navigator]: goal reached, 2 cm and 1.8 deg from it
+[navigator_node-3] [INFO] [1795533947.717764169] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795533947.956036561] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795533948.171341536] [navigator]: goal (-3.22, -1.22, 145 deg)
+[navigator_node-3] [INFO] [1795533948.172088445] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533948.369779017] [navigator]: Planning result ready after 0.229 s (wall time)
+[navigator_node-3] [INFO] [1795533948.370489202] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795533953.582124208] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795533993.837499302] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795533998.589044250] [navigator]: goal reached, 7 cm and -2.2 deg from it
+[navigator_node-3] [INFO] [1795533998.589785473] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795533999.077491192] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795533999.284519706] [navigator]: goal (-3.17, -1.18, 60 deg)
+[navigator_node-3] [INFO] [1795533999.285371387] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795533999.286200979] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534005.728593543] [navigator]: goal reached, 1 cm and -1.7 deg from it
+[navigator_node-3] [INFO] [1795534005.730489524] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534006.161779807] [navigator]: goal (-3.17, -1.18, -60 deg)
+[navigator_node-3] [INFO] [1795534006.162558398] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534006.163361719] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534014.144461268] [navigator]: goal reached, 0 cm and -2.0 deg from it
+[navigator_node-3] [INFO] [1795534014.145246178] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534014.595594155] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534014.779991033] [navigator]: goal (-3.22, -0.22, 94 deg)
+[navigator_node-3] [INFO] [1795534014.780839307] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534014.960485975] [navigator]: Planning result ready after 0.186 s (wall time)
+[navigator_node-3] [INFO] [1795534014.961260269] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534024.446632864] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534039.162120494] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534040.005022252] [navigator]: goal reached, 7 cm and 2.7 deg from it
+[navigator_node-3] [INFO] [1795534040.005902511] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534040.630527773] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534040.909792735] [navigator]: goal (-3.23, -0.30, -180 deg)
+[navigator_node-3] [INFO] [1795534040.910959042] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534040.911780617] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534050.146258400] [navigator]: goal reached, 1 cm and 1.9 deg from it
+[navigator_node-3] [INFO] [1795534050.147017151] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534050.458360856] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534050.658427014] [navigator]: goal (-5.72, -0.72, -170 deg)
+[navigator_node-3] [INFO] [1795534050.664096280] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534050.903648957] [navigator]: Planning result ready after 0.246 s (wall time)
+[navigator_node-3] [INFO] [1795534050.904361128] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534054.125425628] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534093.882896035] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534096.155387097] [navigator]: goal reached, 7 cm and -1.9 deg from it
+[navigator_node-3] [INFO] [1795534096.156009180] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534096.587615680] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534096.756228441] [navigator]: goal (-5.66, -0.69, -80 deg)
+[navigator_node-3] [INFO] [1795534096.756885207] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534096.757569850] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534105.991747387] [navigator]: goal reached, 1 cm and 2.8 deg from it
+[navigator_node-3] [INFO] [1795534105.992330451] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534106.617679375] [navigator]: goal (-5.65, -0.69, 20 deg)
+[navigator_node-3] [INFO] [1795534106.619448638] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534106.620473150] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534116.624121138] [navigator]: goal reached, 1 cm and 1.9 deg from it
+[navigator_node-3] [INFO] [1795534116.624992498] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534117.433421714] [navigator]: goal (-5.64, -0.69, 110 deg)
+[navigator_node-3] [INFO] [1795534117.434246319] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534117.435065310] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534126.773292607] [navigator]: goal reached, 0 cm and 2.7 deg from it
+[navigator_node-3] [INFO] [1795534126.774299664] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534127.095692426] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534127.329408439] [navigator]: goal (-7.72, -0.22, 167 deg)
+[navigator_node-3] [INFO] [1795534127.330043993] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534127.546026498] [navigator]: Planning result ready after 0.227 s (wall time)
+[navigator_node-3] [INFO] [1795534127.546835405] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534133.394030108] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534161.761119295] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534164.359597381] [navigator]: goal reached, 8 cm and 2.2 deg from it
+[navigator_node-3] [INFO] [1795534164.360430420] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534164.701121460] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534164.827848191] [navigator]: goal (-7.67, -0.27, -120 deg)
+[navigator_node-3] [INFO] [1795534164.828695535] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534164.829421348] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534168.587773553] [navigator]: goal reached, 1 cm and 2.3 deg from it
+[navigator_node-3] [INFO] [1795534168.588358783] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534168.848875272] [navigator]: goal (-7.66, -0.28, 40 deg)
+[navigator_node-3] [INFO] [1795534168.849474187] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534168.849997848] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534175.152184776] [navigator]: goal reached, 1 cm and 2.3 deg from it
+[navigator_node-3] [INFO] [1795534175.152675251] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534175.325615410] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534175.429732583] [navigator]: goal (-8.72, -1.72, -126 deg)
+[navigator_node-3] [INFO] [1795534175.430515564] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534175.545112489] [navigator]: Planning result ready after 0.119 s (wall time)
+[navigator_node-3] [INFO] [1795534175.545973014] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534181.462150767] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534201.061869265] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534202.952855897] [navigator]: goal reached, 8 cm and -2.4 deg from it
+[navigator_node-3] [INFO] [1795534202.953572456] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534203.178035020] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534203.375547603] [navigator]: goal (-8.70, -1.65, -40 deg)
+[navigator_node-3] [INFO] [1795534203.376405235] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534203.377242268] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534207.874523194] [navigator]: goal reached, 0 cm and 1.9 deg from it
+[navigator_node-3] [INFO] [1795534207.875372041] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534208.392999357] [navigator]: goal (-8.70, -1.65, 150 deg)
+[navigator_node-3] [INFO] [1795534208.393907353] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534208.394601124] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534215.270455049] [navigator]: goal reached, 1 cm and -2.9 deg from it
+[navigator_node-3] [INFO] [1795534215.271293647] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534215.511523023] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534215.682015555] [navigator]: goal (-10.72, -1.72, -178 deg)
+[navigator_node-3] [INFO] [1795534215.682867298] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534215.836622174] [navigator]: Planning result ready after 0.165 s (wall time)
+[navigator_node-3] [INFO] [1795534215.838013260] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534216.696670552] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534236.668614456] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534238.922519516] [navigator]: goal reached, 8 cm and -2.2 deg from it
+[navigator_node-3] [INFO] [1795534238.923340239] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534239.073217417] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534239.190500905] [navigator]: goal (-10.66, -1.69, 80 deg)
+[navigator_node-3] [INFO] [1795534239.191342216] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534239.192068736] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534243.225874133] [navigator]: goal reached, 1 cm and -2.7 deg from it
+[navigator_node-3] [INFO] [1795534243.227032715] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534243.489138407] [navigator]: goal (-10.66, -1.68, -60 deg)
+[navigator_node-3] [INFO] [1795534243.489728875] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534243.490340581] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534249.818524250] [navigator]: goal reached, 1 cm and -2.1 deg from it
+[navigator_node-3] [INFO] [1795534249.819367772] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534250.122981364] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534250.277420079] [navigator]: goal (-9.72, -0.22, 58 deg)
+[navigator_node-3] [INFO] [1795534250.278113005] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534250.434975521] [navigator]: Planning result ready after 0.163 s (wall time)
+[navigator_node-3] [INFO] [1795534250.435730699] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534254.456279948] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534269.835257771] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534271.255903047] [navigator]: goal reached, 7 cm and -2.0 deg from it
+[navigator_node-3] [INFO] [1795534271.256679197] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534271.416120231] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534271.556687680] [navigator]: goal (-9.75, -0.29, 140 deg)
+[navigator_node-3] [INFO] [1795534271.557288290] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534271.557810114] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534275.702884782] [navigator]: goal reached, 0 cm and 2.4 deg from it
+[navigator_node-3] [INFO] [1795534275.703480760] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534275.887846802] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534276.012430878] [navigator]: goal (-9.72, 1.28, 89 deg)
+[navigator_node-3] [INFO] [1795534276.013111711] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534276.148082390] [navigator]: Planning result ready after 0.138 s (wall time)
+[navigator_node-3] [INFO] [1795534276.148942919] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534278.436793450] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534294.545608967] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534296.270633581] [navigator]: goal reached, 7 cm and 1.9 deg from it
+[navigator_node-3] [INFO] [1795534296.271343428] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534296.642047821] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534296.792406124] [navigator]: goal (-9.75, 1.20, 170 deg)
+[navigator_node-3] [INFO] [1795534296.793267836] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534296.794104162] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534301.634260657] [navigator]: goal reached, 1 cm and 2.6 deg from it
+[navigator_node-3] [INFO] [1795534301.635097817] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534301.987202785] [navigator]: goal (-9.75, 1.19, 0 deg)
+[navigator_node-3] [INFO] [1795534301.987713895] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534301.988219819] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534310.103069487] [navigator]: goal reached, 1 cm and -2.5 deg from it
+[navigator_node-3] [INFO] [1795534310.103868395] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534310.467641451] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534310.603665486] [navigator]: goal (-9.72, 2.78, 89 deg)
+[navigator_node-3] [INFO] [1795534310.604521274] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534310.755158532] [navigator]: Planning result ready after 0.154 s (wall time)
+[navigator_node-3] [INFO] [1795534310.755901788] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534314.799344846] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534331.275278030] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534331.436650469] [navigator]: goal reached, 7 cm and 0.5 deg from it
+[navigator_node-3] [INFO] [1795534331.437316774] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534331.619509782] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534331.762384022] [navigator]: goal (-9.73, 2.70, 10 deg)
+[navigator_node-3] [INFO] [1795534331.763077925] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534331.763671133] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534336.443867845] [navigator]: goal reached, 1 cm and -1.9 deg from it
+[navigator_node-3] [INFO] [1795534336.444523490] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534336.799094224] [navigator]: goal (-9.72, 2.69, 170 deg)
+[navigator_node-3] [INFO] [1795534336.799921649] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534336.800702114] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534343.577932027] [navigator]: goal reached, 1 cm and 2.6 deg from it
+[navigator_node-3] [INFO] [1795534343.578716977] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534343.880826482] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534343.991250916] [navigator]: goal (-10.72, 3.28, 150 deg)
+[navigator_node-3] [INFO] [1795534343.991892531] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534344.101875543] [navigator]: Planning result ready after 0.120 s (wall time)
+[navigator_node-3] [INFO] [1795534344.102874115] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534345.985973779] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534357.010385266] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534358.681223012] [navigator]: goal reached, 7 cm and -2.7 deg from it
+[navigator_node-3] [INFO] [1795534358.682043264] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534358.964108536] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534359.078241650] [navigator]: goal (-10.65, 3.26, -140 deg)
+[navigator_node-3] [INFO] [1795534359.078972206] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534359.079951482] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534362.217337984] [navigator]: goal reached, 1 cm and 2.8 deg from it
+[navigator_node-3] [INFO] [1795534362.218094924] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534362.485516711] [navigator]: goal (-10.65, 3.26, 30 deg)
+[navigator_node-3] [INFO] [1795534362.486377010] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534362.487207078] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534368.865047798] [navigator]: goal reached, 1 cm and 1.7 deg from it
+[navigator_node-3] [INFO] [1795534368.865820147] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534369.022245442] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534369.129514998] [navigator]: goal (-8.72, 3.78, 15 deg)
+[navigator_node-3] [INFO] [1795534369.130134501] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534369.246693398] [navigator]: Planning result ready after 0.126 s (wall time)
+[navigator_node-3] [INFO] [1795534369.247335614] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534370.734696934] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534390.249950016] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534393.148346937] [navigator]: goal reached, 7 cm and -1.6 deg from it
+[navigator_node-3] [INFO] [1795534393.149000736] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534393.419092927] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534393.530520591] [navigator]: goal (-8.75, 3.70, -40 deg)
+[navigator_node-3] [INFO] [1795534393.531344827] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534393.532148295] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534396.140396369] [navigator]: goal reached, 1 cm and -2.7 deg from it
+[navigator_node-3] [INFO] [1795534396.140952103] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534396.291038791] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534396.394568638] [navigator]: goal (-6.72, 3.28, -12 deg)
+[navigator_node-3] [INFO] [1795534396.395086271] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534396.504900578] [navigator]: Planning result ready after 0.117 s (wall time)
+[navigator_node-3] [INFO] [1795534396.505529156] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534396.886029604] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534413.589502805] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534416.001402484] [navigator]: goal reached, 7 cm and -1.8 deg from it
+[navigator_node-3] [INFO] [1795534416.002212362] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534416.140412029] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534416.262197650] [navigator]: goal (-6.79, 3.25, -100 deg)
+[navigator_node-3] [INFO] [1795534416.263000649] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534416.263744678] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534420.322226294] [navigator]: goal reached, 1 cm and -2.1 deg from it
+[navigator_node-3] [INFO] [1795534420.322713644] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534420.492880988] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534420.593147067] [navigator]: goal (-4.72, 2.78, -13 deg)
+[navigator_node-3] [INFO] [1795534420.593945646] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534420.703699391] [navigator]: Planning result ready after 0.118 s (wall time)
+[navigator_node-3] [INFO] [1795534420.704291996] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534424.055650031] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534442.311095927] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534444.041079372] [navigator]: goal reached, 7 cm and 2.4 deg from it
+[navigator_node-3] [INFO] [1795534444.041886801] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534444.318125389] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534444.436327343] [navigator]: goal (-4.79, 2.81, 40 deg)
+[navigator_node-3] [INFO] [1795534444.437072745] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534444.437728792] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534447.240599717] [navigator]: goal reached, 1 cm and 2.6 deg from it
+[navigator_node-3] [INFO] [1795534447.241359418] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534447.657474649] [navigator]: goal (-4.79, 2.81, -140 deg)
+[navigator_node-3] [INFO] [1795534447.658031857] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534447.658581035] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534454.769955240] [navigator]: goal reached, 1 cm and -2.3 deg from it
+[navigator_node-3] [INFO] [1795534454.770746657] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534455.083395943] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534455.181915167] [navigator]: goal (-3.72, 3.28, 24 deg)
+[navigator_node-3] [INFO] [1795534455.182513851] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534455.326456025] [navigator]: Planning result ready after 0.147 s (wall time)
+[navigator_node-3] [INFO] [1795534455.327092690] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534461.531219746] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534473.233543986] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534473.386705688] [navigator]: goal reached, 7 cm and 0.5 deg from it
+[navigator_node-3] [INFO] [1795534473.387578598] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534473.559956756] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534473.724912877] [navigator]: goal (-3.79, 3.25, -40 deg)
+[navigator_node-3] [INFO] [1795534473.725591971] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534473.726208099] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534477.461996477] [navigator]: goal reached, 0 cm and -1.4 deg from it
+[navigator_node-3] [INFO] [1795534477.462551068] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534477.792416976] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534477.931379210] [navigator]: goal (-1.22, 1.28, -37 deg)
+[navigator_node-3] [INFO] [1795534477.932007210] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534478.035693165] [navigator]: Planning result ready after 0.123 s (wall time)
+[navigator_node-3] [INFO] [1795534478.036493950] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534479.084958310] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534511.046439059] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534513.499349734] [navigator]: goal reached, 8 cm and 2.0 deg from it
+[navigator_node-3] [INFO] [1795534513.500013928] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534513.826173364] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534513.936427054] [navigator]: goal (-1.25, 1.35, 10 deg)
+[navigator_node-3] [INFO] [1795534513.937049820] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534513.937643128] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534516.703791885] [navigator]: goal reached, 0 cm and 2.2 deg from it
+[navigator_node-3] [INFO] [1795534516.704409292] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534517.055387852] [navigator]: goal (-1.25, 1.35, -180 deg)
+[navigator_node-3] [INFO] [1795534517.056160748] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534517.056860059] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534523.986988868] [navigator]: goal reached, 2 cm and 2.7 deg from it
+[navigator_node-3] [INFO] [1795534523.987831303] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534524.292413243] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534524.394630900] [navigator]: goal (-1.22, 3.28, 89 deg)
+[navigator_node-3] [INFO] [1795534524.395221473] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534524.528220587] [navigator]: Planning result ready after 0.136 s (wall time)
+[navigator_node-3] [INFO] [1795534524.528738038] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534527.961499703] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534544.827326616] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534546.006582033] [navigator]: goal reached, 7 cm and 2.1 deg from it
+[navigator_node-3] [INFO] [1795534546.007109335] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534546.316929556] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534546.447991580] [navigator]: goal (-1.24, 3.20, 140 deg)
+[navigator_node-3] [INFO] [1795534546.448869664] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534546.449689259] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534549.562475243] [navigator]: goal reached, 0 cm and 2.6 deg from it
+[navigator_node-3] [INFO] [1795534549.563209556] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534550.012455791] [navigator]: goal (-1.24, 3.20, 0 deg)
+[navigator_node-3] [INFO] [1795534550.013286359] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534550.014083276] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534556.473078922] [navigator]: goal reached, 1 cm and -2.7 deg from it
+[navigator_node-3] [INFO] [1795534556.473667672] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534556.648539451] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534556.769342569] [navigator]: goal (-0.72, 5.28, 76 deg)
+[navigator_node-3] [INFO] [1795534556.769973862] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534556.898806926] [navigator]: Planning result ready after 0.136 s (wall time)
+[navigator_node-3] [INFO] [1795534556.899460176] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534559.940511304] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534578.342568531] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534579.687726827] [navigator]: goal reached, 7 cm and 2.6 deg from it
+[navigator_node-3] [INFO] [1795534579.688571786] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534579.959724453] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534580.071820738] [navigator]: goal (-0.75, 5.21, 160 deg)
+[navigator_node-3] [INFO] [1795534580.072417341] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534580.072922062] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534583.868977979] [navigator]: goal reached, 1 cm and 2.0 deg from it
+[navigator_node-3] [INFO] [1795534583.869508201] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534584.302549320] [navigator]: goal (-0.76, 5.21, -20 deg)
+[navigator_node-3] [INFO] [1795534584.303093577] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534584.303589208] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534591.312738304] [navigator]: goal reached, 0 cm and -1.8 deg from it
+[navigator_node-3] [INFO] [1795534591.313360851] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534591.642520670] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534591.792107740] [navigator]: goal (-3.22, 6.78, 148 deg)
+[navigator_node-3] [INFO] [1795534591.792922838] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534591.882375244] [navigator]: Planning result ready after 0.147 s (wall time)
+[navigator_node-3] [INFO] [1795534591.883180945] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534599.246264249] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534623.660724255] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534624.375349067] [navigator]: goal reached, 8 cm and 2.2 deg from it
+[navigator_node-3] [INFO] [1795534624.375866869] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534624.570498757] [mission]: EXPLORE -> LOOK_AROUND
+[navigator_node-3] [INFO] [1795534624.685585095] [navigator]: goal (-3.17, 6.73, -120 deg)
+[navigator_node-3] [INFO] [1795534624.686156063] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534624.686629146] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534628.503835338] [navigator]: goal reached, 1 cm and 1.9 deg from it
+[navigator_node-3] [INFO] [1795534628.504468593] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534628.908982846] [navigator]: goal (-3.17, 6.72, -20 deg)
+[navigator_node-3] [INFO] [1795534628.909504856] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534628.910001673] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534633.218901890] [navigator]: goal reached, 1 cm and 2.1 deg from it
+[navigator_node-3] [INFO] [1795534633.220603042] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534633.665555236] [mission]: LOOK_AROUND -> EXPLORE
+[navigator_node-3] [INFO] [1795534633.987647327] [navigator]: goal (-6.22, 6.78, 179 deg)
+[navigator_node-3] [INFO] [1795534633.989547462] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534634.318178077] [navigator]: Planning result ready after 0.366 s (wall time)
+[navigator_node-3] [INFO] [1795534634.320314477] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534640.567284469] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534665.615937715] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534665.793397024] [navigator]: goal reached, 7 cm and -2.5 deg from it
+[navigator_node-3] [INFO] [1795534665.794250132] [navigator]: FINAL_ALIGN -> IDLE
+[navigator_node-3] [INFO] [1795534666.091015926] [navigator]: goal (-7.22, 6.78, -180 deg)
+[navigator_node-3] [INFO] [1795534666.091732782] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534666.249048361] [navigator]: Planning result ready after 0.158 s (wall time)
+[navigator_node-3] [INFO] [1795534666.249659820] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534666.405985778] [navigator]: ALIGNING -> FOLLOWING
+[mission_node-1] [INFO] [1795534672.618811567] [mission]: red candidate at (-8.39, 6.95), stopping to look
+[mission_node-1] [INFO] [1795534672.619700930] [mission]: EXPLORE -> CONFIRM
+[navigator_node-3] [INFO] [1795534672.788863890] [navigator]: goal (-6.85, 6.82, 175 deg)
+[navigator_node-3] [INFO] [1795534672.789648695] [navigator]: FOLLOWING -> PLANNING
+[navigator_node-3] [INFO] [1795534672.790394808] [navigator]: PLANNING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534673.555983620] [navigator]: goal reached, 4 cm and -2.2 deg from it
+[navigator_node-3] [INFO] [1795534673.556819037] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534673.714530996] [mission]: cone confirmed at (-8.40, 6.94)
+[mission_node-1] [INFO] [1795534673.715337460] [mission]: CONFIRM -> APPROACH
+[navigator_node-3] [INFO] [1795534673.740544740] [navigator]: goal (-7.98, 6.52, 135 deg)
+[navigator_node-3] [INFO] [1795534673.741573166] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795534673.903199517] [navigator]: Planning result ready after 0.164 s (wall time)
+[navigator_node-3] [INFO] [1795534673.903862063] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795534674.065814267] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795534685.927873101] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795534690.415514118] [navigator]: goal reached, 9 cm and -2.6 deg from it
+[navigator_node-3] [INFO] [1795534690.416165561] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795534690.581868144] [mission]: reached the cone at (-8.40, 6.94)
+[mission_node-1] [INFO] [1795534690.582639923] [mission]: APPROACH -> DONE

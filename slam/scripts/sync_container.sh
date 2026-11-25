@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copy the slam and nav ROS packages into the running container used by PRA_00.
+# Copy the slam, nav and mission ROS packages into the running container used by PRA_00.
 set -euo pipefail
 
 SLAM_SOURCE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -12,7 +12,7 @@ usage() {
   cat <<'EOF'
 Usage: ./slam/scripts/sync_container.sh [--sync-only] [--with-numba]
 
-Copy slam and nav into the running PRA_00 container and build only those packages.
+Copy slam, nav and mission into the running PRA_00 container and build only those packages.
 --sync-only copies sources without building.
 --with-numba also creates/updates the isolated Python environment with Numba.
 Override SLAM_CONTAINER and SLAM_CONTAINER_WS if needed.
@@ -58,15 +58,30 @@ tar --exclude='__pycache__' --exclude='*.pyc' --exclude='*.pyo' \
     'set -e; mkdir -p "$1/src/nav"; tar -xf - -C "$1/src/nav"' \
     _ "$SLAM_CONTAINER_WS"
 
+# Stage C package. It imports slam.core and nav.core. Only the folders that
+# already exist are copied: config/ and others appear as the package grows.
+MISSION_SOURCE="$SLAM_SOURCE/../mission"
+MISSION_ITEMS=()
+for item in package.xml setup.py setup.cfg requirements.txt mission launch config resource rviz scripts worlds; do
+  [[ -e "$MISSION_SOURCE/$item" ]] && MISSION_ITEMS+=("$item")
+done
+echo "Copying mission to ${SLAM_CONTAINER}:${SLAM_CONTAINER_WS}/src/mission"
+tar --exclude='__pycache__' --exclude='*.pyc' --exclude='*.pyo' \
+  -C "$MISSION_SOURCE" -cf - "${MISSION_ITEMS[@]}" \
+  | docker exec -i "$SLAM_CONTAINER" bash -c \
+    'set -e; mkdir -p "$1/src/mission"; tar -xf - -C "$1/src/mission"' \
+    _ "$SLAM_CONTAINER_WS"
+
 if ((SLAM_BUILD)); then
   docker exec -w "$SLAM_CONTAINER_WS" "$SLAM_CONTAINER" bash -c '
     set -e
     source /opt/ros/humble/setup.bash
-    colcon build --symlink-install --packages-select slam nav
+    colcon build --symlink-install --packages-select slam nav mission
     source install/setup.bash
     ros2 pkg prefix slam
     ros2 pkg executables slam
     ros2 pkg executables nav
+    ros2 pkg executables mission
   '
 fi
 

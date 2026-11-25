@@ -1,0 +1,48 @@
+[INFO] [launch]: All log files can be found below /home/alumno/.ros/log/2026-11-24-13-49-26-971403-nazar-6296
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [mission_node-1]: process started with pid [6320]
+[INFO] [localization_node-2]: process started with pid [6322]
+[INFO] [navigator_node-3]: process started with pid [6324]
+[INFO] [rviz2-4]: process started with pid [6326]
+[rviz2-4] [INFO] [1795528167.718169823] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-4] [INFO] [1795528167.718286272] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[rviz2-4] [INFO] [1795528167.746481167] [rviz2]: Stereo is NOT SUPPORTED
+[navigator_node-3] [INFO] [1795528168.538163133] [navigator]: Navigator ready; waiting for localization and /goal_pose
+[navigator_node-3] [INFO] [1795528168.544030256] [navigator]: WAIT_INITIAL_POSE -> WAIT_SCAN
+[rviz2-4] [INFO] [1795528168.544837178] [rviz2]: Trying to create a map of size 960 x 800 using 1 swatches
+[localization_node-2] [INFO] [1795528168.577615306] [localization]: Localization with 1000 particles on /home/alumno/rosmaster_ws/src/mission/worlds/aula_punto_map.yaml; waiting for /initialpose
+[navigator_node-3] [INFO] [1795528168.630922828] [navigator]: WAIT_SCAN -> WAIT_INITIAL_POSE
+[mission_node-1] [INFO] [1795528169.612671765] [mission]: Mission ready; waiting for localization
+[rviz2-4] [INFO] [1795528171.037132700] [rviz]: Message Filter dropping message: frame 'laser_frame' at time 1.800 for reason 'discarding message because the queue is full'
+[rviz2-4] [INFO] [1795528174.973079776] [rviz]: Message Filter dropping message: frame 'laser_frame' at time 4.400 for reason 'discarding message because the queue is full'
+[localization_node-2] [INFO] [1795528178.526421690] [localization]: Initial pose received
+[rviz2-4] [INFO] [1795528178.589316507] [rviz]: Message Filter dropping message: frame 'laser_frame' at time 7.000 for reason 'discarding message because the queue is full'
+[localization_node-2] [INFO] [1795528178.616158397] [localization]: Initial burst: converged in 3 iterations, 26 ms
+[navigator_node-3] [INFO] [1795528179.144763473] [navigator]: WAIT_INITIAL_POSE -> LOCALIZING
+[navigator_node-3] [INFO] [1795528179.145595862] [navigator]: LOCALIZING -> IDLE
+[mission_node-1] [INFO] [1795528180.285198017] [mission]: Exploration plan: {"viewpoints": 22, "manual": false, "target_m2": 88.55, "coverable_m2": 83.7, "covered_m2": 80.03, "coverage": 0.9561, "tour_m": 44.31}
+[mission_node-1] [INFO] [1795528180.305327715] [mission]: WAIT_LOCALIZATION -> EXPLORE
+[mission_node-1] [WARN] [1795528180.311911754] [mission]: No camera pose within 0.2 s of the image (0.435 s)
+[navigator_node-3] [INFO] [1795528180.376014544] [navigator]: goal (-1.22, -0.72, -122 deg)
+[navigator_node-3] [INFO] [1795528180.376826057] [navigator]: IDLE -> PLANNING
+[navigator_node-3] [INFO] [1795528180.724072526] [navigator]: Planning result ready after 0.349 s (wall time)
+[navigator_node-3] [INFO] [1795528180.725152870] [navigator]: PLANNING -> ALIGNING
+[navigator_node-3] [INFO] [1795528187.569505123] [navigator]: ALIGNING -> FOLLOWING
+[mission_node-1] [INFO] [1795528190.875566122] [mission]: red candidate at (-1.19, -1.88), stopping to look
+[mission_node-1] [INFO] [1795528190.876104788] [mission]: EXPLORE -> CONFIRM
+[navigator_node-3] [INFO] [1795528191.018270832] [navigator]: goal (-1.03, -0.36, -96 deg)
+[navigator_node-3] [INFO] [1795528191.018911923] [navigator]: FOLLOWING -> PLANNING
+[navigator_node-3] [INFO] [1795528191.019452350] [navigator]: PLANNING -> FINAL_ALIGN
+[mission_node-1] [INFO] [1795528191.679944539] [mission]: cone confirmed at (-1.19, -1.89)
+[mission_node-1] [INFO] [1795528191.680634663] [mission]: CONFIRM -> APPROACH
+[navigator_node-3] [INFO] [1795528191.693655835] [navigator]: goal (-1.03, -1.31, -105 deg)
+[navigator_node-3] [INFO] [1795528191.694537817] [navigator]: FINAL_ALIGN -> PLANNING
+[navigator_node-3] [INFO] [1795528191.833301567] [navigator]: Planning result ready after 0.142 s (wall time)
+[navigator_node-3] [INFO] [1795528191.833855786] [navigator]: PLANNING -> ALIGNING
+[rviz2-4] [INFO] [1795528192.285449747] [rviz]: Message Filter dropping message: frame 'laser_frame' at time 7.200 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[navigator_node-3] [INFO] [1795528193.102538642] [navigator]: ALIGNING -> FOLLOWING
+[navigator_node-3] [INFO] [1795528202.941246275] [navigator]: FOLLOWING -> FINAL_ALIGN
+[navigator_node-3] [INFO] [1795528204.978272962] [navigator]: goal reached, 8 cm and -1.4 deg from it
+[navigator_node-3] [INFO] [1795528204.979041817] [navigator]: FINAL_ALIGN -> IDLE
+[mission_node-1] [INFO] [1795528205.232630986] [mission]: reached the cone at (-1.19, -1.89)
+[mission_node-1] [INFO] [1795528205.233227778] [mission]: APPROACH -> DONE

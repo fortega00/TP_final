@@ -1,0 +1,107 @@
+# Parámetros de la misión de la etapa C para el robot real.
+# El mapa de costos sale del grupo planner del YAML de nav (nav/config/real.yaml).
+
+exploration:
+  # Grilla de candidatos a punto de observación (m).
+  viewpoint_spacing: 0.50
+  # Campo de visión horizontal de la cámara (rad). Astra: unos 60 grados.
+  # Confirmar con camera_info en la visita 1.
+  camera_fov: 1.0
+  # Alcance con el que se espera detectar un cono, y mínimo de la profundidad (m).
+  view_range: 3.0
+  view_min_range: 0.30
+  # Fracción de lo visible que tienen que cubrir los puntos. En el aula da 10
+  # puntos y deja vistos al 100 % los pasillos entre mesas (decisión 014).
+  coverage_target: 0.95
+  # No se agrega un punto que vea menos que esta área nueva (m²).
+  min_gain: 0.50
+  rays: 360
+  # Respaldo: puntos fijados a mano en el frame del mapa, en orden de visita.
+  # Vacío = se calculan solos. Fijarlos antes de saber dónde están los conos.
+  viewpoints: []
+  snap_distance: 0.30
+  # En cada punto se gira solo hacia direcciones que muestren al menos esta
+  # área sin ver (m²), elegidas entre heading_candidates direcciones.
+  heading_min_gain: 0.05
+  heading_candidates: 36
+
+  # Mesas y bancos, detectados a partir del mapa. El lidar ve solo las patas y
+  # el borde delantero de los bancos: los obstáculos interiores (no las
+  # paredes) a menos de 2 x clutter_radius entre sí se unen en un bloque.
+  # Con 0.64 o más se tapa el paso de arriba a la izquierda del aula (decisión 014).
+  clutter_radius: 0.60
+  clutter_max_hole: 2.0
+  # No pararse a mirar ni a acercarse a un cono a menos de esta distancia de un
+  # obstáculo (m): deja afuera los pasillos angostos entre los bancos.
+  viewpoint_clearance: 0.50
+
+# Detector de conos rojos (decisión 016). OpenCV: tono 0-179, saturación y
+# brillo 0-255. Supuestos hasta ajustarlos con bag_conos (paso 14).
+detector:
+  # El rojo está en los dos extremos del tono; el naranja (10 a 25) queda afuera.
+  hue_low_max: 8
+  hue_high_min: 170
+  sat_min: 120
+  val_min: 70
+  # Apertura y cierre morfológicos (px, impar).
+  kernel: 5
+  # Mancha mínima (px²).
+  min_area: 80
+  # Alto / ancho del rectángulo que encierra la mancha.
+  aspect_min: 0.6
+  aspect_max: 4.0
+  # Área / área de la envolvente convexa.
+  solidity_min: 0.75
+  # Ancho arriba / ancho abajo: un cono se angosta.
+  taper_max: 0.85
+
+# Ubicación, confirmación y aproximación a un cono (decisión 017). Metros.
+locator:
+  # Profundidad válida de la cámara. Según la cátedra, la del robot no mide a
+  # menos de unos 0,6 m. Con 0,30, en bag_conos_2 un cono confirmado se descartó
+  # al acercarse el robot: sin profundidad, cada imagen contaba como "no lo vi".
+  min_depth: 0.60
+  max_depth: 4.0
+  # Tamaño real aceptado de un cono. En bag_conos_2 el cono del aula mide 0,10 x
+  # 0,28 m de cerca, pero de lejos la máscara pierde la punta y mide menos: 0,08
+  # de ancho a 2,5 m. Con width_min 0,08 se descartaba desde unos 1,5 m.
+  width_min: 0.05
+  width_max: 0.50
+  height_min: 0.10
+  height_max: 0.70
+  # Dos detecciones a menos de esto son el mismo cono.
+  associate_distance: 0.40
+  # Filtro de Bayes binario: P(detectar | hay cono a la vista) y
+  # P(detectar | no hay cono). Supuestos hasta medirlos en bag_conos.
+  hit_rate: 0.70
+  false_alarm_rate: 0.05
+  # Probabilidad inicial, de confirmación y de olvido. Con estos valores
+  # confirman dos detecciones seguidas en el mismo lugar.
+  prior: 0.20
+  confirm_probability: 0.97
+  drop_probability: 0.05
+  # Dónde pararse frente al cono: lo más cerca posible desde approach_distance,
+  # en anillos cada 15 cm y approach_angles direcciones; hasta
+  # approach_max_distance si no hay lugar más cerca (un cono entre bancos se
+  # aproxima desde la boca del pasillo).
+  approach_distance: 0.45
+  approach_max_distance: 1.50
+  approach_angles: 24
+
+# Máquina de estados de la misión (decisión 015). Tiempos en s, distancias en m.
+mission:
+  # Un objetivo cuenta como alcanzado si el navegador volvió a IDLE con el
+  # robot a menos de esto (posición y ángulo).
+  reach_tolerance_xy: 0.30
+  reach_tolerance_yaw: 0.35
+  # Si el navegador sigue en IDLE este tiempo y el robot no llegó, el objetivo
+  # se considera rechazado.
+  ack_timeout: 3.0
+  # Tiempo máximo por objetivo, sin contar el tiempo con la localización perdida.
+  goal_timeout: 120.0
+  # Parado mirando un candidato rojo, cuánto se espera a que se confirme.
+  confirm_timeout: 4.0
+  # Intentos de llegar a un cono antes de darlo por inalcanzable.
+  approach_attempts: 2
+  # Dos conos a menos de esto son el mismo.
+  same_cone_distance: 0.50
