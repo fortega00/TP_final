@@ -1,0 +1,16 @@
+[INFO] [1795613466.810822157] [mission]: Mission ready; waiting for localization
+[INFO] [1795613528.890206720] [mission]: Exploration plan: {"viewpoints": 10, "manual": false, "target_m2": 88.55, "coverable_m2": 87.39, "covered_m2": 84.06, "coverage": 0.962, "tour_m": 31.89}
+[INFO] [1795613528.898970964] [mission]: WAIT_LOCALIZATION -> EXPLORE
+[INFO] [1795613545.003516616] [mission]: EXPLORE -> LOOK_AROUND
+[INFO] [1795613553.211516770] [mission]: LOOK_AROUND -> EXPLORE
+[INFO] [1795613573.404218681] [mission]: EXPLORE -> LOOK_AROUND
+[INFO] [1795613582.413717723] [mission]: LOOK_AROUND -> EXPLORE
+[INFO] [1795613611.004285965] [mission]: viewpoint (-1.72, 3.28) not reached, skipped
+[INFO] [1795613641.004400471] [mission]: EXPLORE -> LOOK_AROUND
+[INFO] [1795613649.010854896] [mission]: LOOK_AROUND -> EXPLORE
+[INFO] [1795613662.596739028] [mission]: red candidate at (-5.66, 6.75), stopping to look
+[INFO] [1795613662.596945485] [mission]: EXPLORE -> CONFIRM
+[INFO] [1795613664.656930876] [mission]: cone confirmed at (-5.63, 6.75)
+[INFO] [1795613664.657145297] [mission]: CONFIRM -> APPROACH
+[INFO] [1795613682.797114288] [mission]: reached the cone at (-5.63, 6.75)
+[INFO] [1795613682.797348862] [mission]: APPROACH -> DONE

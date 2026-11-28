@@ -1,0 +1,13 @@
+diff --git a/nav/config/real.yaml b/nav/config/real.yaml
+index 15697bb..722cde5 100644
+--- a/nav/config/real.yaml
++++ b/nav/config/real.yaml
+@@ -63,7 +63,7 @@ navigator:
+   retry_period: 2.0
+   lost_timeout: 10.0
+   pose_timeout: 1.0
+-  scan_timeout: 0.50
++  scan_timeout: 1.0
+ obstacles:
+   # Obstáculos que no están en el mapa (docs/decisiones/008).
+   max_range: 3.0

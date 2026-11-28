@@ -1,0 +1,14 @@
+# Escenario de Gazebo: cono rojo sobre el camino entre los dos primeros puntos de
+# observación del plan de config/sim.yaml desde spawn, (-1,19; -0,66) y
+# (-1,225; -2,725). Está a 1,29 m del primero, dentro del alcance de la cámara
+# simulada (1,4 m), y a 0,78 m del segundo. El robot tiene que verlo y
+# aproximarse sin chocarlo (decisiones 014 y 015).
+# Con el cono justo sobre el segundo punto el robot no lo encontró: el lidar lo
+# marca como obstáculo, el navegador abandona el objetivo y desde el primer punto
+# queda a 2,07 m, fuera del alcance de la profundidad (decisión 015).
+# Si cambian el mapa, el perfil o el spawn, el plan cambia y hay que mover el cono.
+# Coordenadas en el frame de sesiones/20261116/mapa/intento3_corregido.
+# El origen del mapa está a 15 cm de una pared: el robot aparece 0,8 m antes.
+spawn: [-0.8, 0.0]
+cones:
+  - {x: -1.22, y: -1.95, color: red}

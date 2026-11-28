@@ -1,0 +1,6 @@
+[INFO] [1795613466.476677519] [localization]: Localization with 1000 particles on /home/alumno1/ivnafra/TP_final/sesiones/20261116/mapa/intento3_corregido/map.yaml; waiting for /initialpose
+[INFO] [1795613498.967894557] [localization]: Initial pose received
+[INFO] [1795613499.131901315] [localization]: Initial burst: converged in 13 iterations, 28 ms
+[ERROR] [1795613499.132280039] [localization]: Click rejected: 44 % of the scan is far from every mapped wall; send a new /initialpose
+[INFO] [1795613528.405063579] [localization]: Initial pose received
+[INFO] [1795613528.430615947] [localization]: Initial burst: converged in 2 iterations, 6 ms

@@ -85,6 +85,10 @@ Los demás casos (objetivo antes de ubicarse, objetivo nuevo en marcha, `/initia
 
 La dispersión de la nube sola no alcanza para saber si el robot está bien ubicado: la ráfaga inicial puede cerrarse en un lugar equivocado ([004](004-localizacion-en-mapa-conocido.md)). Resuelto el 2026-11-17: el nodo de localización informa `LOST` cuando más del 25 % del scan cae lejos de las paredes del mapa, o más del 15 % justo después del click ([004](004-localizacion-en-mapa-conocido.md#detección-de-perdido)), y con eso la máquina frena y espera un `/initialpose` nuevo.
 
+## Objetivo en el lugar del robot
+
+Corregido el 2026-11-24, al probar la etapa C en Gazebo: la misión pide girar en el lugar con un objetivo en la posición actual y otro ángulo ([015](015-maquina-de-estados-de-la-mision.md)). El navegador pasaba por `ALIGNING` hacia un camino de largo cero, cuya dirección sale de milímetros de error de la pose, así que el robot giraba hacia cualquier lado antes del giro pedido. Lo mismo pasaba con un **2D Goal Pose** marcado sobre el robot. Ahora, si el objetivo está a menos de `follower.goal_tolerance_xy` del robot, `PLANNING` pasa directo a `FINAL_ALIGN`. Test: `test_goal_on_the_robot_only_turns_in_place`.
+
 ## Datos
 
 Pendiente: diagrama final, y probar en vivo los casos que hoy solo cubren los tests.

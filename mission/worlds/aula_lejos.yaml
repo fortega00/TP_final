@@ -1,0 +1,12 @@
+# Escenario de Gazebo: cono rojo lejos del arranque, en la esquina de arriba a la
+# izquierda, cerca del último punto de observación del plan de config/sim.yaml
+# desde spawn (22 puntos, 44,3 m). Está a 1,28 m del punto 22 (-7,225; 6,775) y
+# a 2,28 m del 21, fuera del alcance de la cámara simulada (1,4 m) desde ahí y
+# desde el resto del recorrido. Prueba una misión casi completa: que la
+# exploración recorra el aula sin trabarse, y el tiempo total.
+# Si cambian el mapa, el perfil o el spawn, el plan cambia y hay que mover el cono.
+# Coordenadas en el frame de sesiones/20261116/mapa/intento3_corregido.
+# El origen del mapa está a 15 cm de una pared: el robot aparece 0,8 m antes.
+spawn: [-0.8, 0.0]
+cones:
+  - {x: -8.5, y: 6.9, color: red}
