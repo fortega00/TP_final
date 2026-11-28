@@ -1,6 +1,6 @@
 # Evaluación de A: café y bag real del Parcial
 
-Actualización del 25/11/2026: el perfil real volvió a 8 partículas ([decisión 014](decisiones/014-perfil-real-8-particulas.md)). El párrafo siguiente describe la selección anterior.
+Actualización del 25/11/2026: el perfil real volvió a 8 partículas ([decisión 018](decisiones/018-perfil-real-8-particulas.md)). El párrafo siguiente describe la selección anterior.
 
 Selección posterior, 18/11/2026: el perfil real con scan matching adopta **E16**
 (16 partículas, `prior_xy=0.05`, `sample_xy=0.005`) tras los ciclos del bag

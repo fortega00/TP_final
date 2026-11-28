@@ -1,4 +1,4 @@
-# 014. Perfil real con 8 partículas
+# 018. Perfil real con 8 partículas
 
 Estado: adoptada el 2026-11-25. Reemplaza a la [013](013-perfil-real-e16.md).
 

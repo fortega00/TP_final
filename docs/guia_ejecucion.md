@@ -432,7 +432,7 @@ partículas, `prior_xy=0.05`, `sample_xy=0.01`, grilla de 48 × 40 m. Es la
 configuración que generó el mapa final del laboratorio. Indicar ese archivo con
 `config_file` en los modos bag/real y resincronizar antes de relanzar. Entre el
 18/11 y el 25/11 el archivo tuvo 16 partículas (E16); la
-[decisión 014](decisiones/014-perfil-real-8-particulas.md) explica por qué volvió a 8.
+[decisión 018](decisiones/018-perfil-real-8-particulas.md) explica por qué volvió a 8.
 
 ### Perfil Café D y aceleración numérica opcional
 

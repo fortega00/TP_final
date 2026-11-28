@@ -23,29 +23,30 @@ La misión es un nodo aparte, \code{mission}, que se apoya en la parte B. No
 mueve el robot directamente: le manda objetivos al navegador por
 \code{/goal\_pose} y sigue su estado en \code{/nav/state}. Para cada imagen
 detecta los conos, los ubica en el mapa y decide adónde ir. Separamos el
-problema en cuatro preguntas, cada una con su módulo sin ROS y sus tests: dónde
-mirar, cómo reconocer un cono, dónde está el cono en el mapa y dónde pararse.
+problema en cuatro partes, cada una con su módulo sin ROS y sus tests, que son
+dónde mirar, cómo reconocer un cono, dónde está el cono en el mapa y dónde
+pararse. Las presentamos en ese orden, con la máquina de estados que las une
+después de la primera.
 
-\paragraph{Dónde mirar.} Como el aula ya está mapeada, explorar no es
-descubrir paredes sino mirar con la cámara todo el piso donde podría haber un
-cono. Elegimos de forma automática un conjunto de \emph{puntos de
+Como el laboratorio ya está mapeado, explorar no es descubrir paredes sino
+mirar con la cámara todo el piso donde podría haber un cono. Elegimos de forma automática un conjunto de \emph{puntos de
 observación} (figura~\ref{fig:plan}). Los candidatos son las celdas
 transitables del mapa de costos de la parte B, cada 0,5 m y a por lo menos
 0,5 m del obstáculo más cercano. Desde cada uno simulamos lo que vería la
 cámara con \emph{ray casting} en 2D sobre el mapa, hasta 3 m, la distancia a la que
 esperamos detectar y ubicar un cono. Después elegimos con un algoritmo
-\emph{greedy}: primero el candidato que más piso ve y después el que más piso
+\emph{greedy}, que toma primero el candidato que más piso ve y después el que más piso
 nuevo agrega, hasta ver el 95 \% de lo que se puede ver desde algún candidato.
 El orden de visita sale de \emph{nearest neighbor} mejorado con \emph{2-opt},
 con distancias medidas por donde el robot puede pasar y no en línea recta.
 En el laboratorio son 10 puntos, 31,9 m de recorrido y el
 96,2 \% del piso visto, y el cálculo tarda menos de 2 s.
 
-El LIDAR está a 18 cm del piso: de las mesas ve solo las patas y de los bancos
+El LIDAR está a 18 cm del piso, así que de las mesas ve solo las patas y de los bancos
 algún borde. Sin corregirlo, el plan ponía puntos entre los bancos y contaba
 como piso a buscar el área debajo de las mesas. Detectamos esos muebles del
 mismo mapa. Para separarlos de las paredes, tomamos como pared todo obstáculo
-que toca el exterior del aula, y al resto le aplicamos un cierre morfológico
+que toca el exterior del laboratorio, y al resto le aplicamos un cierre morfológico
 de 0,6 m de radio, que une las patas de una misma mesa sin tapar los pasillos. Así no hay intervención manual.
 
 \begin{figure}[t]
@@ -53,21 +54,21 @@ de 0,6 m de radio, que une las patas de una misma mesa sin tapar los pasillos. A
   \includegraphics[width=\columnwidth]{c_plan}
   \caption{Plan de exploración en el laboratorio desde el inicio (cuadrado).
     En gris oscuro, las mesas y bancos detectados del mapa. En verde, el piso
-    que la cámara ve desde los 10 puntos; en rojo, el que no ve (debajo y
+    que la cámara ve desde los 10 puntos, y en rojo el que no ve (debajo y
     entre los bancos). La línea es el camino que planifica la parte B.}
   \label{fig:plan}
 \end{figure}
 
-En cada punto el robot no da una vuelta completa: gira solo hacia lo que la
+En cada punto el robot no da una vuelta completa, gira solo hacia lo que la
 cámara todavía no vio. Para eso registramos qué parte del piso ya vio la
 cámara, tanto en los puntos como en el camino entre ellos. En cada punto
 elegimos, entre 36 direcciones, la que muestra más piso sin ver, y repetimos
 hasta que la siguiente agregue menos de 0,05 m\textsuperscript{2}. Antes de ir
-a un punto se consulta ese registro: si lo que se vería desde ahí ya se vio en
-el camino, se saltea.
+a un punto se consulta ese registro y, si lo que se vería desde ahí ya se vio en
+el camino, el punto se saltea.
 
-\paragraph{La máquina de estados.} La misión pasa por siete estados:
-\code{WAIT\_LOCALIZATION} hasta que la parte B se ubica, \code{EXPLORE} hacia
+Una máquina de estados ordena todo lo anterior. La misión espera en
+\code{WAIT\_LOCALIZATION} hasta que la parte B se ubica y después pasa por \code{EXPLORE} hacia
 el próximo punto, \code{LOOK\_AROUND} para girar en él, \code{CONFIRM} cuando
 aparece un candidato, \code{APPROACH} hacia el cono y \code{DONE} al llegar.
 Si recorre todos los puntos sin encontrar un cono, termina en
@@ -75,61 +76,64 @@ Si recorre todos los puntos sin encontrar un cono, termina en
 en movimiento puede perderlo de vista y la ubicación es más precisa con el
 robot quieto. Cuando el navegador termina, vuelve a \code{IDLE} tanto si
 llegó como si abandonó el objetivo. Para distinguirlos, la misión compara la
-pose del robot con el objetivo: si está a menos de 30 cm y 0,35 rad, llegó. Si no llega a un punto, lo saltea; si no puede llegar a un
+pose del robot con el objetivo y considera que llegó si está a menos de 30 cm
+y 0,35 rad. Si no llega a un punto, lo saltea, y si no puede llegar a un
 cono, lo anota como inalcanzable y sigue explorando.
 
-\paragraph{Cómo reconocer un cono.} Usamos visión clásica con OpenCV; una red
-neuronal necesitaría imágenes etiquetadas del aula. La imagen pasa a HSV, que
+Para reconocer un cono usamos visión clásica con OpenCV, porque una red
+neuronal necesitaría imágenes etiquetadas del laboratorio. La imagen pasa a HSV, que
 separa el tono del brillo, y nos quedamos con los píxeles de tono rojo, bien
 saturados y no muy oscuros. El naranja, el distractor más parecido, queda
 afuera. Después de limpiar la máscara con una apertura y un cierre
-morfológicos, cada región roja de la máscara tiene que tener forma de cono: un área mínima, una
-proporción razonable, ser convexa y angostarse hacia arriba.
+morfológicos, cada región roja de la máscara tiene que tener forma de cono, es
+decir un área mínima, una proporción razonable, ser convexa y angostarse hacia
+arriba.
 
-\paragraph{Dónde está el cono.} Para medir la distancia al cono tomamos la
+Para ubicar el cono en el mapa hace falta su distancia, y para medirla tomamos la
 mediana de la profundidad en el centro del recuadro de la detección. Con la
 calibración de la cámara (\code{camera\_info}), el centro de la detección y su
 distancia dan un punto 3D respecto de la cámara, y TF lo lleva al mapa. Con la
 distancia también medimos el tamaño real de la detección y descartamos lo que no tiene tamaño de cono (entre 0,05 y
-0,5 m de ancho y entre 0,1 y 0,7 m de alto). Una sola detección no alcanza:
-cada candidato tiene un filtro de Bayes binario en log-odds, igual que una
+0,5 m de ancho y entre 0,1 y 0,7 m de alto). Una sola detección no alcanza,
+así que cada candidato tiene un filtro de Bayes binario en log-odds, igual que una
 celda de la grilla de ocupación de la parte A. Si el detector lo ve suma
-$\log(0{,}70/0{,}05)$; si el candidato estaba en el campo de visión, a una
+$\log(0{,}70/0{,}05)$, y si el candidato estaba en el campo de visión, a una
 distancia medible y sin pared en medio, pero no se vio, suma
 $\log(0{,}30/0{,}95)$, que es negativo. Con probabilidad inicial de 0,2, dos
 detecciones lo llevan a 0,98 y se confirma al pasar 0,97. Dos detecciones a
 menos de 40 cm son el mismo cono, y su posición es el promedio.
 
-\paragraph{Dónde pararse.} No alcanza con que el cono se vea: puede verse a
+Queda decidir dónde pararse. No alcanza con que el cono se vea, porque puede verse a
 través de un hueco por el que el robot no pasa. Por eso la misión no manda al
 robot al cono, sino a una pose de aproximación. Buscamos esa pose alrededor
 del cono, a no menos de 0,45 m ni más de 1,5 m. Una pose sirve si el robot
 puede llegar a ella y, desde ahí, avanzar en línea recta hasta el cono sin
 chocar con nada del mapa. Si entre una pose y el cono hay una pared con un
 hueco, ese avance pasa por el hueco, que es más angosto que el robot, y la
-pose se descarta: solo quedan las del lado del cono. Entre ellas elegimos la
+pose se descarta, de modo que solo quedan las del lado del cono. Entre ellas elegimos la
 más cercana al cono y, a igual distancia, la de camino más corto. El robot
 queda mirando al cono, y el A* de la parte B se encarga de llevarlo hasta ahí
 rodeando la pared. Como los puntos de observación, la pose tiene que estar a
-por lo menos 0,5 m de los obstáculos; si no hay ninguna así, como en una
+por lo menos 0,5 m de los obstáculos. Si no hay ninguna así, como en una
 esquina, se acepta una más cerca de ellos.
 
 \subsection{Validación en simulación}
 
 Antes del robot probamos la misión en Gazebo, en una réplica del laboratorio
-generada desde el mapa: cada obstáculo del mapa es una caja y los conos son
-cilindros escalonados de 30 cm. Armamos cuatro escenarios (tabla~\ref{tab:gazebo}):
-los dos casos de la consigna, distractores de otros colores y un cono detrás
-de un hueco, y dos propios, un cono en el camino del robot y otro en una
-esquina lejana, que obliga a recorrer casi toda el aula. La cámara simulada no es la del
-robot: mide profundidad solo hasta 1,5 m, así que el plan simulado tiene 22
+generada desde el mapa, donde cada obstáculo del mapa es una caja y los conos son
+cilindros escalonados de 30 cm. Armamos cuatro escenarios (tabla~\ref{tab:gazebo}).
+Dos son los casos de la consigna, distractores de otros colores y un cono detrás
+de un hueco, y dos son propios, un cono en el camino del robot y otro en una
+esquina lejana, que obliga a recorrer casi todo el laboratorio. La cámara simulada no es la del
+robot, mide profundidad solo hasta 1,5 m, así que el plan simulado tiene 22
 puntos en lugar de 10 y las corridas son más largas.
 
 \begin{table}[t]
   \centering\small
-  \caption{Escenarios en Gazebo. Error del cono: distancia entre la posición
-    estimada y la real del simulador. Distancia final: entre el robot y el
-    cono al terminar, con aproximación pedida a 0,60 m en simulación.}
+  \caption{Escenarios en Gazebo. El error es la distancia entre la posición
+    estimada del cono y la real del simulador. La distancia final es la que
+    queda entre el robot y el cono al terminar, con aproximación pedida a
+    0,60 m en simulación.}
   \label{tab:gazebo}
   \begin{tabular}{@{}llrr@{}}
     \toprule
@@ -150,13 +154,13 @@ Los cuatro terminaron en \code{DONE}. En el escenario del hueco el robot vio
 el cono a través de la abertura, rodeó la pared y se detuvo del lado del cono
 (figura~\ref{fig:hueco}). El de la esquina motivó un cambio en la misión. El cono estaba a unos 0,5 m
 de dos paredes y, con la condición de detenerse a por lo menos 0,5 m de
-cualquier obstáculo, no quedaba ninguna pose válida: la misión lo confirmó y
+cualquier obstáculo, no quedaba ninguna pose válida. La misión lo confirmó y
 lo descartó como inalcanzable, aunque el robot podía llegar. Ahora, si ninguna
 pose cumple esa condición, la búsqueda se repite sin ella.
 
 También probamos un cono justo sobre un punto de observación. El robot no lo
 chocó, porque el LIDAR lo detectó como obstáculo y el navegador abandonó ese
-punto, pero tampoco lo encontró: desde el punto anterior quedaba a 2 m, más
+punto, pero tampoco lo encontró, porque desde el punto anterior quedaba a 2 m, más
 lejos de lo que mide la profundidad simulada. Con el cono en el camino entre
 los dos puntos, el escenario de la tabla, lo encontró en 25 s.
 
@@ -166,21 +170,21 @@ los dos puntos, el escenario de la tabla, lo encontró en 25 s.
   \caption{Escenario del hueco en Gazebo, en RViz. Arriba a la derecha, la
     pared agregada (en rojo, como la ve el LIDAR) con un hueco de 15 cm, y el
     cono confirmado detrás (punto verde). El robot lo vio por el hueco desde
-    abajo; el camino naranja de la parte B rodea las mesas y llega por el lado
+    abajo, y el camino naranja de la parte B rodea las mesas y llega por el lado
     del cono.}
   \label{fig:hueco}
 \end{figure}
 
 \subsection{Resultados en el laboratorio}
 
-\paragraph{Visión.} Antes de correr la misión grabamos un rosbag de 196 s con
+Antes de correr la misión probamos la visión sola. Grabamos un rosbag de 196 s con
 la cámara, manejando el robot alrededor de conos rojos y azules, y pasamos las
 590 imágenes por el mismo detector y la misma ubicación de la misión, usando
 la odometría en lugar del mapa (figuras~\ref{fig:deteccion}
 y~\ref{fig:bag}). Como el cono no se mueve, si sus posiciones medidas desde
-distintos lugares quedan juntas la cadena completa funciona: detector,
-profundidad, calibración y montaje de la cámara. Usamos dos conos, y
-uno cambió de lugar durante la grabación: las tres posiciones reúnen entre 53
+distintos lugares quedan juntas, la cadena completa funciona, desde el detector
+y la profundidad hasta la calibración y el montaje de la cámara. Usamos dos conos, y
+uno cambió de lugar durante la grabación, así que hay tres posiciones. Reúnen entre 53
 y 90 mediciones cada una, tomadas desde 0,6 hasta 2,7 m,
 con una dispersión mediana de 2 a 6 cm. De las 260 detecciones, ninguna cayó
 sobre un cono azul. No hay medida con cinta de la posición de los conos, así
@@ -189,8 +193,8 @@ que esto mide consistencia y no exactitud.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{c_deteccion}
-  \caption{El detector sobre imágenes del rosbag. Verde: cono ubicado, con la
-    distancia y el tamaño medidos. Amarillo: con forma de cono pero sin
+  \caption{El detector sobre imágenes del rosbag. En verde, un cono ubicado, con la
+    distancia y el tamaño medidos. En amarillo, una región con forma de cono pero sin
     profundidad válida. En (a) los conos azules no generan detección y el rojo
     más lejano todavía no supera el área mínima.}
   \label{fig:deteccion}
@@ -199,16 +203,16 @@ que esto mide consistencia y no exactitud.
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.92\textwidth]{c_bag}
-  \caption{Rosbag de la cámara en el laboratorio. Izquierda: posición de cada
-    detección en la terna de la odometría; cada grupo es un lugar donde estuvo
-    un cono, con su dispersión mediana. Derecha: alto medido del cono según la
+  \caption{Rosbag de la cámara en el laboratorio. A la izquierda, la posición de cada
+    detección en la terna de la odometría. Cada grupo es un lugar donde estuvo
+    un cono, con su dispersión mediana. A la derecha, el alto medido del cono según la
     distancia. De lejos la máscara pierde la punta del cono y lo mide más
     bajo.}
   \label{fig:bag}
 \end{figure*}
 
-\paragraph{Misión.} Hicimos dos corridas completas, filmadas, con conos azules
-a la vista del recorrido (tabla~\ref{tab:real} y figura~\ref{fig:corridas}):
+Con la misión completa hicimos dos corridas, filmadas, con conos azules
+a la vista del recorrido (tabla~\ref{tab:real} y figura~\ref{fig:corridas}),
 una con el cono rojo en el pasillo central y otra con el cono contra la pared
 del fondo. Las dos terminaron en \code{DONE}, en 130 y 154 s desde la pose
 inicial. En cada una hubo un solo candidato, el rojo, que se confirmó en
@@ -216,7 +220,7 @@ inicial. En cada una hubo un solo candidato, el rojo, que se confirmó en
 
 \begin{table}[t]
   \centering\small
-  \caption{Las dos corridas en el laboratorio. Llegada: distancia y ángulo
+  \caption{Las dos corridas en el laboratorio. La llegada es la distancia y el ángulo
     entre el robot y el objetivo de aproximación según el navegador.}
   \label{tab:real}
   \begin{tabular}{@{}lrr@{}}
@@ -237,7 +241,7 @@ inicial. En cada una hubo un solo candidato, el rojo, que se confirmó en
   \centering
   \includegraphics[width=0.92\textwidth]{c_corridas}
   \caption{Las dos corridas en el laboratorio, reconstruidas del log de la
-    misión. No guardamos la trayectoria: los puntos azules son los objetivos
+    misión. No guardamos la trayectoria, así que los puntos azules son los objetivos
     que el robot alcanzó y la línea es el camino que planifica la parte B entre
     ellos. En la corrida larga un punto de observación quedó bloqueado y la
     misión lo salteó.}
@@ -245,16 +249,16 @@ inicial. En cada una hubo un solo candidato, el rojo, que se confirmó en
 \end{figure*}
 
 En la corrida larga, uno de los conos azules quedó justo sobre un punto de
-observación: la parada de seguridad de la parte B frenó al robot, el navegador
+observación. La parada de seguridad de la parte B frenó al robot, el navegador
 esperó 15 s y abandonó el objetivo, y la misión siguió con el siguiente sin
 tomar al cono azul como candidato. En la corta, el avance hacia un punto también se frenó, pero a
-11 cm de él: dentro de la tolerancia, así que la misión lo dio por alcanzado.
+11 cm de él, dentro de la tolerancia, así que la misión lo dio por alcanzado.
 
 \subsection{Preguntas}
 
 \subsubsection*{1. \textquestiondown{}Qué dificultades encontraron al detectar los conos rojos en el entorno real? \textquestiondown{}Cómo hicieron para reducir los falsos positivos y falsos negativos?}
 
-El color no fue la dificultad: con los umbrales que elegimos de antemano el
+El color no fue la dificultad. Con los umbrales que elegimos de antemano el
 detector separó el rojo de los conos azules, de la madera, de las sillas y de
 la ventana a contraluz en todo el rosbag. Las dificultades aparecieron al
 combinar el color con la profundidad, y dos de ellas producían falsos
@@ -268,9 +272,9 @@ y un cono ya confirmado con 91 detecciones terminó descartado. En la misión es
 pasado justo durante la aproximación. Con ese mínimo en 0,6 m, el que indica la
 cátedra para esta cámara, esas imágenes no cuentan y los conos de las tres
 posiciones del rosbag quedan confirmados. La segunda es el
-tamaño: de lejos la máscara pierde la punta del cono, que ocupa pocos
+tamaño, porque de lejos la máscara pierde la punta del cono, que ocupa pocos
 píxeles, y lo mide más bajo y más angosto (figura~\ref{fig:bag}). El cono
-mide 0,28 m de alto con cinta; la mediana medida es 0,28 m a 0,7 m de
+mide 0,28 m de alto con cinta, y la mediana medida es 0,28 m a 0,7 m de
 distancia y 0,25 m a 1,8 m. Con el ancho mínimo en 0,08 m el cono se
 descartaba desde 1,5--2 m, menos que los 3 m que supone el plan de
 exploración. Lo bajamos a 0,05 m, sin que aparecieran candidatos nuevos en el
@@ -281,12 +285,12 @@ saturación y brillo mínimos elimina casi todo el fondo. Los filtros de forma,
 sobre todo el de angostamiento hacia arriba, descartan objetos rojos que no
 son conos. El
 tamaño real medido con la profundidad descarta detecciones con forma de cono pero
-de otro tamaño: en el rosbag rechazó 12 detecciones de conos a menos de
+de otro tamaño. En el rosbag rechazó 12 detecciones de conos a menos de
 0,6 m, donde la mediana tomaba la pared del fondo y el cono daba entre 0,85 y
 2 m de alto. Y el filtro de Bayes exige al menos dos detecciones en el mismo
 lugar antes de mover el robot. Contra los falsos negativos, el filtro solo
-cuenta una ausencia cuando el cono debería verse: en el campo de visión, a
-una distancia que la cámara mide y sin pared en medio.
+cuenta una ausencia cuando el cono debería verse, o sea cuando está en el campo
+de visión, a una distancia que la cámara mide y sin pared en medio.
 
 \subsubsection*{2. \textquestiondown{}Qué componente del sistema resultó ser el principal limitante para lograr una navegación robusta en el entorno real: percepción, localización, planificación o control? \textquestiondown{}Cómo lo determinaron experimentalmente?}
 
@@ -295,50 +299,49 @@ los datos que le llegaban. La cámara publica color y profundidad sin
 comprimir a 30 Hz, unos 16 MB/s, y la misión corre en la PC del laboratorio,
 conectada al robot por wifi. Lo determinamos midiendo la frecuencia con que
 llegaba cada tópico a la PC (\code{ros2 topic hz}) y grabando rosbags en
-distintas configuraciones:
+tres configuraciones de la cámara.
 
-\begin{itemize}
-  \item Con la cámara completa cruzando el wifi, un rosbag de 9 minutos quedó
-    con 61 imágenes y 83 scans del LIDAR, cuando se esperaban unos 1600 y
-    3800.
-  \item Bajando la frecuencia de la cámara a 3 Hz en el propio robot, el
-    rosbag grabado ahí salió completo. Pero con la misión corriendo, el
-    \code{/scan} llegaba a la PC a 1,1--1,7 Hz en lugar de 7. El navegador
-    corta el movimiento si pasa más de 0,5 s sin un scan, así que cancelaba
-    cada objetivo, y la misión salteó los 10 puntos en 37 s.
-  \item Con la cámara a 0,5 Hz, el scan llegó a 7,2 Hz con un hueco máximo de
-    0,17 s y las dos corridas salieron completas.
-\end{itemize}
+Con la cámara completa cruzando el wifi, un rosbag de 9 minutos quedó
+con 61 imágenes y 83 scans del LIDAR, cuando se esperaban unos 1600 y
+3800. Bajando la frecuencia de la cámara a 3 Hz en el propio robot, el
+rosbag grabado ahí salió completo, pero con la misión corriendo el
+\code{/scan} llegaba a la PC a 1,1--1,7 Hz en lugar de 7. El navegador
+cortaba el movimiento si pasaban más de 0,5 s sin un scan, así que cancelaba
+cada objetivo, y la misión salteó los 10 puntos en 37 s. Con la cámara a
+0,5 Hz, el scan llegó a 7,2 Hz con un hueco máximo de 0,17 s y las dos
+corridas salieron completas. En esas dos corridas también subimos ese límite
+de 0,5 a 1,0 s, así que no separamos el efecto de cada cambio. El hueco
+máximo medido, de 0,17 s, indica que el límite original habría alcanzado.
 
 Con 0,5 Hz la percepción podría haber pasado a ser el limitante, porque ve
-menos imágenes, pero no lo fue: dos detecciones alcanzan para confirmar un
-cono, así que se confirmó en 2,1 s en las dos corridas. La planificación tampoco: cuando un cono azul
+menos imágenes, pero no lo fue. Dos detecciones alcanzan para confirmar un
+cono, y se confirmó en 2,1 s en las dos corridas. La planificación tampoco
+limitó. Cuando un cono azul
 quedó sobre un punto de observación, el robot no lo chocó, la misión salteó
-el punto y siguió buscando. El control no
-limitó: el robot llegó a 7--10 cm y a menos de 2\textdegree{} de cada objetivo
+el punto y siguió buscando. El control tampoco, porque el robot llegó a 7--10 cm y a menos de 2\textdegree{} de cada objetivo
 de aproximación.
 
 \subsubsection*{3. \textquestiondown{}Qué estrategia utilizaron para decidir hacia dónde explorar cuando todavía no habían detectado ningún cono? \textquestiondown{}Por qué consideran que esa estrategia es adecuada?}
 
 Usamos puntos de observación sobre el mapa conocido, calculados antes de
 moverse (figura~\ref{fig:plan}), y en cada punto giramos solo hacia lo que la
-cámara todavía no vio. Mientras no hay ningún cono el robot sigue ese plan; en
-cuanto aparece un candidato, lo interrumpe.
+cámara todavía no vio. Mientras no hay ningún cono el robot sigue ese plan, y en
+cuanto aparece un candidato lo interrumpe.
 
-Consideramos que es adecuada por tres razones. Primero, el mapa ya existe por
-la parte A: lo que falta no es saber dónde están las paredes sino qué parte
+Consideramos que es adecuada, en primer lugar, porque el mapa ya existe por
+la parte A. Lo que falta no es saber dónde están las paredes sino qué parte
 del piso vio la cámara. La \emph{frontier-based exploration}, la alternativa clásica,
 busca el borde entre lo libre y lo desconocido del mapa, y acá ese borde no
 existe. Además las fronteras salen del LIDAR, que tiene otro alcance y otro
-campo de visión que la cámara. Segundo, el objetivo que optimizamos es
+campo de visión que la cámara. Además, el objetivo que optimizamos es
 justamente el de la tarea, ver el piso donde puede estar el cono, y su
-resultado se puede medir: 10 puntos cubren el 96,2 \% del piso visible con
+resultado se puede medir, ya que 10 puntos cubren el 96,2 \% del piso visible con
 31,9 m de recorrido. Lo que queda sin ver es el espacio debajo y entre los
-bancos, adonde el robot igual no podría llegar. Tercero, es predecible: el
+bancos, adonde el robot igual no podría llegar. Por último, es predecible, porque el
 plan se puede revisar antes de ir al laboratorio y no depende de dónde estén
 los conos. En las dos corridas el robot encontró el cono en el tercer y
 cuarto punto, en poco más de 2 minutos, y en Gazebo encontró uno ubicado
-cerca del último punto después de recorrer casi toda el aula.
+cerca del último punto después de recorrer casi todo el laboratorio.
 
 La estrategia tiene límites. Debajo de las mesas no se busca. Si un obstáculo
 ocupa un punto de observación, el punto se saltea, sin buscar otro lugar

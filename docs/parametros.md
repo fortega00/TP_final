@@ -11,7 +11,7 @@ Perfil de trabajo real/bag: `config/parcial_bag_scan_match.yaml`, con
 `filter.particles: 8`, `scan_match.prior_xy: 0.05` y `scan_match.sample_xy: 0.01`.
 Es la configuración que generó el mapa final del laboratorio. El 18/11 se había
 adoptado E16 (16 partículas, `sample_xy` 0,005); con 6 semillas no mejora nada
-medible y cuesta el doble, ver [la decisión 014](decisiones/014-perfil-real-8-particulas.md).
+medible y cuesta el doble, ver [la decisión 018](decisiones/018-perfil-real-8-particulas.md).
 Estos resultados preceden la corrección de integración por tiempo: el YAML
 actual usa solo movimiento y omite `max_interval`. No se trasladan los tiempos
 ni la calidad medidos a esa compuerta sin una nueva evaluación.

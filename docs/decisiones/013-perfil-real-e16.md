@@ -1,6 +1,6 @@
 # 013 — Perfil de trabajo E16 para robot y bags reales
 
-Estado: reemplazada por la [014](014-perfil-real-8-particulas.md) el 2026-11-25. El perfil real volvió a 8 partículas.
+Estado: reemplazada por la [018](018-perfil-real-8-particulas.md) el 2026-11-25. El perfil real volvió a 8 partículas.
 
 El 18/11/2026 el usuario revisó las comparativas y comentó que los mapas se
 ven muy parecidos. Pidió adoptar la configuración que mejor dio, priorizando
